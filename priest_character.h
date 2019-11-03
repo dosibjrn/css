@@ -20,4 +20,7 @@ struct PriestCharacter {
   std::vector<Spell> spells_sequence;
 };
 
+PriestCharacter PaistiLvl51();
+PriestCharacter PaistiLvl53();
+
 }  // namespace css

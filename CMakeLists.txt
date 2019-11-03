@@ -1,1 +1,14 @@
-add_executable(css main.cpp)
+add_executable(css 
+  combat.cpp
+  combat.h
+  globals.h
+  priest_character.cpp
+  priest_character.h
+  priest_talents.h
+  school.h
+  spell.h
+  spell_sequence_priest.cpp
+  spell_sequence_priest.h
+  spells_priest_shadow.cpp
+  spells_priest_shadow.h
+  main.cpp)

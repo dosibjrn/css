@@ -5,6 +5,22 @@
 namespace css
 {
 
+float ModifiedShadow(const PriestCharacter& c, const Spell& s)
+{   
+  const auto& t = c.talents;
+  float damage = s.damage;
+  if (t.shadowform) {
+    damage *= 1.15f;
+  }
+  if (t.darkness) {
+    damage *= (1.0f+(0.02f*t.darkness));
+  }
+  damage += s.modifier * c.sp;
+  damage += s.modifier * c.sp_shadow;
+  return damage;
+}
+
+
 // https://www.reddit.com/r/classicwow/comments/95abc8/list_of_spellcoefficients_1121/
 // for modifiers
 // classic wowhead for vals
