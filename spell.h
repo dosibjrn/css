@@ -1,5 +1,7 @@
 #pragma once
 
+#include "school.h"
+
 namespace css
 {
 

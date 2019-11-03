@@ -1,5 +1,8 @@
 #include "spell_sequence_priest.h"
 
+#include "spells_priest_shadow.h"
+#include "spells_priest_disc.h"
+
 namespace css
 {
 
@@ -37,7 +40,7 @@ std::vector<Spell> SpellsSequencePaistiLvl51(const PriestCharacter& c, int mind_
 }
 
 std::vector<Spell> SpellsSequencePaistiLvl52(const PriestCharacter& c, int mind_flay_ticks, int mind_blasts, int shields, int touches,
-                                             float flay_down_rank = 0.0f, float blast_down_rank = 0.0f)
+                                             float flay_down_rank, float blast_down_rank)
 {
   std::vector<Spell> spells;
   int blast_base_down_rank = blast_down_rank;

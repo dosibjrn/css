@@ -2,11 +2,15 @@
 #include <cmath>
 #include <vector>
 
+#include "combat.h"
+#include "priest_character.h"
+#include "stats.h"
+
 int main(int argc, char** argv)
 {
   if (argc > 1) {
-    css::globals::time_to_pull = std::atof(argv[1]);
-    std::cout << "Setting time to pull: " << css::globals::time_to_pull << std::endl;
+    css::globals::setTimeToPull(std::atof(argv[1]));
+    std::cout << "Setting time to pull: " << css::globals::getTimeToPull() << std::endl;
   }
   std::vector<css::FightResult> results(6);
   css::Mob mob;

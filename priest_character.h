@@ -1,5 +1,11 @@
 #pragma once
 
+#include <vector>
+
+#include "priest_talents.h"
+#include "spell.h"
+#include "wand.h"
+
 namespace css
 {
 

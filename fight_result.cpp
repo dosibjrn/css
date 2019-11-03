@@ -1,5 +1,7 @@
 #include "fight_result.h"
 
+#include <iostream>
+
 namespace css
 {
 

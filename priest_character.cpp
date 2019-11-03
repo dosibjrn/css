@@ -1,3 +1,7 @@
+#include "priest_character.h"
+
+namespace css
+{
 
 PriestCharacter PaistiLvl51()
 {
@@ -19,8 +23,6 @@ PriestCharacter PaistiLvl51()
   return paisti;
 }
 
-
-
 PriestCharacter PaistiLvl53()
 {
   PriestCharacter paisti;
@@ -41,4 +43,5 @@ PriestCharacter PaistiLvl53()
   return paisti;
 }
 
+}  // namespace css
 

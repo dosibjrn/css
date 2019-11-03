@@ -1,5 +1,6 @@
 #pragma once
 
+#include "priest_character.h"
 #include "spell.h"
 
 namespace css

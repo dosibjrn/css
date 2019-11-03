@@ -1,6 +1,6 @@
-#include "spell.h"
+#include "spells_priest_disc.h"
 
-namesace css
+namespace css
 {
 
 Spell Shield(const PriestCharacter& c, int rank)

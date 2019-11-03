@@ -1,7 +1,8 @@
 add_executable(css 
   combat.cpp
   combat.h
-  globals.h
+  fight_result.cpp
+  fight_result.h
   priest_character.cpp
   priest_character.h
   priest_talents.h
@@ -11,4 +12,9 @@ add_executable(css
   spell_sequence_priest.h
   spells_priest_shadow.cpp
   spells_priest_shadow.h
+  spells_priest_disc.cpp
+  spells_priest_disc.h
+  stats.h
+  wand.h
+  water.h
   main.cpp)

@@ -1,7 +1,34 @@
 #include "combat.h"
 
+#include <iostream>
+
+#include "fight_result.h"
+#include "spell_sequence_priest.h"
+#include "stats.h"
+#include "water.h"
+
 namespace css
 {
+
+namespace globals
+{
+
+namespace
+{
+  float g_timeToPull = 1.0f;
+}  // namespace
+
+float getTimeToPull()
+{
+  return g_timeToPull;
+}
+
+void setTimeToPull(float f)
+{
+  g_timeToPull = f;
+}
+
+}  // namespace globals
 
 namespace 
 {
@@ -180,7 +207,7 @@ float DrinkToFull(const Stats& stats, const Water& water, const FightResult& fr,
       i++;
     }
   }
-  return time + globals::time_to_pull;
+  return time + globals::getTimeToPull();
 }
 
 float RegenForNext(const Stats& stats, const FightResult& fr, int ticks_for_next, float *current_mana)
@@ -251,7 +278,7 @@ FightResult FightMobs(const PriestCharacter& c, const std::vector<Spell>& spells
 FightResult BestMobsPerMin(const PriestCharacter&c, const Mob& mob) {
   FightResult bfr;
   std::vector<int> ticks_for_next_opts;
-  for (int i = globals::time_to_pull/2; i < 10; ++i) {
+  for (int i = globals::getTimeToPull()/2; i < 10; ++i) {
     ticks_for_next_opts.push_back(i);
   }
 

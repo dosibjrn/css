@@ -1,6 +1,6 @@
 #pragma once
 
-namepace css {
+namespace css {
 
 enum class School {
   Physical,
