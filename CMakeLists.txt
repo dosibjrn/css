@@ -1,11 +1,17 @@
 add_executable(css 
   combat.cpp
   combat.h
+  dps.cpp
+  dps.h
   fight_result.cpp
   fight_result.h
+  leveling.cpp
+  leveling.h
   priest_character.cpp
   priest_character.h
   priest_talents.h
+  pvp.cpp
+  pvp.h
   school.h
   spell.h
   spell_sequence_priest.cpp

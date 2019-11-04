@@ -6,9 +6,17 @@ namespace css
 Spell Shield(const PriestCharacter& c, int rank)
 {
   Spell s;
-  s.cost = 355; // This is rank8
-  s.shield = 6220;
-  // std::cout << "Check Shield impl." << std::endl;
+  if (rank == 8) {
+    s.cost = 355; // This is rank8
+    s.shield = 622;
+  } else {
+    s.cost = 500;
+    s.shield = 942;
+  }
+  s.modifier = 0.1f;
+  s.cast_time = 1.5f;
+  s.cd = 4.0f;
+  s.shield += s.modifier*(c.sp + c.sp_healing);
   return s;
 }
 

@@ -31,7 +31,7 @@ Spell MindBlast(const PriestCharacter& c, int rank)
   s.type = School::Shadow;
   s.modifier = 0.4285f;
   s.cast_time = 1.5f;
-  s.cd = 8.0f;
+  s.cd = 8.0f - (0.5f * t.improved_mind_blast);
   switch(rank) {
     case 1:
       s.damage = 0.5f*(42.0f+46.0f);

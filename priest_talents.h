@@ -15,6 +15,7 @@ struct PriestTalents {
   int shadow_weaving = 0;
   int darkness = 0;
   int shadowform = 0;
+  int improved_mind_blast = 0;
 };
 
 }  // namespace css

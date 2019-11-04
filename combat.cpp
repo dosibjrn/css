@@ -30,11 +30,9 @@ void setTimeToPull(float f)
 
 }  // namespace globals
 
-namespace 
-{
-
 FightResult FightMob(const PriestCharacter& c, const std::vector<Spell>& spells, const Mob& mob)
 {
+  bool verbose = false;
   FightResult fr;
   float mob_health = mob.health;
   int weave = 0;
@@ -48,11 +46,10 @@ FightResult FightMob(const PriestCharacter& c, const std::vector<Spell>& spells,
   // Supporting 1 dot, basically swp now. 
   int dot_tick_ix = 0;
   Spell dot;
-  float last_dot_time = 0.0f;
+  float dot_start_time = 0.0f;
   float no_casting = 0.0f;
-  float cooldown_start = 0.0f;
+  float cooldown_start = -10.0f;
   float weave_drops = 0.0f;
-  mana_diff -= 50; // Inner fire etc
   while (mob_health > 0) {
     // Check weave drop
     if (time > weave_drops) {
@@ -89,10 +86,21 @@ FightResult FightMob(const PriestCharacter& c, const std::vector<Spell>& spells,
         }
         if (!s.dot) {
           mob_health -= damage;
+          if (verbose) {
+            if (s.channeled) {
+              std::cout << "channel, ";
+            }
+            std::cout << "mob_health: " << mob_health << ", time: " << time << std::endl;
+          }
           fr.damage_spells += damage;
         } else {
           dot = s;
+          dot_start_time = time - s.cast_time;
+          if (verbose) std::cout << "dot start: " << dot_start_time << ", time: " << time << std::endl;
         }
+      } else if (verbose) {
+        std::cout << "skipped spell on cd, s.cd: " << s.cd << ", cooldown_start: " << cooldown_start
+            << ", s.cd + cooldown_start: " << s.cd + cooldown_start << " < time: " << time << std::endl;
       }
     }
     if (!spell_cast) { // wand
@@ -102,15 +110,19 @@ FightResult FightMob(const PriestCharacter& c, const std::vector<Spell>& spells,
       }
       time += c.wand.speed;
       mob_health -= damage;
+
+      if(verbose) std::cout << "wand, mob_health: " << mob_health << ", time: " << time << std::endl;
       fr.damage_wand += damage;
       fr.time_wand += c.wand.speed;
       no_casting += c.wand.speed;
     }
     // Check dots for damage
-    if (dot_tick_ix < dot.num_ticks) {
+    if (dot_tick_ix < dot.num_ticks && time >= dot_start_time + (dot_tick_ix + 1)*3.0f) {
       dot_tick_ix++;
       float damage = dot.damage + dot.damage*(weave*0.03f);
       mob_health -= damage;
+
+      if(verbose) std::cout << "dot, mob_health: " << mob_health << ", time: " << time << std::endl;
       fr.damage_spells += damage;
     }
     // Check mana rege
@@ -254,6 +266,7 @@ FightResult FightMobs(const PriestCharacter& c, const std::vector<Spell>& spells
   int regen_for_next_count = 0;
   while (n_killed < n_max) {
     fr = FightMob(c, spells, mob);
+    fr.mana_drop += 50;  // Inner fire etc
     n_killed++;
     current_mana -= fr.mana_drop;
     time_elapsed += fr.duration;
@@ -330,8 +343,6 @@ FightResult BestMobsPerMin(const PriestCharacter&c, const Mob& mob) {
   coutFightResult(bfr);
   return bfr;
 }
-
-}  // namespace
 
 // int, spirit, sp, wand dps, mp5
 std::vector<FightResult> RelativeValues(const PriestCharacter& c, float multiplier, const Mob& mob)

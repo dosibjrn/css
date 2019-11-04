@@ -11,6 +11,7 @@ namespace css
 
 struct PriestCharacter {
   float base_mana = 0.0f;
+  float base_hp = 0.0f;
   int level = 0;
   int strength = 0;
   int agility = 0;
@@ -28,5 +29,11 @@ struct PriestCharacter {
 
 PriestCharacter PaistiLvl51();
 PriestCharacter PaistiLvl53();
+PriestCharacter PaistiLvl60PvPShadow();
+PriestCharacter PaistiLvl60PvPShadowIter2();
+PriestCharacter PaistiLvl60PvPShadowIter3();
+PriestCharacter PaistiLvl60PvPShadowIter4();
+PriestCharacter PaistiLvl60PvPShadowRaid1();
+PriestCharacter BaseLvl60UdShadow();
 
 }  // namespace css
