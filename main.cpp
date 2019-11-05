@@ -3,6 +3,10 @@
 
 int main(int argc, char** argv)
 {
-  // return LevelingStats(argc, argv);
-  return css::PvpStats(argc, argv);
+  if (argc == 1) {
+    return css::PvpStats(argc, argv);
+  } else {
+    return LevelingStats(argc, argv);
+  }
+  // return css::PvpStatsVsBase(argc, argv);
 }

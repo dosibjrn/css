@@ -1,26 +1,6 @@
-add_executable(css 
-  combat.cpp
-  combat.h
-  dps.cpp
-  dps.h
-  fight_result.cpp
-  fight_result.h
-  leveling.cpp
-  leveling.h
-  priest_character.cpp
-  priest_character.h
-  priest_talents.h
-  pvp.cpp
-  pvp.h
-  school.h
-  spell.h
-  spell_sequence_priest.cpp
-  spell_sequence_priest.h
-  spells_priest_shadow.cpp
-  spells_priest_shadow.h
-  spells_priest_disc.cpp
-  spells_priest_disc.h
-  stats.h
-  wand.h
-  water.h
-  main.cpp)
+cmake_minimum_required(VERSION 3.10)
+
+file(GLOB header_list ${CMAKE_CURRENT_SOURCE_DIR} *.h)
+file(GLOB source_list ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
+message(STATUS "headers: ${header_list}, sources: ${source_list}")
+add_executable(css ${header_list} ${source_list})

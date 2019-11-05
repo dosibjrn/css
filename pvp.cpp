@@ -12,8 +12,8 @@ namespace css
 int PvpStats(int argc, char** argv)
 {
   // PriestCharacter c = PaistiLvl60PvPShadow();
-  // PriestCharacter c = PaistiLvl60PvPShadowIter2();
-  PriestCharacter c = PaistiLvl60PvPShadowRaid1();
+  PriestCharacter c = PaistiLvl60PvPShadowIter2();
+  // PriestCharacter c = PaistiLvl60PvPShadowRaid1();
   PriestCharacter c_plus_100sp = c;
   c_plus_100sp.sp += 100.0f;
 
@@ -89,5 +89,107 @@ int PvpStats(int argc, char** argv)
 
   return 0;
 }
+
+int PvpStatsVsBase(int argc, char** argv)
+{
+  PriestCharacter a = PaistiLvl60PvPShadowIter2();
+
+  PriestCharacter b = a;
+  PriestCharacter base = BaseLvl60UdShadow();
+  b.sp = base.sp;
+  b.sp_shadow = base.sp;
+
+  float dps_a = ShadowDps(a);
+  float dps_b = ShadowDps(b);
+  float sp_rel_imp_sq = (((dps_a*dps_a)/(dps_b*dps_b)) - 1.0f)/(a.sp + a.sp_shadow - b.sp - b.sp_shadow);
+  std::cout << "Squared relative improvement of dps per point of sp: " << sp_rel_imp_sq*100 << "\%" << std::endl;
+
+  b = a;
+  b.stamina = base.stamina;
+  
+  Spell shield = Shield(a, 10); 
+  float ehp_a = a.base_hp + (a.stamina + 70)*10.0f + 2.0f*shield.shield;
+  float ehp_b = b.base_hp + (b.stamina + 70)*10.0f + 2.0f*shield.shield;
+  float ehp_rel_imp = (ehp_a/ehp_b - 1.0f)/(a.stamina - b.stamina);
+  std::cout << "Relative improvement of ehp per point of stamina: " << ehp_rel_imp << std::endl;
+
+  float stam_to_match_sp = sp_rel_imp_sq/ehp_rel_imp;
+  std::cout << "To match 1 sp, we need: " << stam_to_match_sp << " stam." << std::endl;
+
+  float combat_dur = 100.0f;
+  float under_fsr = 2.0f/3.0f;
+
+  int no_fsr_ticks = (combat_dur * (1.0f - under_fsr))/2.0f;
+  int fsr_ticks = combat_dur/2.0f - no_fsr_ticks;
+
+  float int_to_match_sp = 0.0f;
+  {
+    b = base;
+    b.intelligence = a.intelligence;
+    Stats s_a(b);
+    Stats s_b(base);
+    float effective_mana_a = s_a.getMaxMana() + no_fsr_ticks*s_a.getManaRegenTickOutOfFsr()
+        + fsr_ticks*s_a.getManaRegenTickUnderFsr();
+    float effective_mana_b = s_b.getMaxMana() + no_fsr_ticks*s_b.getManaRegenTickOutOfFsr()
+        + fsr_ticks*s_b.getManaRegenTickUnderFsr();
+    float rel_imp_per_point = (effective_mana_a/effective_mana_b - 1.0f)/(b.intelligence - base.intelligence);
+    int_to_match_sp = sp_rel_imp_sq/rel_imp_per_point;
+  }
+
+  float spi_to_match_sp = 0.0f;
+  {
+    b = base;
+    b.spirit = a.spirit;
+    Stats s_a(b);
+    Stats s_b(base);
+    float effective_mana_a = s_a.getMaxMana() + no_fsr_ticks*s_a.getManaRegenTickOutOfFsr()
+        + fsr_ticks*s_a.getManaRegenTickUnderFsr();
+    float effective_mana_b = s_b.getMaxMana() + no_fsr_ticks*s_b.getManaRegenTickOutOfFsr()
+        + fsr_ticks*s_b.getManaRegenTickUnderFsr();
+    float rel_imp_per_point = (effective_mana_a/effective_mana_b - 1.0f)/(b.spirit - base.spirit);
+    spi_to_match_sp = sp_rel_imp_sq/rel_imp_per_point;
+  }
+
+  float mp5_to_match_sp = 0.0f;
+  {
+    b = base;
+    b.mp5 = std::max<float>(1, a.mp5);
+    Stats s_a(b);
+    Stats s_b(base);
+    float effective_mana_a = s_a.getMaxMana() + no_fsr_ticks*s_a.getManaRegenTickOutOfFsr()
+        + fsr_ticks*s_a.getManaRegenTickUnderFsr();
+    float effective_mana_b = s_b.getMaxMana() + no_fsr_ticks*s_b.getManaRegenTickOutOfFsr()
+        + fsr_ticks*s_b.getManaRegenTickUnderFsr();
+    float rel_imp_per_point = (effective_mana_a/effective_mana_b - 1.0f)/(b.mp5 - base.mp5);
+    mp5_to_match_sp = sp_rel_imp_sq/rel_imp_per_point;
+  }
+  std::cout << "Int: " << int_to_match_sp << " to match." << std::endl;
+  std::cout << "Spirit: " << spi_to_match_sp << " to match." << std::endl;
+  std::cout << "Mp5: " << mp5_to_match_sp << " to match." << std::endl;
+   
+
+  std::cout << std::endl;
+  std::cout << "Which gives us relative values of: " << std::endl;
+  std::cout << "Sp:      " << 100.0f << std::endl;
+  std::cout << "Int:     " << 1.0f/int_to_match_sp*100.0f << std::endl;
+  std::cout << "Spirit:  " << 1.0f/spi_to_match_sp*100.0f << std::endl;
+  std::cout << "Mp5:     " << 1.0f/mp5_to_match_sp*100.0f << std::endl;
+  std::cout << "Stamina: " << 1.0f/stam_to_match_sp*100.0f << std::endl;
+ 
+  std::cout << std::endl;
+  std::cout << "Your stats btw: " << std::endl;
+
+  Stats s_a(a);
+  float effective_mana = s_a.getMaxMana() + no_fsr_ticks*s_a.getManaRegenTickOutOfFsr()
+      + fsr_ticks*s_a.getManaRegenTickUnderFsr();
+  std::cout << "Dps: " << dps_a << std::endl;
+  std::cout << "Effective mana for " << combat_dur << " s fight with " << under_fsr*100 << "\% in fsr: " << effective_mana << std::endl;
+  std::cout << "Effective hp: " << ehp_a << std::endl;
+  std::cout << "dps*dps*emana*ehp/1e12: " << (dps_a*dps_a*ehp_a*effective_mana)/1e12 << std::endl;
+
+  return 0;
+}
+
+
 
 }  // namespace css

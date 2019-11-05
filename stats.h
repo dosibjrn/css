@@ -1,9 +1,9 @@
 #pragma once
 
+#include "priest_character.h"
+
 namespace css
 {
-
-
 
 class Stats {
  public:
@@ -37,6 +37,18 @@ class Stats {
   {
     return 1.0f + 0.01*(c_.intelligence/59.5f);
   }
+
+  float getEffectiveMana(float duration, float fsr_frac)
+  {
+    int no_fsr_ticks = (duration * (1.0f - fsr_frac))/2.0f;
+    int fsr_ticks = duration/2.0f - no_fsr_ticks;
+    float effective_mana = getMaxMana() + no_fsr_ticks*getManaRegenTickOutOfFsr()
+        + fsr_ticks*getManaRegenTickUnderFsr();
+    return effective_mana;
+  }
+
+  float getEffectiveHp();
+
  private:
   float mp5Tick() const { return c_.mp5/5.0f*2.0f; }
   const PriestCharacter& c_;
