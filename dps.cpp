@@ -54,7 +54,7 @@ float ShadowDps(const PriestCharacter& c)
     count++;
   }
   fightResultMul(1.0f/count, &resultSum);
-  coutFightResult(resultSum);
+  // coutFightResult(resultSum);
 
   return health_sum/dura_sum;
 }

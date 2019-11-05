@@ -8,8 +8,8 @@
 
 int LevelingStats(int argc, char** argv)
 {
-  if (argc > 1) {
-    css::globals::setTimeToPull(std::atof(argv[1]));
+  if (argc > 2) {
+    css::globals::setTimeToPull(std::atof(argv[2]));
     std::cout << "Setting time to pull: " << css::globals::getTimeToPull() << std::endl;
   }
   std::vector<css::FightResult> results(6);

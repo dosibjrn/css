@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <vector>
 #include <string>
 
@@ -8,23 +9,30 @@
 namespace css
 {
 
-public class ItemTable {
+class ItemTable {
  public:
   ItemTable(std::string csv_file_name);
-  std::vector<Item> items(std::string slot);
+  std::vector<Item> getItems(const std::string& slot);
+  std::vector<Item> getItems(const std::vector<std::string>& slots);
+  std::vector<std::string> getItemSlots();
 
  private:
-  void prepareColumnIndexes();
-  int strengthColumnIndex();
-  int agilityColumnIndex();
-  int intColumnIndex();
-  int staminaColumnIndex();
-  int spiritColumnIndex();
-  int spColumnIndex();
-  int spShadowColumnIndex();
-  int spHealingColumnINdex();
+  void prepareSlotMap();
+  void prepareColumnIndexes(const std::string& header_line);
+  Item lineToItem(const std::string& line);
 
   std::vector<std::vector<Item>> m_items;
+  std::map<std::string, int> m_slots;
+  int m_slot_ix = -1;
+  int m_name_ix = -1;
+  int m_strength_ix = -1;
+  int m_agility_ix = -1;
+  int m_int_ix = -1;
+  int m_stamina_ix = -1;
+  int m_spirit_ix = -1;
+  int m_sp_ix = -1;
+  int m_sp_shadow_ix = -1;
+  int m_sp_healing_ix = -1;
 };
 
 }  // namespace css

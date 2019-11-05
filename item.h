@@ -2,12 +2,14 @@
 
 #include <string>
 
+#include "priest_character.h"
+
 namespace css
 {
 
 struct Item {
-  std::string name;
-  std::string slot;
+  std::string name = "";
+  std::string slot = "";
   float strength = 0.0f;
   float agility = 0.0f;
   float intelligence = 0.0f;
@@ -19,5 +21,9 @@ struct Item {
   float mp5 = 0.0f;
 };
 
+void coutItem(const Item& i);
+void addItem(const Item &i, PriestCharacter* c);
+void removeItem(const Item &i, PriestCharacter* c);
 
 }  // namespace css
+

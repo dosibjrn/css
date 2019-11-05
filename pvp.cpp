@@ -5,6 +5,7 @@
 #include "dps.h"
 #include "spells_priest_disc.h"
 #include "stats.h"
+#include "item_picker.h"
 
 namespace css
 {
@@ -190,6 +191,20 @@ int PvpStatsVsBase(int argc, char** argv)
   return 0;
 }
 
+
+int PvpItemPicking(int argc, char** argv)
+{
+  PriestCharacter c = BaseLvl60UdShadow();
+  if (argc < 3) {
+    std::cout << "Please give file name for PvpItemPicking." << std::endl;
+    return -1;
+  }
+  std::string fn = argv[2];
+  ItemPicker ip(c, fn);
+  ip.CoutBestItems();
+  std::cout << "Best value: " << ip.getBestValue() << std::endl;
+  return 0;
+}
 
 
 }  // namespace css
