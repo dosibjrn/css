@@ -74,6 +74,12 @@ void ItemPicker::CoutBestItems() const
   }
 }
 
+void ItemPicker::CoutCharacterStats() const
+{
+  Stats s(m_c_curr);
+  s.CoutStats();
+}
+
 float ItemPicker::value(const PriestCharacter &c) const
 {
   // Similar to what was done prev: dps*dps*ehp*emana

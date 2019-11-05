@@ -8,6 +8,7 @@ namespace css
 class Stats {
  public:
   Stats(const PriestCharacter& c) : c_(c) {}
+  void CoutStats() const;
   float getMaxMana() const
   {
     return 15.0f*c_.intelligence+c_.base_mana;
@@ -38,7 +39,7 @@ class Stats {
     return 1.0f + 0.01*(c_.intelligence/59.5f);
   }
 
-  float getEffectiveMana(float duration, float fsr_frac)
+  float getEffectiveMana(float duration, float fsr_frac) const 
   {
     int no_fsr_ticks = (duration * (1.0f - fsr_frac))/2.0f;
     int fsr_ticks = duration/2.0f - no_fsr_ticks;
@@ -47,7 +48,7 @@ class Stats {
     return effective_mana;
   }
 
-  float getEffectiveHp();
+  float getEffectiveHp() const;
 
  private:
   float mp5Tick() const { return c_.mp5/5.0f*2.0f; }

@@ -9,15 +9,15 @@ void coutItem(const Item& i)
 {
   std::cout << "name: " << i.name << std::endl;
   std::cout << "slot: " << i.slot << std::endl;
-  std::cout << "strength: " << i.strength << std::endl;
-  std::cout << "agility: " << i.agility << std::endl;
-  std::cout << "intelligence: " << i.intelligence << std::endl;
-  std::cout << "stamina: " << i.stamina << std::endl;
-  std::cout << "spirit: " << i.spirit << std::endl;
-  std::cout << "sp: " << i.sp << std::endl;
-  std::cout << "sp_shadow: " << i.sp_shadow << std::endl;
-  std::cout << "sp_healing: " << i.sp_healing << std::endl;
-  std::cout << "mp5: " << i.mp5 << std::endl;
+  if (i.strength) std::cout << "strength: " << i.strength << std::endl;
+  if (i.agility) std::cout << "agility: " << i.agility << std::endl;
+  if (i.intelligence) std::cout << "intelligence: " << i.intelligence << std::endl;
+  if (i.stamina) std::cout << "stamina: " << i.stamina << std::endl;
+  if (i.spirit) std::cout << "spirit: " << i.spirit << std::endl;
+  if (i.sp) std::cout << "sp: " << i.sp << std::endl;
+  if (i.sp_shadow) std::cout << "sp_shadow: " << i.sp_shadow << std::endl;
+  if (i.sp_healing) std::cout << "sp_healing: " << i.sp_healing << std::endl;
+  if (i.mp5) std::cout << "mp5: " << i.mp5 << std::endl;
 }
 
 void addItem(const Item &i, PriestCharacter* c)

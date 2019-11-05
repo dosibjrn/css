@@ -35,5 +35,6 @@ PriestCharacter PaistiLvl60PvPShadowIter3();
 PriestCharacter PaistiLvl60PvPShadowIter4();
 PriestCharacter PaistiLvl60PvPShadowRaid1();
 PriestCharacter BaseLvl60UdShadow();
+PriestCharacter BaseLvl60UdShadowEnchanted();
 
 }  // namespace css

@@ -194,7 +194,8 @@ int PvpStatsVsBase(int argc, char** argv)
 
 int PvpItemPicking(int argc, char** argv)
 {
-  PriestCharacter c = BaseLvl60UdShadow();
+  // PriestCharacter c = BaseLvl60UdShadow();
+  PriestCharacter c = BaseLvl60UdShadowEnchanted();
   if (argc < 3) {
     std::cout << "Please give file name for PvpItemPicking." << std::endl;
     return -1;
@@ -203,8 +204,12 @@ int PvpItemPicking(int argc, char** argv)
   ItemPicker ip(c, fn);
   ip.CoutBestItems();
   std::cout << "Best value: " << ip.getBestValue() << std::endl;
+  std::cout << "Char stats: " << std::endl;
+  ip.CoutCharacterStats();
   return 0;
 }
+
+// TODO: one hand, main hand, off hand, second ring, second trinket, wrong base stats
 
 
 }  // namespace css

@@ -13,6 +13,7 @@ class ItemPicker {
   ItemPicker(const PriestCharacter& c, std::string item_table_name);
   std::vector<Item> getBestItems() const;
   void CoutBestItems() const;
+  void CoutCharacterStats() const;
   float getBestValue() const { return value(m_c_curr); }
  private:
   Item PickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot) const;
