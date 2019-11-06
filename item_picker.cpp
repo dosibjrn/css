@@ -1,7 +1,9 @@
 #include "item_picker.h"
 
 #include <algorithm>
+#include <chrono>
 #include <iostream>
+#include <random>
 #include <string>
 
 #include "dps.h"
@@ -32,6 +34,9 @@ void Shuffle(std::vector<T>* v)
   int64_t s = v->size();
   std::vector<int64_t> ixs;
   for (int64_t i = 0; i < s; ++i) ixs.push_back(i); 
+
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(ixs.begin(), ixs.end(), std::default_random_engine(seed));
   std::vector<T> tmp(s);
   std::swap(tmp, *v);
   for (int64_t i = 0; i < s; ++i) {
@@ -52,7 +57,7 @@ void ItemPicker::Recalculate()
   m_c_curr = m_c_in;
   m_items.clear();
   ItemTable item_table(m_item_table_name);
-  bool static_for_all_slots = false;
+  int static_for_all_slots = 0;
   int max_iterations = 1000;
   std::vector<std::string> slots = item_table.getItemSlots();
   for (const auto& slot : slots) {
@@ -61,12 +66,21 @@ void ItemPicker::Recalculate()
     m_items[slot] = i;
   }
 
+  float val_best = 0.0f;
+  std::map<std::string, Item> items_best;
+  PriestCharacter c_best;
+
   int iteration = 0;
-  bool verbose = true;
-  while (!static_for_all_slots && iteration < max_iterations) {
-    static_for_all_slots = true;
+  bool verbose = false;
+  while (static_for_all_slots < 20 && iteration < max_iterations) {
+    if (iteration % (max_iterations/50) == 0) {
+      std::cout << ".";
+      std::cout.flush();
+    }
+    static_for_all_slots++;
     Shuffle(&slots);
     // std::random_shuffle(slots.begin(), slots.end());
+    int slot_ix = 0;
     for (const auto& slot : slots) {
       // TODO handle off hand etc separately
       if (slot == "one-hand" || slot == "main hand" || slot == "off hand") {
@@ -79,9 +93,16 @@ void ItemPicker::Recalculate()
         taken = m_items["finger"].name;
       } else if (slot == "trinket 2") {
         taken = m_items["trinket"].name;
+      } else if (slot == "finger") {
+        taken = m_items["finger 2"].name;
+      } else if (slot == "trinket") {
+        taken = m_items["trinket 2"].name;
+      } else if (iteration < max_iterations/2 
+                 && (slot_ix % (iteration + 1 % slots.size()) == 0)) {
+        taken = i_curr.name;
       }
       
-      Item i_best = PickBest(m_c_curr, i_curr, items_for_slot, taken);
+      Item i_best = pickBest(m_c_curr, i_curr, items_for_slot, taken);
       if (slot == "two-hand") {
         Item best_two_hand_item = i_best;
         PriestCharacter c_empty_hands = m_c_curr;
@@ -94,10 +115,17 @@ void ItemPicker::Recalculate()
         std::vector<Item> main_hand_items = item_table.getItems("main hand");
         std::vector<Item> one_hand_items = item_table.getItems("one-hand");
         main_hand_items.insert(main_hand_items.begin(), one_hand_items.begin(), one_hand_items.end());
-        Item best_main_hand_item = PickBest(c_empty_hands, no_item, main_hand_items, "");
+        if (iteration < max_iterations/2) {
+          taken = m_items["main hand"].name;
+        }
+        Item best_main_hand_item = pickBest(c_empty_hands, no_item, main_hand_items, taken);
 
         std::vector<Item> off_hand_items = item_table.getItems("off hand");
-        Item best_off_hand_item = PickBest(c_empty_hands, no_item, off_hand_items, "");
+        if (iteration < max_iterations/2) {
+          taken = m_items["off hand"].name;
+        }
+ 
+        Item best_off_hand_item = pickBest(c_empty_hands, no_item, off_hand_items, taken);
 
         PriestCharacter c_main_and_off = c_empty_hands;
         addItem(best_off_hand_item, &c_main_and_off);
@@ -122,20 +150,20 @@ void ItemPicker::Recalculate()
           m_items["off hand"] = best_off_hand_item;
         }
       } else {
-        if (verbose) {
-          std::cout << " *********** " << std::endl;
-          coutItem(i_curr);
-          std::cout << " --- vs --- " << std::endl;
-          coutItem(i_best);
-          std::cout << "^^^^^^^^^^^^^" << std::endl;     
-        }
+        // if (verbose) {
+          // std::cout << " *********** " << std::endl;
+          // coutItem(i_curr);
+          // std::cout << " --- vs --- " << std::endl;
+          // coutItem(i_best);
+          // std::cout << "^^^^^^^^^^^^^" << std::endl;     
+        // }
         if (i_curr.name.substr(0, 4) != i_best.name.substr(0, 4)) {
           if (verbose) {
             float prev_val = value(m_c_curr);
             std::cout << slot << " : " << i_curr.name << " -> " << i_best.name << " => val: " << prev_val;
           }
 
-          static_for_all_slots = false;
+          static_for_all_slots = 0;
           m_items[slot] = i_best;
           removeItem(i_curr, &m_c_curr);
           addItem(i_best, &m_c_curr);
@@ -144,11 +172,25 @@ void ItemPicker::Recalculate()
             std::cout << " -> " << curr_val << std::endl;
           }
         }
+        float res_val = value(m_c_curr);
+        if (res_val > val_best) {
+          c_best = m_c_curr;
+          items_best = m_items;
+          val_best = res_val;
+          // if (verbose) {
+          if (1) {
+            std::cout << std::endl << "*** NEW BEST: " << val_best << " ***" << std::endl;
+          }
+        }
       }
-
-    }
+      slot_ix++;
+    }  // for slots
+    // m_items = items_best;
+    // m_c_curr = c_best;
     iteration++;
   }
+  m_items = items_best;
+  m_c_curr = c_best;
 }
 
 void ItemPicker::CoutBestItems()
@@ -173,14 +215,15 @@ void ItemPicker::CoutCharacterStats() const
 
 
 
-Item ItemPicker::PickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name) const
+Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name) const
 {
   // create char without item
   PriestCharacter c_no_item = c;
   removeItem(current_item, &c_no_item);
   // for each item
-  Item best_item = current_item;
-  float best_value = value(c);
+  Item no_item;
+  Item best_item = no_item;
+  float best_value = value(c_no_item);
   for (const Item& item : items_for_slot) {
   // set char to state without item
     if (item.name == taken_name) {
@@ -194,6 +237,9 @@ Item ItemPicker::PickBest(const PriestCharacter& c, const Item& current_item, st
     if (isBanned(item.name)) {
       val = 0.0f;
     }
+    // if (item.slot == "back") {
+      // std::cout << item.name << ": " << value(c_no_item) << " -> " << val << std::endl;
+    // }
     if (val > best_value || isLocked(item.name)) {
       best_value = val;
       best_item = item;
