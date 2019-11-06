@@ -35,27 +35,75 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name)
       }
       Item i_curr = m_items[slot];
       auto items_for_slot = item_table.getItems(slot);
-      Item i_best = PickBest(m_c_curr, i_curr, items_for_slot);
-      if (verbose) {
-        std::cout << " *********** " << std::endl;
-        coutItem(i_curr);
-        std::cout << " --- vs --- " << std::endl;
-        coutItem(i_best);
-        std::cout << "^^^^^^^^^^^^^" << std::endl;     
+      std::string taken = "";
+      if (slot == "finger 2") {
+        taken = m_items["finger"].name;
+      } else if (slot == "trinket 2") {
+        taken = m_items["trinket"].name;
       }
-      if (i_curr.name != i_best.name) {
-        if (verbose) {
-          float prev_val = value(m_c_curr);
-          std::cout << slot << " : " << i_curr.name << " -> " << i_best.name << " => val: " << prev_val;
-        }
+      
+      Item i_best = PickBest(m_c_curr, i_curr, items_for_slot, taken);
+      if (slot == "two-hand") {
+        Item best_two_hand_item = i_best;
+        PriestCharacter c_empty_hands = m_c_curr;
+        removeItem(m_items["two-hand"], &c_empty_hands);
+        removeItem(m_items["one-hand"], &c_empty_hands);
+        removeItem(m_items["main hand"], &c_empty_hands);
+        removeItem(m_items["off hand"], &c_empty_hands);
 
-        static_for_all_slots = false;
-        m_items[slot] = i_best;
-        removeItem(i_curr, &m_c_curr);
-        addItem(i_best, &m_c_curr);
+        Item no_item;
+        std::vector<Item> main_hand_items = item_table.getItems("main hand");
+        std::vector<Item> one_hand_items = item_table.getItems("one-hand");
+        main_hand_items.insert(main_hand_items.begin(), one_hand_items.begin(), one_hand_items.end());
+        Item best_main_hand_item = PickBest(c_empty_hands, no_item, main_hand_items, "");
+
+        std::vector<Item> off_hand_items = item_table.getItems("off hand");
+        Item best_off_hand_item = PickBest(c_empty_hands, no_item, off_hand_items, "");
+
+        PriestCharacter c_main_and_off = c_empty_hands;
+        addItem(best_off_hand_item, &c_main_and_off);
+        addItem(best_main_hand_item, &c_main_and_off);
+        float val_main_and_off = value(c_main_and_off);
+
+        PriestCharacter c_two_hand = c_empty_hands;
+        addItem(best_two_hand_item, &c_two_hand);
+        float val_two_hand = value(c_two_hand);
+
+        if (val_two_hand > val_main_and_off) {
+          m_c_curr = c_two_hand;
+          m_items["two-hand"] = best_two_hand_item;
+          m_items["one-hand"] = no_item;
+          m_items["main hand"] = no_item;
+          m_items["off hand"] = no_item;
+        } else {
+          m_c_curr = c_main_and_off;
+          m_items["two-hand"] = no_item;
+          m_items["one-hand"] = no_item;
+          m_items["main hand"] = best_main_hand_item;
+          m_items["off hand"] = best_off_hand_item;
+        }
+      } else {
         if (verbose) {
-          float curr_val = value(m_c_curr);
-          std::cout << " -> " << curr_val << std::endl;
+          std::cout << " *********** " << std::endl;
+          coutItem(i_curr);
+          std::cout << " --- vs --- " << std::endl;
+          coutItem(i_best);
+          std::cout << "^^^^^^^^^^^^^" << std::endl;     
+        }
+        if (i_curr.name.substr(0, 4) != i_best.name.substr(0, 4)) {
+          if (verbose) {
+            float prev_val = value(m_c_curr);
+            std::cout << slot << " : " << i_curr.name << " -> " << i_best.name << " => val: " << prev_val;
+          }
+
+          static_for_all_slots = false;
+          m_items[slot] = i_best;
+          removeItem(i_curr, &m_c_curr);
+          addItem(i_best, &m_c_curr);
+          if (verbose) {
+            float curr_val = value(m_c_curr);
+            std::cout << " -> " << curr_val << std::endl;
+          }
         }
       }
 
@@ -64,10 +112,14 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name)
   }
 }
 
-void ItemPicker::CoutBestItems() const
+void ItemPicker::CoutBestItems()
 {
-  for (auto map_entry : m_items) {
-    auto item = map_entry.second;
+  std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "main hand", "one-hand", "off hand", "ranged",
+    "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
+    // "hands", "waist", "legs", "feet", "finger", "trinket"};
+  // for (auto map_entry : m_items) {
+  for (std::string slot : order) {
+    const Item &item = m_items[slot];
     std::cout << " ----------------------------" << std::endl;
     std::cout << " --- " << item.slot << " --- " << std::endl;
     coutItem(item);
@@ -92,7 +144,7 @@ float ItemPicker::value(const PriestCharacter &c) const
   return dps*dps*emana*ehp/1e12;
 }
 
-Item ItemPicker::PickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot) const
+Item ItemPicker::PickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name) const
 {
   // create char without item
   PriestCharacter c_no_item = c;
@@ -102,6 +154,9 @@ Item ItemPicker::PickBest(const PriestCharacter& c, const Item& current_item, st
   float best_value = value(c);
   for (const Item& item : items_for_slot) {
   // set char to state without item
+    if (item.name == taken_name) {
+      continue;
+    }
     PriestCharacter c_tmp = c_no_item;
     // add effect of new item
     addItem(item, &c_tmp);

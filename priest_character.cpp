@@ -183,28 +183,13 @@ PriestCharacter BaseLvl60UdShadow()
 
 PriestCharacter BaseLvl60UdShadowEnchanted()
 {
-  PriestCharacter c;
-  c.level = 60;
-  c.strength = 34+4;
-  c.agility = 38+4;
-  c.stamina = 51+11;
-  c.intelligence = 118+27;
-  c.spirit = 130+4;
-  c.sp = 30;
-  c.base_mana = 1436.0f;
-  c.base_hp = 1387.0f;
-  c.talents.meditation = 3;
-  c.talents.imp_swp = 2;
-  c.talents.shadow_weaving = 5;
-  c.talents.shadowform = 1;
-  c.talents.darkness = 5;
-  c.talents.improved_mind_blast = 5;
-  c.talents.meditation = 3;
-  c.talents.imp_swp = 2;
-  c.talents.shadow_weaving = 5;
-  c.talents.shadowform = 1;
-  c.talents.darkness = 5;
-  c.talents.improved_mind_blast = 5;
+  PriestCharacter c = BaseLvl60UdShadow();
+  c.strength += 4;
+  c.agility += 4;
+  c.stamina += 11;
+  c.intelligence += 27;
+  c.spirit += 4;
+  c.sp += 30;
   return c;
 }
 

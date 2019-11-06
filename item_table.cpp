@@ -16,13 +16,15 @@ ItemTable::ItemTable(std::string csv_file_name)
     prepareColumnIndexes(header_line);
   }
   std::string line;
-  m_items.resize(m_slots.size());
+  m_items.resize(m_slots.size() + 2);
   while (std::getline(is, line)) {
     Item i = lineToItem(line);
     if (m_slots.find(i.slot) != m_slots.end()) {
       m_items[m_slots[i.slot]].push_back(i);
     }
   }
+  m_items[m_slots["trinket 2"]] = m_items[m_slots["trinket"]];
+  m_items[m_slots["finger 2"]] = m_items[m_slots["finger"]];
 }
 
 std::vector<Item> ItemTable::getItems(const std::string& slot)
@@ -69,10 +71,15 @@ void ItemTable::prepareSlotMap()
   m_slots["one-hand"] = i++;
   m_slots["main hand"] = i++;
   m_slots["off hand"] = i++;
+  m_slots["ranged"] = i++;
+  m_slots["hands"] = i++;
   m_slots["waist"] = i++;
   m_slots["legs"] = i++;
   m_slots["feet"] = i++;
+  m_slots["finger"] = i++;
+  m_slots["finger 2"] = i++;
   m_slots["trinket"] = i++;
+  m_slots["trinket 2"] = i++;
 }
 
 namespace

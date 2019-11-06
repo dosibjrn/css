@@ -12,11 +12,11 @@ class ItemPicker {
  public:
   ItemPicker(const PriestCharacter& c, std::string item_table_name);
   std::vector<Item> getBestItems() const;
-  void CoutBestItems() const;
+  void CoutBestItems();
   void CoutCharacterStats() const;
   float getBestValue() const { return value(m_c_curr); }
  private:
-  Item PickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot) const;
+  Item PickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name = "") const;
   float value(const PriestCharacter& c) const;
 
   std::map<std::string, Item> m_items;
