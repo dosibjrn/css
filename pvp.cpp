@@ -1,6 +1,7 @@
 #include "pvp.h"
 
 #include <iostream>
+#include <fstream>
 
 #include "dps.h"
 #include "spells_priest_disc.h"
@@ -204,6 +205,30 @@ int PvpItemPicking(int argc, char** argv)
   }
   std::string fn = argv[2];
   ItemPicker ip(c, fn);
+  if (argc > 3) {
+    std::string fn = argv[3];
+    std::cout << "Reading banned from: " << fn << std::endl;
+    std::ifstream is(fn.c_str());
+    std::string line;
+    while(std::getline(is, line)) {
+      std::cout << "Banning: " << line << std::endl;
+      ip.AddBanned(line);
+    }
+  }
+  if (argc > 4) {
+    std::string fn = argv[4];
+    std::cout << "Reading locked from: " << fn << std::endl;
+    std::ifstream is(fn.c_str());
+    std::string line;
+    while(std::getline(is, line)) {
+      std::cout << "Locking: " << line << std::endl;
+      ip.AddLocked(line);
+    }
+  }
+  if (argc > 3) {
+    ip.Recalculate();
+  }
+    
   ip.CoutBestItems();
   std::cout << "------------------" << std::endl;
   std::cout << "Best value: " << ip.getBestValue() << std::endl;

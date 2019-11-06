@@ -40,18 +40,26 @@ void Shuffle(std::vector<T>* v)
 }
 
 ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name)
+  : m_c_in(c)
+  , m_c_curr(c)
+  , m_item_table_name(item_table_name)
 {
-  ItemTable item_table(item_table_name);
+  Recalculate();
+}
+
+void ItemPicker::Recalculate()
+{
+  m_c_curr = m_c_in;
+  m_items.clear();
+  ItemTable item_table(m_item_table_name);
   bool static_for_all_slots = false;
   int max_iterations = 1000;
-  m_c_curr = c;
   std::vector<std::string> slots = item_table.getItemSlots();
   for (const auto& slot : slots) {
     Item i;
     i.slot = slot;
     m_items[slot] = i;
   }
-
 
   int iteration = 0;
   bool verbose = true;
@@ -183,7 +191,10 @@ Item ItemPicker::PickBest(const PriestCharacter& c, const Item& current_item, st
     addItem(item, &c_tmp);
     // calculate objective function value
     float val = value(c_tmp);
-    if (val > best_value) {
+    if (isBanned(item.name)) {
+      val = 0.0f;
+    }
+    if (val > best_value || isLocked(item.name)) {
       best_value = val;
       best_item = item;
     }

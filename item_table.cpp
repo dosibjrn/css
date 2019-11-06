@@ -111,7 +111,7 @@ std::vector<std::string> SplitCsvLine(const std::string& line)
     e = line.find(d, s);
     splitted.push_back(line.substr(s, e - s));
     s = e + 1;
-    std::cout << "splitted: |" << splitted.back() << "|, s:" << s << ", e: " << e << std::endl;
+    // std::cout << "splitted: |" << splitted.back() << "|, s:" << s << ", e: " << e << std::endl;
   }
   return splitted;
 }
