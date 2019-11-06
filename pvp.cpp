@@ -10,11 +10,8 @@
 namespace css
 {
 
-int PvpStats(int argc, char** argv)
+void PvpStats(const PriestCharacter &c)
 {
-  // PriestCharacter c = PaistiLvl60PvPShadow();
-  PriestCharacter c = PaistiLvl60PvPShadowIter2();
-  // PriestCharacter c = PaistiLvl60PvPShadowRaid1();
   PriestCharacter c_plus_100sp = c;
   c_plus_100sp.sp += 100.0f;
 
@@ -87,7 +84,12 @@ int PvpStats(int argc, char** argv)
   std::cout << "Effective mana for " << combat_dur << " s fight with " << under_fsr*100 << "\% in fsr: " << effective_mana << std::endl;
   std::cout << "Effective hp: " << ehp_start << std::endl;
   std::cout << "dps*dps*emana*ehp/1e12: " << (dps_a*dps_a*ehp_start*effective_mana)/1e12 << std::endl;
+}
 
+int PvpStats(int argc, char** argv)
+{
+  // PriestCharacter c = PaistiLvl60PvPShadow();
+  PriestCharacter c = PaistiLvl60PvPShadowIter2();
   return 0;
 }
 
@@ -203,9 +205,16 @@ int PvpItemPicking(int argc, char** argv)
   std::string fn = argv[2];
   ItemPicker ip(c, fn);
   ip.CoutBestItems();
+  std::cout << "------------------" << std::endl;
   std::cout << "Best value: " << ip.getBestValue() << std::endl;
+  std::cout << "------------------" << std::endl;
   std::cout << "Char stats: " << std::endl;
   ip.CoutCharacterStats();
+  c = ip.getCharacter();
+  std::cout << "------------------" << std::endl;
+  std::cout << "Stat vals with this gear on:" << std::endl;
+  PvpStats(c);
+  std::cout << "------------------" << std::endl;
   return 0;
 }
 

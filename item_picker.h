@@ -15,6 +15,7 @@ class ItemPicker {
   void CoutBestItems();
   void CoutCharacterStats() const;
   float getBestValue() const { return value(m_c_curr); }
+  PriestCharacter getCharacter() { return m_c_curr; }
  private:
   Item PickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name = "") const;
   float value(const PriestCharacter& c) const;

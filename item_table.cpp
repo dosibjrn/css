@@ -94,6 +94,7 @@ std::string stamina_name = "stam";
 std::string spirit_name = "spirit";
 std::string sp_name = "sp";
 std::string sp_shadow_name = "sp_shadow";
+std::string mp5_name = "mp5";
 std::string sp_healing_name = "sp_healing";
 std::string spell_crit_name = "spell crit";
 std::string wand_dps_name = "wand dps";
@@ -158,6 +159,7 @@ void ItemTable::prepareColumnIndexes(const std::string& header_line)
   m_spirit_ix = IxFrom(splitted, spirit_name);
   m_sp_ix = IxFrom(splitted, sp_name);
   m_sp_shadow_ix = IxFrom(splitted, sp_shadow_name);
+  m_mp5_ix = IxFrom(splitted, mp5_name);
   m_sp_healing_ix = IxFrom(splitted, sp_healing_name);
 }
 
@@ -174,6 +176,7 @@ Item ItemTable::lineToItem(const std::string& line)
   i.spirit = FloatWithCheck(splitted, m_spirit_ix);
   i.sp = FloatWithCheck(splitted, m_sp_ix);
   i.sp_shadow = FloatWithCheck(splitted, m_sp_shadow_ix);
+  i.mp5 = FloatWithCheck(splitted, m_mp5_ix);
   i.sp_healing = FloatWithCheck(splitted, m_sp_healing_ix);
   return i;
 }

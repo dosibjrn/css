@@ -1,5 +1,6 @@
 #include "item_picker.h"
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -10,13 +11,41 @@
 namespace css
 {
 
+float ItemPicker::value(const PriestCharacter &c) const
+{
+  // Similar to what was done prev: dps*dps*ehp*emana
+  float dps = ShadowDps(c);
+  Stats s(c);
+  float duration = 100.0f;  // s
+  float fsr_frac = 2.0f/3.0f;
+  // float duration = 30.0f;  // s
+  // float fsr_frac = 2.5f/3.0f;
+ 
+  float emana = s.getEffectiveMana(duration, fsr_frac);
+  float ehp = s.getEffectiveHp();
+  return dps*dps*emana*ehp/1e12;
+}
+
+template<typename T>
+void Shuffle(std::vector<T>* v)
+{
+  int64_t s = v->size();
+  std::vector<int64_t> ixs;
+  for (int64_t i = 0; i < s; ++i) ixs.push_back(i); 
+  std::vector<T> tmp(s);
+  std::swap(tmp, *v);
+  for (int64_t i = 0; i < s; ++i) {
+    v->at(i) = tmp[ixs[i]];
+  }
+}
+
 ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name)
 {
   ItemTable item_table(item_table_name);
   bool static_for_all_slots = false;
   int max_iterations = 1000;
   m_c_curr = c;
-  const std::vector<std::string> slots = item_table.getItemSlots();
+  std::vector<std::string> slots = item_table.getItemSlots();
   for (const auto& slot : slots) {
     Item i;
     i.slot = slot;
@@ -28,6 +57,8 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name)
   bool verbose = true;
   while (!static_for_all_slots && iteration < max_iterations) {
     static_for_all_slots = true;
+    Shuffle(&slots);
+    // std::random_shuffle(slots.begin(), slots.end());
     for (const auto& slot : slots) {
       // TODO handle off hand etc separately
       if (slot == "one-hand" || slot == "main hand" || slot == "off hand") {
@@ -132,17 +163,7 @@ void ItemPicker::CoutCharacterStats() const
   s.CoutStats();
 }
 
-float ItemPicker::value(const PriestCharacter &c) const
-{
-  // Similar to what was done prev: dps*dps*ehp*emana
-  float dps = ShadowDps(c);
-  Stats s(c);
-  float duration = 100.0f;  // s
-  float fsr_frac = 2.0f/3.0f;
-  float emana = s.getEffectiveMana(duration, fsr_frac);
-  float ehp = s.getEffectiveHp();
-  return dps*dps*emana*ehp/1e12;
-}
+
 
 Item ItemPicker::PickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name) const
 {

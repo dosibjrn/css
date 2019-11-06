@@ -32,6 +32,7 @@ class ItemTable {
   int m_spirit_ix = -1;
   int m_sp_ix = -1;
   int m_sp_shadow_ix = -1;
+  int m_mp5_ix = -1;
   int m_sp_healing_ix = -1;
 };
 
