@@ -7,13 +7,14 @@
 #include <string>
 
 #include "dps.h"
+#include "hps.h"
 #include "item_table.h"
 #include "stats.h"
 
 namespace css
 {
 
-float ItemPicker::value(const PriestCharacter &c) const
+float ItemPicker::valuePvpShadow(const PriestCharacter& c) const
 {
   // Similar to what was done prev: dps*dps*ehp*emana
   float dps = ShadowDps(c);
@@ -26,6 +27,52 @@ float ItemPicker::value(const PriestCharacter &c) const
   float emana = s.getEffectiveMana(duration, fsr_frac);
   float ehp = s.getEffectiveHp();
   return dps*dps*emana*ehp/1e12;
+}
+
+float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
+{
+  // Similar to what was done prev: dps*dps*ehp*emana
+  float hps = HpsPvp(c);
+  Stats s(c);
+  float duration = 100.0f;  // s
+  float fsr_frac = 2.0f/3.0f;
+  // float duration = 30.0f;  // s
+  // float fsr_frac = 2.5f/3.0f;
+ 
+  float emana = s.getEffectiveMana(duration, fsr_frac);
+  float ehp = s.getEffectiveHp();
+  return hps*hps*emana*ehp/1e12;
+}
+
+float ItemPicker::valuePveHealing(const PriestCharacter& c) const
+{
+  int count = 0;
+  float hps_sum = 0.0f;
+  int n_combats = m_pve_healing_combat_lengths.size();
+  Stats stats(c);
+
+  auto muls = m_mana_to_regen_muls;
+  auto counts = bestCounts(c, m_curr_pve_healing_counts, &muls);
+  for (int i = 0; i < n_combats; ++i) {
+    float mana_to_regen = muls[i]*stats.getMaxMana();
+    hps_sum += Hps(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], mana_to_regen);
+    count++;
+  }
+  return hps_sum/count;
+}
+
+float ItemPicker::value(const PriestCharacter &c) const
+{
+  switch (m_value_choice) {
+    case ValueChoice::pvp_shadow :
+      return valuePvpShadow(c);
+    case ValueChoice::pvp_healing :
+      return valuePvpHealing(c);
+    case ValueChoice::pve_healing :
+      return valuePveHealing(c);
+    default:
+      return valuePvpShadow(c);
+  }
 }
 
 template<typename T>
@@ -44,21 +91,54 @@ void Shuffle(std::vector<T>* v)
   }
 }
 
-ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name)
+ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, ValueChoice value_choice)
   : m_c_in(c)
   , m_c_curr(c)
   , m_item_table_name(item_table_name)
+  , m_value_choice(value_choice)
 {
-  Recalculate();
+  if (m_value_choice == ValueChoice::pve_healing) {
+    int n_combats = m_pve_healing_combat_lengths.size();
+    m_curr_pve_healing_counts.resize(n_combats);
+    std::vector<float> init = {10.0, 5.0, 3.0, 3.0, 3.0, 1.0};
+    for (int i = 0; i < n_combats; ++i) {
+      m_curr_pve_healing_counts[i] = init;
+    }
+  }
+  // Calculate();
 }
 
-void ItemPicker::Recalculate()
+void ItemPicker::intermediateCout(int iteration)
 {
+  std::cout << "***** INTERMEDIATE RESULTS *****" << std::endl;
+  std::cout << "Iteration: " << iteration << std::endl;
+  CoutBestItems();
+  std::cout << "------------------" << std::endl;
+  std::cout << "Best value: " << getBestValue() << std::endl;
+  std::cout << "------------------" << std::endl;
+  std::cout << "Char stats: " << std::endl;
+  CoutCharacterStats();
+  auto c = getCharacter();
+  std::cout << "------------------" << std::endl;
+
+  std::cout << "Best counts:" << std::endl;
+  CoutBestCounts();
+  std::cout << "------------------" << std::endl;
+  std::cout << "~~~~ end of intermediate results ~~~~" << std::endl;
+
+}
+
+void ItemPicker::Calculate()
+{
+  auto t0 = std::chrono::high_resolution_clock::now();
   m_c_curr = m_c_in;
   m_items.clear();
   ItemTable item_table(m_item_table_name);
   int static_for_all_slots = 0;
   int max_iterations = 1000;
+  if (m_value_choice == ValueChoice::pve_healing) {
+    max_iterations = 2000;
+  }
   std::vector<std::string> slots = item_table.getItemSlots();
   for (const auto& slot : slots) {
     Item i;
@@ -66,18 +146,32 @@ void ItemPicker::Recalculate()
     m_items[slot] = i;
   }
 
-  float val_best = 0.0f;
-  std::map<std::string, Item> items_best;
-  PriestCharacter c_best;
+  m_val_best = 0.0f;
 
   int iteration = 0;
   bool verbose = false;
-  while (static_for_all_slots < 20 && iteration < max_iterations) {
+  int max_static_for_all_slots = 20;
+  while (static_for_all_slots < max_static_for_all_slots
+         && iteration < max_iterations) {
+    m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    bool disable_bans = false;
+    if (std::chrono::duration_cast<std::chrono::seconds>(t1 - t0).count() > 45.0) {
+      disable_bans = true;
+    }
+    if (std::chrono::duration_cast<std::chrono::seconds>(t1 - t0).count() > 60.0) {
+      t0 = t1;
+      intermediateCout(iteration);
+    }
     if (iteration % (max_iterations/50) == 0) {
       std::cout << ".";
       std::cout.flush();
     }
     static_for_all_slots++;
+    if (static_for_all_slots > max_static_for_all_slots/2) {
+      disable_bans = true;
+    }
     Shuffle(&slots);
     // std::random_shuffle(slots.begin(), slots.end());
     int slot_ix = 0;
@@ -98,7 +192,7 @@ void ItemPicker::Recalculate()
       } else if (slot == "trinket") {
         taken = m_items["trinket 2"].name;
       } else if (iteration < max_iterations/2 
-                 && (slot_ix % (iteration + 1 % slots.size()) == 0)) {
+                 && (slot_ix % (iteration + 1 % slots.size()) == 0) && !disable_bans) {
         taken = i_curr.name;
       }
       
@@ -173,13 +267,14 @@ void ItemPicker::Recalculate()
           }
         }
         float res_val = value(m_c_curr);
-        if (res_val > val_best) {
-          c_best = m_c_curr;
-          items_best = m_items;
-          val_best = res_val;
-          // if (verbose) {
+        if (res_val > m_val_best) {
+          m_c_best = m_c_curr;
+          m_items_best = m_items;
+          m_val_best = res_val;
+          m_pve_healing_counts_best = bestCounts(m_c_best, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
           if (1) {
-            std::cout << std::endl << "*** NEW BEST: " << val_best << " ***" << std::endl;
+            std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
+            CoutCurrentValues();
           }
         }
       }
@@ -189,9 +284,42 @@ void ItemPicker::Recalculate()
     // m_c_curr = c_best;
     iteration++;
   }
-  m_items = items_best;
-  m_c_curr = c_best;
+  m_items = m_items_best;
+  m_c_curr = m_c_best;
 }
+
+std::vector<std::vector<float>> ItemPicker::bestCounts(const PriestCharacter& c,
+                                                       const std::vector<std::vector<float>>& init_counts,
+                                                       std::vector<float>* mana_to_regen_muls) const
+{
+  std::vector<std::vector<float>> counts_out = init_counts;
+  int n_combats = m_pve_healing_combat_lengths.size();
+  Stats stats(c);
+  for (int combat_ix = 0; combat_ix < n_combats; ++combat_ix) {
+    counts_out[combat_ix]
+        = FindBestPveHealingCounts(c, init_counts[combat_ix], 
+                                   m_pve_healing_combat_lengths[combat_ix],
+                                   &((*mana_to_regen_muls)[combat_ix]));
+  }
+  return counts_out;
+}
+
+void ItemPicker::CoutBestCounts() const
+{
+  int n_combats = m_pve_healing_combat_lengths.size();
+  int n_spells = m_pve_healing_counts_best[0].size();
+  for (int combat_ix = 0; combat_ix < n_combats; combat_ix++) {
+    float dura = m_pve_healing_combat_lengths[combat_ix];
+    std::cout << "For " << dura << " fights:" << std::endl;
+    std::cout << "    mana_to_regen_mul: " << m_mana_to_regen_muls[combat_ix] << std::endl;
+    for (int spell_ix = 0; spell_ix < n_spells; spell_ix++) {
+      Spell s = IxToSpell(m_c_curr, spell_ix);
+      float count = m_pve_healing_counts_best[combat_ix][spell_ix];
+      std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
+    }
+  }
+}
+
 
 void ItemPicker::CoutBestItems()
 {
@@ -200,7 +328,7 @@ void ItemPicker::CoutBestItems()
     // "hands", "waist", "legs", "feet", "finger", "trinket"};
   // for (auto map_entry : m_items) {
   for (std::string slot : order) {
-    const Item &item = m_items[slot];
+    const Item &item = m_items_best[slot];
     std::cout << " ----------------------------" << std::endl;
     std::cout << " --- " << item.slot << " --- " << std::endl;
     coutItem(item);
@@ -209,8 +337,12 @@ void ItemPicker::CoutBestItems()
 
 void ItemPicker::CoutCharacterStats() const
 {
-  Stats s(m_c_curr);
+  Stats s(m_c_best);
   s.CoutStats();
+  std::cout << "HpsPvp: " << HpsPvp(m_c_curr) << std::endl;
+  std::cout << "ShadowDps: " << ShadowDps(m_c_curr) << std::endl;
+  std::cout << "Value pvp healing: " << valuePvpHealing(m_c_curr) << std::endl;
+  std::cout << "Value pvp shadow: " << valuePvpShadow(m_c_curr) << std::endl;
 }
 
 
@@ -246,6 +378,49 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     }
   }
   return best_item;
+}
+
+void ItemPicker::CoutCurrentValues() const
+{
+  int diff = 50;
+  PriestCharacter c = m_c_best;
+  float val_start = value(c); 
+  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing"};
+  std::vector<int*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing};
+  int n_vals = stat_names.size();
+  std::vector<float> val_results(n_vals);
+  for (int i = 0; i < n_vals; ++i) {
+    *(stat_ptrs[i]) += diff;
+    val_results[i] = value(c) - val_start;
+    c = m_c_curr;
+  }
+  int ref_ix = 4;
+  float normalization_ref_val = val_results[4];
+  float normalization_mul = 100.f/normalization_ref_val;
+  std::cout << "Current relative stat values for " << diff << " pt diff for each:" << std::endl;
+  std::vector<int> next_step_sizes(val_results.size());
+  for (int i = 0; i < n_vals; ++i) {
+    next_step_sizes[i] = normalization_ref_val/val_results[i]*diff;
+    if (val_results[i] == 0) {
+      next_step_sizes[i] = 1;
+    }
+    val_results[i] *= normalization_mul;
+    std::cout << stat_names[i] << ": " << val_results[i] << ", next step size: " << next_step_sizes[i] << std::endl;
+  }
+
+  // same normalization_ref_val, same normalization_mul
+  for (int i = 0; i < n_vals; ++i) {
+    *(stat_ptrs[i]) += next_step_sizes[i];
+    float result_rel = (value(c) - val_start)/(next_step_sizes[i]);
+    result_rel *= diff*normalization_mul;
+    c = m_c_curr;
+    std::cout << stat_names[i] << ": " << result_rel << std::endl;
+  }
+
+  
+  // take 20 of ref index and matching amount of everything else
+  // std::vector<float> val_results_relative(val_results.size());
+
 }
 
 }  // namespace css

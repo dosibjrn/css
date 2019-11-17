@@ -74,7 +74,7 @@ FightResult FightMob(const PriestCharacter& c, const std::vector<Spell>& spells,
         }
         if (damage > 0 && s.type == School::Shadow) {
           // add weave to damage if not dot - dot's handled later
-          if (!s.dot) {
+          if (!s.over_time) {
             damage = damage + damage*(weave*0.03f);
           }
           // increment weave
@@ -84,7 +84,7 @@ FightResult FightMob(const PriestCharacter& c, const std::vector<Spell>& spells,
         if (s.channeled) {
           damage *= s.num_ticks;
         }
-        if (!s.dot) {
+        if (!s.over_time) {
           mob_health -= damage;
           if (verbose) {
             if (s.channeled) {

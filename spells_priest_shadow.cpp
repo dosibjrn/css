@@ -1,25 +1,10 @@
 #include "spells_priest_shadow.h"
 
 #include "school.h"
+#include "spell_priest_modify.h"
 
 namespace css
 {
-
-float ModifiedShadow(const PriestCharacter& c, const Spell& s)
-{   
-  const auto& t = c.talents;
-  float damage = s.damage;
-  if (t.shadowform) {
-    damage *= 1.15f;
-  }
-  if (t.darkness) {
-    damage *= (1.0f+(0.02f*t.darkness));
-  }
-  damage += s.modifier * c.sp;
-  damage += s.modifier * c.sp_shadow;
-  return damage;
-}
-
 
 // https://www.reddit.com/r/classicwow/comments/95abc8/list_of_spellcoefficients_1121/
 // for modifiers
@@ -28,6 +13,7 @@ Spell MindBlast(const PriestCharacter& c, int rank)
 {
   auto &t = c.talents;
   Spell s;
+  s.name = "Mind Blast";
   s.type = School::Shadow;
   s.modifier = 0.4285f;
   s.cast_time = 1.5f;
@@ -85,17 +71,20 @@ Spell MindBlast(const PriestCharacter& c, int rank)
       break;
   }
 
-  s.damage = ModifiedShadow(c, s);
+  ModifySpell(c, &s);
   return s;
 }
 
 Spell Swp(const PriestCharacter&c, int rank)
 {
   Spell s;
+  s.name = "Shadow Word: Pain";
+  s.over_time = true;
+  s.instant = true;
   s.type = School::Shadow;
   s.modifier = 1.0f/6.0f;
   s.cast_time = 1.5f;
-  s.dot = true;
+  s.over_time = true;
   s.can_crit = false;
 
   switch(rank) {
@@ -145,7 +134,7 @@ Spell Swp(const PriestCharacter&c, int rank)
       break;
   }
 
-  s.damage = ModifiedShadow(c, s);
+  ModifySpell(c, &s);
   s.tick_after = 3.0f;
   s.num_ticks = 6 + c.talents.imp_swp;
   return s;
@@ -154,6 +143,7 @@ Spell Swp(const PriestCharacter&c, int rank)
 Spell MindFlay(const PriestCharacter& c, int rank, int ticks)
 {
   Spell s;
+  s.name = "Mind Flay";
   s.type = School::Shadow;
   s.modifier = 0.45f/3.0f;
   s.cast_time = 1.0f*ticks;
@@ -195,11 +185,10 @@ Spell MindFlay(const PriestCharacter& c, int rank, int ticks)
       break;
   }
 
-  s.damage = ModifiedShadow(c, s);
+  ModifySpell(c, &s);
   s.tick_after = 1.0f;
   s.num_ticks = ticks;
   s.channeled = true;
-  // std::cout << "Flay rank: " << rank << ", dama: " << s.damage << ", cost: " << s.cost << std::endl;
   return s;
 }
 
@@ -207,7 +196,6 @@ Spell VampiricEmbrace()
 {
   Spell s;
   s.cost = 40;
-  // std::cout << "Check VampiricEmbrace impl." << std::endl;
   return s;
 }
 
@@ -217,8 +205,7 @@ Spell TouchOfWeakness(const PriestCharacter& c, int rank) {
   // Rank 5
   s.cost = 145;
   s.damage = 48;
-  s.damage = ModifiedShadow(c, s);
-  // std::cout << "Check TouchOfWeakness impl." << std::endl;
+  ModifySpell(c, &s);
   return s;
 }
 

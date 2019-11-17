@@ -26,6 +26,7 @@ void Stats::CoutStats() const
   std::cout << "Mp5: " << c_.mp5 << std::endl;
   std::cout << "Sp: " << c_.sp << std::endl;
   std::cout << "Sp shadow: " << c_.sp_shadow << std::endl;
+  std::cout << "Sp healing: " << c_.sp_healing << std::endl;
 }
 
 }  // namespace css
