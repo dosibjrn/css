@@ -247,7 +247,8 @@ float FindBestManaToRegenMul(const PriestCharacter& c,
                              float combat_length, 
                              float init_mana_to_regen_mul)
 {
-  // return init_mana_to_regen_mul;
+  // TODO this until this is fixed...
+  return init_mana_to_regen_mul;
   float best_mul = init_mana_to_regen_mul;
   Stats stats(c);
   float best_score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
