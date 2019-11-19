@@ -100,7 +100,7 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   if (m_value_choice == ValueChoice::pve_healing) {
     int n_combats = m_pve_healing_combat_lengths.size();
     m_curr_pve_healing_counts.resize(n_combats);
-    std::vector<float> init = {10.0, 5.0, 3.0, 3.0, 3.0, 1.0};
+    std::vector<float> init = {10.0, 5.0, 3.0, 3.0, 3.0, 0.0};
     for (int i = 0; i < n_combats; ++i) {
       m_curr_pve_healing_counts[i] = init;
     }
@@ -128,6 +128,35 @@ void ItemPicker::intermediateCout(int iteration)
 
 }
 
+bool SameItems(const std::map<std::string, Item>& a, const std::map<std::string, Item>& b) {
+  int a_size = a.size();
+  int b_size = b.size();
+
+  if (a_size != b_size) {
+    return false;
+  }
+
+
+  std::vector<std::string> names_a;
+  std::vector<std::string> names_b;
+  for (auto entry : a) {
+    names_a.push_back(entry.second.name);
+  }
+  for (auto entry : b) {
+    names_b.push_back(entry.second.name);
+  }
+  std::sort(names_a.begin(), names_a.end());
+  std::sort(names_b.begin(), names_b.end());
+  for (int i = 0; i < a_size; ++i) {
+    if (names_a[i] != names_b[i]) {
+      std::cout << "namea: " << names_a[i] << ", nameb: " << names_b[i] << std::endl;
+      return false;
+    }
+  }
+  return true;
+}
+
+
 void ItemPicker::Calculate()
 {
   auto t0 = std::chrono::high_resolution_clock::now();
@@ -136,8 +165,10 @@ void ItemPicker::Calculate()
   ItemTable item_table(m_item_table_name);
   int static_for_all_slots = 0;
   int max_iterations = 1000;
+  int n_dots = 50;
   if (m_value_choice == ValueChoice::pve_healing) {
     max_iterations = 2000;
+    n_dots = max_iterations;
   }
   std::vector<std::string> slots = item_table.getItemSlots();
   for (const auto& slot : slots) {
@@ -150,7 +181,7 @@ void ItemPicker::Calculate()
 
   int iteration = 0;
   bool verbose = false;
-  int max_static_for_all_slots = 20;
+  constexpr int max_static_for_all_slots = 20;
   while (static_for_all_slots < max_static_for_all_slots
          && iteration < max_iterations) {
     m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
@@ -163,8 +194,14 @@ void ItemPicker::Calculate()
     if (std::chrono::duration_cast<std::chrono::seconds>(t1 - t0).count() > 60.0) {
       t0 = t1;
       intermediateCout(iteration);
+      if (SameItems(m_items_prev_intermediate_results, m_items_best)) {
+        std::cout << "Same items for intermediate results again, ending optimization. " << std::endl;
+        break;
+      }
+      m_items_prev_intermediate_results = m_items_best;
+      static_for_all_slots = 0;
     }
-    if (iteration % (max_iterations/50) == 0) {
+    if (iteration % (max_iterations/n_dots) == 0) {
       std::cout << ".";
       std::cout.flush();
     }

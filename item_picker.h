@@ -56,10 +56,12 @@ private:
   std::vector<float> m_mana_to_regen_muls =               {0.1f,   0.1f,   0.1f,   0.1f,   0.1f};
   // const std::vector<float> m_pve_healing_combat_lengths = {60.0f, 120.0f, 180.0f};
 
+
   PriestCharacter m_c_best;
   std::vector<std::vector<float>> m_pve_healing_counts_best;
   float m_val_best;
   std::map<std::string, Item> m_items_best;
+  std::map<std::string, Item> m_items_prev_intermediate_results;
 
   ValueChoice m_value_choice = ValueChoice::pvp_shadow;
 };

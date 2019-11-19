@@ -248,12 +248,12 @@ float FindBestManaToRegenMul(const PriestCharacter& c,
                              float init_mana_to_regen_mul)
 {
   // TODO this until this is fixed...
-  return init_mana_to_regen_mul;
+  // return 0.5f;
   float best_mul = init_mana_to_regen_mul;
   Stats stats(c);
   float best_score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
                          stats.getMaxMana()*best_mul);
-  for (float mul = 0.0f; mul <= 0.95f; mul += 0.01f) {
+  for (float mul = 0.0f; mul <= 0.95f; mul += 0.1f) {
     float score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
                          stats.getMaxMana()*mul);
     if (score > best_score) {
@@ -261,14 +261,17 @@ float FindBestManaToRegenMul(const PriestCharacter& c,
       best_score = score;
     }
   }
-  std::cout << "combat_length: " << combat_length
-      << "best_mul: " << best_mul
-      << ", spell counts: "
-      << spell_counts[0] << " " << spell_counts[1] << " "
-      << spell_counts[2] << " " << spell_counts[3] << " "
-      << spell_counts[4] << " " << spell_counts[5] << "/"
-      << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)
-      << ", score: " << best_score << std::endl;
+  bool verbose = false;
+  if (verbose) {
+    std::cout << "combat_length: " << combat_length
+        << "best_mul: " << best_mul
+        << ", spell counts: "
+        << spell_counts[0] << " " << spell_counts[1] << " "
+        << spell_counts[2] << " " << spell_counts[3] << " "
+        << spell_counts[4] << " " << spell_counts[5] << "/"
+        << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)
+        << ", score: " << best_score << std::endl;
+  }
   return best_mul;
 }
 
@@ -287,10 +290,14 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
   float best_score = Hps(c, PveHealingSequence(c, best_spell_counts), combat_length,
                          stats.getMaxMana()*(*mana_to_regen_mul));
   bool converged = false;
+  constexpr float poh_max_freq = 0.0f;
+  // spell_counts[poh_ix] = std::min(spell_counts[poh_ix], 
+                                  // poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f));
   while (!converged) {
     auto counts_at_start = best_spell_counts;
     auto mul_at_start = *mana_to_regen_mul;
-    *mana_to_regen_mul = FindBestManaToRegenMul(c, spell_counts, combat_length, *mana_to_regen_mul);
+    float mtr_mul = FindBestManaToRegenMul(c, spell_counts, combat_length, mul_at_start);
+    
     // Maybe search for best mana to regen mul on each score call? More robust steps if perf problem?
     for (int ix = 0; ix < n_spell_types; ++ix) {
       float score = 0.0f;
@@ -302,13 +309,19 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         if (spell_counts[ix] > 100.0f) {
           break;
         }
-        if (ix == poh_ix) {
-          if (spell_counts[ix] > 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
-            break;
-          }
-        }
-        score = Hps(c, PveHealingSequence(c, spell_counts), combat_length, stats.getMaxMana()*(*mana_to_regen_mul));
-        if (spell_counts[poh_ix] > 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
+        // if (ix == poh_ix) {
+          // if (spell_counts[ix] > poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
+            // spell_counts[ix] -= 1.0f;
+            // if (spell_counts[ix] < 0) {
+              // spell_counts[ix] = 0;
+            // }
+            // break;
+          // }
+        // }
+
+        mtr_mul = FindBestManaToRegenMul(c, spell_counts, combat_length, mtr_mul);
+        score = Hps(c, PveHealingSequence(c, spell_counts), combat_length, stats.getMaxMana()*mtr_mul);
+        if (spell_counts[poh_ix] > poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
           score = 0.0f;
         }
         if (score >= best_score) {
@@ -321,6 +334,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
           }
           best_spell_counts = spell_counts;
           best_score = score;
+          *mana_to_regen_mul = mtr_mul;
         }
       } while (score >= best_score);
 
@@ -335,8 +349,9 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         if (std::accumulate(spell_counts.begin(), (spell_counts.end() - 1), 0.0f) < 1.0f) {
           break;
         }
-        score = Hps(c, PveHealingSequence(c, spell_counts), combat_length, stats.getMaxMana()*(*mana_to_regen_mul));
-        if (spell_counts[poh_ix] > 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
+        mtr_mul = FindBestManaToRegenMul(c, spell_counts, combat_length, mtr_mul);
+        score = Hps(c, PveHealingSequence(c, spell_counts), combat_length, stats.getMaxMana()*mtr_mul);
+        if (spell_counts[poh_ix] > poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
           score = 0.0f;
         }
         if (score >= best_score) {
@@ -349,6 +364,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
           }
           best_spell_counts = spell_counts;
           best_score = score;
+          *mana_to_regen_mul = mtr_mul;
         }
       } while (score >= best_score);
     }
@@ -356,7 +372,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
     for (int ix = 0; ix < n_spell_types; ++ix) {
       same &= best_spell_counts[ix] == counts_at_start[ix];
     }
-    // same &= mul_at_start == *mana_to_regen_mul;
+    same &= mul_at_start == *mana_to_regen_mul;
     converged = same;
   }
   return best_spell_counts;
