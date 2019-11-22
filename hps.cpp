@@ -1,6 +1,7 @@
 #include "hps.h"
 
 #include <cassert>
+#include <chrono>
 #include <iostream>
 #include <numeric>
 
@@ -320,6 +321,12 @@ float FindBestManaToRegenMul(const PriestCharacter& c,
   return best_mul;
 }
 
+namespace globals
+{
+  std::chrono::time_point<std::chrono::system_clock> first_call_start;
+  double find_best_pve_healing_counts_time_sum = 0.0;
+  int64_t visit_count = 0;
+}  // namespace globals
 
 
 std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c, 
@@ -327,6 +334,10 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
                                               float combat_length,
                                               float *mana_to_regen_mul)
 {
+  auto t0 = std::chrono::system_clock::now();
+  if (globals::find_best_pve_healing_counts_time_sum == 0.0f) {
+    globals::first_call_start = std::chrono::system_clock::now();
+  }
   bool verbose = false;
   int n_spell_types = 6;
   std::vector<float> spell_counts = initial_spell_counts;
@@ -422,6 +433,18 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
     same &= mul_at_start == *mana_to_regen_mul;
     converged = same;
   }
+
+  auto t1 = std::chrono::system_clock::now();
+  double this_round_s = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count()*1e-9;
+  globals::find_best_pve_healing_counts_time_sum += this_round_s;
+
+  bool cout_time = globals::visit_count++ % 1000 == 0;
+  if (cout_time) {
+    double total_s = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - globals::first_call_start).count()*1e-9;
+    std::cout << "[Perf] spent in FindBestPveHealingCounts: " << globals::find_best_pve_healing_counts_time_sum << " s";
+    std::cout << ", that's: " << globals::find_best_pve_healing_counts_time_sum/total_s << " \% of total." << std::endl;
+  }
+
   return best_spell_counts;
 }
 
