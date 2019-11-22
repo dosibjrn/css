@@ -242,7 +242,7 @@ std::vector<Spell> PveHealingSequence(const PriestCharacter& c, const std::vecto
 }
 
 
-float FindBestManaToRegenMul(const PriestCharacter& c, 
+float FindBestManaToRegenMulOld(const PriestCharacter& c, 
                              const std::vector<float>& spell_counts, 
                              float combat_length, 
                              float init_mana_to_regen_mul)
@@ -274,6 +274,53 @@ float FindBestManaToRegenMul(const PriestCharacter& c,
   }
   return best_mul;
 }
+
+float FindBestManaToRegenMul(const PriestCharacter& c, 
+                             const std::vector<float>& spell_counts, 
+                             float combat_length, 
+                             float init_mana_to_regen_mul)
+{
+  float best_mul = init_mana_to_regen_mul;
+  Stats stats(c);
+  float best_score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
+                         stats.getMaxMana()*best_mul);
+  float step_size = 0.1f;
+  for (float mul = best_mul; mul <= 0.95f; mul += step_size) {
+    float score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
+                         stats.getMaxMana()*mul);
+    if (score > best_score) {
+      best_mul = mul;
+      best_score = score;
+    } else {
+      break;
+    }
+  }
+
+  for (float mul = best_mul; mul >= 0.0f; mul -= step_size) {
+    float score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
+                         stats.getMaxMana()*mul);
+    if (score > best_score) {
+      best_mul = mul;
+      best_score = score;
+    } else {
+      break;
+    }
+  }
+  bool verbose = false;
+  if (verbose) {
+    std::cout << "combat_length: " << combat_length
+        << "best_mul: " << best_mul
+        << ", spell counts: "
+        << spell_counts[0] << " " << spell_counts[1] << " "
+        << spell_counts[2] << " " << spell_counts[3] << " "
+        << spell_counts[4] << " " << spell_counts[5] << "/"
+        << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)
+        << ", score: " << best_score << std::endl;
+  }
+  return best_mul;
+}
+
+
 
 std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c, 
                                               const std::vector<float>& initial_spell_counts,
