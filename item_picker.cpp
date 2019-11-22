@@ -181,10 +181,15 @@ void ItemPicker::Calculate()
 
   int iteration = 0;
   bool verbose = false;
-  constexpr int max_static_for_all_slots = 20;
+  constexpr int max_static_for_all_slots = 10;
+  const int max_iters_without_new_best = max_iterations/10;
+  int iters_without_new_best = 0;
   while (static_for_all_slots < max_static_for_all_slots
-         && iteration < max_iterations) {
-    m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
+         && iteration < max_iterations
+         && iters_without_new_best < max_iters_without_new_best) {
+    if (m_value_choice == ValueChoice::pve_healing) {
+      m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
+    }
 
     auto t1 = std::chrono::high_resolution_clock::now();
     bool disable_bans = false;
@@ -206,6 +211,7 @@ void ItemPicker::Calculate()
       std::cout.flush();
     }
     static_for_all_slots++;
+    iters_without_new_best++;
     if (static_for_all_slots > max_static_for_all_slots/2) {
       disable_bans = true;
     }
@@ -305,10 +311,13 @@ void ItemPicker::Calculate()
         }
         float res_val = value(m_c_curr);
         if (res_val > m_val_best) {
+          iters_without_new_best = 0;
           m_c_best = m_c_curr;
           m_items_best = m_items;
           m_val_best = res_val;
-          m_pve_healing_counts_best = bestCounts(m_c_best, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
+          if (m_value_choice == ValueChoice::pve_healing) {
+            m_pve_healing_counts_best = bestCounts(m_c_best, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
+          }
           if (1) {
             std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
             // CoutCurrentValues();
@@ -344,16 +353,18 @@ std::vector<std::vector<float>> ItemPicker::bestCounts(const PriestCharacter& c,
 
 void ItemPicker::CoutBestCounts() const
 {
-  int n_combats = m_pve_healing_combat_lengths.size();
-  int n_spells = m_pve_healing_counts_best[0].size();
-  for (int combat_ix = 0; combat_ix < n_combats; combat_ix++) {
-    float dura = m_pve_healing_combat_lengths[combat_ix];
-    std::cout << "For " << dura << " fights:" << std::endl;
-    std::cout << "    mana_to_regen_mul: " << m_mana_to_regen_muls[combat_ix] << std::endl;
-    for (int spell_ix = 0; spell_ix < n_spells; spell_ix++) {
-      Spell s = IxToSpell(m_c_curr, spell_ix);
-      float count = m_pve_healing_counts_best[combat_ix][spell_ix];
-      std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
+  if (m_value_choice == ValueChoice::pve_healing) {
+    int n_combats = m_pve_healing_combat_lengths.size();
+    int n_spells = m_pve_healing_counts_best[0].size();
+    for (int combat_ix = 0; combat_ix < n_combats; combat_ix++) {
+      float dura = m_pve_healing_combat_lengths[combat_ix];
+      std::cout << "For " << dura << " fights:" << std::endl;
+      std::cout << "    mana_to_regen_mul: " << m_mana_to_regen_muls[combat_ix] << std::endl;
+      for (int spell_ix = 0; spell_ix < n_spells; spell_ix++) {
+        Spell s = IxToSpell(m_c_curr, spell_ix);
+        float count = m_pve_healing_counts_best[combat_ix][spell_ix];
+        std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
+      }
     }
   }
 }

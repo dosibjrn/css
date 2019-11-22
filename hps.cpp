@@ -281,6 +281,7 @@ float FindBestManaToRegenMul(const PriestCharacter& c,
                              float combat_length, 
                              float init_mana_to_regen_mul)
 {
+  return 0.5f;
   float best_mul = init_mana_to_regen_mul;
   Stats stats(c);
   float best_score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
@@ -289,7 +290,7 @@ float FindBestManaToRegenMul(const PriestCharacter& c,
   for (float mul = best_mul; mul <= 0.95f; mul += step_size) {
     float score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
                          stats.getMaxMana()*mul);
-    if (score > best_score) {
+    if (score >= best_score) {
       best_mul = mul;
       best_score = score;
     } else {
@@ -300,7 +301,7 @@ float FindBestManaToRegenMul(const PriestCharacter& c,
   for (float mul = best_mul; mul >= 0.0f; mul -= step_size) {
     float score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
                          stats.getMaxMana()*mul);
-    if (score > best_score) {
+    if (score >= best_score) {
       best_mul = mul;
       best_score = score;
     } else {
@@ -334,6 +335,11 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
                                               float combat_length,
                                               float *mana_to_regen_mul)
 {
+  bool quick = true;
+  if (quick) {
+    *mana_to_regen_mul = 0.0f;
+    return {25,5,5,0,4,0};
+  }
   auto t0 = std::chrono::system_clock::now();
   if (globals::find_best_pve_healing_counts_time_sum == 0.0f) {
     globals::first_call_start = std::chrono::system_clock::now();
@@ -367,22 +373,12 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         if (spell_counts[ix] > 100.0f) {
           break;
         }
-        // if (ix == poh_ix) {
-          // if (spell_counts[ix] > poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
-            // spell_counts[ix] -= 1.0f;
-            // if (spell_counts[ix] < 0) {
-              // spell_counts[ix] = 0;
-            // }
-            // break;
-          // }
-        // }
-
         mtr_mul = FindBestManaToRegenMul(c, spell_counts, combat_length, mtr_mul);
         score = Hps(c, PveHealingSequence(c, spell_counts), combat_length, stats.getMaxMana()*mtr_mul);
         if (spell_counts[poh_ix] > poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
           score = 0.0f;
         }
-        if (score >= best_score) {
+        if (score > best_score) {
           if (verbose) {
             std::cout << "new best sequence for combat_length: " << combat_length << ", score: " << score << ", counts: "
                 << spell_counts[0] << " " << spell_counts[1] << " "
@@ -393,8 +389,10 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
           best_spell_counts = spell_counts;
           best_score = score;
           *mana_to_regen_mul = mtr_mul;
+        } else {
+          break;
         }
-      } while (score >= best_score);
+      } while (1);
 
 
       // Try finding better sequence by decreasing count for spell
@@ -412,7 +410,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         if (spell_counts[poh_ix] > poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
           score = 0.0f;
         }
-        if (score >= best_score) {
+        if (score > best_score) {
           if (verbose) {
             std::cout << "new best sequence for combat_length: " << combat_length << ", score: " << score << ", counts: "
                 << spell_counts[0] << " " << spell_counts[1] << " "
@@ -423,8 +421,10 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
           best_spell_counts = spell_counts;
           best_score = score;
           *mana_to_regen_mul = mtr_mul;
+        } else {
+          break;
         }
-      } while (score >= best_score);
+      } while (1);
     }
     bool same = true;
     for (int ix = 0; ix < n_spell_types; ++ix) {
