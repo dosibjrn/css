@@ -9,8 +9,9 @@ namespace css
 
 int PveHealingItemPicking(int argc, char** argv)
 {
-  PriestCharacter c = BaseLvl60UdShadow();
+  // PriestCharacter c = BaseLvl60UdShadow();
   // PriestCharacter c = BaseLvl60UdPvpHealing();
+  PriestCharacter c = BaseLvl60HolyDiscHealing();
   if (argc < 3) {
     std::cout << "Please give file name for PvpHealingItemPicking." << std::endl;
     return -1;
@@ -49,6 +50,7 @@ int PveHealingItemPicking(int argc, char** argv)
   std::cout << "Best counts:" << std::endl;
   ip.CoutBestCounts();
   std::cout << "------------------" << std::endl;
+  ip.CoutCurrentValuesAlt();
  
   return 0;
 }

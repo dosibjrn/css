@@ -5,14 +5,15 @@ namespace css
 
 void ModifySpell(const PriestCharacter& c, Spell* s)
 {
+  float bonus_sp = c.talents.spiritual_guidance*0.05*c.spirit;
   if (s->shield > 0.0f) {
-    s->shield += (c.sp + c.sp_healing)*s->modifier;
+    s->shield += (c.sp + c.sp_healing + bonus_sp)*s->modifier;
   }
   if (s->healing > 0.0f) {
-    s->healing += (c.sp + c.sp_healing)*s->modifier;
+    s->healing += (c.sp + c.sp_healing + bonus_sp)*s->modifier;
   }
   if (s->damage > 0.0f) {
-    s->damage += c.sp*s->modifier;
+    s->damage += (c.sp + bonus_sp) * s->modifier;
     if (s->type == School::Shadow) {
       s->damage += c.sp_shadow*s->modifier;
     }

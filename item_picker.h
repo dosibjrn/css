@@ -23,6 +23,7 @@ class ItemPicker {
   void CoutBestItems();
   void CoutCharacterStats() const;
   void CoutCurrentValues() const;
+  void CoutCurrentValuesAlt() const;
   void CoutBestCounts() const;
 
   std::vector<Item> getBestItems() const;

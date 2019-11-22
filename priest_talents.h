@@ -13,6 +13,7 @@ struct PriestTalents {
   int imp_renew = 0;
   int divine_fury = 0;
   int spiritual_healing = 0;
+  int spiritual_guidance = 0;
   int improved_healing = 0;
 
   // Shadow

@@ -311,7 +311,8 @@ void ItemPicker::Calculate()
           m_pve_healing_counts_best = bestCounts(m_c_best, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
           if (1) {
             std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
-            CoutCurrentValues();
+            // CoutCurrentValues();
+            CoutCurrentValuesAlt();
           }
         }
       }
@@ -415,6 +416,43 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     }
   }
   return best_item;
+}
+
+void ItemPicker::CoutCurrentValuesAlt() const
+{
+  int diff = 50;
+  PriestCharacter c = m_c_best;
+  float val_start = value(c); 
+  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing"};
+  std::vector<int*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing};
+  int n_vals = stat_names.size();
+  int ref_ix = 4;
+
+
+  *(stat_ptrs[ref_ix]) += diff;
+  float ref_val_diff = value(c) - val_start;
+
+  std::cout << "Current relative stat values for matching or exceeding +" << diff << " pts of " << stat_names[ref_ix] //
+      << std::endl;
+  std::vector<float> matching_diffs(n_vals);
+  for (int i = 0; i < n_vals; ++i) {
+    c = m_c_best;
+    float diff_required = 0.0f;
+    while (1) {
+      diff_required++;
+      *(stat_ptrs[i]) += 1.0f;
+      float val = value(c);
+      if (val - val_start >= ref_val_diff) {
+        break;
+      }
+      if (diff_required > diff && val <= val_start) {
+        diff_required = 1e20;
+        break;
+      }
+    }
+    float relative_value = diff/diff_required*100.0f;
+    std::cout << stat_names[i] << ": " << relative_value << std::endl;
+  }
 }
 
 void ItemPicker::CoutCurrentValues() const
