@@ -37,5 +37,6 @@ PriestCharacter PaistiLvl60PvPShadowRaid1();
 PriestCharacter BaseLvl60UdShadow();
 PriestCharacter BaseLvl60UdShadowEnchanted();
 PriestCharacter BaseLvl60HolyDiscHealing();
+PriestCharacter BaseLvl60DiscHolyPvpHealing();
 
 }  // namespace css

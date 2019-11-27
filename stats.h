@@ -11,7 +11,7 @@ class Stats {
   void CoutStats() const;
   float getMaxMana() const
   {
-    return 15.0f*c_.intelligence+c_.base_mana;
+    return 15.0f*c_.intelligence+c_.base_mana*(1.0f + c_.talents.mental_strength*0.02f);
   }
 
   float getManaRegenTickOutOfFsr() const

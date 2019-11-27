@@ -5,6 +5,7 @@ namespace css
 
 void ModifySpell(const PriestCharacter& c, Spell* s)
 {
+  s->cost *= 1.0f - (c.talents.mental_agility * 0.02f);
   float bonus_sp = c.talents.spiritual_guidance*0.05*c.spirit;
   if (s->shield > 0.0f) {
     s->shield += (c.sp + c.sp_healing + bonus_sp)*s->modifier;

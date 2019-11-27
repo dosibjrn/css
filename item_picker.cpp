@@ -184,19 +184,18 @@ void ItemPicker::Calculate()
   constexpr int max_static_for_all_slots = 10;
   const int max_iters_without_new_best = max_iterations/10;
   int iters_without_new_best = 0;
-  while (static_for_all_slots < max_static_for_all_slots
+  bool disable_bans = false;
+  while ((static_for_all_slots < max_static_for_all_slots
          && iteration < max_iterations
-         && iters_without_new_best < max_iters_without_new_best) {
+         && iters_without_new_best < max_iters_without_new_best)
+         || !disable_bans) {
     if (m_value_choice == ValueChoice::pve_healing) {
       m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
     }
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    bool disable_bans = false;
-    if (std::chrono::duration_cast<std::chrono::seconds>(t1 - t0).count() > 45.0) {
-      disable_bans = true;
-    }
-    if (std::chrono::duration_cast<std::chrono::seconds>(t1 - t0).count() > 60.0) {
+
+    if (std::chrono::duration_cast<std::chrono::seconds>(t1 - t0).count() > 60.0 && disable_bans) {
       t0 = t1;
       intermediateCout(iteration);
       if (SameItems(m_items_prev_intermediate_results, m_items_best)) {
@@ -206,15 +205,19 @@ void ItemPicker::Calculate()
       m_items_prev_intermediate_results = m_items_best;
       static_for_all_slots = 0;
     }
+
+    disable_bans = false;
+    if (std::chrono::duration_cast<std::chrono::seconds>(t1 - t0).count() > 45.0
+        || static_for_all_slots > max_static_for_all_slots/2
+        || iters_without_new_best > max_iters_without_new_best/2) {
+      disable_bans = true;
+    }
     if (iteration % (max_iterations/n_dots) == 0) {
       std::cout << ".";
       std::cout.flush();
     }
     static_for_all_slots++;
     iters_without_new_best++;
-    if (static_for_all_slots > max_static_for_all_slots/2) {
-      disable_bans = true;
-    }
     Shuffle(&slots);
     // std::random_shuffle(slots.begin(), slots.end());
     int slot_ix = 0;
@@ -252,14 +255,15 @@ void ItemPicker::Calculate()
         std::vector<Item> main_hand_items = item_table.getItems("main hand");
         std::vector<Item> one_hand_items = item_table.getItems("one-hand");
         main_hand_items.insert(main_hand_items.begin(), one_hand_items.begin(), one_hand_items.end());
-        if (iteration < max_iterations/2) {
+        if (iteration < max_iterations/2 && !disable_bans) {
           taken = m_items["main hand"].name;
         }
         Item best_main_hand_item = pickBest(c_empty_hands, no_item, main_hand_items, taken);
 
         std::vector<Item> off_hand_items = item_table.getItems("off hand");
-        if (iteration < max_iterations/2) {
+        if (iteration < max_iterations/2 && !disable_bans) {
           taken = m_items["off hand"].name;
+          std::cout << "off hand item: " << taken << " is taken." << std::endl;
         }
  
         Item best_off_hand_item = pickBest(c_empty_hands, no_item, off_hand_items, taken);
@@ -273,20 +277,28 @@ void ItemPicker::Calculate()
         addItem(best_two_hand_item, &c_two_hand);
         float val_two_hand = value(c_two_hand);
 
-        if (val_two_hand > val_main_and_off) {
+        if (val_two_hand > val_main_and_off || isLocked(best_two_hand_item.name)) {
           m_c_curr = c_two_hand;
           m_items["two-hand"] = best_two_hand_item;
           m_items["one-hand"] = no_item;
           m_items["main hand"] = no_item;
           m_items["off hand"] = no_item;
-        } else {
+          std::cout << "!!!!! picked two hand:" << best_two_hand_item.name << std::endl;
+        } 
+        if ((val_two_hand <= val_main_and_off || isLocked(best_main_hand_item.name) || isLocked(best_off_hand_item.name))
+            && !isLocked(best_two_hand_item.name)) {
           m_c_curr = c_main_and_off;
           m_items["two-hand"] = no_item;
           m_items["one-hand"] = no_item;
           m_items["main hand"] = best_main_hand_item;
           m_items["off hand"] = best_off_hand_item;
+          std::cout << "!!!!! picked main hand:" << best_main_hand_item.name << std::endl;
+          std::cout << "off hand: " << best_off_hand_item.name << std::endl;
+          std::cout << "isLocked: " << isLocked(best_main_hand_item.name) << std::endl;
+          std::cout << "disable_bans: " << disable_bans << std::endl;
+          std::cout << "val_main_and_off: " << val_main_and_off << std::endl;
         }
-      } else {
+      } else { // if not two hand
         // if (verbose) {
           // std::cout << " *********** " << std::endl;
           // coutItem(i_curr);
@@ -309,26 +321,25 @@ void ItemPicker::Calculate()
             std::cout << " -> " << curr_val << std::endl;
           }
         }
-        float res_val = value(m_c_curr);
-        if (res_val > m_val_best) {
-          iters_without_new_best = 0;
-          m_c_best = m_c_curr;
-          m_items_best = m_items;
-          m_val_best = res_val;
-          if (m_value_choice == ValueChoice::pve_healing) {
-            m_pve_healing_counts_best = bestCounts(m_c_best, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
-          }
-          if (1) {
-            std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
-            // CoutCurrentValues();
-            CoutCurrentValuesAlt();
-          }
+      }
+      float res_val = value(m_c_curr);
+      if (res_val > m_val_best) {
+        iters_without_new_best = 0;
+        m_c_best = m_c_curr;
+        m_items_best = m_items;
+        m_val_best = res_val;
+        if (m_value_choice == ValueChoice::pve_healing) {
+          m_pve_healing_counts_best = bestCounts(m_c_best, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
+        }
+        if (1) {
+          std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
+          // CoutCurrentValues();
+          if (disable_bans) CoutCurrentValuesAlt();
         }
       }
       slot_ix++;
     }  // for slots
-    // m_items = items_best;
-    // m_c_curr = c_best;
+
     iteration++;
   }
   m_items = m_items_best;
@@ -407,7 +418,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   float best_value = value(c_no_item);
   for (const Item& item : items_for_slot) {
   // set char to state without item
-    if (item.name == taken_name) {
+    if (item.name == taken_name && !isLocked(taken_name)) {
       continue;
     }
     PriestCharacter c_tmp = c_no_item;

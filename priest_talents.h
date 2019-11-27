@@ -8,6 +8,8 @@ struct PriestTalents {
   int meditation = 0;
   int mental_agility = 0;
   int wand_specialization = 0;
+  int mental_strength = 0;
+  int power_infusion = 0;
 
   // Holy
   int imp_renew = 0;

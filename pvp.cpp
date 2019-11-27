@@ -243,8 +243,10 @@ int PvpItemPicking(int argc, char** argv)
 
 int PvpHealingItemPicking(int argc, char** argv)
 {
-  PriestCharacter c = BaseLvl60UdShadow();
+  // PriestCharacter c = BaseLvl60UdShadow();
   // PriestCharacter c = BaseLvl60UdPvpHealing();
+  auto c = BaseLvl60DiscHolyPvpHealing();
+  // auto c = BaseLvl60HolyDiscHealing();
   if (argc < 3) {
     std::cout << "Please give file name for PvpHealingItemPicking." << std::endl;
     return -1;

@@ -34,6 +34,7 @@ int main(int argc, char** argv)
       std::cout << "       2 := pvp item picking, second arg for item table file name" << std::endl;
       std::cout << "       3 := pvp healing item picking, second arg for item table file name" << std::endl;
       std::cout << "       4 := healing item picking, second arg for item table file name. 2, 4 and 6 minute fights." << std::endl;
+      std::cout << "            third arg for banned, fourth arg for locked" << std::endl;
       break;
   }
   return 0;

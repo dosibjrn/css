@@ -11,7 +11,21 @@ int PveHealingItemPicking(int argc, char** argv)
 {
   // PriestCharacter c = BaseLvl60UdShadow();
   // PriestCharacter c = BaseLvl60UdPvpHealing();
-  PriestCharacter c = BaseLvl60HolyDiscHealing();
+  // PriestCharacter c = BaseLvl60HolyDiscHealing();
+
+  // with pi
+  // 2 min quick: 323.284 
+  // 2-6 min quick: 231.412
+  // 2 min non-quick: 347.104
+  // 2-6 min non-quick: 264.283
+  // Welp, seems like superior spec tbh
+  auto c = BaseLvl60DiscHolyPvpHealing();
+
+  // 2 min quick: 319.056
+  // 2-6 min quick: 232.87
+  // 2 min non-quick: 334.77
+  // 2-6 min non-quick: 259.014
+  // auto c = BaseLvl60HolyDiscHealing();  
   if (argc < 3) {
     std::cout << "Please give file name for PvpHealingItemPicking." << std::endl;
     return -1;

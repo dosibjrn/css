@@ -53,7 +53,8 @@ private:
   PriestCharacter m_c_curr;
   std::string m_item_table_name;
   std::vector<std::vector<float>> m_curr_pve_healing_counts;
-  const std::vector<float> m_pve_healing_combat_lengths = {120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
+  // const std::vector<float> m_pve_healing_combat_lengths = {120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
+  const std::vector<float> m_pve_healing_combat_lengths = {120.0f};
   std::vector<float> m_mana_to_regen_muls =               {0.0f,   0.0f,   0.0f,   0.0f,   0.0f};
   // const std::vector<float> m_pve_healing_combat_lengths = {60.0f, 120.0f, 180.0f};
 
