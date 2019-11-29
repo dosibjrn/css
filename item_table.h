@@ -12,9 +12,9 @@ namespace css
 class ItemTable {
  public:
   ItemTable(std::string csv_file_name);
-  std::vector<Item> getItems(const std::string& slot);
-  std::vector<Item> getItems(const std::vector<std::string>& slots);
-  std::vector<std::string> getItemSlots();
+  std::vector<Item> getItems(const std::string& slot) const;
+  std::vector<Item> getItems(const std::vector<std::string>& slots) const;
+  std::vector<std::string> getItemSlots() const;
 
  private:
   void prepareSlotMap();

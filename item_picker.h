@@ -3,6 +3,7 @@
 #include <map>
 
 #include "item.h"
+#include "item_table.h"
 #include "priest_character.h"
 
 namespace css
@@ -17,14 +18,18 @@ class ItemPicker {
   };
   ItemPicker(const PriestCharacter& c, std::string item_table_name, ValueChoice value_choice = ValueChoice::pvp_shadow);
   void AddLocked(std::string s) { m_locked[s] = true; }
+  void ClearLocked() { m_locked.clear(); }
   void AddBanned(std::string s) { m_banned[s] = true; }
   void Calculate();
+  void PickBestForSlots(const ItemTable &item_table, bool disable_bans, int iteration, int max_iterations, //
+                        int* static_for_all_slots, int* iters_without_new_best);
 
   void CoutBestItems();
   void CoutCharacterStats() const;
   void CoutCurrentValues() const;
   void CoutCurrentValuesAlt() const;
   void CoutBestCounts() const;
+  void CoutDiffsToStart() const;
 
   std::vector<Item> getBestItems() const;
   float getBestValue() const { return m_val_best; }
@@ -53,17 +58,20 @@ private:
   PriestCharacter m_c_curr;
   std::string m_item_table_name;
   std::vector<std::vector<float>> m_curr_pve_healing_counts;
-  // const std::vector<float> m_pve_healing_combat_lengths = {120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
-  const std::vector<float> m_pve_healing_combat_lengths = {120.0f};
-  std::vector<float> m_mana_to_regen_muls =               {0.0f,   0.0f,   0.0f,   0.0f,   0.0f};
+  std::vector<std::vector<float>> m_best_pve_healing_counts;
+  const std::vector<float> m_pve_healing_combat_lengths = {120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
+  // const std::vector<float> m_pve_healing_combat_lengths = {120.0f};
   // const std::vector<float> m_pve_healing_combat_lengths = {60.0f, 120.0f, 180.0f};
+  std::vector<float> m_mana_to_regen_muls =               {0.0f,   0.0f,   0.0f,   0.0f,   0.0f};
+  std::vector<float> m_best_mana_to_regen_muls =               {0.0f,   0.0f,   0.0f,   0.0f,   0.0f};
 
 
   PriestCharacter m_c_best;
   std::vector<std::vector<float>> m_pve_healing_counts_best;
-  float m_val_best;
+  float m_val_best = 0.0f;
   std::map<std::string, Item> m_items_best;
   std::map<std::string, Item> m_items_prev_intermediate_results;
+  std::map<std::string, Item> m_items_start;
 
   ValueChoice m_value_choice = ValueChoice::pvp_shadow;
 };

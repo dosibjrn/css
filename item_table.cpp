@@ -27,17 +27,17 @@ ItemTable::ItemTable(std::string csv_file_name)
   m_items[m_slots["finger 2"]] = m_items[m_slots["finger"]];
 }
 
-std::vector<Item> ItemTable::getItems(const std::string& slot)
+std::vector<Item> ItemTable::getItems(const std::string& slot) const
 {
   std::vector<Item> items;
   if (m_slots.find(slot) != m_slots.end()) {
-    auto added = m_items[m_slots[slot]];
+    const auto& added = m_items.at(m_slots.at(slot));
     items.insert(items.begin(), added.begin(), added.end());
   }
   return items;
 }
 
-std::vector<Item> ItemTable::getItems(const std::vector<std::string>& slots)
+std::vector<Item> ItemTable::getItems(const std::vector<std::string>& slots) const
 {
   std::vector<Item> items;
   for (auto slot : slots) {
@@ -48,10 +48,10 @@ std::vector<Item> ItemTable::getItems(const std::vector<std::string>& slots)
 }
 
 
-std::vector<std::string> ItemTable::getItemSlots()
+std::vector<std::string> ItemTable::getItemSlots() const
 {
   std::vector<std::string> slots;
-  for (auto entry : m_slots) {
+  for (const auto entry : m_slots) {
     slots.push_back(entry.first);
   }
   return slots;
