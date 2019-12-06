@@ -1,6 +1,8 @@
 #pragma once
 
+#include <algorithm>
 #include <map>
+#include <random>
 
 #include "item.h"
 #include "item_table.h"
@@ -51,6 +53,21 @@ private:
   bool isLocked(std::string s) const { return m_locked.find(s) != m_locked.end(); }
   bool isBanned(std::string s) const { return m_banned.find(s) != m_banned.end(); }
 
+  template<typename T>
+      void shuffle(std::vector<T>* v)
+      {
+        int64_t s = v->size();
+        std::vector<int64_t> ixs;
+        for (int64_t i = 0; i < s; ++i) ixs.push_back(i); 
+
+        std::shuffle(ixs.begin(), ixs.end(), m_generator);
+        std::vector<T> tmp(s);
+        std::swap(tmp, *v);
+        for (int64_t i = 0; i < s; ++i) {
+          v->at(i) = tmp[ixs[i]];
+        }
+      }
+
   std::map<std::string, Item> m_items;
   std::map<std::string, bool> m_locked;
   std::map<std::string, bool> m_banned;
@@ -71,6 +88,8 @@ private:
   std::map<std::string, Item> m_items_best;
   std::map<std::string, Item> m_items_prev_intermediate_results;
   std::map<std::string, Item> m_items_start;
+
+  std::default_random_engine m_generator;
 
   ValueChoice m_value_choice = ValueChoice::pvp_shadow;
 };

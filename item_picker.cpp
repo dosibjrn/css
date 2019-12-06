@@ -1,10 +1,8 @@
 #include "item_picker.h"
 
-#include <algorithm>
 #include <chrono>
 #include <fstream>
 #include <iostream>
-#include <random>
 #include <string>
 #include <sstream>
 
@@ -77,21 +75,6 @@ float ItemPicker::value(const PriestCharacter &c) const
   }
 }
 
-template<typename T>
-void Shuffle(std::vector<T>* v)
-{
-  int64_t s = v->size();
-  std::vector<int64_t> ixs;
-  for (int64_t i = 0; i < s; ++i) ixs.push_back(i); 
-
-  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-  std::shuffle(ixs.begin(), ixs.end(), std::default_random_engine(seed));
-  std::vector<T> tmp(s);
-  std::swap(tmp, *v);
-  for (int64_t i = 0; i < s; ++i) {
-    v->at(i) = tmp[ixs[i]];
-  }
-}
 
 ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, ValueChoice value_choice)
   : m_c_in(c)
@@ -99,6 +82,14 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   , m_item_table_name(item_table_name)
   , m_value_choice(value_choice)
 {
+  unsigned my_seed = std::chrono::system_clock::now().time_since_epoch().count();
+  // unsigned my_seed = 123456789;
+  my_seed = 99851579;
+  std::cout << "Shuffle seed: " << my_seed << std::endl;
+
+
+  m_generator.seed(my_seed);
+
   if (m_value_choice == ValueChoice::pve_healing) {
     int n_combats = m_pve_healing_combat_lengths.size();
     m_curr_pve_healing_counts.resize(n_combats);
@@ -172,7 +163,7 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
     }
   }
   bool verbose = false;
-  Shuffle(&slots);
+  shuffle(&slots);
   int slot_ix = 0;
   for (const auto& slot : slots) {
     // TODO handle off hand etc separately
@@ -523,8 +514,9 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     }
     if (isLocked(item.name)) {
       if (!locked_seen) {
-        best_value = value(c_no_item);
+        best_value = 0.0f;
         best_item = no_item;
+        if (verbose) std::cout << "First locked -> No item value: " << best_value << std::endl;
       }
       locked_seen = true;
     }
@@ -545,6 +537,11 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
 
     } else {
       if (verbose) std::cout << item.name << " val: " << val << " is not new best, best is: " << best_item.name << " with val: " << best_value  << std::endl;
+    }
+  }
+  if (verbose && locked_seen && best_item.name != "dragon finger of intellect") {
+    for (int i = 0; i < 10; ++i) {
+      std::cout << "!!!!!!!!!!!!! B O O M !!!!!!!!!!" << std::endl;
     }
   }
   return best_item;

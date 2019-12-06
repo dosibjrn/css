@@ -99,6 +99,7 @@ float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, fl
       pi_end = time + 15.0f;
       time += 1.5f;
       mana -= 0.2*c.base_mana;
+      std::cout << "Pi started, time: " << time << ", pi_end: " << pi_end << ", mana: " << mana << std::endl;
     }
 
     Spell spell = spell_sequence[ix];
@@ -107,12 +108,13 @@ float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, fl
       spell.healing *= 1.2;
       ix--;
     }
-    float heal_sum_start = heal_sum;
     if (spell.cost > mana) {
       bool break_main_loop = false;
       while (mana < std::max(spell.cost, mana_to_regen)) {
         time += 2.0f;
+        float pre = heal_sum;
         HandleHots(time, &hots, &heal_sum);
+        if (heal_sum > pre) std::cout << "hots while regen, sum: " << heal_sum << ", mana: " << mana << ", spell.cost: " << spell.cost << ", mana_to_regen: " << mana_to_regen << ", time: " << time << std::endl;
         in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
         if (time >= end_at_s) {
           break_main_loop = true;
@@ -139,9 +141,12 @@ float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, fl
     if (!spell.over_time) {
       heal_sum += spell.healing;
       heal_sum += spell.shield;
+      std::cout << "spell: " << spell.name << ", sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
     }
 
+    float pre = heal_sum;
     HandleHots(time, &hots, &heal_sum);
+    if (heal_sum > pre) std::cout << "hots, sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
     in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
     if (time >= end_at_s) {
       break;
@@ -151,10 +156,24 @@ float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, fl
       ix = 0;
     }
   }
-  float from_rem_mana = RemainingManaAsHealing(c, in_full_regen, mana);
-  std::cout << "mana: " << mana << ", in_full_regen: " << in_full_regen << ", from_rem_mana: " << from_rem_mana << ", heal_sum: " << heal_sum << " -> ";
-  heal_sum += 0.1*from_rem_mana;  // We want some benefit from excess mana, it should not reward too much though
-  std::cout << heal_sum << std::endl;
+
+  float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana);
+
+  if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
+    pi_end = time + 15.0f;
+    in_full_regen -= 1.5f;
+    mana -= 0.2*c.base_mana;
+  }
+
+  float from_rem_mana_b = RemainingManaAsHealing(c, in_full_regen, mana);
+  if (time < pi_end) {
+    from_rem_mana_b *= 1.2;
+  }
+  float from_rem_mana = std::max(from_rem_mana_a, from_rem_mana_b);
+  std::cout << "mana: " << mana << ", in_full_regen: " << in_full_regen << ", from_rem_mana_a: " << from_rem_mana_a
+      << ", from_rem_mana_b: " << from_rem_mana_b << ", heal_sum: " << heal_sum << " -> ";
+  heal_sum += from_rem_mana;  // We want some benefit from excess mana, it should not reward too much though
+  std::cout << heal_sum << ", time: " << time << ", hps: " << heal_sum/time << std::endl;
 
   return heal_sum/time;
 
