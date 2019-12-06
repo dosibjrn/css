@@ -20,6 +20,7 @@ int PveHealingItemPicking(int argc, char** argv)
   // 2 min non-quick new: 353.319
   // 2-6 min non-quick: 264.283
   // 2-6 min non-quick new: 272.15
+  // 2-6 min non-quick new: 272.582
   auto c = BaseLvl60DiscHolyPvpHealing();
 
   // 2 min quick: 319.056

@@ -37,6 +37,10 @@ int HandleManaRegen(float time, float last_cast_time, const Stats& stats, float*
     }
     (*regen_ticks)++;
   }
+
+  if (*mana > stats.getMaxMana()) {
+    *mana = stats.getMaxMana();
+  }
   return full_ticks;
 }
 
@@ -61,6 +65,8 @@ float RemainingManaAsHealing(const PriestCharacter& c, float in_full_regen, floa
 
 float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, float mana_to_regen)
 {
+
+
   std::vector<Spell> hots;
   float heal_sum = 0.0f;
   float time = 0.0f;
@@ -69,6 +75,16 @@ float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, fl
   Stats stats(c);
   float mana = stats.getMaxMana();
   float in_full_regen = 0.0f;
+
+  bool use_fixed_mana_with_mul = true;
+  if (use_fixed_mana_with_mul) {
+    float mul = mana_to_regen/mana;
+    mana_to_regen = mul*7000.0f;
+  }
+
+  if (mana_to_regen > mana) {
+    mana_to_regen = mana;
+  }
 
   float pi_end = -180.0f + 15.0f;
   if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f) {
@@ -79,7 +95,7 @@ float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, fl
 
   int ix = 0;
   while (1) {
-    if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f) {
+    if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
       pi_end = time + 15.0f;
       time += 1.5f;
       mana -= 0.2*c.base_mana;
@@ -88,20 +104,29 @@ float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, fl
     Spell spell = spell_sequence[ix];
     if (time + 3.0f < pi_end) {
       spell = GreaterHeal(c, -1);
+      spell.healing *= 1.2;
       ix--;
     }
     float heal_sum_start = heal_sum;
     if (spell.cost > mana) {
+      bool break_main_loop = false;
       while (mana < std::max(spell.cost, mana_to_regen)) {
         time += 2.0f;
         HandleHots(time, &hots, &heal_sum);
         in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
         if (time >= end_at_s) {
-          return heal_sum/time;
+          break_main_loop = true;
+          break;
         }
+      }
+      if (break_main_loop) {
+        break;
       }
     }
     mana -= spell.cost;
+    if (mana < 0) {
+      std::cout << "Went to negative mana with spell: " << spell.name << std::endl;
+    }
     time += spell.cast_time;
     last_cast_time = time;
     if (spell.instant) {
@@ -119,21 +144,20 @@ float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, fl
     HandleHots(time, &hots, &heal_sum);
     in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
     if (time >= end_at_s) {
-      float from_rem_mana = RemainingManaAsHealing(c, in_full_regen, mana);
-      // std::cout << "from_rem_mana: " << from_rem_mana << ", heal_sum: " << heal_sum << " -> " 
-          // << heal_sum + from_rem_mana << std::endl;
-      heal_sum += from_rem_mana; 
-
-      return heal_sum/time;
+      break;
     }
     ix++;
     if (ix >= static_cast<int>(spell_sequence.size())) {
       ix = 0;
     }
-    if (time <= pi_end) {
-      heal_sum += (heal_sum - heal_sum_start)* 0.2f;
-    }
   }
+  float from_rem_mana = RemainingManaAsHealing(c, in_full_regen, mana);
+  std::cout << "mana: " << mana << ", in_full_regen: " << in_full_regen << ", from_rem_mana: " << from_rem_mana << ", heal_sum: " << heal_sum << " -> ";
+  heal_sum += 0.1*from_rem_mana;  // We want some benefit from excess mana, it should not reward too much though
+  std::cout << heal_sum << std::endl;
+
+  return heal_sum/time;
+
 }
 
 float HpsPvp(const PriestCharacter& c)
@@ -498,6 +522,16 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
     double total_s = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - globals::first_call_start).count()*1e-9;
     std::cout << "[Perf] spent in FindBestPveHealingCounts: " << globals::find_best_pve_healing_counts_time_sum << " s";
     std::cout << ", that's: " << globals::find_best_pve_healing_counts_time_sum/total_s*100.0 << " \% of total." << std::endl;
+  }
+
+
+  bool cout_result = true;
+  if (cout_result) {
+    std::cout << "len: " << combat_length << ", c: "
+        << best_spell_counts[0] << " " << best_spell_counts[1] << " "
+        << best_spell_counts[2] << " " << best_spell_counts[3] << " "
+        << best_spell_counts[4] << " " << best_spell_counts[5]
+        << ", mul: " << *mana_to_regen_mul << ", s: " << best_score << std::endl;
   }
 #if 0
   // should not need this check...

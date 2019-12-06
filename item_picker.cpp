@@ -54,7 +54,7 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
   Stats stats(c);
 
   auto muls = m_mana_to_regen_muls;
-  auto counts = bestCounts(c, m_curr_pve_healing_counts, &muls);
+  auto counts = m_curr_pve_healing_counts;
   for (int i = 0; i < n_combats; ++i) {
     float mana_to_regen = muls[i]*stats.getMaxMana();
     hps_sum += Hps(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], mana_to_regen);
@@ -294,19 +294,23 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
     }
     float res_val = value(m_c_curr);
     if (res_val > m_val_best) {
-      *iters_without_new_best = 0;
-      m_c_best = m_c_curr;
-      m_items_best = m_items;
-      m_val_best = res_val;
-      m_best_pve_healing_counts = m_curr_pve_healing_counts;
-      m_best_mana_to_regen_muls = m_mana_to_regen_muls;
       if (m_value_choice == ValueChoice::pve_healing) {
-        m_pve_healing_counts_best = bestCounts(m_c_best, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
+        m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_mana_to_regen_muls);
+        res_val = value(m_c_curr);
       }
-      if (1) {
-        std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
-        // CoutCurrentValues();
-        if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValuesAlt();
+      if (res_val > m_val_best) {
+        *iters_without_new_best = 0;
+        m_c_best = m_c_curr;
+        m_items_best = m_items;
+        m_val_best = res_val;
+        m_best_mana_to_regen_muls = m_mana_to_regen_muls;
+        m_best_pve_healing_counts = m_curr_pve_healing_counts;
+
+        if (1) {
+          std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
+          // CoutCurrentValues();
+          if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValuesAlt();
+        }
       }
     }
     slot_ix++;
@@ -458,14 +462,14 @@ void ItemPicker::CoutBestCounts() const
 {
   if (m_value_choice == ValueChoice::pve_healing) {
     int n_combats = m_pve_healing_combat_lengths.size();
-    int n_spells = m_pve_healing_counts_best[0].size();
+    int n_spells = m_best_pve_healing_counts[0].size();
     for (int combat_ix = 0; combat_ix < n_combats; combat_ix++) {
       float dura = m_pve_healing_combat_lengths[combat_ix];
       std::cout << "For " << dura << " fights:" << std::endl;
       std::cout << "    mana_to_regen_mul: " << m_mana_to_regen_muls[combat_ix] << std::endl;
       for (int spell_ix = 0; spell_ix < n_spells; spell_ix++) {
         Spell s = IxToSpell(m_c_curr, spell_ix);
-        float count = m_pve_healing_counts_best[combat_ix][spell_ix];
+        float count = m_best_pve_healing_counts[combat_ix][spell_ix];
         std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
       }
     }
@@ -501,6 +505,7 @@ void ItemPicker::CoutCharacterStats() const
 
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name) const
 {
+  bool verbose = current_item.slot == "ranged";
   // create char without item
   PriestCharacter c_no_item = c;
   removeItem(current_item, &c_no_item);
@@ -508,15 +513,18 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   Item no_item;
   Item best_item = no_item;
   float best_value = value(c_no_item);
+  if (verbose) std::cout << "No item value: " << best_value << std::endl;
   bool locked_seen = false;
   for (const Item& item : items_for_slot) {
   // set char to state without item
     if (item.name == taken_name) {
+      if (verbose) std::cout << item.name << " taken." << std::endl;
       continue;
     }
     if (isLocked(item.name)) {
       if (!locked_seen) {
         best_value = value(c_no_item);
+        best_item = no_item;
       }
       locked_seen = true;
     }
@@ -530,8 +538,13 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     }
     if (val > best_value 
         && (!locked_seen || isLocked(item.name))) {
+      
+      if (verbose) std::cout << item.name << " val: " << val << " is new best, old was: " << best_item.name << " with val: " << best_value  << std::endl;
       best_value = val;
       best_item = item;
+
+    } else {
+      if (verbose) std::cout << item.name << " val: " << val << " is not new best, best is: " << best_item.name << " with val: " << best_value  << std::endl;
     }
   }
   return best_item;

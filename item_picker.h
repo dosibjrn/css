@@ -67,7 +67,6 @@ private:
 
 
   PriestCharacter m_c_best;
-  std::vector<std::vector<float>> m_pve_healing_counts_best;
   float m_val_best = 0.0f;
   std::map<std::string, Item> m_items_best;
   std::map<std::string, Item> m_items_prev_intermediate_results;
