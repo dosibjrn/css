@@ -98,6 +98,10 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
     for (int i = 0; i < n_combats; ++i) {
       m_curr_pve_healing_counts[i] = init;
     }
+    m_curr_regens.resize(n_combats);
+    for (Regen& regen : m_curr_regens) {
+      regen = Regen(10, 10);
+    }
   }
   // Calculate();
 }
@@ -437,12 +441,7 @@ std::vector<std::vector<float>> ItemPicker::bestCounts(const PriestCharacter& c,
                                                        const std::vector<std::vector<float>>& init_counts,
                                                        std::vector<Regen>* regens) const
 {
-  if (regens->size() != init_counts.size()) {
-    regens->resize(init_counts.size());
-    for (Regen& regen : *regens) {
-      regen = Regen(10, 10);
-    }
-  }
+
   std::vector<std::vector<float>> counts_out = init_counts;
   int n_combats = m_pve_healing_combat_lengths.size();
   Stats stats(c);

@@ -75,6 +75,7 @@ float HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_seq
   Stats stats(c);
   float mana = stats.getMaxMana();
   float in_full_regen = 0.0f;
+  bool verbose = false;
 
   float pi_end = -180.0f + 15.0f;
   if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f) {
@@ -93,7 +94,7 @@ float HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_seq
         time += 2.0f;
         float pre = heal_sum;
         HandleHots(time, &hots, &heal_sum);
-        if (heal_sum > pre) std::cout << "hots while regen, sum: " << heal_sum << ", mana: " << mana 
+        if (heal_sum > pre && verbose) std::cout << "hots while regen, sum: " << heal_sum << ", mana: " << mana 
           << ", time: " << time << ", tick: " << curr_tick << "/" << ticks << std::endl;
         in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
         if (time >= end_at_s) {
@@ -111,7 +112,7 @@ float HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_seq
       pi_end = time + 15.0f;
       time += 1.5f;
       mana -= 0.2*c.base_mana;
-      std::cout << "Pi started, time: " << time << ", pi_end: " << pi_end << ", mana: " << mana << std::endl;
+      if (verbose) std::cout << "Pi started, time: " << time << ", pi_end: " << pi_end << ", mana: " << mana << std::endl;
     }
 
     Spell spell = spell_sequence[ix];
@@ -126,7 +127,7 @@ float HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_seq
         time += 2.0f;
         float pre = heal_sum;
         HandleHots(time, &hots, &heal_sum);
-        if (heal_sum > pre) std::cout << "hots while regen, sum: " << heal_sum << ", mana: " << mana //
+        if (heal_sum > pre && verbose) std::cout << "hots while regen, sum: " << heal_sum << ", mana: " << mana //
           << ", spell.cost: " << spell.cost << ", time: " << time << std::endl;
         in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
         if (time >= end_at_s) {
@@ -139,7 +140,7 @@ float HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_seq
       }
     }
     mana -= spell.cost;
-    if (mana < 0) {
+    if (mana < 0 && verbose) {
       std::cout << "Went to negative mana with spell: " << spell.name << std::endl;
     }
     time += spell.cast_time;
@@ -154,12 +155,12 @@ float HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_seq
     if (!spell.over_time) {
       heal_sum += spell.healing;
       heal_sum += spell.shield;
-      std::cout << "spell: " << spell.name << ", sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
+      if (verbose) std::cout << "spell: " << spell.name << ", sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
     }
 
     float pre = heal_sum;
     HandleHots(time, &hots, &heal_sum);
-    if (heal_sum > pre) std::cout << "hots, sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
+    if (heal_sum > pre && verbose) std::cout << "hots, sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
     in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
     if (time >= end_at_s) {
       break;
@@ -183,10 +184,10 @@ float HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_seq
     from_rem_mana_b *= 1.2;
   }
   float from_rem_mana = std::max(from_rem_mana_a, from_rem_mana_b);
-  std::cout << "mana: " << mana << ", in_full_regen: " << in_full_regen << ", from_rem_mana_a: " << from_rem_mana_a
+  if (verbose) std::cout << "mana: " << mana << ", in_full_regen: " << in_full_regen << ", from_rem_mana_a: " << from_rem_mana_a
       << ", from_rem_mana_b: " << from_rem_mana_b << ", heal_sum: " << heal_sum << " -> ";
   heal_sum += from_rem_mana;  // We want some benefit from excess mana, it should not reward too much though
-  std::cout << heal_sum << ", time: " << time << ", hps: " << heal_sum/time << std::endl;
+  if (verbose) std::cout << heal_sum << ", time: " << time << ", hps: " << heal_sum/time << std::endl;
 
   return heal_sum/time;
 
