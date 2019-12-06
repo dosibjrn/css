@@ -313,6 +313,15 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
   // CoutDiffsToStart();
 }
 
+void SwapIfSame(Item best, Item* start_a, Item* start_b) {
+  if (start_a->name == best.name) {
+    auto t = *start_a;
+    *start_a = *start_b;
+    *start_b = t;
+  }
+
+}
+
 void ItemPicker::CoutDiffsToStart() const
 {
   float val = value(m_c_best);
@@ -320,19 +329,27 @@ void ItemPicker::CoutDiffsToStart() const
     "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
   std::cout << "Upgrades: " << std::endl;
   std::vector<std::pair<std::string, float>> diffs;
+  auto items_start = m_items_start;
+  SwapIfSame(m_items_best.at("finger 2"), &items_start["finger"], &items_start["finger 2"]);
+  SwapIfSame(m_items_best.at("finger"), &items_start["finger 2"], &items_start["finger"]);
+  SwapIfSame(m_items_best.at("trinket 2"), &items_start["trinket"], &items_start["trinket 2"]);
+  SwapIfSame(m_items_best.at("trinket"), &items_start["trinket 2"], &items_start["trinket"]);
+ 
   for (auto slot : order) {
     PriestCharacter c_tmp = m_c_best;
     try { 
       auto best_item = m_items_best.at(slot);
-      auto start_item = m_items_start.at(slot);
+      auto start_item = items_start.at(slot);
       removeItem(best_item, &c_tmp);
       float val_no_item = value(c_tmp);
       addItem(start_item, &c_tmp);
       float val_start = value(c_tmp);
       // std::cout << start_item.name << "(" << val_start - val_no_item << ") -> " << best_item.name << "(" << val - val_no_item << ") : " << val - val_start << std::endl;
-      std::stringstream ss;
-      ss << start_item.name << "(" << val_start - val_no_item << ") -> " << best_item.name << "(" << val - val_no_item << ") : " << val - val_start;
-      diffs.push_back(std::make_pair<std::string,float>(ss.str(), val - val_start));
+      if (best_item.name != "" || start_item.name != "") {
+        std::stringstream ss;
+        ss << start_item.name << "(" << val_start - val_no_item << ") -> " << best_item.name << "(" << val - val_no_item << ") : " << val - val_start;
+        diffs.push_back(std::make_pair<std::string,float>(ss.str(), val - val_start));
+      }
     } catch (const std::exception &e) {
       std::cout << "CoutDiffsToStart is probably missing entry for slot: " << slot << " : " << e.what() << std::endl;
     }
