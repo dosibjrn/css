@@ -7,9 +7,11 @@
 #include "item.h"
 #include "item_table.h"
 #include "priest_character.h"
+#include "regen.h"
 
 namespace css
 {
+
 
 class ItemPicker {
  public:
@@ -48,7 +50,7 @@ private:
 
   std::vector<std::vector<float>> bestCounts(const PriestCharacter& c,
                                             const std::vector<std::vector<float>>& init_counts,
-                                            std::vector<float> *mana_to_regen_muls) const;
+                                            std::vector<Regen> *regens) const;
 
   bool isLocked(std::string s) const { return m_locked.find(s) != m_locked.end(); }
   bool isBanned(std::string s) const { return m_banned.find(s) != m_banned.end(); }
@@ -79,9 +81,8 @@ private:
   const std::vector<float> m_pve_healing_combat_lengths = {120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
   // const std::vector<float> m_pve_healing_combat_lengths = {120.0f};
   // const std::vector<float> m_pve_healing_combat_lengths = {60.0f, 120.0f, 180.0f};
-  std::vector<float> m_mana_to_regen_muls =               {0.0f,   0.0f,   0.0f,   0.0f,   0.0f};
-  std::vector<float> m_best_mana_to_regen_muls =               {0.0f,   0.0f,   0.0f,   0.0f,   0.0f};
-
+  std::vector<Regen> m_curr_regens;
+  std::vector<Regen> m_best_regens;
 
   PriestCharacter m_c_best;
   float m_val_best = 0.0f;
