@@ -98,6 +98,9 @@ int PveHealingItemPicking(int argc, char** argv)
   ip.CoutBestCounts();
   std::cout << "------------------" << std::endl;
   ip.CoutCurrentValuesAlt();
+  std::cout << "------------------" << std::endl;
+  std::cout << "Diffs to start: " << std::endl;
+  ip.CoutDiffsToStart();
  
   return 0;
 }

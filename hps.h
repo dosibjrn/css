@@ -9,7 +9,7 @@
 namespace css
 {
 
-float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, float mana_to_regen);
+// float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, float mana_to_regen);
 float HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, Regen regen);
 float HpsPvp(const PriestCharacter& c);
 float HpsPve(const PriestCharacter& c, float combat_length);

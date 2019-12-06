@@ -502,7 +502,8 @@ void ItemPicker::CoutCharacterStats() const
 
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name) const
 {
-  bool verbose = current_item.slot == "ranged";
+  // bool verbose = current_item.slot == "ranged";
+  bool verbose = false;
   // create char without item
   PriestCharacter c_no_item = c;
   removeItem(current_item, &c_no_item);

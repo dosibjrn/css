@@ -328,7 +328,10 @@ float HpsPvp(const PriestCharacter& c)
   spells.push_back(FlashHeal(c, max_rank));
 
   Stats s(c);
-  return Hps(c, spells, 17.0f, 0.1f*s.getMaxMana());
+  Regen regen;
+  regen.casts = 100;
+  regen.ticks = 0;
+  return HpsWithRegen(c, spells, 17.0f, regen);
 }
 
 
@@ -751,7 +754,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
   }
 
 
-  bool cout_result = true;
+  bool cout_result = false;
   if (cout_result) {
     std::cout << "len: " << combat_length
         << ", ca: " << regen->casts << ", t: " << regen->ticks
