@@ -84,7 +84,10 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
 {
   unsigned my_seed = std::chrono::system_clock::now().time_since_epoch().count();
   // unsigned my_seed = 123456789;
-  my_seed = 99851579;
+  // my_seed = 99851579;
+  // 3574177442 // 271.771
+  // 4052265553 // 271.842
+  my_seed = 129990850; // 272.9
   std::cout << "Shuffle seed: " << my_seed << std::endl;
 
 

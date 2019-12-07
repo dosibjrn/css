@@ -19,8 +19,7 @@ int PveHealingItemPicking(int argc, char** argv)
   // 2 min non-quick: 347.104
   // 2 min non-quick new: 353.319
   // 2-6 min non-quick: 264.283
-  // 2-6 min non-quick new: 272.15
-  // 2-6 min non-quick new: 272.582
+  // 2-6 min non-quick new: 272.9
   auto c = BaseLvl60DiscHolyPvpHealing();
 
   // 2 min quick: 319.056
@@ -82,6 +81,8 @@ int PveHealingItemPicking(int argc, char** argv)
       ip.ClearLocked();
       std::cout << "Read starting items and cleared locks." << std::endl;
       ip.CoutBestItems();
+      std::cout << " --- And counts for start items ---" << std::endl;
+      ip.CoutBestCounts();
     }
   }
 
