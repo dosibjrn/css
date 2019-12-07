@@ -17,6 +17,7 @@ struct PriestTalents {
   int spiritual_healing = 0;
   int spiritual_guidance = 0;
   int improved_healing = 0;
+  int holy_specialization = 0;
 
   // Shadow
   int spirit_tap = 0;

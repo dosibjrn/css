@@ -204,6 +204,7 @@ PriestCharacter BaseLvl60HolyDiscHealing()
   c.talents.imp_renew = 3;
   c.talents.improved_healing = 3;
   c.talents.divine_fury = 5;
+  c.talents.holy_specialization = 5;
   return c;
 }
 
@@ -228,6 +229,7 @@ PriestCharacter BaseLvl60DiscHolyPvpHealing()
   c.talents.mental_agility = 5;
   c.talents.mental_strength = 5;
   c.talents.power_infusion = 1;
+  c.talents.holy_specialization = 3;
   return c;
 }
 

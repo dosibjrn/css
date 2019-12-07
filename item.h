@@ -19,6 +19,7 @@ struct Item {
   float sp_shadow = 0.0f;
   float sp_healing = 0.0f;
   float mp5 = 0.0f;
+  float spell_crit = 0.0f;
 };
 
 void coutItem(const Item& i);

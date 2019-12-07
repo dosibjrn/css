@@ -38,6 +38,16 @@ void ModifySpell(const PriestCharacter& c, Spell* s)
       s->damage *= 1.0f + 0.02f*c.talents.darkness;
     }
   }
+
+  // Crit
+  if (s->can_crit) {
+    float more_crit = 0.0f;
+    if (s->type == School::Holy) {
+      more_crit = c.talents.holy_specialization;
+    }
+    s->damage *= 1.0 + (0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
+    s->healing *= 1.0 + (0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
+  }
 }
 
 }  // namespace css

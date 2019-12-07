@@ -18,6 +18,7 @@ void coutItem(const Item& i)
   if (i.sp_shadow) std::cout << "sp_shadow: " << i.sp_shadow << std::endl;
   if (i.sp_healing) std::cout << "sp_healing: " << i.sp_healing << std::endl;
   if (i.mp5) std::cout << "mp5: " << i.mp5 << std::endl;
+  if (i.spell_crit) std::cout << "spell_crit: " << i.spell_crit << std::endl;
 }
 
 void addItem(const Item &i, PriestCharacter* c)
@@ -31,6 +32,7 @@ void addItem(const Item &i, PriestCharacter* c)
   c->sp_shadow += i.sp_shadow;
   c->sp_healing += i.sp_healing;
   c->mp5 += i.mp5;
+  c->spell_crit += i.spell_crit;
 }
 
 void removeItem(const Item &i, PriestCharacter* c)
@@ -44,6 +46,7 @@ void removeItem(const Item &i, PriestCharacter* c)
   c->sp_shadow -= i.sp_shadow;
   c->sp_healing -= i.sp_healing;
   c->mp5 -= i.mp5;
+  c->spell_crit -= i.spell_crit;
 }
 
 }  // namespace css

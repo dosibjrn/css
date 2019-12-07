@@ -15,8 +15,10 @@ Spell Shield(const PriestCharacter& c, int rank)
   }
   s.modifier = 0.1f;
   s.cast_time = 1.5f;
+  s.instant = true;
   s.cd = 4.0f;
   s.shield += s.modifier*(c.sp + c.sp_healing);
+  s.can_crit = false;
   return s;
 }
 

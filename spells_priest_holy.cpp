@@ -41,6 +41,8 @@ Spell FlashHeal(const PriestCharacter& c, int rank)
   s.cost = vals[rank][1];
   s.healing = 0.5f*(vals[rank][2] + vals[rank][3]);
   s.modifier = 0.4285f;
+  s.can_crit = true;
+  s.type = School::Holy;
 
   ModifySpell(c, &s);
   return s;
@@ -95,6 +97,8 @@ Spell Renew(const PriestCharacter& c, int rank)
   s.tick_after = 3.0f;
   s.modifier = 0.20f;
   s.healing *= 1.0f + c.talents.imp_renew*0.05;
+  s.can_crit = false;
+  s.type = School::Holy;
   ModifySpell(c, &s);
 
   return s;
@@ -119,6 +123,7 @@ Spell GreaterHeal(const PriestCharacter& c, int rank) {
   s.cost = vals[rank][1];
   s.healing = 0.5f*(vals[rank][2] + vals[rank][3]);
   s.modifier = s.cast_time/3.5f;
+  s.can_crit = true;
   ModifySpell(c, &s);
   return s;
 }
@@ -140,6 +145,8 @@ Spell Heal(const PriestCharacter& c, int rank) {
   s.cost = vals[rank][1];
   s.healing = 0.5f*(vals[rank][2] + vals[rank][3]);
   s.modifier = s.cast_time/3.5f;
+  s.can_crit = true;
+  s.type = School::Holy;
   ModifySpell(c, &s);
   return s;
 }
@@ -163,6 +170,8 @@ Spell PrayerOfHealing(const PriestCharacter& c, int rank, int targets)
   s.cost = vals[rank][1];
   s.healing = 0.5f*(vals[rank][2] + vals[rank][3])*targets;
   s.modifier = (s.cast_time/3.5f)/3.0f;
+  s.can_crit = true;
+  s.type = School::Holy;
   ModifySpell(c, &s);
   return s;
 }

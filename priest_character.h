@@ -22,6 +22,7 @@ struct PriestCharacter {
   int sp_shadow = 0;
   int sp_healing = 0;
   int mp5 = 0;
+  int spell_crit = 0;
   Wand wand;
   PriestTalents talents;
   std::vector<Spell> spells_sequence;

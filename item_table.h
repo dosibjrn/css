@@ -34,6 +34,7 @@ class ItemTable {
   int m_sp_shadow_ix = -1;
   int m_mp5_ix = -1;
   int m_sp_healing_ix = -1;
+  int m_spell_crit_ix = -1;
 };
 
 }  // namespace css

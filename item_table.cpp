@@ -161,6 +161,7 @@ void ItemTable::prepareColumnIndexes(const std::string& header_line)
   m_sp_shadow_ix = IxFrom(splitted, sp_shadow_name);
   m_mp5_ix = IxFrom(splitted, mp5_name);
   m_sp_healing_ix = IxFrom(splitted, sp_healing_name);
+  m_spell_crit_ix = IxFrom(splitted, spell_crit_name);
 }
 
 Item ItemTable::lineToItem(const std::string& line)
@@ -178,6 +179,7 @@ Item ItemTable::lineToItem(const std::string& line)
   i.sp_shadow = FloatWithCheck(splitted, m_sp_shadow_ix);
   i.mp5 = FloatWithCheck(splitted, m_mp5_ix);
   i.sp_healing = FloatWithCheck(splitted, m_sp_healing_ix);
+  i.spell_crit = FloatWithCheck(splitted, m_spell_crit_ix);
   return i;
 }
 

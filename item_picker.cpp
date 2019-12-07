@@ -87,7 +87,7 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   // my_seed = 99851579;
   // 3574177442 // 271.771
   // 4052265553 // 271.842
-  my_seed = 129990850; // 272.9
+  // my_seed = 129990850; // 272.9
   std::cout << "Shuffle seed: " << my_seed << std::endl;
 
 
@@ -522,7 +522,7 @@ void ItemPicker::CoutCharacterStats() const
 
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name) const
 {
-  // bool verbose = current_item.slot == "ranged";
+  // bool verbose = current_item.slot == "shoulders";
   bool verbose = false;
   // create char without item
   PriestCharacter c_no_item = c;
@@ -579,8 +579,8 @@ void ItemPicker::CoutCurrentValuesAlt() const
   int diff = 50;
   PriestCharacter c = m_c_best;
   float val_start = value(c); 
-  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing"};
-  std::vector<int*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing};
+  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing", "spell crit"};
+  std::vector<int*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing, &c.spell_crit};
   int n_vals = stat_names.size();
   int ref_ix = 4;
 
