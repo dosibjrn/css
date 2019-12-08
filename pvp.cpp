@@ -269,6 +269,9 @@ int PvpItemPicking(int argc, char** argv)
   std::cout << "Stat vals with this gear on:" << std::endl;
   PvpStats(c);
   std::cout << "------------------" << std::endl;
+  ip.CoutCurrentValuesAlt();
+  std::cout << "------------------" << std::endl;
+ 
   std::cout << "Diffs to start: " << std::endl;
   ip.CoutDiffsToStart();
  
@@ -355,6 +358,9 @@ int PvpHealingItemPicking(int argc, char** argv)
 
   std::cout << "Best counts:" << std::endl;
   ip.CoutBestCounts();
+  std::cout << "------------------" << std::endl;
+  ip.CoutCurrentValuesAlt();
+ 
   std::cout << "Diffs to start: " << std::endl;
   ip.CoutDiffsToStart();
   std::cout << "------------------" << std::endl;

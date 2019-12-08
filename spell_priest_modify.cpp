@@ -46,7 +46,8 @@ void ModifySpell(const PriestCharacter& c, Spell* s)
       more_crit = c.talents.holy_specialization;
     }
     s->damage *= 1.0 + (0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
-    s->healing *= 1.0 + (0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
+    float not_overhealing = 0.2f;
+    s->healing *= 1.0 + not_overhealing*(0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
   }
 }
 

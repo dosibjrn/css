@@ -49,6 +49,20 @@ void removeItem(const Item &i, PriestCharacter* c)
   c->spell_crit -= i.spell_crit;
 }
 
+void AddToItemWithMul(const Item& i, float mul, Item* o)
+{
+  o->strength += mul*i.strength;
+  o->agility += mul*i.agility;
+  o->intelligence += mul*i.intelligence;
+  o->stamina += mul*i.stamina;
+  o->spirit += mul*i.spirit;
+  o->sp += mul*i.sp;
+  o->sp_shadow += mul*i.sp_shadow;
+  o->sp_healing += mul*i.sp_healing;
+  o->mp5 += mul*i.mp5;
+  o->spell_crit += mul*i.spell_crit;
+}
+
 }  // namespace css
 
 

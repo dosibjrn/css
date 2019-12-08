@@ -20,11 +20,14 @@ struct Item {
   float sp_healing = 0.0f;
   float mp5 = 0.0f;
   float spell_crit = 0.0f;
+  bool unique = false;
 };
 
+// TODO: capitalization
 void coutItem(const Item& i);
 void addItem(const Item &i, PriestCharacter* c);
 void removeItem(const Item &i, PriestCharacter* c);
+void AddToItemWithMul(const Item& i, float mul, Item* o);
 
 }  // namespace css
 
