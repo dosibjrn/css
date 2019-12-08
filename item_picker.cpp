@@ -9,6 +9,7 @@
 #include "dps.h"
 #include "hps.h"
 #include "item_table.h"
+#include "item_operations.h"
 #include "stats.h"
 
 namespace css
@@ -198,10 +199,10 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
     if (slot == "two-hand") {
       Item best_two_hand_item = i_best;
       PriestCharacter c_empty_hands = m_c_curr;
-      removeItem(m_items["two-hand"], &c_empty_hands);
-      removeItem(m_items["one-hand"], &c_empty_hands);
-      removeItem(m_items["main hand"], &c_empty_hands);
-      removeItem(m_items["off hand"], &c_empty_hands);
+      RemoveItem(m_items["two-hand"], &c_empty_hands);
+      RemoveItem(m_items["one-hand"], &c_empty_hands);
+      RemoveItem(m_items["main hand"], &c_empty_hands);
+      RemoveItem(m_items["off hand"], &c_empty_hands);
 
       Item no_item;
       std::vector<Item> main_hand_items = item_table.getItems("main hand");
@@ -220,12 +221,12 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
       Item best_off_hand_item = pickBest(c_empty_hands, no_item, off_hand_items, taken);
 
       PriestCharacter c_main_and_off = c_empty_hands;
-      addItem(best_off_hand_item, &c_main_and_off);
-      addItem(best_main_hand_item, &c_main_and_off);
+      AddItem(best_off_hand_item, &c_main_and_off);
+      AddItem(best_main_hand_item, &c_main_and_off);
       float val_main_and_off = value(c_main_and_off);
 
       PriestCharacter c_two_hand = c_empty_hands;
-      addItem(best_two_hand_item, &c_two_hand);
+      AddItem(best_two_hand_item, &c_two_hand);
       float val_two_hand = value(c_two_hand);
 
       float prev_val = 0.0f;
@@ -266,8 +267,8 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
       if (disable_bans) {
         prev_val = value(m_c_curr);
         PriestCharacter changed = m_c_curr;
-        removeItem(i_curr, &changed);
-        addItem(i_best, &changed);
+        RemoveItem(i_curr, &changed);
+        AddItem(i_best, &changed);
         float post_val = value(changed);
         if (post_val > prev_val) {
           std::cout << slot << " : " << i_curr.name << " -> " << i_best.name << " => val: " << prev_val << " -> "
@@ -282,8 +283,8 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
 
         *static_for_all_slots = 0;
         m_items[slot] = i_best;
-        removeItem(i_curr, &m_c_curr);
-        addItem(i_best, &m_c_curr);
+        RemoveItem(i_curr, &m_c_curr);
+        AddItem(i_best, &m_c_curr);
         if (verbose) {
           float curr_val = value(m_c_curr);
           std::cout << " -> " << curr_val << std::endl;
@@ -343,9 +344,9 @@ void ItemPicker::CoutDiffsToStart() const
     try { 
       auto best_item = m_items_best.at(slot);
       auto start_item = items_start.at(slot);
-      removeItem(best_item, &c_tmp);
+      RemoveItem(best_item, &c_tmp);
       float val_no_item = value(c_tmp);
-      addItem(start_item, &c_tmp);
+      AddItem(start_item, &c_tmp);
       float val_start = value(c_tmp);
       // std::cout << start_item.name << "(" << val_start - val_no_item << ") -> " << best_item.name << "(" << val - val_no_item << ") : " << val - val_start << std::endl;
       if (best_item.name != "" || start_item.name != "") {
@@ -504,8 +505,11 @@ void ItemPicker::CoutBestItems()
     const Item &item = m_items_best[slot];
     std::cout << " ----------------------------" << std::endl;
     std::cout << " --- " << item.slot << " --- " << std::endl;
-    coutItem(item);
+    CoutItem(item);
   }
+  std::cout << " ----------------------------" << std::endl;
+  std::cout << " --- Set bonuses ---" << std::endl;
+  CoutItem(m_c_best.set_bonuses.getTotalBonus());
 }
 
 void ItemPicker::CoutCharacterStats() const
@@ -526,7 +530,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   bool verbose = false;
   // create char without item
   PriestCharacter c_no_item = c;
-  removeItem(current_item, &c_no_item);
+  RemoveItem(current_item, &c_no_item);
   // for each item
   Item no_item;
   Item best_item = no_item;
@@ -549,7 +553,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     }
     PriestCharacter c_tmp = c_no_item;
     // add effect of new item
-    addItem(item, &c_tmp);
+    AddItem(item, &c_tmp);
     // calculate objective function value
     float val = value(c_tmp);
     if (isBanned(item.name)) {

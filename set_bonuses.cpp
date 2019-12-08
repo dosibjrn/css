@@ -3,6 +3,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "item_operations.h"
+
 namespace css
 {
 
@@ -39,6 +41,8 @@ void SetBonuses::AddItem(const Item& item)
   if (set_name == "") {
     return;
   }
+  bool verbose = false;
+  if (verbose) std::cout << "adding " << item.name << " with set name: " << set_name << std::endl;
   if (m_sets.find(set_name) == m_sets.end()) {
     std::set<std::string> s;
     m_sets[set_name] = s;
@@ -48,6 +52,7 @@ void SetBonuses::AddItem(const Item& item)
   std::stringstream ss;
   ss << set_name << " " << items_of_set;
   std::string bonus_name = ss.str();
+  if (verbose) std::cout << "items_of_set: " << items_of_set << ", bonus_name: " << bonus_name << std::endl;
   if (globals::bonus_list.find(bonus_name) != globals::bonus_list.end()) {
     Item bonus = globals::bonus_list[bonus_name];
     m_bonus_names.insert(bonus_name);
@@ -56,6 +61,7 @@ void SetBonuses::AddItem(const Item& item)
       ss << t_bonus_name << " ";
     }
     m_total_bonus.name = ss.str();
+    if (verbose) CoutItem(bonus);
     AddToItemWithMul(bonus, 1.0f, &m_total_bonus);
   }
 }

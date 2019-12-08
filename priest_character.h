@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "priest_talents.h"
+#include "set_bonuses.h"
 #include "spell.h"
 #include "wand.h"
 
@@ -26,6 +27,7 @@ struct PriestCharacter {
   Wand wand;
   PriestTalents talents;
   std::vector<Spell> spells_sequence;
+  SetBonuses set_bonuses;
 };
 
 PriestCharacter PaistiLvl51();
