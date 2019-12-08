@@ -15,7 +15,35 @@ typedef std::map<std::string, Item> SetBonusListType;
 SetBonusListType getSetBonusList()
 {
   SetBonusListType bonus_list;
-  {
+  bool add_fake_devout = true;
+  if (add_fake_devout) {
+    {
+      Item i;
+      i.sp = 23*0.1;
+      i.name = "devout 1";
+      bonus_list[i.name] = i;
+    }
+
+    {
+      Item i;
+      i.sp = 23*0.1;
+      i.name = "devout 2";
+      bonus_list[i.name] = i;
+    }
+
+    {
+      Item i;
+      i.sp = 23*0.1;
+      i.name = "devout 3";
+      bonus_list[i.name] = i;
+    }
+    {
+      Item i;
+      i.sp = 23*0.7;
+      i.name = "devout 4";
+      bonus_list[i.name] = i;
+    }
+  } else {
     Item i;
     i.sp = 23;
     i.name = "devout 4";

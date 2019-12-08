@@ -44,16 +44,8 @@ int PveHealingItemPicking(int argc, char** argv)
       ip.AddBanned(line);
     }
   }
-  if (argc > 4) {
-    std::string fn = argv[4];
-    std::cout << "Reading locked from: " << fn << std::endl;
-    std::ifstream is(fn.c_str());
-    std::string line;
-    while(std::getline(is, line)) {
-      std::cout << "Locking: " << line << std::endl;
-      ip.AddLocked(line);
-    }
-  } else {
+
+  {
     bool got_something = false;
     std::string fn = "start_with.txt";
     std::cout << "Reading tmp locked from: " << fn << std::endl;
@@ -86,7 +78,18 @@ int PveHealingItemPicking(int argc, char** argv)
     }
   }
 
-  ip.Calculate();
+
+  if (argc > 4) {
+    std::string fn = argv[4];
+    std::cout << "Reading locked from: " << fn << std::endl;
+    std::ifstream is(fn.c_str());
+    std::string line;
+    while(std::getline(is, line)) {
+      std::cout << "Locking: " << line << std::endl;
+      ip.AddLocked(line);
+    }
+  }
+    ip.Calculate();
     
   ip.CoutBestItems();
   std::cout << "------------------" << std::endl;
