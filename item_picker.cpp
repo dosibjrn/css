@@ -352,6 +352,7 @@ void ItemPicker::CoutDiffsToStart() const
       if (best_item.name != "" || start_item.name != "") {
         std::stringstream ss;
         ss << start_item.name << "(" << val_start - val_no_item << ") -> " << best_item.name << "(" << val - val_no_item << ") : " << val - val_start;
+        ss << " = +" << 100.0f*(val - val_start)/val_start << "%";
         diffs.push_back(std::make_pair<std::string,float>(ss.str(), val - val_start));
       }
     } catch (const std::exception &e) {
