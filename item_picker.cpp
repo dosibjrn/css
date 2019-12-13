@@ -26,7 +26,8 @@ float ItemPicker::valuePvpShadow(const PriestCharacter& c) const
   // float fsr_frac = 2.5f/3.0f;
  
   float emana = s.getEffectiveMana(duration, fsr_frac);
-  float ehp = s.getEffectiveHp();
+  // float ehp = s.getEffectiveHp();
+  float ehp = s.getEffectiveHpPvp();
   return dps*dps*emana*ehp/1e12;
 }
 
@@ -41,7 +42,8 @@ float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
   // float fsr_frac = 2.5f/3.0f;
  
   float emana = s.getEffectiveMana(duration, fsr_frac);
-  float ehp = s.getEffectiveHp();
+  // float ehp = s.getEffectiveHp();
+  float ehp = s.getEffectiveHpPvp();
   return hps*hps*emana*ehp/1e12;
 }
 
@@ -581,15 +583,19 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
 
 void ItemPicker::CoutCurrentValuesAlt() const
 {
-  int diff = 50;
   PriestCharacter c = m_c_best;
   float val_start = value(c); 
-  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing", "spell crit"};
-  std::vector<int*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing, &c.spell_crit};
+  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing", "spell crit",
+    "spell hit",  "arcane res",  "nature res",  "fire res",  "frost res",  "shadow res",  "armor",  "defense",  "dodge",  "parry"};
+  std::vector<float*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing, &c.spell_crit,
+    &c.spell_hit, &c.arcane_res, &c.nature_res, &c.fire_res, &c.frost_res, &c.shadow_res, &c.armor, &c.defense, &c.dodge, &c.parry};
+  std::vector<float> steps =            {1,               1,         1,          1,      1,     1,            1,            1,
+    1,            10,            10,            10,          10,           10,            100,      1,          1,         1};
   int n_vals = stat_names.size();
   int ref_ix = 4;
 
 
+  int diff = 50*steps[ref_ix];
   *(stat_ptrs[ref_ix]) += diff;
   float ref_val_diff = value(c) - val_start;
 
@@ -599,19 +605,27 @@ void ItemPicker::CoutCurrentValuesAlt() const
   for (int i = 0; i < n_vals; ++i) {
     c = m_c_best;
     float diff_required = 0.0f;
+    int max_tries = 200;
+    float obtained_val_diff = 0.0f;
     while (1) {
-      diff_required++;
-      *(stat_ptrs[i]) += 1.0f;
+      diff_required += steps[i];
+      *(stat_ptrs[i]) += steps[i]*1.0f;
       float val = value(c);
       if (val - val_start >= ref_val_diff) {
+        obtained_val_diff = val - val_start;
         break;
       }
-      if (diff_required > diff && val <= val_start) {
+      if (diff_required/steps[i] > diff/steps[ref_ix] && val <= val_start) {
+        obtained_val_diff = val - val_start;
         diff_required = 1e20;
         break;
       }
+      if (diff_required/steps[i] > max_tries) {
+        obtained_val_diff = val - val_start;
+        break;
+      }
     }
-    float relative_value = diff/diff_required*100.0f;
+    float relative_value = obtained_val_diff/ref_val_diff*diff/diff_required*100.0f;
     std::cout << stat_names[i] << ": " << relative_value << std::endl;
   }
 }
@@ -622,7 +636,7 @@ void ItemPicker::CoutCurrentValues() const
   PriestCharacter c = m_c_best;
   float val_start = value(c); 
   std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing"};
-  std::vector<int*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing};
+  std::vector<float*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing};
   int n_vals = stat_names.size();
   std::vector<float> val_results(n_vals);
   for (int i = 0; i < n_vals; ++i) {

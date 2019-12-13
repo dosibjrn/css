@@ -41,4 +41,4 @@ int main(int argc, char** argv)
 }
 
 
-// TODO: consider dropping poh and opitmizing the mana_to_regen after oom
+// TODO: add armor and resistances to items and announced stats 

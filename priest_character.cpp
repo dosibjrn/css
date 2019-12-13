@@ -198,6 +198,10 @@ PriestCharacter BaseLvl60HolyDiscHealing()
   c.spirit = 130;
   c.base_mana = 1436.0f;
   c.base_hp = 1387.0f;
+
+  c.defense = 300;
+  c.armor = 3000;
+
   c.talents.meditation = 3;
   c.talents.spiritual_guidance = 5;
   c.talents.spiritual_healing = 5;
@@ -219,6 +223,10 @@ PriestCharacter BaseLvl60DiscHolyPvpHealing()
   c.spirit = 130;
   c.base_mana = 1436.0f;
   c.base_hp = 1387.0f;
+
+  c.defense = 300;
+  c.armor = 3000;
+
   c.talents.meditation = 3;
   c.talents.spiritual_guidance = 0;
   c.talents.spiritual_healing = 0;

@@ -49,6 +49,9 @@ class Stats {
   }
 
   float getEffectiveHp() const;
+  float getEffectiveHp(float attacker_level, float attacker_attack, float phys, 
+                       float arcane, float nature, float fire, float frost, float shadow, float holy) const;
+  float getEffectiveHpPvp() const;
 
  private:
   float mp5Tick() const { return c_.mp5/5.0f*2.0f; }

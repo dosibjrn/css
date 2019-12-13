@@ -35,6 +35,18 @@ class ItemTable {
   int m_mp5_ix = -1;
   int m_sp_healing_ix = -1;
   int m_spell_crit_ix = -1;
+  int m_spell_hit_ix = -1;
+
+  int m_arcane_res_ix = -1;
+  int m_nature_res_ix = -1;
+  int m_fire_res_ix = -1;
+  int m_frost_res_ix = -1;
+  int m_shadow_res_ix = -1;
+
+  int m_armor_ix = -1;
+  int m_defense_ix = -1;
+  int m_dodge_ix = -1;
+  int m_parry_ix = -1;
 };
 
 }  // namespace css

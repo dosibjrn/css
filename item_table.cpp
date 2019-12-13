@@ -87,16 +87,31 @@ namespace
 // column names corresponding to csv, this supports adding new lines in between etc.
 std::string slot_name = "slot";
 std::string name_name = "name";
+
 std::string strength_name = "str";
 std::string agility_name = "agi";
 std::string int_name = "int";
 std::string stamina_name = "stam";
 std::string spirit_name = "spirit";
+
 std::string sp_name = "sp";
 std::string sp_shadow_name = "sp_shadow";
 std::string mp5_name = "mp5";
 std::string sp_healing_name = "sp_healing";
 std::string spell_crit_name = "spell crit";
+std::string spell_hit_name = "spell hit";
+
+std::string arcane_res_name = "arcane resistance";
+std::string nature_res_name = "nature resistance";
+std::string fire_res_name = "fire resistance";
+std::string frost_res_name = "frost resistance";
+std::string shadow_res_name = "shadow resistance";
+
+std::string armor_name = "armor";
+std::string defense_name = "defense";
+std::string dodge_name = "dodge";
+std::string parry_name = "parry";
+
 std::string wand_dps_name = "wand dps";
 std::string wand_type_name = "wand type";
 
@@ -152,16 +167,30 @@ void ItemTable::prepareColumnIndexes(const std::string& header_line)
   auto splitted = SplitCsvLine(header_line);
   m_slot_ix = IxFrom(splitted, slot_name);
   m_name_ix = IxFrom(splitted, name_name);
+
   m_strength_ix = IxFrom(splitted, strength_name);
   m_agility_ix = IxFrom(splitted, agility_name);
   m_int_ix = IxFrom(splitted, int_name);
   m_stamina_ix = IxFrom(splitted, stamina_name);
   m_spirit_ix = IxFrom(splitted, spirit_name);
+
   m_sp_ix = IxFrom(splitted, sp_name);
   m_sp_shadow_ix = IxFrom(splitted, sp_shadow_name);
   m_mp5_ix = IxFrom(splitted, mp5_name);
   m_sp_healing_ix = IxFrom(splitted, sp_healing_name);
   m_spell_crit_ix = IxFrom(splitted, spell_crit_name);
+  m_spell_hit_ix = IxFrom(splitted, spell_hit_name);
+
+  m_arcane_res_ix = IxFrom(splitted, arcane_res_name);
+  m_nature_res_ix = IxFrom(splitted, nature_res_name);
+  m_fire_res_ix = IxFrom(splitted, fire_res_name);
+  m_frost_res_ix = IxFrom(splitted, frost_res_name);
+  m_shadow_res_ix = IxFrom(splitted, shadow_res_name);
+
+  m_armor_ix = IxFrom(splitted, armor_name);
+  m_defense_ix = IxFrom(splitted, defense_name);
+  m_dodge_ix = IxFrom(splitted, dodge_name);
+  m_parry_ix = IxFrom(splitted, parry_name);
 }
 
 Item ItemTable::lineToItem(const std::string& line)
@@ -170,16 +199,30 @@ Item ItemTable::lineToItem(const std::string& line)
   Item i;
   i.slot = StringWithCheck(splitted, m_slot_ix);
   i.name = StringWithCheck(splitted, m_name_ix);
+
   i.strength = FloatWithCheck(splitted, m_strength_ix);
   i.agility = FloatWithCheck(splitted, m_agility_ix);
   i.intelligence = FloatWithCheck(splitted, m_int_ix);
   i.stamina = FloatWithCheck(splitted, m_stamina_ix);
   i.spirit = FloatWithCheck(splitted, m_spirit_ix);
+
   i.sp = FloatWithCheck(splitted, m_sp_ix);
   i.sp_shadow = FloatWithCheck(splitted, m_sp_shadow_ix);
   i.mp5 = FloatWithCheck(splitted, m_mp5_ix);
   i.sp_healing = FloatWithCheck(splitted, m_sp_healing_ix);
   i.spell_crit = FloatWithCheck(splitted, m_spell_crit_ix);
+  i.spell_hit = FloatWithCheck(splitted, m_spell_hit_ix);
+
+  i.arcane_res = FloatWithCheck(splitted, m_arcane_res_ix);
+  i.nature_res = FloatWithCheck(splitted, m_nature_res_ix);
+  i.fire_res = FloatWithCheck(splitted, m_fire_res_ix);
+  i.frost_res = FloatWithCheck(splitted, m_frost_res_ix);
+  i.shadow_res = FloatWithCheck(splitted, m_shadow_res_ix);
+
+  i.armor = FloatWithCheck(splitted, m_armor_ix);
+  i.defense = FloatWithCheck(splitted, m_defense_ix);
+  i.dodge = FloatWithCheck(splitted, m_dodge_ix);
+  i.parry = FloatWithCheck(splitted, m_parry_ix);
   return i;
 }
 

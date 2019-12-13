@@ -31,6 +31,7 @@ struct PriestCharacter {
   float spell_hit = 0.0f;
 
   // resistances
+  // average_resistance = (target_resistance / (caster_level * 5)) * 0.75
   float arcane_res = 0.0f;
   float nature_res = 0.0f;
   float fire_res = 0.0f;
@@ -38,9 +39,16 @@ struct PriestCharacter {
   float shadow_res = 0.0f;
 
   // def
+  // armor: dr% = armor / (armor + 400 + 85 * (attacker_level + 4.5* (attacker_level - 59)))
   float armor = 0.0f;
+
+  // every point of defense gives 0.04 dodge, 0.04 parry, 0.04 reduced chance to be hit, 0.04 reduced chance to be crit
   float defense = 0.0f;
+
+  // total_dodge = dodge + (agi/agi_to_dodge_ratio) + talents + race + item + ((def - enemy_att) * 0.04)
   float dodge = 0.0f;
+
+  // hunters, palas, rogues, warriors can parry. shamans with skill. can't parry from behind.
   float parry = 0.0f;
 
   Wand wand;
