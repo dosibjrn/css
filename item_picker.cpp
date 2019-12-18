@@ -585,14 +585,14 @@ void ItemPicker::CoutCurrentValuesAlt() const
 {
   PriestCharacter c = m_c_best;
   float val_start = value(c); 
-  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing", "spell crit",
+  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "agi",      "mp5",  "sp",  "sp_shadow",  "sp_healing", "spell crit",
     "spell hit",  "arcane res",  "nature res",  "fire res",  "frost res",  "shadow res",  "armor",  "defense",  "dodge",  "parry"};
-  std::vector<float*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing, &c.spell_crit,
+  std::vector<float*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.agility, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing, &c.spell_crit,
     &c.spell_hit, &c.arcane_res, &c.nature_res, &c.fire_res, &c.frost_res, &c.shadow_res, &c.armor, &c.defense, &c.dodge, &c.parry};
-  std::vector<float> steps =            {1,               1,         1,          1,      1,     1,            1,            1,
+  std::vector<float> steps =            {1,               1,         1,          1,           1,      1,     1,            1,            1,
     1,            10,            10,            10,          10,           10,            100,      1,          1,         1};
   int n_vals = stat_names.size();
-  int ref_ix = 4;
+  int ref_ix = 5;
 
 
   int diff = 50*steps[ref_ix];

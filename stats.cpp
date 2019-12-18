@@ -61,20 +61,20 @@ float Stats::getEffectiveHpPvp() const
 {
   float attacker_level = 60;
   float attacker_attack = 300;
-  // float phys = 0.45;
-  // float frost = 0.2;
-  // float shadow = 0.13;
-  // float fire = 0.1;
-  // float nature = 0.05;
-  // float holy = 0.05;
-  // float arcane = 0.05;
   float phys = 0.45;
-  float frost = 0.1;
-  float shadow = 0.1;
+  float arcane = 0.05;
+  float nature = 0.05;
   float fire = 0.1;
-  float nature = 0.1;
+  float frost = 0.2;
+  float shadow = 0.13;
   float holy = 0.05;
-  float arcane = 0.1;
+  // float phys = 0.45;
+  // float frost = 0.1;
+  // float shadow = 0.1;
+  // float fire = 0.1;
+  // float nature = 0.1;
+  // float holy = 0.05;
+  // float arcane = 0.1;
   return getEffectiveHp(attacker_level, attacker_attack, phys, 
                         arcane, nature, fire, frost, shadow, holy);
 }

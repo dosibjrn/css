@@ -41,4 +41,5 @@ int main(int argc, char** argv)
 }
 
 
-// TODO: add armor and resistances to items and announced stats 
+// TODO: add armor and resistances to database 
+// TODO: more ranks for spells: heal and greater heal?
