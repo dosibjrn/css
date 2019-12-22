@@ -630,11 +630,14 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
                                               float combat_length,
                                               Regen *regen)
 {
-  // bool quick = true;
   bool quick = false;
+  // bool quick = false;
   if (quick) {
-    *regen = Regen(39, 39);
-    return {25,5,5,0,4,0};
+    // *regen = Regen(20, 20);
+    *regen = Regen(7, 2);
+    // return {25,5,5,0,4,0};
+    // return {15.0, 4.0, 1.0, 15.0, 0.0, 0.0};
+    return {0.0, 0.0, 0.0, 15.0, 0.0, 0.0};
   }
   auto t0 = std::chrono::system_clock::now();
   if (globals::find_best_pve_healing_counts_time_sum == 0.0f) {
