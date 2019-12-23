@@ -36,6 +36,7 @@ class ItemPicker {
   void CoutBestCounts() const;
   void CoutDiffsToStart() const;
   void CoutAllUpgrades() const;
+  void CoutAllUpgradesFromStart() const;
 
   std::vector<Item> getBestItems() const;
   float getBestValue() const { return m_val_best; }

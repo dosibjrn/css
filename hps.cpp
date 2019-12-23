@@ -375,7 +375,7 @@ std::vector<Spell> PveHealingSequence(const PriestCharacter& c)
 Spell IxToSpell(const PriestCharacter& c, int choice_ix)
 {
   int max_rank = -1;
-  int poh_targets = 5;
+  int poh_targets = 3;
   switch (choice_ix) {
     case 0:
       return Heal(c, 2);
@@ -504,13 +504,18 @@ Regen FindBestRegen(const PriestCharacter& c,
                     float combat_length, 
                     Regen current_regen) 
 {
+  constexpr int max_ticks = 10;
+  constexpr int max_casts = 20;
+  current_regen.ticks = std::min(max_ticks, current_regen.ticks);
+  current_regen.casts = std::min(max_casts, current_regen.casts);
   Stats stats(c);
   float best_score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
                                   current_regen);
+ 
   int step_size = 1;
   int best_casts = current_regen.casts;
   int best_ticks = current_regen.ticks;
-  for (int casts = best_casts; casts < 100; casts += step_size) {
+  for (int casts = best_casts; casts <= max_casts; casts += step_size) {
     float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
                                Regen(casts, best_ticks));
     if (score >= best_score) {
@@ -532,7 +537,7 @@ Regen FindBestRegen(const PriestCharacter& c,
     }
   }
 
-  for (int ticks = best_ticks; ticks < 100; ticks += step_size) {
+  for (int ticks = best_ticks; ticks <= max_ticks; ticks += step_size) {
     float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
                                Regen(best_casts, ticks));
     if (score >= best_score) {
@@ -566,7 +571,7 @@ Regen FindBestRegen(const PriestCharacter& c,
         << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)
         << ", score: " << best_score << std::endl;
   }
-  return Regen(best_casts, best_ticks);
+  return Regen(best_ticks, best_casts);
 }
 
 
@@ -643,19 +648,17 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
   if (globals::find_best_pve_healing_counts_time_sum == 0.0f) {
     globals::first_call_start = std::chrono::system_clock::now();
   }
+  // Spells:                      h2,  gh1, ghmax, fhmax, renewmax, poh
+  std::vector<float> max_freqs = {1.0, 1.0, 0.1,   1.0,   0.2,      0.1};
   bool verbose = false;
   int n_spell_types = 6;
   std::vector<float> spell_counts = initial_spell_counts;
   assert(n_spell_types == static_cast<int>(spell_counts.size()));
-  int poh_ix = 5;
   Stats stats(c);
   std::vector<float> best_spell_counts = spell_counts;
   float best_score = HpsWithRegen(c, PveHealingSequence(c, best_spell_counts), combat_length,
                                   *regen);
   bool converged = false;
-  constexpr float poh_max_freq = 0.0f;
-  // spell_counts[poh_ix] = std::min(spell_counts[poh_ix], 
-                                  // poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f));
   while (!converged) {
     auto counts_at_start = best_spell_counts;
     auto regen_at_start = *regen;
@@ -675,7 +678,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         }
         regen_curr = FindBestRegen(c, spell_counts, combat_length, regen_curr);
         score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length, regen_curr);
-        if (spell_counts[poh_ix] > poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
+        if (spell_counts[ix] > max_freqs[ix]*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
           score = 0.0f;
         }
         if (score > best_score) {
@@ -715,7 +718,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         }
         regen_curr = FindBestRegen(c, spell_counts, combat_length, regen_curr);
         score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length, regen_curr);
-        if (spell_counts[poh_ix] > poh_max_freq*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
+        if (spell_counts[ix] > max_freqs[ix]*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
           score = 0.0f;
         }
         if (score > best_score) {

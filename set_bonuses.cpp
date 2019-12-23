@@ -102,7 +102,7 @@ void SetBonuses::RemoveItem(const Item& item)
   }
   auto set_it = m_sets.find(set_name);
   if (set_it == m_sets.end()) {
-    std::cout << "!!!! Trying to remove from non existing set?? come on." << std::endl;
+    std::cout << "!!!! Trying to remove from non existing set: " << set_name << "?? come on." << std::endl;
     return;
   }
 

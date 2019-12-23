@@ -46,4 +46,4 @@ int main(int argc, char** argv)
 // TODO: refactoring: e.g. item_table -> m_item_table
 //       - item_picker is a huuuuge class: could separate a ton of functionality to another class. long funcs as well.
 // TODO: unit tests: could still have a ton of bugs
-
+// TODO: limit max rang gh to e.g. 0.1*total_count

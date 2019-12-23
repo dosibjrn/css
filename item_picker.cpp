@@ -99,8 +99,8 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   if (m_value_choice == ValueChoice::pve_healing) {
     int n_combats = m_pve_healing_combat_lengths.size();
     m_curr_pve_healing_counts.resize(n_combats);
-    //                          h2, g1, gm, f5, r, p
-    std::vector<float> init = {1.0, 4.0, 1.0, 4.0, 0.0, 0.0};
+    //                          h2,  g1,  gm,  f5,   r,   p
+    std::vector<float> init = {15.0, 5.0, 1.0, 15.0, 0.0, 0.0};
     // std::vector<float> init = {10.0, 5.0, 3.0, 3.0, 3.0, 0.0};
     // std::vector<float> init = {1.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     for (int i = 0; i < n_combats; ++i) {
@@ -108,7 +108,7 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
     }
     m_curr_regens.resize(n_combats);
     for (Regen& regen : m_curr_regens) {
-      regen = Regen(10, 10);
+      regen = Regen(5, 5);
     }
   }
   // Calculate();
@@ -369,22 +369,23 @@ void ItemPicker::CoutDiffsToStart() const
   }
 }
 
-void ItemPicker::CoutAllUpgrades() const
+void ItemPicker::CoutAllUpgradesFromStart() const
 {
 
   ItemTable item_table(m_item_table_name);
   std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "ranged",
     "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
-  std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" << std::endl;
-  std::cout << "| Upgrades at best in slot level, from start item to candidate: |" << std::endl;
-  std::cout << ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." << std::endl;
+  std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" << std::endl;
+  std::cout << "| Upgrades at start level, from start item to candidate:  |" << std::endl;
+  std::cout << ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." << std::endl;
   auto items_start = m_items_start;
   for (auto slot : order) {
     std::vector<std::pair<std::string, float>> diffs;
-    PriestCharacter c_tmp = m_c_best;
+    PriestCharacter c_tmp = m_c_in;
+    c_tmp.set_bonuses = m_c_in.set_bonuses;
 
-    auto best_item = m_items_best.at(slot);
-    RemoveItem(best_item, &c_tmp);
+    auto curr_item = m_items_start.at(slot);
+    RemoveItem(curr_item, &c_tmp);
 
     float val_no_item = value(c_tmp);
 
@@ -439,7 +440,88 @@ void ItemPicker::CoutAllUpgrades() const
       }
     }
     // Back to start state
+    AddItem(curr_item, &c_tmp);
+
+    // sort list
+    std::sort(diffs.begin(), diffs.end(), [](const std::pair<std::string, float> &a, const std::pair<std::string, float>& b) -> bool { return a.second > b.second; });
+    // cout slot
+    for (auto diff : diffs) {
+      std::cout << diff.first << std::endl;
+    } 
+  }  // for slots
+}
+
+void ItemPicker::CoutAllUpgrades() const
+{
+
+  ItemTable item_table(m_item_table_name);
+  std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "ranged",
+    "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
+  std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" << std::endl;
+  std::cout << "| Upgrades at best in slot level, from start item to candidate: |" << std::endl;
+  std::cout << ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." << std::endl;
+  auto items_start = m_items_start;
+  for (auto slot : order) {
+    std::vector<std::pair<std::string, float>> diffs;
+    PriestCharacter c_tmp = m_c_best;
+
+    auto curr_item = m_items_best.at(slot);
+    RemoveItem(curr_item, &c_tmp);
+
+    float val_no_item = value(c_tmp);
+
+    auto start_item = items_start.at(slot);
     AddItem(start_item, &c_tmp);
+    float val_start = value(c_tmp);
+
+    auto items_for_slot = item_table.getItems(slot);
+    if (slot == "two-hand") {
+      auto off_hands = item_table.getItems("off hand");
+      auto main_hands = item_table.getItems("main hand");
+      auto one_hands = item_table.getItems("one-hand");
+      main_hands.insert(main_hands.begin(), one_hands.begin(), one_hands.end());
+      for (auto off_hand : off_hands) {
+        for (auto main_hand : main_hands) {
+          // construct one/main-hand + off-hand pairs into new items with "two-hand" slot type
+          Item both = main_hand;
+          both.name.append(" and " + off_hand.name);
+          AddToItemWithMul(off_hand, 1.0f, &both);
+          both.slot = "two-hand";
+
+          // add those to list
+          items_for_slot.push_back(both);
+        }
+      }
+    }
+
+    RemoveItem(start_item, &c_tmp);
+
+    // output outline:
+    // back, ebin cloak (8.25) -> :
+    //     lege cloak (12.5) : +2.5%
+    //     uber cloak (10.5) : +1.5%
+    // here the (val) are cand_diff
+    // the percentages are (cand_diff - start_diff)/val_start
+    float start_diff = val_start - val_no_item;
+    std::cout << "- . - ' - . - ' - . - ' - . - ' - . - ' - . -" << std::endl;
+    std::cout << slot << ", " << start_item.name << " (" << start_diff << ") -> :" << std::endl;
+
+    // loop through said list
+    for (auto item : items_for_slot) {
+      AddItem(item, &c_tmp);
+      float val_candidate = value(c_tmp);
+      RemoveItem(item, &c_tmp);
+
+      // if val > val_start -> add to list
+      if (val_candidate > val_start) {
+        float cand_diff = val_candidate - val_no_item;
+        std::stringstream ss;
+        ss << "    " << item.name << " (" << cand_diff << ") : +" << (cand_diff - start_diff)/val_start*100.0f << " %";
+        diffs.push_back(std::make_pair<std::string, float>(ss.str(), cand_diff - start_diff));
+      }
+    }
+    // Back to start state
+    AddItem(curr_item, &c_tmp);
 
     // sort list
     std::sort(diffs.begin(), diffs.end(), [](const std::pair<std::string, float> &a, const std::pair<std::string, float>& b) -> bool { return a.second > b.second; });
@@ -465,6 +547,8 @@ void ItemPicker::FinalCouts()
   std::cout << "Diffs to start: " << std::endl;
   CoutDiffsToStart();
   CoutAllUpgrades();
+  std::cout << "------------------" << std::endl;
+  CoutAllUpgradesFromStart();
   std::cout << "------------------" << std::endl;
   std::cout << "Best value: " << getBestValue() << std::endl;
 }
