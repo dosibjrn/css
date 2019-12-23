@@ -27,6 +27,7 @@ class ItemPicker {
   void Calculate();
   void PickBestForSlots(const ItemTable &item_table, bool disable_bans, int iteration, int max_iterations, //
                         int* static_for_all_slots, int* iters_without_new_best);
+  void FinalCouts();
 
   void CoutBestItems();
   void CoutCharacterStats() const;
@@ -34,6 +35,7 @@ class ItemPicker {
   void CoutCurrentValuesAlt() const;
   void CoutBestCounts() const;
   void CoutDiffsToStart() const;
+  void CoutAllUpgrades() const;
 
   std::vector<Item> getBestItems() const;
   float getBestValue() const { return m_val_best; }

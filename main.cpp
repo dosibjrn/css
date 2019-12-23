@@ -43,3 +43,7 @@ int main(int argc, char** argv)
 
 // TODO: add armor and resistances to database 
 // TODO: more ranks for spells: heal and greater heal?
+// TODO: refactoring: e.g. item_table -> m_item_table
+//       - item_picker is a huuuuge class: could separate a ton of functionality to another class. long funcs as well.
+// TODO: unit tests: could still have a ton of bugs
+

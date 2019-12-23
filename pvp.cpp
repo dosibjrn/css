@@ -258,22 +258,12 @@ int PvpItemPicking(int argc, char** argv)
   }
   ip.Calculate();
     
-  ip.CoutBestItems();
-  std::cout << "------------------" << std::endl;
-  std::cout << "Best value: " << ip.getBestValue() << std::endl;
-  std::cout << "------------------" << std::endl;
-  std::cout << "Char stats: " << std::endl;
-  ip.CoutCharacterStats();
   c = ip.getCharacter();
   std::cout << "------------------" << std::endl;
   std::cout << "Stat vals with this gear on:" << std::endl;
   PvpStats(c);
   std::cout << "------------------" << std::endl;
-  ip.CoutCurrentValuesAlt();
-  std::cout << "------------------" << std::endl;
- 
-  std::cout << "Diffs to start: " << std::endl;
-  ip.CoutDiffsToStart();
+  ip.FinalCouts();
  
   return 0;
 }
@@ -344,26 +334,12 @@ int PvpHealingItemPicking(int argc, char** argv)
 
   ip.Calculate();
     
-  ip.CoutBestItems();
-  std::cout << "------------------" << std::endl;
-  std::cout << "Best value: " << ip.getBestValue() << std::endl;
-  std::cout << "------------------" << std::endl;
-  std::cout << "Char stats: " << std::endl;
-  ip.CoutCharacterStats();
   c = ip.getCharacter();
   std::cout << "------------------" << std::endl;
   std::cout << "Stat vals with this gear on:" << std::endl;
   PvpStats(c);
   std::cout << "------------------" << std::endl;
-
-  std::cout << "Best counts:" << std::endl;
-  ip.CoutBestCounts();
-  std::cout << "------------------" << std::endl;
-  ip.CoutCurrentValuesAlt();
- 
-  std::cout << "Diffs to start: " << std::endl;
-  ip.CoutDiffsToStart();
-  std::cout << "------------------" << std::endl;
+  ip.FinalCouts();
   return 0;
 }
 

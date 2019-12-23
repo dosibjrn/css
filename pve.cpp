@@ -89,23 +89,9 @@ int PveHealingItemPicking(int argc, char** argv)
       ip.AddLocked(line);
     }
   }
-    ip.Calculate();
+  ip.Calculate();
     
-  ip.CoutBestItems();
-  std::cout << "------------------" << std::endl;
-  std::cout << "Best value: " << ip.getBestValue() << std::endl;
-  std::cout << "------------------" << std::endl;
-  std::cout << "Char stats: " << std::endl;
-  ip.CoutCharacterStats();
-  std::cout << "------------------" << std::endl;
-  std::cout << "Best counts:" << std::endl;
-  ip.CoutBestCounts();
-  std::cout << "------------------" << std::endl;
-  ip.CoutCurrentValuesAlt();
-  std::cout << "------------------" << std::endl;
-  std::cout << "Diffs to start: " << std::endl;
-  ip.CoutDiffsToStart();
- 
+  ip.FinalCouts();
   return 0;
 }
 
