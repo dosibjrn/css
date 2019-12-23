@@ -20,4 +20,8 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
                                             float combat_length,
                                             Regen* regen);
 Spell IxToSpell(const PriestCharacter& c, int choice_ix);
+
+std::vector<float> InitialSpellCounts();
+Regen InitialRegen();
+
 }  // namespace css

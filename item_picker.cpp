@@ -99,16 +99,13 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   if (m_value_choice == ValueChoice::pve_healing) {
     int n_combats = m_pve_healing_combat_lengths.size();
     m_curr_pve_healing_counts.resize(n_combats);
-    //                          h2,  g1,  gm,  f5,   r,   p
-    std::vector<float> init = {15.0, 5.0, 1.0, 15.0, 0.0, 0.0};
-    // std::vector<float> init = {10.0, 5.0, 3.0, 3.0, 3.0, 0.0};
-    // std::vector<float> init = {1.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    std::vector<float> init = InitialSpellCounts();
     for (int i = 0; i < n_combats; ++i) {
       m_curr_pve_healing_counts[i] = init;
     }
     m_curr_regens.resize(n_combats);
     for (Regen& regen : m_curr_regens) {
-      regen = Regen(5, 5);
+      regen = InitialRegen();
     }
   }
   // Calculate();

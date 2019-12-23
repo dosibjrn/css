@@ -1,6 +1,7 @@
 #include "hps.h"
 
 #include <cassert>
+#include <cmath>
 #include <chrono>
 #include <iostream>
 #include <numeric>
@@ -372,6 +373,27 @@ std::vector<Spell> PveHealingSequence(const PriestCharacter& c)
   return spells;
 }
 
+
+std::vector<float> SpellMaxFreqs()
+{
+  return {1.0, 1.0, 1.0, 0.1,   1.0,   0.2,      0.1};
+}
+
+float FreqPenalty(const std::vector<float>& counts)
+{
+  const float sum = std::accumulate(counts.begin(), counts.end(), 0.0f);
+  auto max_freqs = SpellMaxFreqs();
+  const int s = counts.size();
+  float penalty = 0.0f;
+  constexpr float penalty_per_count = 100.0f;  // hps
+  for (int i = 0; i < s; ++i) {
+    if (counts[i] > max_freqs[i]*sum) {
+      penalty += penalty_per_count*(counts[i] - max_freqs[i]*sum);
+    }
+  }
+  return penalty;
+}
+
 Spell IxToSpell(const PriestCharacter& c, int choice_ix)
 {
   int max_rank = -1;
@@ -380,14 +402,16 @@ Spell IxToSpell(const PriestCharacter& c, int choice_ix)
     case 0:
       return Heal(c, 2);
     case 1:
-      return GreaterHeal(c, 1);
+      return Heal(c, 4);
     case 2:
-      return GreaterHeal(c, max_rank);
+      return GreaterHeal(c, 1);
     case 3:
-      return FlashHeal(c, max_rank);
+      return GreaterHeal(c, max_rank);
     case 4:
-      return Renew(c, max_rank);
+      return FlashHeal(c, max_rank);
     case 5:
+      return Renew(c, max_rank);
+    case 6:
       return PrayerOfHealing(c, max_rank, poh_targets);
     default:
       return Heal(c, 2);
@@ -398,15 +422,16 @@ int SpellToIx(const Spell& spell)
 {
   auto s = spell.name;
   auto l = spell.level_req;
-  if (s == "Heal") return 0;
-  if (s == "Greater Heal" && l != 60) return 1;
-  if (s == "Greater Heal" && l == 60) return 2;
-  if (s == "Flash Heal") return 3;
-  if (s == "Renew") return 4;
-  if (s == "Prayer of Healing") return 5;
+  auto r = spell.rank;
+  if (s == "Heal" && r == 2) return 0;
+  if (s == "Heal" && r == 4) return 1;
+  if (s == "Greater Heal" && l != 60) return 2;
+  if (s == "Greater Heal" && l == 60) return 3;
+  if (s == "Flash Heal") return 4;
+  if (s == "Renew") return 5;
+  if (s == "Prayer of Healing") return 6;
   return 0;
 }
-
 
 
 // See above: spellCounts order: h2, g1, gm, fh, re, poh
@@ -629,6 +654,19 @@ namespace globals
   int64_t visit_count = 0;
 }  // namespace globals
 
+std::vector<float> InitialSpellCounts()
+{
+    //                          h2,  h4,   g1,  gm,  f5,   r,   p
+    // std::vector<float> init = {10.0, 10.0, 5.0, 1.0, 15.0, 0.0, 0.0};
+    std::vector<float> init = {1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0};
+    return init;
+}
+
+Regen InitialRegen()
+{
+  return Regen(1,1);
+}
+
 
 std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c, 
                                               const std::vector<float>& initial_spell_counts,
@@ -648,12 +686,9 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
   if (globals::find_best_pve_healing_counts_time_sum == 0.0f) {
     globals::first_call_start = std::chrono::system_clock::now();
   }
-  // Spells:                      h2,  gh1, ghmax, fhmax, renewmax, poh
-  std::vector<float> max_freqs = {1.0, 1.0, 0.1,   1.0,   0.2,      0.1};
   bool verbose = false;
-  int n_spell_types = 6;
   std::vector<float> spell_counts = initial_spell_counts;
-  assert(n_spell_types == static_cast<int>(spell_counts.size()));
+  int n_spell_types = spell_counts.size();
   Stats stats(c);
   std::vector<float> best_spell_counts = spell_counts;
   float best_score = HpsWithRegen(c, PveHealingSequence(c, best_spell_counts), combat_length,
@@ -665,7 +700,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
     Regen regen_curr = FindBestRegen(c, spell_counts, combat_length, regen_at_start);
     
     // Maybe search for best mana to regen mul on each score call? More robust steps if perf problem?
-    for (int ix = 0; ix < n_spell_types-1; ++ix) {
+    for (int ix = 0; ix < n_spell_types; ++ix) {
       float score = 0.0f;
 
       // Try finding better sequence by increasing count for spell
@@ -676,20 +711,20 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
           spell_counts[ix] -= 1.0f;
           break;
         }
+        // TODO check freqs as separate function
         regen_curr = FindBestRegen(c, spell_counts, combat_length, regen_curr);
         score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length, regen_curr);
-        if (spell_counts[ix] > max_freqs[ix]*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
-          score = 0.0f;
-        }
+        score -= FreqPenalty(spell_counts);
         if (score > best_score) {
           if (verbose) {
-            std::cout << "new best sequence for combat_length: " << combat_length << ", score: " << score 
+            auto max_freqs = SpellMaxFreqs();
+            std::cout << "new best sequence for combat_length: " << combat_length << ", score: " << score
                 << ", casts: " << regen_curr.casts << ", ticks: " << regen_curr.ticks
-                << ", counts: "
-                << spell_counts[0] << " " << spell_counts[1] << " "
-                << spell_counts[2] << " " << spell_counts[3] << " "
-                << spell_counts[4] << " " << spell_counts[5] << "/"
-                << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f) << std::endl;
+                << ", counts: ";
+            for (int cout_spell_ix = 0; cout_spell_ix < n_spell_types; ++cout_spell_ix) {
+              std::cout << spell_counts[cout_spell_ix] << " / " << floor(max_freqs[cout_spell_ix]*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) << ", ";
+            }
+            std::cout << std::endl;
           }
           best_spell_counts = spell_counts;
           best_score = score;
@@ -718,18 +753,17 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         }
         regen_curr = FindBestRegen(c, spell_counts, combat_length, regen_curr);
         score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length, regen_curr);
-        if (spell_counts[ix] > max_freqs[ix]*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) {
-          score = 0.0f;
-        }
+        score -= FreqPenalty(spell_counts);
         if (score > best_score) {
           if (verbose) {
+            auto max_freqs = SpellMaxFreqs();
             std::cout << "new best sequence for combat_length: " << combat_length << ", score: " << score
                 << ", casts: " << regen_curr.casts << ", ticks: " << regen_curr.ticks
-                << ", counts: "
-                << spell_counts[0] << " " << spell_counts[1] << " "
-                << spell_counts[2] << " " << spell_counts[3] << " "
-                << spell_counts[4] << " " << spell_counts[5] << "/"
-                << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f) << std::endl;
+                << ", counts: ";
+            for (int cout_spell_ix = 0; cout_spell_ix < n_spell_types; ++cout_spell_ix) {
+              std::cout << spell_counts[cout_spell_ix] << " / " << floor(max_freqs[cout_spell_ix]*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)) << ", ";
+            }
+            std::cout << std::endl;
           }
           best_spell_counts = spell_counts;
           best_score = score;
