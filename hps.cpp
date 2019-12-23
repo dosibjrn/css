@@ -658,7 +658,7 @@ std::vector<float> InitialSpellCounts()
 {
     //                          h2,  h4,   g1,  gm,  f5,   r,   p
     // std::vector<float> init = {10.0, 10.0, 5.0, 1.0, 15.0, 0.0, 0.0};
-    std::vector<float> init = {1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0};
+    std::vector<float> init = {5.0, 5.0, 5.0, 0.0, 5.0, 0.0, 0.0};
     return init;
 }
 

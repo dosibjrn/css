@@ -80,7 +80,7 @@ float ItemPicker::value(const PriestCharacter &c) const
 
 
 ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, ValueChoice value_choice)
-  : m_c_in(c)
+  : m_c_start(c)
   , m_c_curr(c)
   , m_item_table_name(item_table_name)
   , m_value_choice(value_choice)
@@ -375,18 +375,16 @@ void ItemPicker::CoutAllUpgradesFromStart() const
   std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" << std::endl;
   std::cout << "| Upgrades at start level, from start item to candidate:  |" << std::endl;
   std::cout << ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." << std::endl;
-  auto items_start = m_items_start;
   for (auto slot : order) {
     std::vector<std::pair<std::string, float>> diffs;
-    PriestCharacter c_tmp = m_c_in;
-    c_tmp.set_bonuses = m_c_in.set_bonuses;
+    PriestCharacter c_tmp = m_c_start;
 
     auto curr_item = m_items_start.at(slot);
     RemoveItem(curr_item, &c_tmp);
 
     float val_no_item = value(c_tmp);
 
-    auto start_item = items_start.at(slot);
+    auto start_item = m_items_start.at(slot);
     AddItem(start_item, &c_tmp);
     float val_start = value(c_tmp);
 
@@ -555,7 +553,7 @@ void ItemPicker::Calculate()
 
   m_items_start = m_items_best;
   auto t0 = std::chrono::high_resolution_clock::now();
-  // m_c_curr = m_c_in;
+  m_c_start = m_c_curr;
   ItemTable item_table(m_item_table_name);
   int static_for_all_slots = 0;
   int max_iterations = 1000;

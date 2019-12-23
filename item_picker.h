@@ -76,7 +76,7 @@ private:
   std::map<std::string, Item> m_items;
   std::map<std::string, bool> m_locked;
   std::map<std::string, bool> m_banned;
-  PriestCharacter m_c_in;
+  PriestCharacter m_c_start;
   PriestCharacter m_c_curr;
   std::string m_item_table_name;
   std::vector<std::vector<float>> m_curr_pve_healing_counts;
