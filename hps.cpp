@@ -374,25 +374,7 @@ std::vector<Spell> PveHealingSequence(const PriestCharacter& c)
 }
 
 
-std::vector<float> SpellMaxFreqs()
-{
-  return {1.0, 1.0, 1.0, 0.1,   1.0,   0.2,      0.1};
-}
 
-float FreqPenalty(const std::vector<float>& counts)
-{
-  const float sum = std::accumulate(counts.begin(), counts.end(), 0.0f);
-  auto max_freqs = SpellMaxFreqs();
-  const int s = counts.size();
-  float penalty = 0.0f;
-  constexpr float penalty_per_count = 100.0f;  // hps
-  for (int i = 0; i < s; ++i) {
-    if (counts[i] > max_freqs[i]*sum) {
-      penalty += penalty_per_count*(counts[i] - max_freqs[i]*sum);
-    }
-  }
-  return penalty;
-}
 
 Spell IxToSpell(const PriestCharacter& c, int choice_ix)
 {
@@ -658,13 +640,37 @@ std::vector<float> InitialSpellCounts()
 {
     //                          h2,  h4,   g1,  gm,  f5,   r,   p
     // std::vector<float> init = {10.0, 10.0, 5.0, 1.0, 15.0, 0.0, 0.0};
-    std::vector<float> init = {5.0, 5.0, 5.0, 0.0, 5.0, 0.0, 0.0};
+
+    // std::vector<float> init =    {11,  0,     6,   0,  15, 0,   0};
+    std::vector<float> init =    {1,  0,     0,   0,  0, 0,   0};
+    // std::vector<float> init = {5.0, 5.0, 5.0, 0.0, 5.0, 0.0, 0.0};
     return init;
+}
+
+std::vector<float> SpellMaxFreqs()
+{
+  return {1.0, 1.0, 1.0, 0.1,   1.0,   0.2,      0.1};
+  // return {1.0, 1.0, 1.0, 1.0,   1.0,   1.0,      1.0};
 }
 
 Regen InitialRegen()
 {
   return Regen(1,1);
+}
+
+float FreqPenalty(const std::vector<float>& counts)
+{
+  const float sum = std::accumulate(counts.begin(), counts.end(), 0.0f);
+  auto max_freqs = SpellMaxFreqs();
+  const int s = counts.size();
+  float penalty = 0.0f;
+  constexpr float penalty_per_count = 100.0f;  // hps
+  for (int i = 0; i < s; ++i) {
+    if (counts[i] > max_freqs[i]*sum) {
+      penalty += penalty_per_count*(counts[i] - max_freqs[i]*sum);
+    }
+  }
+  return penalty;
 }
 
 
@@ -676,11 +682,11 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
   bool quick = false;
   // bool quick = false;
   if (quick) {
-    // *regen = Regen(20, 20);
-    *regen = Regen(7, 2);
-    // return {25,5,5,0,4,0};
-    // return {15.0, 4.0, 1.0, 15.0, 0.0, 0.0};
-    return {0.0, 0.0, 0.0, 15.0, 0.0, 0.0};
+
+    //                                 h2, h4, g1, gm, f5, r, p
+    std::vector<float> spell_counts = {11, 0,  6,  0,  15, 0, 0};
+    *regen = FindBestRegen(c, spell_counts, combat_length, *regen);
+    return spell_counts;
   }
   auto t0 = std::chrono::system_clock::now();
   if (globals::find_best_pve_healing_counts_time_sum == 0.0f) {

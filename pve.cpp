@@ -54,6 +54,7 @@ int PveHealingItemPicking(int argc, char** argv)
     while(std::getline(is, line)) {
       std::cout << "Locking: " << line << std::endl;
       ip.AddLocked(line);
+      ip.AddWhitelisted(line);
       got_something = true;
     }
     if (got_something) {

@@ -47,6 +47,8 @@ class ItemTable {
   int m_defense_ix = -1;
   int m_dodge_ix = -1;
   int m_parry_ix = -1;
+
+  int m_source_ix = -1;
 };
 
 }  // namespace css

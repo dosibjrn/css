@@ -24,6 +24,8 @@ class ItemPicker {
   void AddLocked(std::string s) { m_locked[s] = true; }
   void ClearLocked() { m_locked.clear(); }
   void AddBanned(std::string s) { m_banned[s] = true; }
+  void AddWhitelisted(std::string s) { m_whitelist[s] = true; }
+
   void Calculate();
   void PickBestForSlots(const ItemTable &item_table, bool disable_bans, int iteration, int max_iterations, //
                         int* static_for_all_slots, int* iters_without_new_best);
@@ -57,6 +59,7 @@ private:
 
   bool isLocked(std::string s) const { return m_locked.find(s) != m_locked.end(); }
   bool isBanned(std::string s) const { return m_banned.find(s) != m_banned.end(); }
+  bool isWhitelisted(std::string s) const { return m_whitelist.find(s) != m_whitelist.end(); }
 
   template<typename T>
       void shuffle(std::vector<T>* v)
@@ -76,6 +79,7 @@ private:
   std::map<std::string, Item> m_items;
   std::map<std::string, bool> m_locked;
   std::map<std::string, bool> m_banned;
+  std::map<std::string, bool> m_whitelist;  // to go around a ban of items one has
   PriestCharacter m_c_start;
   PriestCharacter m_c_curr;
   std::string m_item_table_name;

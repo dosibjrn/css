@@ -38,6 +38,8 @@ struct Item {
   float parry = 0.0f;
 
   bool unique = false;
+
+  std::string source = "";
 };
 
 }  // namespace css

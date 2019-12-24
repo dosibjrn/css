@@ -115,6 +115,8 @@ std::string parry_name = "parry";
 std::string wand_dps_name = "wand dps";
 std::string wand_type_name = "wand type";
 
+std::string source_name = "source";
+
 std::vector<std::string> SplitCsvLine(const std::string& line)
 {
   char d = ',';
@@ -191,6 +193,8 @@ void ItemTable::prepareColumnIndexes(const std::string& header_line)
   m_defense_ix = IxFrom(splitted, defense_name);
   m_dodge_ix = IxFrom(splitted, dodge_name);
   m_parry_ix = IxFrom(splitted, parry_name);
+
+  m_source_ix = IxFrom(splitted, source_name);
 }
 
 Item ItemTable::lineToItem(const std::string& line)
@@ -223,6 +227,8 @@ Item ItemTable::lineToItem(const std::string& line)
   i.defense = FloatWithCheck(splitted, m_defense_ix);
   i.dodge = FloatWithCheck(splitted, m_dodge_ix);
   i.parry = FloatWithCheck(splitted, m_parry_ix);
+
+  i.source = StringWithCheck(splitted, m_source_ix);
   return i;
 }
 

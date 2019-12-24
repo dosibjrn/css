@@ -134,6 +134,8 @@ void AddToItemWithMul(const Item& i, float mul, Item* o)
   o->defense += mul*i.defense;
   o->dodge += mul*i.dodge;
   o->parry += mul*i.parry;
+
+  o->source += ", " + i.source;
 }
 
 }  // namespace css

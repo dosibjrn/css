@@ -44,7 +44,8 @@ float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
   float emana = s.getEffectiveMana(duration, fsr_frac);
   // float ehp = s.getEffectiveHp();
   float ehp = s.getEffectiveHpPvp();
-  return hps*hps*emana*ehp/1e12;
+  // heal free, heal until you die (ehp as mana pool), hp separately
+  return hps*hps*emana*ehp*ehp/1e15;
 }
 
 float ItemPicker::valuePveHealing(const PriestCharacter& c) const
@@ -387,6 +388,7 @@ void ItemPicker::CoutAllUpgradesFromStart() const
     auto start_item = m_items_start.at(slot);
     AddItem(start_item, &c_tmp);
     float val_start = value(c_tmp);
+    // std::cout << "slot: " << slot << ", val_no_item: " << val_no_item << ", val_start: " << val_start << std::endl;
 
     auto items_for_slot = item_table.getItems(slot);
     if (slot == "two-hand") {
@@ -431,6 +433,7 @@ void ItemPicker::CoutAllUpgradesFromStart() const
         float cand_diff = val_candidate - val_no_item;
         std::stringstream ss;
         ss << "    " << item.name << " (" << cand_diff << ") : +" << (cand_diff - start_diff)/val_start*100.0f << " %";
+        ss << ", from: " << item.source;
         diffs.push_back(std::make_pair<std::string, float>(ss.str(), cand_diff - start_diff));
       }
     }
@@ -445,6 +448,8 @@ void ItemPicker::CoutAllUpgradesFromStart() const
     } 
   }  // for slots
 }
+
+
 
 void ItemPicker::CoutAllUpgrades() const
 {
@@ -512,6 +517,7 @@ void ItemPicker::CoutAllUpgrades() const
         float cand_diff = val_candidate - val_no_item;
         std::stringstream ss;
         ss << "    " << item.name << " (" << cand_diff << ") : +" << (cand_diff - start_diff)/val_start*100.0f << " %";
+        ss << ", from: " << item.source;
         diffs.push_back(std::make_pair<std::string, float>(ss.str(), cand_diff - start_diff));
       }
     }
@@ -740,7 +746,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     AddItem(item, &c_tmp);
     // calculate objective function value
     float val = value(c_tmp);
-    if (isBanned(item.name)) {
+    if ((isBanned(item.name) || isBanned(item.source)) && !isWhitelisted(item.name) ) {
       val = 0.0f;
     }
     if (val > best_value 
