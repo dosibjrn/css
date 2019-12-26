@@ -42,6 +42,8 @@ int main(int argc, char** argv)
 
 // ---------- TODO -----------
 // * more ranks for spells: heal and greater heal?
+//   - or better: adjustability to ranks as well as part of optimizer.
+//   - maybe a tad more general optimizer with limits for this?
 // * refactoring: e.g. item_table -> m_item_table
 //   - item_picker is a huuuuge class: could separate a ton of functionality to another class. long funcs as well.
 // * unit tests: could still have a ton of bugs

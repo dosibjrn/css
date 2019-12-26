@@ -15,26 +15,32 @@ typedef std::map<std::string, Item> SetBonusListType;
 SetBonusListType getSetBonusList()
 {
   SetBonusListType bonus_list;
-  bool add_fake_devout = true;
+  bool add_fake_devout = false;
   if (add_fake_devout) {
     {
       Item i;
       i.sp = 23*0.1;
       i.name = "devout 1";
+      i.armor = 100;
+      bonus_list[i.name] = i;
+      i.name = "dreadmist 1";
       bonus_list[i.name] = i;
     }
-
     {
       Item i;
       i.sp = 23*0.1;
       i.name = "devout 2";
+      i.armor = 100;
+      bonus_list[i.name] = i;
+      i.name = "dreadmist 2";
       bonus_list[i.name] = i;
     }
-
     {
       Item i;
       i.sp = 23*0.1;
       i.name = "devout 3";
+      bonus_list[i.name] = i;
+      i.name = "dreadmist 3";
       bonus_list[i.name] = i;
     }
     {
@@ -42,12 +48,50 @@ SetBonusListType getSetBonusList()
       i.sp = 23*0.7;
       i.name = "devout 4";
       bonus_list[i.name] = i;
+      i.name = "dreadmist 4";
+      bonus_list[i.name] = i;
     }
   } else {
-    Item i;
-    i.sp = 23;
-    i.name = "devout 4";
-    bonus_list[i.name] = i;
+    {
+      Item i;
+      i.defense = 3;
+      i.name = "necropile 2";
+      bonus_list[i.name] = i;
+    }
+    {
+      Item i;
+      i.intelligence = 5;
+      i.name =  "necropile 3";
+      bonus_list[i.name] = i;
+    }
+    {
+      Item i;
+      i.arcane_res = 15;
+      i.nature_res = 15;
+      i.fire_res = 15;
+      i.frost_res = 15;
+      i.shadow_res = 15;
+      i.name = "necropile 4";
+      bonus_list[i.name] = i;
+    }
+    {
+      Item i;
+      i.armor = 200;
+      i.name = "devout 2";
+      bonus_list[i.name] = i;
+      i.name = "dreadmist 2";
+      bonus_list[i.name] = i;
+    }
+    {
+      Item i;
+      i.sp = 23;
+      i.name = "devout 4";
+      bonus_list[i.name] = i;
+      i.name = "dreadmist 4";
+      bonus_list[i.name] = i;
+      i.name = "necropilt 5";
+      bonus_list[i.name] = i;
+    }
   }
   return bonus_list;
 }
@@ -59,6 +103,8 @@ namespace globals {
 std::string getSetName(const std::string& item_name)
 {
   if (item_name.substr(0, 6) == "devout") { return "devout"; }
+  if (item_name.substr(0, 6) == "dreadm") { return "dreadmist"; }
+  if (item_name.substr(0, 6) == "necrop") { return "necropile"; }
   return "";
 }
 }  // namespace
