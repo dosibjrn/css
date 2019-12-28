@@ -28,7 +28,7 @@ float ItemPicker::valuePvpShadow(const PriestCharacter& c) const
   float emana = s.getEffectiveMana(duration, fsr_frac);
   // float ehp = s.getEffectiveHp();
   float ehp = s.getEffectiveHpPvp();
-  return dps*dps*emana*ehp/1e12;
+  return dps*dps*emana*ehp*ehp/1e15;
 }
 
 float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
