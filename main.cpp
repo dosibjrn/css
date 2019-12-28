@@ -7,6 +7,11 @@
 
 int main(int argc, char** argv)
 {
+  std::cout << "Your call: ";
+  for (int i = 0; i < argc; ++i) {
+    std::cout << argv[i] << " ";
+  }
+  std::cout << std::endl;
   int choice = 100;
   if (argc > 1) {
     choice = atoi(argv[1]);
