@@ -3,8 +3,11 @@ Classic Simple Stats
 To build:
 
 mkdir build
+
 cd build
+
 cmake ..
+
 make -j
 
 To run:
