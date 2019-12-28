@@ -81,9 +81,13 @@ SetBonusListType SetBonuses::toPartial(SetBonusListType& bonus_list)
     int n = atoi(set_name.substr(space_pos).c_str());
     set_name = set_name.substr(0, space_pos);
     Item to_split = entry.second;
-    Item partial_item;
-    AddToItemWithMul(to_split, 1.0f/n, &partial_item);
+    float w_sum = 0.0f;
     for (int i = 1; i <= n; ++i) {
+      w_sum += i*i;
+    }
+    for (int i = 1; i <= n; ++i) {
+      Item partial_item;
+      AddToItemWithMul(to_split, (i*i)/w_sum, &partial_item);
       std::stringstream ss;
       ss << set_name << " " << i;
       std::string splitted_name = ss.str();
