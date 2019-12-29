@@ -30,7 +30,7 @@ This is developed and tested under Ubuntu 18.04, but should probably build and w
 
 PvE healing has some assumptions and limitations.
 
-The basic functionality optimizes regen pattern within given range (1-100 casts, then 0-20 ticks of regen).
+The basic functionality optimizes regen pattern within given range (1-20 casts, then 0-10 ticks of regen).
 The spell sequence is optimized as well: number of following spells is adjusted:
   * heal rank 2
   * heal rank 4
@@ -40,7 +40,7 @@ The spell sequence is optimized as well: number of following spells is adjusted:
   * poh, max rank
 
 These spells have specific "max frequencies", limiting their relative amount. Max rank renews, max rank greater heals
-are limited to 0.2 due to the fact that it's not relly realistic to cast these two all combat. Poh is limited to 0.1.
+are limited to 0.2 due to the fact that it's not really realistic to cast these two all combat. Poh is limited to 0.1.
 (i.e., 20% and 10% of total number of spells in sequence).
 
 20% of critting heal is approximated to be non-overhealing on average.
@@ -48,7 +48,7 @@ are limited to 0.2 due to the fact that it's not relly realistic to cast these t
 Power infusion, if specified in talents for chosen character (hard coded as is) is popped when available,
       followed by max rank greater heals until duration ends / oom
 
-Optimal items are picked slot at a time from, randomizing the slot order.
+Optimal items are picked slot at a time, going through items in given .csv for the slot, randomizing the slot order.
 To avoid local maximas of the objective function (see below), in early stages of the optimization the current
 best item is banned for the next round.
 
@@ -80,9 +80,9 @@ stat weights which can be more or less disregarded.
 
 
 
-Some set bonuses have been added to the system. There's a defeinte problem for now for the optimizer to realize and
-end up preferring e.g. 4 pieces of devout for the +23 sp. Some ideas exist for fixing this, but the implementation
-is lacking for now.
+Some set bonuses have been added to the system.
+Current implementation splits bonuses to partial bonuses with squared relative weights (1 for 1 piece, 4 for 2 pieces etc). This allows the optimization to have some clue about the fact that collecting a set may be beneficial. Disabling the partial bonuses and using only the real bonuses at the end of the
+optimization is a feature that is about to be implemented in near future.
 
 The output you will get once the optimization is done (some minutes max usually) will contain all upgrades
 agains the current list of items in start_items.txt in the binary folder (try copying items/have.txt here and modifying it accordingly),
