@@ -37,8 +37,8 @@ class ItemPicker {
   void CoutCurrentValuesAlt() const;
   void CoutBestCounts() const;
   void CoutDiffsToStart() const;
-  void CoutAllUpgrades() const;
-  void CoutAllUpgradesFromStart() const;
+  void CoutAllUpgrades();
+  void CoutAllUpgradesFromStart();
 
   std::vector<Item> getBestItems() const;
   float getBestValue() const { return m_val_best; }
@@ -50,6 +50,8 @@ private:
   float valuePvpShadow(const PriestCharacter& c) const;
   float valuePvpHealing(const PriestCharacter& c) const;
   float valuePveHealing(const PriestCharacter& c) const;
+
+  std::vector<float> getPveInfo(const PriestCharacter& c) const;
 
   void intermediateCout(int iteration);
 
@@ -86,11 +88,17 @@ private:
   PriestCharacter m_c_best;
 
   std::string m_item_table_name;
+
+  std::vector<std::vector<float>> m_start_pve_healing_counts;
   std::vector<std::vector<float>> m_curr_pve_healing_counts;
   std::vector<std::vector<float>> m_best_pve_healing_counts;
   const std::vector<float> m_pve_healing_combat_lengths = {120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
+
+  std::vector<float> m_pve_info;
+
   // const std::vector<float> m_pve_healing_combat_lengths = {120.0f};
   // const std::vector<float> m_pve_healing_combat_lengths = {60.0f, 120.0f, 180.0f};
+  std::vector<Regen> m_start_regens;
   std::vector<Regen> m_curr_regens;
   std::vector<Regen> m_best_regens;
 

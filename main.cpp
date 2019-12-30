@@ -30,7 +30,10 @@ int main(int argc, char** argv)
       return css::PvpHealingItemPicking(argc, argv);
       break;
     case 4:
-      return css::PveHealingItemPicking(argc, argv);
+      return css::PveHealingItemPicking(argc, argv, false);
+    case 5:
+      return css::PveHealingItemPicking(argc, argv, true);
+ 
     default:
       std::cout << "Usage: " << argv[0] << "[mode] [arg for mode]" << std::endl;
       std::cout << "Modes: " << std::endl;
@@ -40,6 +43,7 @@ int main(int argc, char** argv)
       std::cout << "       3 := pvp healing item picking, second arg for item table file name" << std::endl;
       std::cout << "       4 := healing item picking, second arg for item table file name. 2, 4 and 6 minute fights." << std::endl;
       std::cout << "            third arg for banned, fourth arg for locked" << std::endl;
+      std::cout << "       5 := same as 4, but with potions, runes, mana oil, mageblood and flask" << std::endl;
       break;
   }
   return 0;

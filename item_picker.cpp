@@ -59,10 +59,27 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
   auto counts = m_curr_pve_healing_counts;
   for (int i = 0; i < n_combats; ++i) {
     Regen regen = regens[i];
-    hps_sum += HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
+    auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
+    hps_sum += res.first;
     count++;
   }
   return hps_sum/count;
+}
+
+std::vector<float> ItemPicker::getPveInfo(const PriestCharacter& c) const
+{
+  int n_combats = m_pve_healing_combat_lengths.size();
+  Stats stats(c);
+
+  auto regens = m_curr_regens;
+  auto counts = m_curr_pve_healing_counts;
+  std::vector<float> out;
+  for (int i = 0; i < n_combats; ++i) {
+    Regen regen = regens[i];
+    auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
+    out.push_back(res.second);
+  }
+  return out;
 }
 
 float ItemPicker::value(const PriestCharacter &c) const
@@ -315,6 +332,7 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
         m_val_best = res_val;
         m_best_regens = m_curr_regens;
         m_best_pve_healing_counts = m_curr_pve_healing_counts;
+        m_pve_info = getPveInfo(m_c_best);
 
         if (1) {
           std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
@@ -376,8 +394,14 @@ void ItemPicker::CoutDiffsToStart() const
   }
 }
 
-void ItemPicker::CoutAllUpgradesFromStart() const
+void ItemPicker::CoutAllUpgradesFromStart()
 {
+
+  auto pve_count_tmp = m_curr_pve_healing_counts;
+  auto pve_regen_tmp = m_curr_regens;
+
+  m_curr_pve_healing_counts = m_start_pve_healing_counts;
+  m_curr_regens = m_start_regens;
 
   ItemTable item_table(m_item_table_name);
   std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "ranged",
@@ -456,12 +480,38 @@ void ItemPicker::CoutAllUpgradesFromStart() const
       std::cout << diff.first << std::endl;
     } 
   }  // for slots
+
+  m_curr_pve_healing_counts = pve_count_tmp;
+  m_curr_regens = pve_regen_tmp;
+
+  // save counts best, c best
+  // pve_count_tmp = m_best_pve_healing_counts;
+  auto c_tmp = m_c_best;
+
+  // set start counts to best, start c to c best
+  // m_best_pve_healing_counts = m_start_pve_healing_counts;
+  m_c_best = m_c_start;
+
+  // cout counts and current values alt
+  // std::cout << "-- Counts at start item level: --" << std::endl;
+  // CoutBestCounts();
+  std::cout << "-- Stat values at start item level: --" << std::endl;
+  CoutCurrentValuesAlt();
+
+  // set back best counts and best c
+  // m_best_pve_healing_counts = pve_count_tmp;
+  m_c_best = c_tmp;
 }
 
 
 
-void ItemPicker::CoutAllUpgrades() const
+void ItemPicker::CoutAllUpgrades()
 {
+  auto pve_count_tmp = m_curr_pve_healing_counts;
+  auto pve_regen_tmp = m_curr_regens;
+
+  m_curr_pve_healing_counts = m_best_pve_healing_counts;
+  m_curr_regens = m_best_regens;
 
   ItemTable item_table(m_item_table_name);
   std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "ranged",
@@ -540,6 +590,9 @@ void ItemPicker::CoutAllUpgrades() const
       std::cout << diff.first << std::endl;
     } 
   }  // for slots
+
+  m_curr_pve_healing_counts = pve_count_tmp;
+  m_curr_regens = pve_regen_tmp;
 }
 
 void ItemPicker::FinalCouts()
@@ -566,9 +619,14 @@ void ItemPicker::FinalCouts()
 void ItemPicker::Calculate()
 {
 
-  m_items_start = m_items_best;
   auto t0 = std::chrono::high_resolution_clock::now();
-  m_c_start = m_c_curr;
+
+  // Save start state (from start_with.txt)
+  m_c_start = m_c_best;
+  m_start_pve_healing_counts = m_best_pve_healing_counts;
+  m_items_start = m_items_best;
+  m_start_regens = m_best_regens;
+
   ItemTable item_table(m_item_table_name);
   int static_for_all_slots = 0;
   int max_iterations = 1000;
@@ -689,6 +747,7 @@ void ItemPicker::CoutBestCounts() const
         float count = m_best_pve_healing_counts[combat_ix][spell_ix];
         std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
       }
+      std::cout << "    pve info: " << m_pve_info[combat_ix] << std::endl;
     }
   }
 }

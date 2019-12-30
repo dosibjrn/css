@@ -39,8 +39,9 @@ The spell sequence is optimized as well: number of following spells is adjusted:
   * renew, max rank
   * poh, max rank
 
-These spells have specific "max frequencies", limiting their relative amount. Max rank renews, max rank greater heals
-are limited to 0.2 due to the fact that it's not really realistic to cast these two all combat. Poh is limited to 0.1.
+These spells have specific "max frequencies", limiting their relative amount. Max rank renews are limited to 20%,
+max rank greater heals are limited to 10%, and PoH is limited to 10% due to the fact that it's not really realistic to
+cast these all combat.
 (i.e., 20% and 10% of total number of spells in sequence).
 
 20% of critting heal is approximated to be non-overhealing on average.
