@@ -164,6 +164,15 @@ bool SameItems(const std::map<std::string, Item>& a, const std::map<std::string,
 void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans, int iteration, int max_iterations, //
                                   int* static_for_all_slots, int* iters_without_new_best)
 {
+  {
+    bool was_partial = m_c_curr.set_bonuses.getPartial();
+    m_c_curr.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_curr);
+    m_c_best.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_best);
+    bool is_partial = m_c_curr.set_bonuses.getPartial();
+    if (was_partial != is_partial) {
+      m_val_best = value(m_c_best);
+    }
+  }
   std::vector<std::string> slots = item_table.getItemSlots();
   if (m_items.empty()) {
     for (const auto& slot : slots) {
@@ -615,7 +624,6 @@ void ItemPicker::Calculate()
       }
       iters_no_bans = 0;
     }
-    m_c_curr.set_bonuses.SetPartial(!disable_bans);
     if (iters_no_bans > max_iters_no_bans/2) {
       float curr_val = value(m_c_curr);
       if (curr_val < m_val_best) {

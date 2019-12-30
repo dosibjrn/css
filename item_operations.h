@@ -1,10 +1,11 @@
 #pragma once
 
 #include "item.h"
-#include "priest_character.h"
 
 namespace css
 {
+
+struct PriestCharacter;
 
 void CoutItem(const Item& i);
 void AddItem(const Item &i, PriestCharacter* c);

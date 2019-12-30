@@ -80,8 +80,11 @@ private:
   std::map<std::string, bool> m_locked;
   std::map<std::string, bool> m_banned;
   std::map<std::string, bool> m_whitelist;  // to go around a ban of items one has
+
   PriestCharacter m_c_start;
   PriestCharacter m_c_curr;
+  PriestCharacter m_c_best;
+
   std::string m_item_table_name;
   std::vector<std::vector<float>> m_curr_pve_healing_counts;
   std::vector<std::vector<float>> m_best_pve_healing_counts;
@@ -91,7 +94,6 @@ private:
   std::vector<Regen> m_curr_regens;
   std::vector<Regen> m_best_regens;
 
-  PriestCharacter m_c_best;
   float m_val_best = 0.0f;
   std::map<std::string, Item> m_items_best;
   std::map<std::string, Item> m_items_prev_intermediate_results;

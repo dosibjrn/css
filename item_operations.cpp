@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "priest_character.h"
+
 namespace css
 {
 
@@ -36,13 +38,15 @@ void CoutItem(const Item& i)
 
 void AddItem(const Item &i, PriestCharacter* c)
 {
-  Item set_bonus_pre = c->set_bonuses.getTotalBonus();
-  c->set_bonuses.AddItem(i);
-  Item set_bonus_post = c->set_bonuses.getTotalBonus();
   Item i_tmp = i;
-  if (set_bonus_pre.name != set_bonus_post.name) {
-    AddToItemWithMul(set_bonus_pre, -1.0f, &i_tmp);  
-    AddToItemWithMul(set_bonus_post, 1.0f, &i_tmp);  
+  if (i.slot != "Set bonuses") {
+    Item set_bonus_pre = c->set_bonuses.getTotalBonus();
+    c->set_bonuses.AddItem(i);
+    Item set_bonus_post = c->set_bonuses.getTotalBonus();
+    if (set_bonus_pre.name != set_bonus_post.name) {
+      AddToItemWithMul(set_bonus_pre, -1.0f, &i_tmp);  
+      AddToItemWithMul(set_bonus_post, 1.0f, &i_tmp);  
+    }
   }
   c->strength += i_tmp.strength;
   c->agility += i_tmp.agility;
@@ -72,15 +76,17 @@ void AddItem(const Item &i, PriestCharacter* c)
 
 void RemoveItem(const Item &i, PriestCharacter* c)
 {
-  Item set_bonus_pre = c->set_bonuses.getTotalBonus();
-  c->set_bonuses.RemoveItem(i);
-  Item set_bonus_post = c->set_bonuses.getTotalBonus();
   Item i_tmp = i;
-  if (set_bonus_pre.name != set_bonus_post.name) {
-    // if there was a change, we want the item to be bigger/better
-    AddToItemWithMul(set_bonus_post, -1.0f, &i_tmp);  
-    // pre was bigger as we removed something -> add it with 1.0f
-    AddToItemWithMul(set_bonus_pre, 1.0f, &i_tmp);
+  if (i.slot != "Set bonuses") {
+    Item set_bonus_pre = c->set_bonuses.getTotalBonus();
+    c->set_bonuses.RemoveItem(i);
+    Item set_bonus_post = c->set_bonuses.getTotalBonus();
+    if (set_bonus_pre.name != set_bonus_post.name) {
+      // if there was a change, we want the item to be bigger/better
+      AddToItemWithMul(set_bonus_post, -1.0f, &i_tmp);  
+      // pre was bigger as we removed something -> add it with 1.0f
+      AddToItemWithMul(set_bonus_pre, 1.0f, &i_tmp);
+    }
   }
 
   c->strength -= i_tmp.strength;

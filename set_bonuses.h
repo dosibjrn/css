@@ -11,12 +11,15 @@ namespace css
 
 typedef std::map<std::string, Item> SetBonusListType;
 
+struct PriestCharacter;
+
 class SetBonuses {
  public:
   SetBonuses();
   Item getTotalBonus() const { if (m_partial) { return m_total_bonus_partial; } else { return m_total_bonus; } } 
 
-  void SetPartial(bool b) { m_partial = b; }
+  bool getPartial() const { return m_partial; }
+  void SetPartialAndUpdateCharacter(bool b, PriestCharacter *c);
 
   void AddItem(const Item& item);
   void RemoveItem(const Item& item);

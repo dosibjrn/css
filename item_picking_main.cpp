@@ -42,12 +42,17 @@ int ItemPickingMain(int argc, char** argv, ItemPicker::ValueChoice value_choice,
       int static_for_all_slots = 0;
       int iters_without_new_best = 0;
       std::cout << "Optimizing start items..." << std::endl;
-      bool disable_bans = true;
+      bool disable_bans = false;
       int max_iters = 5;
       for (int iter = 0; iter < max_iters; ++iter) {
+        if (iter > max_iters/2) {
+          disable_bans = true;
+        }
         ip.PickBestForSlots(item_table, disable_bans, iter, max_iters, //
                             &static_for_all_slots, &iters_without_new_best);
         std::cout << "*";
+
+        std::cout << std::endl << "best val: " <<  ip.getBestValue() << std::endl;
         std::cout.flush();
       }
       std::cout << std::endl;

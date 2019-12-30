@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "item_operations.h"
+#include "priest_character.h"
 
 namespace css
 {
@@ -70,6 +71,23 @@ SetBonuses::SetBonuses() {
   m_bonus_list_partial = toPartial(m_bonus_list);
 }
 
+
+void SetBonuses::SetPartialAndUpdateCharacter(bool b, PriestCharacter *c)
+{
+  if (m_partial == b) {
+    return;
+  } else if (m_partial) {
+    // remove partial, add real
+    css::RemoveItem(m_total_bonus_partial, c);
+    css::AddItem(m_total_bonus, c);
+  } else if (!m_partial) {
+    // remove real, add partial
+    css::RemoveItem(m_total_bonus, c);
+    css::AddItem(m_total_bonus_partial, c);
+  }
+  m_partial = b;
+}
+
 SetBonusListType SetBonuses::toPartial(SetBonusListType& bonus_list)
 {
   SetBonusListType partial_bonus_list;
@@ -131,6 +149,7 @@ void SetBonuses::addItem(const Item& item, const SetBonusListType& bonus_list, I
     for (auto t_bonus_name : (*bonus_names)) {
       ss << t_bonus_name << " ";
     }
+    total_bonus->slot = "Set bonuses";
     total_bonus->name = ss.str();
     if (verbose) CoutItem(bonus);
     AddToItemWithMul(bonus, 1.0f, total_bonus);
@@ -159,7 +178,7 @@ void SetBonuses::removeItem(const Item& item, const SetBonusListType& bonus_list
 
   auto item_it = (*sets)[set_name].find(item.name);
   if (item_it == (*sets)[set_name].end()) {
-    std::cout << "!!!! Trying to remove non existing item??? come on." << std::endl;
+    std::cout << "!!!! Trying to remove non existing item: " << item.name << " from set: " << set_name << "??? come on." << std::endl;
     return;
   }
   int items_of_set = (*sets)[set_name].size();
