@@ -607,14 +607,15 @@ void ItemPicker::Calculate()
       disable_bans = true;
       iters_no_bans++;
       if (iters_no_bans == 1) {
-        std::cout << "Bans off." << std::endl;
+        std::cout << "Temporary bans and partial set bonuses off." << std::endl;
       }
     } else {
       if (iters_no_bans > 0) {
-        std::cout << "Bans on." << std::endl;
+        std::cout << "Temporary bans and partial set bonuses on." << std::endl;
       }
       iters_no_bans = 0;
     }
+    m_c_curr.set_bonuses.SetPartial(!disable_bans);
     if (iters_no_bans > max_iters_no_bans/2) {
       float curr_val = value(m_c_curr);
       if (curr_val < m_val_best) {

@@ -18,13 +18,13 @@ class SetBonuses {
 
   void SetPartial(bool b) { m_partial = b; }
 
-  void AddItem(const Item& i);
-  void RemoveItem(const Item& i);
+  void AddItem(const Item& item);
+  void RemoveItem(const Item& item);
 
  private:
-  void addItem(const Item& i, const SetBonusListType& bonus_list, Item *total_bonus, std::set<std::string>* bonus_names,
+  void addItem(const Item& item, const SetBonusListType& bonus_list, Item *total_bonus, std::set<std::string>* bonus_names,
                std::map<std::string, std::set<std::string>>* sets);
-  void removeItem(const Item& i, const SetBonusListType& bonus_list, Item *total_bonus, std::set<std::string>* bonus_names,
+  void removeItem(const Item& item, const SetBonusListType& bonus_list, Item *total_bonus, std::set<std::string>* bonus_names,
                std::map<std::string, std::set<std::string>>* sets);
 
   SetBonusListType toPartial(SetBonusListType& bonus_list);

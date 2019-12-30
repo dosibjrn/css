@@ -101,37 +101,12 @@ SetBonusListType SetBonuses::toPartial(SetBonusListType& bonus_list)
 
 void SetBonuses::AddItem(const Item& item)
 {
-  std::string set_name = getSetName(item.name);
-  if (set_name == "") {
-    return;
-  }
-  bool verbose = false;
-  if (verbose) std::cout << "adding " << item.name << " with set name: " << set_name << std::endl;
-  if (m_sets.find(set_name) == m_sets.end()) {
-    std::set<std::string> s;
-    m_sets[set_name] = s;
-  }
-  m_sets[set_name].insert(item.name);
-  int items_of_set = m_sets[set_name].size();
-  std::stringstream ss;
-  ss << set_name << " " << items_of_set;
-  std::string bonus_name = ss.str();
-  if (verbose) std::cout << "items_of_set: " << items_of_set << ", bonus_name: " << bonus_name << std::endl;
-  if (m_bonus_list.find(bonus_name) != m_bonus_list.end()) {
-    Item bonus = m_bonus_list[bonus_name];
-    m_bonus_names.insert(bonus_name);
-    ss.str("");
-    for (auto t_bonus_name : m_bonus_names) {
-      ss << t_bonus_name << " ";
-    }
-    m_total_bonus.name = ss.str();
-    if (verbose) CoutItem(bonus);
-    AddToItemWithMul(bonus, 1.0f, &m_total_bonus);
-  }
+  addItem(item, m_bonus_list, &m_total_bonus, &m_bonus_names, &m_sets);
+  addItem(item, m_bonus_list_partial, &m_total_bonus_partial, &m_bonus_names_partial, &m_sets_partial);
 }
 
-void addItem(const Item& i, const SetBonusListType& bonus_list, Item *total_bonus, std::set<std::string>* bonus_names,
-             std::map<std::string, std::set<std::string>>* sets)
+void SetBonuses::addItem(const Item& item, const SetBonusListType& bonus_list, Item *total_bonus, std::set<std::string>* bonus_names,
+                         std::map<std::string, std::set<std::string>>* sets)
 {
   std::string set_name = getSetName(item.name);
   if (set_name == "") {
@@ -139,7 +114,7 @@ void addItem(const Item& i, const SetBonusListType& bonus_list, Item *total_bonu
   }
   bool verbose = false;
   if (verbose) std::cout << "adding " << item.name << " with set name: " << set_name << std::endl;
-  if (sets->find(set_name) == m_sets.end()) {
+  if (sets->find(set_name) == sets->end()) {
     std::set<std::string> s;
     (*sets)[set_name] = s;
   }
@@ -165,44 +140,11 @@ void addItem(const Item& i, const SetBonusListType& bonus_list, Item *total_bonu
 
 void SetBonuses::RemoveItem(const Item& item)
 {
-  std::string set_name = getSetName(item.name);
-  if (set_name == "") {
-    return;
-  }
-  auto set_it = m_sets.find(set_name);
-  if (set_it == m_sets.end()) {
-    std::cout << "!!!! Trying to remove from non existing set: " << set_name << "?? come on." << std::endl;
-    return;
-  }
-
-  auto item_it = m_sets[set_name].find(item.name);
-  if (item_it == m_sets[set_name].end()) {
-    std::cout << "!!!! Trying to remove non existing item??? come on." << std::endl;
-    return;
-  }
-  int items_of_set = m_sets[set_name].size();
-  m_sets[set_name].erase(item_it);
-  std::stringstream ss;
-  ss << set_name << " " << items_of_set;
-  std::string bonus_name = ss.str();
-  if (m_bonus_list.find(bonus_name) != m_bonus_list.end()) {
-    Item bonus = m_bonus_list[bonus_name];
-    auto bonus_name_it = m_bonus_names.find(bonus_name);
-    if (bonus_name_it == m_bonus_names.end()) {
-      std::cout << "!!!! Trying to remove non existing bonus name??? come on." << std::endl;
-      return;
-    }
-    m_bonus_names.erase(bonus_name_it);
-    ss.str("");
-    for (auto t_bonus_name : m_bonus_names) {
-      ss << t_bonus_name << " ";
-    }
-    m_total_bonus.name = ss.str();
-    AddToItemWithMul(bonus, -1.0f, &m_total_bonus);
-  }
+  removeItem(item, m_bonus_list, &m_total_bonus, &m_bonus_names, &m_sets);
+  removeItem(item, m_bonus_list_partial, &m_total_bonus_partial, &m_bonus_names_partial, &m_sets_partial);
 }
 
-void SetBonuses::removeItem(const Item& i, const SetBonusListType& bonus_list, Item *total_bonus, std::set<std::string>* bonus_names,
+void SetBonuses::removeItem(const Item& item, const SetBonusListType& bonus_list, Item *total_bonus, std::set<std::string>* bonus_names,
                             std::map<std::string, std::set<std::string>>* sets)
 {
   std::string set_name = getSetName(item.name);
@@ -225,8 +167,8 @@ void SetBonuses::removeItem(const Item& i, const SetBonusListType& bonus_list, I
   std::stringstream ss;
   ss << set_name << " " << items_of_set;
   std::string bonus_name = ss.str();
-  if (bonus_list->find(bonus_name) != bonus_list->end()) {
-    Item bonus = bonus_list->at(bonus_name);
+  if (bonus_list.find(bonus_name) != bonus_list.end()) {
+    Item bonus = bonus_list.at(bonus_name);
     auto bonus_name_it = bonus_names->find(bonus_name);
     if (bonus_name_it == bonus_names->end()) {
       std::cout << "!!!! Trying to remove non existing bonus name??? come on." << std::endl;
