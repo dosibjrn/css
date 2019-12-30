@@ -7,6 +7,7 @@ namespace css
 int PveHealingItemPicking(int argc, char** argv)
 {
   auto c = BaseLvl60DiscHolyPvpHealing();
+  AddFullBuffs(&c);
   auto value_choice = ItemPicker::ValueChoice::pve_healing;
   return ItemPickingMain(argc, argv, value_choice, c);
 }

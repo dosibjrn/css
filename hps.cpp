@@ -511,8 +511,11 @@ Regen FindBestRegen(const PriestCharacter& c,
                     float combat_length, 
                     Regen current_regen) 
 {
-  constexpr int max_ticks = 10;
-  constexpr int max_casts = 20;
+  // constexpr int max_ticks = 10;
+  // constexpr int max_casts = 20;
+  constexpr int max_ticks = 100;
+  constexpr int max_casts = 100;
+ 
   current_regen.ticks = std::min(max_ticks, current_regen.ticks);
   current_regen.casts = std::min(max_casts, current_regen.casts);
   Stats stats(c);
@@ -649,8 +652,8 @@ std::vector<float> InitialSpellCounts()
 
 std::vector<float> SpellMaxFreqs()
 {
-  return {1.0, 1.0, 1.0, 0.1,   1.0,   0.2,      0.1};
-  // return {1.0, 1.0, 1.0, 1.0,   1.0,   1.0,      1.0};
+  // return {1.0, 1.0, 1.0, 0.1,   1.0,   0.2,      0.1};
+  return {1.0, 1.0, 1.0, 1.0,   1.0,   1.0,      1.0};
 }
 
 Regen InitialRegen()

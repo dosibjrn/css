@@ -224,7 +224,7 @@ PriestCharacter BaseLvl60DiscHolyPvpHealing()
   c.base_mana = 1436.0f;
   c.base_hp = 1387.0f;
 
-  c.mp5 = 1800.0f/120.0f*5.0f;  // major mana pot
+  // c.mp5 = 1800.0f/120.0f*5.0f;  // major mana pot
 
   c.defense = 300;
   c.armor = 1814;
@@ -241,6 +241,17 @@ PriestCharacter BaseLvl60DiscHolyPvpHealing()
   c.talents.power_infusion = 1;
   c.talents.holy_specialization = 3;
   return c;
+}
+
+void AddFullBuffs(PriestCharacter *c) {
+  c->mp5 += 60;  // major mana potion
+  c->mp5 += 50;  // runes
+  c->mp5 += 12;  // brilliant mana oil
+  c->mp5 += 12;  // mageblood potion
+
+  // Flask of distilled wisdom: -crit to affet only mana.
+  c->intelligence += 133.333333f;
+  c->spell_crit += -2.244668911;
 }
 
 }  // namespace css
