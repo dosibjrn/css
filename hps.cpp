@@ -90,6 +90,7 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
 
   int ix = 0;
   int curr_casts = 0;
+  int total_ticks_oom = 0;
   while (1) {
     if (curr_casts >= casts) {
       curr_casts = 0;
@@ -139,6 +140,7 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
           << ", spell.cost: " << spell.cost << ", time: " << time << std::endl;
         in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
         ticks_in_loop++;
+        total_ticks_oom++;
         if (time >= end_at_s) {
           break_main_loop = true;
           break;
@@ -201,10 +203,12 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
   heal_sum += from_rem_mana;
   if (verbose) std::cout << heal_sum << ", time: " << time << ", hps: " << heal_sum/time << std::endl;
 
-  float info = heal_sum_before_oom_or_end/heal_sum;
+  // float info = heal_sum_before_oom_or_end/heal_sum;
+  float info = (total_ticks_oom*2.0f)/time;
 
-  // if (info < 0.7) {
-    // heal_sum *= info;
+  // if (info > 0.2) {
+    // heal_sum *= 1.0f - info;
+  heal_sum *= 1.0f - info/5;
   // }
 
   return {heal_sum/time, info};
@@ -348,6 +352,7 @@ float HpsPvp(const PriestCharacter& c)
   Regen regen;
   regen.casts = 100;
   regen.ticks = 0;
+  regen.ticks_oom = 0;
   return HpsWithRegen(c, spells, 17.0f, regen).first;
 }
 
@@ -527,13 +532,16 @@ Regen FindBestRegen(const PriestCharacter& c,
                     float combat_length, 
                     Regen current_regen) 
 {
-  constexpr int max_ticks = 10;
-  constexpr int max_casts = 20;
-  // constexpr int max_ticks = 100;
   // constexpr int max_casts = 100;
+  // constexpr int max_ticks = 100;
+  constexpr int max_casts = 10;
+  constexpr int max_ticks = 20;
+  constexpr int max_ticks_oom =4*max_ticks;
+  // constexpr int max_ticks_oom = 0;
  
   current_regen.ticks = std::min(max_ticks, current_regen.ticks);
   current_regen.casts = std::min(max_casts, current_regen.casts);
+  current_regen.ticks_oom = std::min(max_ticks_oom, current_regen.ticks_oom);
   Stats stats(c);
   float best_score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
                                   current_regen).first;
@@ -541,9 +549,11 @@ Regen FindBestRegen(const PriestCharacter& c,
   int step_size = 1;
   int best_casts = current_regen.casts;
   int best_ticks = current_regen.ticks;
+  int best_ticks_oom = current_regen.ticks_oom;
+  // casts +
   for (int casts = best_casts; casts <= max_casts; casts += step_size) {
     float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
-                               Regen(casts, best_ticks)).first;
+                               Regen(casts, best_ticks, best_ticks_oom)).first;
     if (score >= best_score) {
       best_casts = casts;
       best_score = score;
@@ -552,9 +562,10 @@ Regen FindBestRegen(const PriestCharacter& c,
     }
   }
 
+  // casts -
   for (int casts = best_casts; casts > 0; casts -= step_size) {
     float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
-                               Regen(casts, best_ticks)).first;
+                               Regen(casts, best_ticks, best_ticks_oom)).first;
     if (score >= best_score) {
       best_casts = casts;
       best_score = score;
@@ -563,9 +574,10 @@ Regen FindBestRegen(const PriestCharacter& c,
     }
   }
 
+  // ticks +
   for (int ticks = best_ticks; ticks <= max_ticks; ticks += step_size) {
     float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
-                               Regen(best_casts, ticks)).first;
+                               Regen(best_casts, ticks, best_ticks_oom)).first;
     if (score >= best_score) {
       best_ticks = ticks;
       best_score = score;
@@ -574,11 +586,36 @@ Regen FindBestRegen(const PriestCharacter& c,
     }
   }
 
+  // ticks -
   for (int ticks = best_ticks; ticks >= 0; ticks -= step_size) {
     float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
-                               Regen(best_casts, ticks)).first;
+                               Regen(best_casts, ticks, best_ticks_oom)).first;
     if (score >= best_score) {
       best_ticks = ticks;
+      best_score = score;
+    } else {
+      break;
+    }
+  }
+
+  // ticks_oom +
+  for (int ticks_oom = best_ticks_oom; ticks_oom <= max_ticks_oom; ticks_oom += step_size) {
+    float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
+                               Regen(best_casts, best_ticks, ticks_oom)).first;
+    if (score >= best_score) {
+      best_ticks_oom = ticks_oom;
+      best_score = score;
+    } else {
+      break;
+    }
+  }
+
+  // ticks_oom -
+  for (int ticks_oom = best_ticks_oom; ticks_oom >= 0; ticks_oom -= step_size) {
+    float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
+                               Regen(best_casts, best_ticks, ticks_oom)).first;
+    if (score >= best_score) {
+      best_ticks_oom = ticks_oom;
       best_score = score;
     } else {
       break;
@@ -590,6 +627,7 @@ Regen FindBestRegen(const PriestCharacter& c,
     std::cout << "combat_length: " << combat_length
         << "best_casts: " << best_casts
         << "best_ticks: " << best_ticks
+        << "best_ticks_oom: " << best_ticks_oom
         << ", spell counts: "
         << spell_counts[0] << " " << spell_counts[1] << " "
         << spell_counts[2] << " " << spell_counts[3] << " "
@@ -597,7 +635,7 @@ Regen FindBestRegen(const PriestCharacter& c,
         << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)
         << ", score: " << best_score << std::endl;
   }
-  return Regen(best_ticks, best_casts);
+  return Regen(best_casts, best_ticks, best_ticks_oom);
 }
 
 
@@ -674,7 +712,7 @@ std::vector<float> SpellMaxFreqs()
 
 Regen InitialRegen()
 {
-  return Regen(1,1);
+  return Regen(20,20,20);
 }
 
 float FreqPenalty(const std::vector<float>& counts)

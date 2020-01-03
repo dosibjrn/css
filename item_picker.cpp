@@ -59,6 +59,7 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
   auto counts = m_curr_pve_healing_counts;
   for (int i = 0; i < n_combats; ++i) {
     Regen regen = regens[i];
+    // regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
     auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
     hps_sum += res.first;
     count++;
@@ -68,6 +69,9 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
 
 std::vector<float> ItemPicker::getPveInfo(const PriestCharacter& c) const
 {
+  if (m_value_choice != ValueChoice::pve_healing) {
+    return m_pve_healing_combat_lengths;
+  }
   int n_combats = m_pve_healing_combat_lengths.size();
   Stats stats(c);
 
@@ -109,6 +113,8 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   // 3574177442 // 271.771
   // 4052265553 // 271.842
   // my_seed = 129990850; // 272.9
+  my_seed = 799271235;
+
   std::cout << "Shuffle seed: " << my_seed << std::endl;
 
 
@@ -741,7 +747,7 @@ void ItemPicker::CoutBestCounts() const
       float dura = m_pve_healing_combat_lengths[combat_ix];
       std::cout << "For " << dura << " s fights:" << std::endl;
       std::cout << "    casts: " << m_best_regens[combat_ix].casts << ", ticks: " << m_best_regens[combat_ix].ticks //
-          << std::endl;
+          << ", ticks_oom: " << m_best_regens[combat_ix].ticks_oom << std::endl;
       for (int spell_ix = 0; spell_ix < n_spells; spell_ix++) {
         Spell s = IxToSpell(m_c_curr, spell_ix);
         float count = m_best_pve_healing_counts[combat_ix][spell_ix];

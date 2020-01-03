@@ -24,5 +24,8 @@ Spell IxToSpell(const PriestCharacter& c, int choice_ix);
 
 std::vector<float> InitialSpellCounts();
 Regen InitialRegen();
-
+Regen FindBestRegen(const PriestCharacter& c, 
+                    const std::vector<float>& spell_counts, 
+                    float combat_length, 
+                    Regen current_regen); 
 }  // namespace css
