@@ -1,6 +1,6 @@
 Classic Simple Stats
 
-To build:
+To build in e.g. Ubuntu terminal:
 
 mkdir build
 
@@ -23,6 +23,7 @@ The "4" is for item picking for pve healing, for disc priest.
 For pvp healing, disc priest, use "./css 3" instead
 
 For pvp shadow priest, use "./css 2".
+
 
 This is developed and tested under Ubuntu 18.04, but should probably build and work in Windows as well.
 
@@ -55,6 +56,7 @@ best item is banned for the next round.
 
 The PvE optimization function is average heal per second for 2, 3, 4, 5, 6 minute fights, each weighted equally.
 
+To see effect of consumables, very similar option ./css 5 exists. This is same as 4, but with potions, runes, mana oil, mageblood and flask.
 
 
 The PvP healing item picking functions in quite similar fashion, only the objective function and spell sequence changes.
@@ -72,6 +74,7 @@ HpS here comes from a pvp spell sequence with couple renews and mostly max rank 
  PvP shadow is quite similar to PvP healing, but the Hps is replaced by shadow dps with somewhat simple shadow
  damage rotation.
 
+The pvp options for shadow and disc have fixed spell sequences.
 
 The focus of this tool is mostly in PvP and PvE healing gear calculations.
 

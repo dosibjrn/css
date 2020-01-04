@@ -41,9 +41,10 @@ int main(int argc, char** argv)
       std::cout << "       1 := pvp stats, trying to find linear weights" << std::endl;
       std::cout << "       2 := pvp item picking, second arg for item table file name" << std::endl;
       std::cout << "       3 := pvp healing item picking, second arg for item table file name" << std::endl;
-      std::cout << "       4 := healing item picking, second arg for item table file name. 2, 4 and 6 minute fights." << std::endl;
-      std::cout << "            third arg for banned, fourth arg for locked" << std::endl;
+      std::cout << "       4 := healing item picking, second arg for item table file name. 2, 3, 4, 5 and 6 minute fights." << std::endl;
+      std::cout << "            third arg for banned items / sources, fourth arg for locked items" << std::endl;
       std::cout << "       5 := same as 4, but with potions, runes, mana oil, mageblood and flask" << std::endl;
+      std::cout << "All items listed in start_with.txt will be used for initial optimization for options 2-5." << std::endl; 
       break;
   }
   return 0;

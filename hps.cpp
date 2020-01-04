@@ -534,9 +534,9 @@ Regen FindBestRegen(const PriestCharacter& c,
 {
   // constexpr int max_casts = 100;
   // constexpr int max_ticks = 100;
-  constexpr int max_casts = 10;
-  constexpr int max_ticks = 20;
-  constexpr int max_ticks_oom =4*max_ticks;
+  constexpr int max_casts = 20;
+  constexpr int max_ticks = 10;
+  constexpr int max_ticks_oom = 4*max_ticks;
   // constexpr int max_ticks_oom = 0;
  
   current_regen.ticks = std::min(max_ticks, current_regen.ticks);
