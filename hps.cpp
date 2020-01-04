@@ -47,8 +47,8 @@ int HandleManaRegen(float time, float last_cast_time, const Stats& stats, float*
 
 float RemainingManaAsHealing(const PriestCharacter& c, float in_full_regen, float mana)
 {
-  // Spell heal = GreaterHeal(c, -1);
-  Spell heal = FlashHeal(c, -1);
+  Spell heal = GreaterHeal(c, 4);
+  // Spell heal = FlashHeal(c, -1);
   float hps = heal.healing/heal.cast_time;
   float spell_cost_per_s = heal.cost/heal.cast_time;
 
@@ -208,7 +208,7 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
 
   // if (info > 0.2) {
     // heal_sum *= 1.0f - info;
-  heal_sum *= 1.0f - info/5;
+  // heal_sum *= 1.0f - info/5;
   // }
 
   return {heal_sum/time, info};
@@ -409,7 +409,7 @@ Spell IxToSpell(const PriestCharacter& c, int choice_ix)
     case 2:
       return GreaterHeal(c, 1);
     case 3:
-      return GreaterHeal(c, max_rank);
+      return GreaterHeal(c, 4);
     case 4:
       return FlashHeal(c, max_rank);
     case 5:
@@ -536,7 +536,8 @@ Regen FindBestRegen(const PriestCharacter& c,
   // constexpr int max_ticks = 100;
   constexpr int max_casts = 20;
   constexpr int max_ticks = 10;
-  constexpr int max_ticks_oom = 4*max_ticks;
+  // constexpr int max_ticks_oom = 4*max_ticks;
+  constexpr int max_ticks_oom = max_ticks;
   // constexpr int max_ticks_oom = 0;
  
   current_regen.ticks = std::min(max_ticks, current_regen.ticks);
@@ -587,7 +588,7 @@ Regen FindBestRegen(const PriestCharacter& c,
   }
 
   // ticks -
-  for (int ticks = best_ticks; ticks >= 0; ticks -= step_size) {
+  for (int ticks = best_ticks; ticks >= 1; ticks -= step_size) {
     float score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length,
                                Regen(best_casts, ticks, best_ticks_oom)).first;
     if (score >= best_score) {
@@ -706,7 +707,7 @@ std::vector<float> InitialSpellCounts()
 
 std::vector<float> SpellMaxFreqs()
 {
-  return {1.0, 1.0, 1.0, 0.1,   1.0,   0.2,      0.1};
+  return {1.0, 1.0, 1.0, 0.2,   1.0,   0.2,      0.1};
   // return {1.0, 1.0, 1.0, 1.0,   1.0,   1.0,      1.0};
 }
 

@@ -36,12 +36,12 @@ The spell sequence is optimized as well: number of following spells is adjusted:
   * heal rank 2
   * heal rank 4
   * greater heal rank 1
-  * greater heal, max rank
+  * greater heal rank 4
   * renew, max rank
   * poh, max rank
 
 These spells have specific "max frequencies", limiting their relative amount. Max rank renews are limited to 20%,
-max rank greater heals are limited to 10%, and PoH is limited to 10% due to the fact that it's not really realistic to
+max rank greater heals are limited to 20%, and PoH is limited to 10% due to the fact that it's not really realistic to
 cast these all combat.
 (i.e., 20% and 10% of total number of spells in sequence).
 
