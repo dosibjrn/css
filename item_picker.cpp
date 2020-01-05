@@ -745,6 +745,12 @@ void ItemPicker::CoutBestCounts() const
         std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
       }
       std::cout << "    pve info: " << m_pve_info[combat_ix] << std::endl;
+
+      float hps = HpsWithRegen(m_c_best, 
+                               PveHealingSequence(m_c_best, m_best_pve_healing_counts[combat_ix]), 
+                               m_pve_healing_combat_lengths[combat_ix], 
+                               m_best_regens[combat_ix]).first;
+      std::cout << "    hps: " << hps << std::endl; 
     }
   }
 }

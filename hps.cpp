@@ -208,7 +208,7 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
 
   // if (info > 0.2) {
     // heal_sum *= 1.0f - info;
-  // heal_sum *= 1.0f - info/5;
+  heal_sum *= 1.0f - info/5;
   // }
 
   return {heal_sum/time, info};
