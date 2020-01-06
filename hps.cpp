@@ -183,14 +183,9 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
     }
   }
 
+  float regen_penalty_mul = 1.0f;
   if (in_full_regen/time > global::assumptions.full_regen_limit) {
-    // soft cap, 10% off healing for every 1% over limit
-    // float penalty_mul = (1.0 - 0.1*(in_full_regen/time - global::assumptions.full_regen_limit)*100.0f);
-    float penalty_mul = (1.0 - in_full_regen/time);
-    // std::cout << "in_full_regen/time: " << in_full_regen/time << ", full_regen_limit: " 
-        // << global::assumptions.full_regen_limit << " -> penalty_mul: " << penalty_mul << std::endl;
-    penalty_mul = std::min(1.0f, std::max(0.01f, penalty_mul));
-    heal_sum *= penalty_mul;
+    regen_penalty_mul = (1.0 - (in_full_regen/time - global::assumptions.full_regen_limit));
   }
 
   float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana);
@@ -215,12 +210,10 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
   if (verbose) std::cout << heal_sum << ", time: " << time << ", hps: " << heal_sum/time << std::endl;
 
   // float info = heal_sum_before_oom_or_end/heal_sum;
-  float info = (total_ticks_oom*2.0f)/time;
+  float oom_penalty_mul = 1.0f - (total_ticks_oom*2.0f)/(time*5);
 
-  // if (info > 0.2) {
-    // heal_sum *= 1.0f - info;
-  heal_sum *= 1.0f - info/5;
-  // }
+  float info = oom_penalty_mul*regen_penalty_mul;
+  heal_sum *= info;
 
   return {heal_sum/time, info};
 }
