@@ -94,6 +94,7 @@ private:
   std::vector<std::vector<float>> m_curr_pve_healing_counts;
   std::vector<std::vector<float>> m_best_pve_healing_counts;
   const std::vector<float> m_pve_healing_combat_lengths = {120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
+  // const std::vector<float> m_pve_healing_combat_lengths = {60.0f, 120.0f, 180.0f, 240.0f};
 
   std::vector<float> m_pve_info;
 
