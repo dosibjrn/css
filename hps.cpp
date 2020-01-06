@@ -6,6 +6,7 @@
 #include <iostream>
 #include <numeric>
 
+#include "assumptions.h"
 #include "spells_priest_disc.h"
 #include "spells_priest_holy.h"
 #include "stats.h"
@@ -182,6 +183,16 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
     }
   }
 
+  if (in_full_regen/time > global::assumptions.full_regen_limit) {
+    // soft cap, 10% off healing for every 1% over limit
+    // float penalty_mul = (1.0 - 0.1*(in_full_regen/time - global::assumptions.full_regen_limit)*100.0f);
+    float penalty_mul = (1.0 - in_full_regen/time);
+    // std::cout << "in_full_regen/time: " << in_full_regen/time << ", full_regen_limit: " 
+        // << global::assumptions.full_regen_limit << " -> penalty_mul: " << penalty_mul << std::endl;
+    penalty_mul = std::min(1.0f, std::max(0.01f, penalty_mul));
+    heal_sum *= penalty_mul;
+  }
+
   float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana);
 
   if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
@@ -212,122 +223,6 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
   // }
 
   return {heal_sum/time, info};
-}
-
-float Hps(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, float mana_to_regen)
-{
-
-
-  std::vector<Spell> hots;
-  float heal_sum = 0.0f;
-  float time = 0.0f;
-  float last_cast_time = 0.0f;
-  int regen_ticks = 0;
-  Stats stats(c);
-  float mana = stats.getMaxMana();
-  float in_full_regen = 0.0f;
-
-  bool use_fixed_mana_with_mul = true;
-  if (use_fixed_mana_with_mul) {
-    float mul = mana_to_regen/mana;
-    mana_to_regen = mul*7000.0f;
-  }
-
-  if (mana_to_regen > mana) {
-    mana_to_regen = mana;
-  }
-
-  float pi_end = -180.0f + 15.0f;
-  if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f) {
-    pi_end = time + 15.0f;
-    time += 1.5f;
-    mana -= 0.2*c.base_mana;
-  }
-
-  int ix = 0;
-  while (1) {
-    if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
-      pi_end = time + 15.0f;
-      time += 1.5f;
-      mana -= 0.2*c.base_mana;
-      std::cout << "Pi started, time: " << time << ", pi_end: " << pi_end << ", mana: " << mana << std::endl;
-    }
-
-    Spell spell = spell_sequence[ix];
-    if (time + 3.0f < pi_end) {
-      spell = GreaterHeal(c, -1);
-      spell.healing *= 1.2;
-      ix--;
-    }
-    if (spell.cost > mana) {
-      bool break_main_loop = false;
-      while (mana < std::max(spell.cost, mana_to_regen)) {
-        time += 2.0f;
-        float pre = heal_sum;
-        HandleHots(time, &hots, &heal_sum);
-        if (heal_sum > pre) std::cout << "hots while regen, sum: " << heal_sum << ", mana: " << mana << ", spell.cost: " << spell.cost << ", mana_to_regen: " << mana_to_regen << ", time: " << time << std::endl;
-        in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
-        if (time >= end_at_s) {
-          break_main_loop = true;
-          break;
-        }
-      }
-      if (break_main_loop) {
-        break;
-      }
-    }
-    mana -= spell.cost;
-    if (mana < 0) {
-      std::cout << "Went to negative mana with spell: " << spell.name << std::endl;
-    }
-    time += spell.cast_time;
-    last_cast_time = time;
-    if (spell.instant) {
-      last_cast_time -= spell.cast_time;
-    }
-    if (spell.over_time) {
-      hots.push_back(spell);
-      hots.back().start = 0;
-    } 
-    if (!spell.over_time) {
-      heal_sum += spell.healing;
-      heal_sum += spell.shield;
-      std::cout << "spell: " << spell.name << ", sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
-    }
-
-    float pre = heal_sum;
-    HandleHots(time, &hots, &heal_sum);
-    if (heal_sum > pre) std::cout << "hots, sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
-    in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
-    if (time >= end_at_s) {
-      break;
-    }
-    ix++;
-    if (ix >= static_cast<int>(spell_sequence.size())) {
-      ix = 0;
-    }
-  }
-
-  float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana);
-
-  if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
-    pi_end = time + 15.0f;
-    in_full_regen -= 1.5f;
-    mana -= 0.2*c.base_mana;
-  }
-
-  float from_rem_mana_b = RemainingManaAsHealing(c, in_full_regen, mana);
-  if (time < pi_end) {
-    from_rem_mana_b *= 1.2;
-  }
-  float from_rem_mana = std::max(from_rem_mana_a, from_rem_mana_b);
-  std::cout << "mana: " << mana << ", in_full_regen: " << in_full_regen << ", from_rem_mana_a: " << from_rem_mana_a
-      << ", from_rem_mana_b: " << from_rem_mana_b << ", heal_sum: " << heal_sum << " -> ";
-  heal_sum += from_rem_mana;  // We want some benefit from excess mana, it should not reward too much though
-  std::cout << heal_sum << ", time: " << time << ", hps: " << heal_sum/time << std::endl;
-
-  return heal_sum/time;
-
 }
 
 float HpsPvp(const PriestCharacter& c)
@@ -494,39 +389,6 @@ std::vector<Spell> PveHealingSequence(const PriestCharacter& c, const std::vecto
   return spells;
 }
 
-
-float FindBestManaToRegenMul(const PriestCharacter& c, 
-                             const std::vector<float>& spell_counts, 
-                             float combat_length, 
-                             float init_mana_to_regen_mul)
-{
-  // return 0.0f;
-  float best_mul = init_mana_to_regen_mul;
-  Stats stats(c);
-  float best_score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
-                         stats.getMaxMana()*best_mul);
-  for (float mul = 0.0f; mul <= 0.95f; mul += 0.1f) {
-    float score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
-                         stats.getMaxMana()*mul);
-    if (score > best_score) {
-      best_mul = mul;
-      best_score = score;
-    }
-  }
-  bool verbose = false;
-  if (verbose) {
-    std::cout << "combat_length: " << combat_length
-        << "best_mul: " << best_mul
-        << ", spell counts: "
-        << spell_counts[0] << " " << spell_counts[1] << " "
-        << spell_counts[2] << " " << spell_counts[3] << " "
-        << spell_counts[4] << " " << spell_counts[5] << "/"
-        << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)
-        << ", score: " << best_score << std::endl;
-  }
-  return best_mul;
-}
-
 Regen FindBestRegen(const PriestCharacter& c, 
                     const std::vector<float>& spell_counts, 
                     float combat_length, 
@@ -637,54 +499,6 @@ Regen FindBestRegen(const PriestCharacter& c,
         << ", score: " << best_score << std::endl;
   }
   return Regen(best_casts, best_ticks, best_ticks_oom);
-}
-
-
-
-float FindBestManaToRegenMulNew(const PriestCharacter& c, 
-                             const std::vector<float>& spell_counts, 
-                             float combat_length, 
-                             float init_mana_to_regen_mul)
-{
-  // return 0.5f;
-  float best_mul = init_mana_to_regen_mul;
-  Stats stats(c);
-  float best_score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
-                         stats.getMaxMana()*best_mul);
-  float step_size = 0.05f;
-  for (float mul = best_mul; mul <= 0.95f; mul += step_size) {
-    float score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
-                         stats.getMaxMana()*mul);
-    if (score >= best_score) {
-      best_mul = mul;
-      best_score = score;
-    } else {
-      break;
-    }
-  }
-
-  for (float mul = best_mul; mul >= 0.0f; mul -= step_size) {
-    float score = Hps(c, PveHealingSequence(c, spell_counts), combat_length,
-                         stats.getMaxMana()*mul);
-    if (score >= best_score) {
-      best_mul = mul;
-      best_score = score;
-    } else {
-      break;
-    }
-  }
-  bool verbose = false;
-  if (verbose) {
-    std::cout << "combat_length: " << combat_length
-        << "best_mul: " << best_mul
-        << ", spell counts: "
-        << spell_counts[0] << " " << spell_counts[1] << " "
-        << spell_counts[2] << " " << spell_counts[3] << " "
-        << spell_counts[4] << " " << spell_counts[5] << "/"
-        << 0.1f*std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f)
-        << ", score: " << best_score << std::endl;
-  }
-  return best_mul;
 }
 
 namespace globals
@@ -889,15 +703,6 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
 
   return best_spell_counts;
 }
-
-float HpsPve(const PriestCharacter& c, float combat_length)
-{
-  auto spells = PveHealingSequence(c);
-  Stats s(c);
-  return Hps(c, spells, combat_length, 0.1f*s.getMaxMana());
-}
-
-
 
 }  // namespace css
 
