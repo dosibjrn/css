@@ -28,7 +28,9 @@ float ItemPicker::valuePvpShadow(const PriestCharacter& c) const
   float emana = s.getEffectiveMana(duration, fsr_frac);
   // float ehp = s.getEffectiveHp();
   float ehp = s.getEffectiveHpPvp();
-  return dps*dps*emana*ehp*ehp/1e15;
+  return dps*dps*emana*ehp*ehp
+      *((100.0f + 2.5f*std::min(6.0f, c.spell_hit))/100.0f)
+      /1e15;
 }
 
 float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
@@ -45,7 +47,10 @@ float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
   // float ehp = s.getEffectiveHp();
   float ehp = s.getEffectiveHpPvp();
   // heal free, heal until you die (ehp as mana pool), hp separately
-  return hps*hps*emana*ehp*ehp/1e15;
+  return hps*hps*emana*ehp*ehp
+      // Note: this is just based on hydra's post raid bis where the 2 hit pieces are picked over everything else
+      *((100.0f + 2.5f*std::min(6.0f, c.spell_hit))/100.0f)
+      /1e15;
 }
 
 float ItemPicker::valuePveHealing(const PriestCharacter& c) const
@@ -59,7 +64,7 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
   auto counts = m_curr_pve_healing_counts;
   for (int i = 0; i < n_combats; ++i) {
     Regen regen = regens[i];
-    // regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
+    regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
     auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
     hps_sum += res.first;
     count++;
@@ -146,6 +151,20 @@ void ItemPicker::intermediateCout(int iteration)
   std::cout << "------------------" << std::endl;
   std::cout << "~~~~ end of intermediate results ~~~~" << std::endl;
 
+}
+
+bool ItemPicker::isBanned(std::string s) const {
+  if (m_banned.find(s) != m_banned.end()) {
+    return true;
+  }
+  size_t comma_pos = s.find(",");
+  if (comma_pos == std::string::npos) {
+    return false;
+  } else {
+    std::string first = s.substr(0, comma_pos);
+    std::string second = s.substr(comma_pos + 2);  // ", "
+    return isBanned(first) || isBanned(second);
+  }
 }
 
 bool SameItems(const std::map<std::string, Item>& a, const std::map<std::string, Item>& b) {

@@ -60,7 +60,7 @@ private:
                                             std::vector<Regen> *regens) const;
 
   bool isLocked(std::string s) const { return m_locked.find(s) != m_locked.end(); }
-  bool isBanned(std::string s) const { return m_banned.find(s) != m_banned.end(); }
+  bool isBanned(std::string s) const;
   bool isBanned(const Item& i) const { return isBanned(i.name) || isBanned(i.source); }
   bool isWhitelisted(std::string s) const { return m_whitelist.find(s) != m_whitelist.end(); }
 
