@@ -63,6 +63,9 @@ private:
   bool isBanned(std::string s) const;
   bool isBanned(const Item& i) const { return isBanned(i.name) || isBanned(i.source); }
   bool isWhitelisted(std::string s) const { return m_whitelist.find(s) != m_whitelist.end(); }
+  void updateIfNewBest(float val, bool disable_bans);
+
+  void updateIfNewBest(float val, bool disable_bans, int iteration, int* iters_without_new_best);
 
   template<typename T>
       void shuffle(std::vector<T>* v)
@@ -105,6 +108,7 @@ private:
   std::vector<Regen> m_best_regens;
 
   float m_val_best = 0.0f;
+  float m_val_best_bans_on = 0.0f;
   std::map<std::string, Item> m_items_best;
   std::map<std::string, Item> m_items_prev_intermediate_results;
   std::map<std::string, Item> m_items_start;

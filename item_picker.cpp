@@ -194,6 +194,35 @@ bool SameItems(const std::map<std::string, Item>& a, const std::map<std::string,
   return true;
 }
 
+void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, int* iters_without_new_best)
+{
+  float* best = &m_val_best_bans_on;
+  if (disable_bans) {
+    best = &m_val_best;
+  }
+  if (val > *best) {
+    if (m_value_choice == ValueChoice::pve_healing) {
+      m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_curr_regens);
+      val = value(m_c_curr);
+    }
+    if (val > *best) {
+      if (disable_bans) {
+        *iters_without_new_best = 0;
+      }
+      m_c_best = m_c_curr;
+      m_items_best = m_items;
+      *best = val;
+      m_best_regens = m_curr_regens;
+      m_best_pve_healing_counts = m_curr_pve_healing_counts;
+      m_pve_info = getPveInfo(m_c_best);
+      if (1) {
+        std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
+        if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValuesAlt();
+      }
+    }
+  }
+}
+
 void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans, int iteration, int max_iterations, //
                                   int* static_for_all_slots, int* iters_without_new_best)
 {
@@ -336,27 +365,7 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
       }
     }
     float res_val = value(m_c_curr);
-    if (res_val > m_val_best) {
-      if (m_value_choice == ValueChoice::pve_healing) {
-        m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_curr_regens);
-        res_val = value(m_c_curr);
-      }
-      if (res_val > m_val_best) {
-        *iters_without_new_best = 0;
-        m_c_best = m_c_curr;
-        m_items_best = m_items;
-        m_val_best = res_val;
-        m_best_regens = m_curr_regens;
-        m_best_pve_healing_counts = m_curr_pve_healing_counts;
-        m_pve_info = getPveInfo(m_c_best);
-
-        if (1) {
-          std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
-          // CoutCurrentValues();
-          if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValuesAlt();
-        }
-      }
-    }
+    updateIfNewBest(res_val, disable_bans, iteration, iters_without_new_best);
     slot_ix++;
   }  // for slots
   // CoutDiffsToStart();
