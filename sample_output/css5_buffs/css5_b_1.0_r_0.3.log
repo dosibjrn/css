@@ -3,7 +3,7 @@ Found: -b, val: 1
 ./css 5 ../items/more_raid.csv -r 0.3 
 Found: -r, val: 0.3
 ./css 5 ../items/more_raid.csv 
-Shuffle seed: 3008650187
+Shuffle seed: 4293333539
 Reading tmp locked from: start_with.txt
 Locking: anastari heirloom
 Locking: animated chain necklace
@@ -74,54 +74,56 @@ Locking: vinerot sandals
 Locking: wolfshear leggings
 Locking: pants of prophecy
 Locking: clutch of andros
+Locking: star of mystaria
 Optimizing start items...
-[Perf] spent in FindBestPveHealingCounts: 0.0165996 s, that's: 100.001 % of total.
+[Perf] spent in FindBestPveHealingCounts: 0.0423687 s, that's: 100.001 % of total.
 
-*** NEW BEST: 227.697 ***
+*** NEW BEST: 218.311 ***
 
-*** NEW BEST: 233.701 ***
+*** NEW BEST: 228.346 ***
 
-*** NEW BEST: 241.825 ***
+*** NEW BEST: 237.499 ***
 
-*** NEW BEST: 250.247 ***
+*** NEW BEST: 247.612 ***
 
-*** NEW BEST: 256.61 ***
+*** NEW BEST: 256.128 ***
 
-*** NEW BEST: 266.582 ***
+*** NEW BEST: 265.484 ***
 
-*** NEW BEST: 275.332 ***
+*** NEW BEST: 273.218 ***
 
-*** NEW BEST: 278.043 ***
+*** NEW BEST: 279.316 ***
 
-*** NEW BEST: 292.367 ***
+*** NEW BEST: 289.858 ***
 
-*** NEW BEST: 304.946 ***
+*** NEW BEST: 312.73 ***
 
-*** NEW BEST: 313.837 ***
+*** NEW BEST: 320.88 ***
 
-*** NEW BEST: 323.268 ***
+*** NEW BEST: 330.798 ***
 
-*** NEW BEST: 332.217 ***
+*** NEW BEST: 335.963 ***
 
-*** NEW BEST: 339.622 ***
+*** NEW BEST: 348.263 ***
 
-*** NEW BEST: 362.983 ***
+*** NEW BEST: 371.596 ***
 
-*** NEW BEST: 384.306 ***
+*** NEW BEST: 383.882 ***
 *
-best val: 384.306
-*
-best val: 384.306
-*
-best val: 384.306
-shoulders : devout mantle -> burial shawl => val: 381.012 -> 382.587
-chest : devout robe -> magister's robes => val: 382.587 -> 383.4
+best val: 383.882
 
-*** NEW BEST: 383.465 ***
+*** NEW BEST: 387.853 ***
 *
-best val: 383.465
+best val: 387.853
+
+*** NEW BEST: 387.968 ***
 *
-best val: 383.465
+best val: 387.968
+feet : omnicast boots -> devout sandals => val: 381.097 -> 384.298
+*
+best val: 384.683
+*
+best val: 384.683
 
 Read starting items and cleared locks.
  ----------------------------
@@ -144,11 +146,12 @@ spirit: 6
 sp_healing: 33
  ----------------------------
  --- shoulders --- 
-name: burial shawl
+name: devout mantle
 slot: shoulders
-intelligence: 16
-sp: 20
-armor: 65
+intelligence: 21
+stamina: 4
+spirit: 9
+armor: 64
  ----------------------------
  --- back --- 
 name: hide of the wild
@@ -159,11 +162,11 @@ sp_healing: 42
 armor: 48
  ----------------------------
  --- chest --- 
-name: magister's robes
+name: devout robe
 slot: chest
-intelligence: 31
-stamina: 9
-spirit: 8
+intelligence: 24
+stamina: 13
+spirit: 15
 armor: 89
  ----------------------------
  --- wrists --- 
@@ -178,21 +181,24 @@ armor: 35
 name: 
 slot: 
  ----------------------------
- --- main hand --- 
-name: the hammer of grace
-slot: main hand
-sp_healing: 31
+ --- one-hand --- 
+name: aurastone hammer
+slot: one-hand
+intelligence: 10
+stamina: 10
+sp: 25
+mp5: 5
  ----------------------------
  ---  --- 
 name: 
 slot: 
  ----------------------------
  --- off hand --- 
-name: spellbound tome
+name: penelope's rose
 slot: off hand
-intelligence: 17
-stamina: 6
-spirit: 3
+intelligence: 11
+stamina: 10
+spirit: 11
  ----------------------------
  --- ranged --- 
 name: dragon finger of intellect
@@ -200,32 +206,28 @@ slot: ranged
 intelligence: 8
  ----------------------------
  --- hands --- 
-name: atal'ai gloves of the owl
+name: shadowy laced handwraps
 slot: hands
-intelligence: 13
-spirit: 13
-sp: 9
-armor: 47
+intelligence: 15
+mp5: 5
+shadow_res: 12
+armor: 53
  ----------------------------
  --- waist --- 
-name: thuzadin sash
+name: grimgore noose
 slot: waist
-intelligence: 12
-stamina: 11
-spirit: 11
-sp: 11
-armor: 49
+intelligence: 17
+stamina: 9
+spirit: 10
+armor: 47
  ----------------------------
  --- legs --- 
-name: pants of prophecy
+name: padre's trousers
 slot: legs
-intelligence: 24
-stamina: 18
-spirit: 20
-sp_healing: 22
+intelligence: 20
+sp_healing: 42
 mp5: 6
-shadow_res: 10
-armor: 89
+armor: 76
  ----------------------------
  --- feet --- 
 name: omnicast boots
@@ -236,17 +238,22 @@ sp_healing: 22
 armor: 58
  ----------------------------
  --- finger --- 
-name: rosewine circle
-slot: finger
-sp_healing: 29
-mp5: 5
- ----------------------------
- --- finger --- 
 name: fordring's seal
 slot: finger
 intelligence: 5
 stamina: 4
 sp_healing: 37
+ ----------------------------
+ --- finger --- 
+name: rosewine circle
+slot: finger
+sp_healing: 29
+mp5: 5
+ ----------------------------
+ --- trinket --- 
+name: briarwood reed
+slot: trinket
+sp: 29
  ----------------------------
  --- trinket --- 
 name: royal seal of eldre'thalas
@@ -254,14 +261,10 @@ slot: trinket
 sp_healing: 33
 mp5: 4
  ----------------------------
- --- trinket --- 
-name: briarwood reed
-slot: trinket
-sp: 29
- ----------------------------
  --- Set bonuses ---
-name: 
+name: devout 2 
 slot: Set bonuses
+armor: 200
  --- And counts for start items ---
 For 120 s fights:
     casts: 11, ticks: 10, ticks_oom: 0
@@ -273,90 +276,88 @@ For 120 s fights:
     Renew, rank: 10, count: 2
     Prayer of Healing, rank: 5, count: 0
     pve info: 1
-    hps: 501.354
+    hps: 502.071
 For 180 s fights:
-    casts: 10, ticks: 8, ticks_oom: 0
-    Heal, rank: 2, count: 2
+    casts: 13, ticks: 10, ticks_oom: 0
+    Heal, rank: 2, count: 4
     Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 10
-    Greater Heal, rank: 4, count: 3
+    Greater Heal, rank: 1, count: 6
+    Greater Heal, rank: 4, count: 2
     Flash Heal, rank: 7, count: 0
-    Renew, rank: 10, count: 0
+    Renew, rank: 10, count: 2
     Prayer of Healing, rank: 5, count: 0
     pve info: 1
-    hps: 405.611
+    hps: 409.546
 For 240 s fights:
     casts: 10, ticks: 9, ticks_oom: 0
     Heal, rank: 2, count: 1
     Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 3
+    Greater Heal, rank: 1, count: 4
     Greater Heal, rank: 4, count: 0
     Flash Heal, rank: 7, count: 0
     Renew, rank: 10, count: 0
     Prayer of Healing, rank: 5, count: 0
     pve info: 1
-    hps: 363.832
+    hps: 364.962
 For 300 s fights:
-    casts: 11, ticks: 9, ticks_oom: 0
+    casts: 7, ticks: 7, ticks_oom: 0
     Heal, rank: 2, count: 1
     Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 1
+    Greater Heal, rank: 1, count: 6
     Greater Heal, rank: 4, count: 0
     Flash Heal, rank: 7, count: 0
     Renew, rank: 10, count: 0
     Prayer of Healing, rank: 5, count: 0
     pve info: 1
-    hps: 333.193
+    hps: 333.087
 For 360 s fights:
-    casts: 12, ticks: 9, ticks_oom: 0
-    Heal, rank: 2, count: 4
+    casts: 11, ticks: 8, ticks_oom: 0
+    Heal, rank: 2, count: 1
     Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 3
+    Greater Heal, rank: 1, count: 0
     Greater Heal, rank: 4, count: 0
     Flash Heal, rank: 7, count: 0
     Renew, rank: 10, count: 0
     Prayer of Healing, rank: 5, count: 0
-    pve info: 0.998892
-    hps: 313.338
+    pve info: 1
+    hps: 313.751
 .
-*** NEW BEST: 384.913 ***
+*** NEW BEST: 388.913 ***
 
-*** NEW BEST: 388.608 ***
+*** NEW BEST: 396.703 ***
 
-*** NEW BEST: 394.452 ***
+*** NEW BEST: 400.354 ***
 
-*** NEW BEST: 396.992 ***
+*** NEW BEST: 425.107 ***
 
-*** NEW BEST: 404.334 ***
+*** NEW BEST: 431.643 ***
 
-*** NEW BEST: 410.835 ***
+*** NEW BEST: 438.448 ***
 
-*** NEW BEST: 436.519 ***
+*** NEW BEST: 442.828 ***
 
-*** NEW BEST: 440.161 ***
+*** NEW BEST: 455.003 ***
 
-*** NEW BEST: 444.578 ***
+*** NEW BEST: 457.862 ***
 
-*** NEW BEST: 445.518 ***
+*** NEW BEST: 458.178 ***
 
-*** NEW BEST: 447.351 ***
-
-*** NEW BEST: 460.124 ***
+*** NEW BEST: 460.569 ***
 .
-*** NEW BEST: 464.95 ***
+*** NEW BEST: 469.127 ***
 
-*** NEW BEST: 467.048 ***
-....
-*** NEW BEST: 467.808 ***
-.
-*** NEW BEST: 470.71 ***
-.....
-*** NEW BEST: 470.815 ***
+*** NEW BEST: 470.376 ***
+........
+*** NEW BEST: 473.006 ***
 
-*** NEW BEST: 472.994 ***
-................................................................Temporary bans and partial set bonuses off.
-.legs : pants of prophecy -> leggings of transcendence => val: 466.66 -> 472.994
-.......... ----------------------------
+*** NEW BEST: 475.003 ***
+..............
+*** NEW BEST: 475.282 ***
+.........Temporary bans and partial set bonuses off.
+.neck : animated chain necklace -> choker of the fire lord => val: 474.417 -> 475.947
+.......***** INTERMEDIATE RESULTS *****
+Iteration: 41
+ ----------------------------
  --- head --- 
 name: halo of transcendence
 slot: head
@@ -480,17 +481,22 @@ shadow_res: 7
 armor: 70
  ----------------------------
  --- finger --- 
+name: rosewine circle
+slot: finger
+sp_healing: 29
+mp5: 5
+ ----------------------------
+ --- finger --- 
 name: cauterizing band
 slot: finger
 intelligence: 12
 stamina: 9
 sp_healing: 46
  ----------------------------
- --- finger --- 
-name: rosewine circle
-slot: finger
-sp_healing: 29
-mp5: 5
+ --- trinket --- 
+name: shard of the scale
+slot: trinket
+mp5: 16
  ----------------------------
  --- trinket --- 
 name: royal seal of eldre'thalas
@@ -498,10 +504,574 @@ slot: trinket
 sp_healing: 33
 mp5: 4
  ----------------------------
+ --- Set bonuses ---
+name: 
+slot: Set bonuses
+------------------
+Best value: 475.947
+------------------
+Char stats: 
+Effective hp: 5886.4
+Effective mana: 13363
+Raw max mana: 8139.6
+Int: 437.333
+Stam: 180
+Spirit: 235
+Strength: 34
+Agility: 38
+Mp5: 186
+Sp: 43
+Sp shadow: 0
+Sp healing: 534
+Spell crit: -0.244669
+Spell hit: 0
+Arcane res: 10
+Nature res: 0
+Fire res: 17
+Frost res: 10
+Shadow res: 44
+Armor: 2453
+Defense: 300
+Dodge: 0
+Parry: 0
+HpsPvp: 981.343
+ShadowDps: 212.869
+Value pvp healing: 633.823
+Value pvp shadow: 29.823
+------------------
+Best counts:
+For 120 s fights:
+    casts: 18, ticks: 8, ticks_oom: 0
+    Heal, rank: 2, count: 1
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 7
+    Greater Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 2
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 596.26
+For 180 s fights:
+    casts: 16, ticks: 10, ticks_oom: 0
+    Heal, rank: 2, count: 10
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 2
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 3
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 503.638
+For 240 s fights:
+    casts: 11, ticks: 9, ticks_oom: 0
+    Heal, rank: 2, count: 3
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 7
+    Greater Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 1
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 448.388
+For 300 s fights:
+    casts: 11, ticks: 9, ticks_oom: 0
+    Heal, rank: 2, count: 8
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 15
+    Greater Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 2
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 418.951
+For 360 s fights:
+    casts: 20, ticks: 10, ticks_oom: 0
+    Heal, rank: 2, count: 9
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 2
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 409.172
+------------------
+Upgrades: 
+(0) -> benediction(43.8233) : 43.8233 = +10.1414%
+devout robe(9.54968) -> truefaith vestments(25.1039) : 15.5542 = +3.37846%
+devout bracers(5.57953) -> vambraces of prophecy(14.85) : 9.27051 = +1.98649%
+grimgore noose(7.33087) -> whipvine cord(16.4446) : 9.11371 = +1.95224%
+briarwood reed(7.73096) -> shard of the scale(16.1077) : 8.37671 = +1.79154%
+shadowy laced handwraps(10.2588) -> gloves of prophecy(18.4569) : 8.19812 = +1.75267%
+padre's trousers(26.6682) -> leggings of transcendence(32.6792) : 6.01099 = +1.27911%
+omnicast boots(8.89331) -> boots of prophecy(13.4728) : 4.57953 = +0.97154%
+fordring's seal(11.6099) -> cauterizing band(16.1335) : 4.52356 = +0.959552%
+devout mantle(8.43488) -> mantle of prophecy(11.7767) : 3.34183 = +0.707107%
+dragon finger of intellect(2.19891) -> lunar wand of healing(5.4679) : 3.26898 = +0.691587%
+animated chain necklace(9.80917) -> choker of the fire lord(11.3394) : 1.53021 = +0.322546%
+rosewine circle(12.2051) -> rosewine circle(12.2051) : 0 = +0%
+hide of the wild(14.5325) -> hide of the wild(14.5325) : 0 = +0%
+halo of transcendence(27.317) -> halo of transcendence(27.317) : 0 = +0%
+royal seal of eldre'thalas(12.6064) -> royal seal of eldre'thalas(12.6064) : 0 = +0%
+penelope's rose(4.82053) -> (0) : -4.82053 = +-1.00267%
+aurastone hammer(13.709) -> (0) : -13.709 = +-2.79971%
+------------------
+~~~~ end of intermediate results ~~~~
+Temporary bans and partial set bonuses on.
+..........
+*** NEW BEST: 476.215 ***
+Current relative stat values for matching or exceeding +50 pts of sp
+int: 108.613
+spi: 49.5769
+sta: 0
+agi: 0
+mp5: 279.322
+sp: 100
+sp_shadow: 0
+sp_healing: 100
+spell crit: 297.255
+spell hit: 0
+arcane res: 0
+nature res: 0
+fire res: 0
+frost res: 0
+shadow res: 0
+armor: 0
+defense: 0
+dodge: 0
+parry: 0
+............
+*** NEW BEST: 476.565 ***
+Current relative stat values for matching or exceeding +50 pts of sp
+int: 107.52
+spi: 47.4413
+sta: 0
+agi: 0
+mp5: 279
+sp: 100
+sp_shadow: 0
+sp_healing: 100
+spell crit: 297.01
+spell hit: 0
+arcane res: 0
+nature res: 0
+fire res: 0
+frost res: 0
+shadow res: 0
+armor: 0
+defense: 0
+dodge: 0
+parry: 0
+Temporary bans and partial set bonuses off.
+.......***** INTERMEDIATE RESULTS *****
+Iteration: 70
+ ----------------------------
+ --- head --- 
+name: halo of transcendence
+slot: head
+intelligence: 27
+stamina: 17
+spirit: 22
+sp_healing: 48
+fire_res: 10
+frost_res: 10
+armor: 94
+ ----------------------------
+ --- neck --- 
+name: choker of the fire lord
+slot: neck
+intelligence: 7
+stamina: 7
+sp: 34
+ ----------------------------
+ --- shoulders --- 
+name: mantle of prophecy
+slot: shoulders
+intelligence: 23
+stamina: 13
+spirit: 10
+sp: 9
+shadow_res: 7
+armor: 76
+ ----------------------------
+ --- back --- 
+name: hide of the wild
+slot: back
+intelligence: 10
+stamina: 8
+sp_healing: 42
+armor: 48
+ ----------------------------
+ --- chest --- 
+name: truefaith vestments
+slot: chest
+stamina: 14
+sp_healing: 73
+mp5: 6
+armor: 96
+ ----------------------------
+ --- wrists --- 
+name: vambraces of prophecy
+slot: wrists
+intelligence: 14
+stamina: 8
+spirit: 10
+sp_healing: 24
+mp5: 2
+armor: 44
+ ----------------------------
+ --- two-hand --- 
+name: benediction
+slot: two-hand
+intelligence: 31
+stamina: 10
+spirit: 12
+sp_healing: 106
+spell_crit: 2
+shadow_res: 20
+ ----------------------------
+ ---  --- 
+name: 
+slot: 
+ ----------------------------
+ ---  --- 
+name: 
+slot: 
+ ----------------------------
+ ---  --- 
+name: 
+slot: 
+ ----------------------------
+ --- ranged --- 
+name: lunar wand of healing
+slot: ranged
+sp_healing: 20
+ ----------------------------
+ --- hands --- 
+name: gloves of prophecy
+slot: hands
+intelligence: 15
+stamina: 10
+spirit: 15
+sp_healing: 18
+mp5: 6
+fire_res: 7
+armor: 63
+ ----------------------------
+ --- waist --- 
+name: whipvine cord
+slot: waist
+intelligence: 8
+sp_healing: 31
+mp5: 6
+armor: 47
+ ----------------------------
+ --- legs --- 
+name: leggings of transcendence
+slot: legs
+intelligence: 21
+stamina: 16
+spirit: 21
+sp_healing: 46
+mp5: 7
+arcane_res: 10
+shadow_res: 10
+armor: 101
+ ----------------------------
+ --- feet --- 
+name: boots of prophecy
+slot: feet
+intelligence: 18
+stamina: 17
+spirit: 15
+sp_healing: 18
+shadow_res: 7
+armor: 70
+ ----------------------------
+ --- finger --- 
+name: rosewine circle
+slot: finger
+sp_healing: 29
+mp5: 5
+ ----------------------------
+ --- finger --- 
+name: cauterizing band
+slot: finger
+intelligence: 12
+stamina: 9
+sp_healing: 46
+ ----------------------------
  --- trinket --- 
 name: shard of the scale
 slot: trinket
 mp5: 16
+ ----------------------------
+ --- trinket --- 
+name: royal seal of eldre'thalas
+slot: trinket
+sp_healing: 33
+mp5: 4
+ ----------------------------
+ --- Set bonuses ---
+name: 
+slot: Set bonuses
+------------------
+Best value: 476.565
+------------------
+Char stats: 
+Effective hp: 5886.4
+Effective mana: 13363
+Raw max mana: 8139.6
+Int: 437.333
+Stam: 180
+Spirit: 235
+Strength: 34
+Agility: 38
+Mp5: 186
+Sp: 43
+Sp shadow: 0
+Sp healing: 534
+Spell crit: -0.244669
+Spell hit: 0
+Arcane res: 10
+Nature res: 0
+Fire res: 17
+Frost res: 10
+Shadow res: 44
+Armor: 2453
+Defense: 300
+Dodge: 0
+Parry: 0
+HpsPvp: 981.343
+ShadowDps: 212.869
+Value pvp healing: 633.823
+Value pvp shadow: 29.823
+------------------
+Best counts:
+For 120 s fights:
+    casts: 18, ticks: 8, ticks_oom: 0
+    Heal, rank: 2, count: 1
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 7
+    Greater Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 2
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 596.26
+For 180 s fights:
+    casts: 14, ticks: 8, ticks_oom: 0
+    Heal, rank: 2, count: 12
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 2
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 507.466
+For 240 s fights:
+    casts: 11, ticks: 9, ticks_oom: 0
+    Heal, rank: 2, count: 3
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 7
+    Greater Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 1
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 448.388
+For 300 s fights:
+    casts: 14, ticks: 10, ticks_oom: 0
+    Heal, rank: 2, count: 15
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 11
+    Greater Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 3
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 422.413
+For 360 s fights:
+    casts: 20, ticks: 9, ticks_oom: 0
+    Heal, rank: 2, count: 11
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 2
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 408.297
+------------------
+Upgrades: 
+(0) -> benediction(43.9881) : 43.9881 = +10.1689%
+devout robe(9.25961) -> truefaith vestments(25.2658) : 16.0062 = +3.47539%
+devout bracers(5.56625) -> vambraces of prophecy(14.9243) : 9.35803 = +2.00297%
+grimgore noose(7.18866) -> whipvine cord(16.5425) : 9.35388 = +2.00207%
+shadowy laced handwraps(9.74777) -> gloves of prophecy(17.7645) : 8.01675 = +1.71098%
+briarwood reed(7.85785) -> shard of the scale(15.5526) : 7.6947 = +1.64112%
+padre's trousers(26.7283) -> leggings of transcendence(32.3727) : 5.64441 = +1.19859%
+fordring's seal(11.6799) -> cauterizing band(16.3018) : 4.62195 = +0.979345%
+omnicast boots(9.21368) -> boots of prophecy(13.5267) : 4.31299 = +0.913282%
+devout mantle(8.29501) -> mantle of prophecy(11.7997) : 3.5047 = +0.740857%
+dragon finger of intellect(2.07047) -> lunar wand of healing(5.54041) : 3.46994 = +0.733456%
+animated chain necklace(9.86255) -> choker of the fire lord(11.5278) : 1.66525 = +0.350654%
+rosewine circle(12.067) -> rosewine circle(12.067) : 0 = +0%
+hide of the wild(14.6861) -> hide of the wild(14.6861) : 0 = +0%
+halo of transcendence(27.0519) -> halo of transcendence(27.0519) : 0 = +0%
+royal seal of eldre'thalas(12.4841) -> royal seal of eldre'thalas(12.4841) : 0 = +0%
+penelope's rose(4.69165) -> (0) : -4.69165 = +-0.974875%
+aurastone hammer(13.6694) -> (0) : -13.6694 = +-2.78835%
+------------------
+~~~~ end of intermediate results ~~~~
+Same items for intermediate results again, ending optimization. 
+ ----------------------------
+ --- head --- 
+name: halo of transcendence
+slot: head
+intelligence: 27
+stamina: 17
+spirit: 22
+sp_healing: 48
+fire_res: 10
+frost_res: 10
+armor: 94
+ ----------------------------
+ --- neck --- 
+name: choker of the fire lord
+slot: neck
+intelligence: 7
+stamina: 7
+sp: 34
+ ----------------------------
+ --- shoulders --- 
+name: mantle of prophecy
+slot: shoulders
+intelligence: 23
+stamina: 13
+spirit: 10
+sp: 9
+shadow_res: 7
+armor: 76
+ ----------------------------
+ --- back --- 
+name: hide of the wild
+slot: back
+intelligence: 10
+stamina: 8
+sp_healing: 42
+armor: 48
+ ----------------------------
+ --- chest --- 
+name: truefaith vestments
+slot: chest
+stamina: 14
+sp_healing: 73
+mp5: 6
+armor: 96
+ ----------------------------
+ --- wrists --- 
+name: vambraces of prophecy
+slot: wrists
+intelligence: 14
+stamina: 8
+spirit: 10
+sp_healing: 24
+mp5: 2
+armor: 44
+ ----------------------------
+ --- two-hand --- 
+name: benediction
+slot: two-hand
+intelligence: 31
+stamina: 10
+spirit: 12
+sp_healing: 106
+spell_crit: 2
+shadow_res: 20
+ ----------------------------
+ ---  --- 
+name: 
+slot: 
+ ----------------------------
+ ---  --- 
+name: 
+slot: 
+ ----------------------------
+ ---  --- 
+name: 
+slot: 
+ ----------------------------
+ --- ranged --- 
+name: lunar wand of healing
+slot: ranged
+sp_healing: 20
+ ----------------------------
+ --- hands --- 
+name: gloves of prophecy
+slot: hands
+intelligence: 15
+stamina: 10
+spirit: 15
+sp_healing: 18
+mp5: 6
+fire_res: 7
+armor: 63
+ ----------------------------
+ --- waist --- 
+name: whipvine cord
+slot: waist
+intelligence: 8
+sp_healing: 31
+mp5: 6
+armor: 47
+ ----------------------------
+ --- legs --- 
+name: leggings of transcendence
+slot: legs
+intelligence: 21
+stamina: 16
+spirit: 21
+sp_healing: 46
+mp5: 7
+arcane_res: 10
+shadow_res: 10
+armor: 101
+ ----------------------------
+ --- feet --- 
+name: boots of prophecy
+slot: feet
+intelligence: 18
+stamina: 17
+spirit: 15
+sp_healing: 18
+shadow_res: 7
+armor: 70
+ ----------------------------
+ --- finger --- 
+name: rosewine circle
+slot: finger
+sp_healing: 29
+mp5: 5
+ ----------------------------
+ --- finger --- 
+name: cauterizing band
+slot: finger
+intelligence: 12
+stamina: 9
+sp_healing: 46
+ ----------------------------
+ --- trinket --- 
+name: shard of the scale
+slot: trinket
+mp5: 16
+ ----------------------------
+ --- trinket --- 
+name: royal seal of eldre'thalas
+slot: trinket
+sp_healing: 33
+mp5: 4
  ----------------------------
  --- Set bonuses ---
 name: 
@@ -538,71 +1108,71 @@ Value pvp shadow: 29.823
 ------------------
 Best counts:
 For 120 s fights:
-    casts: 13, ticks: 8, ticks_oom: 0
-    Heal, rank: 2, count: 2
+    casts: 18, ticks: 8, ticks_oom: 0
+    Heal, rank: 2, count: 1
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 7
-    Greater Heal, rank: 4, count: 3
+    Greater Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 2
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 596.26
+For 180 s fights:
+    casts: 14, ticks: 8, ticks_oom: 0
+    Heal, rank: 2, count: 12
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 2
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 507.466
+For 240 s fights:
+    casts: 11, ticks: 9, ticks_oom: 0
+    Heal, rank: 2, count: 3
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 7
+    Greater Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 10, count: 1
+    Prayer of Healing, rank: 5, count: 0
+    pve info: 1
+    hps: 448.388
+For 300 s fights:
+    casts: 14, ticks: 10, ticks_oom: 0
+    Heal, rank: 2, count: 15
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 11
+    Greater Heal, rank: 4, count: 1
     Flash Heal, rank: 7, count: 0
     Renew, rank: 10, count: 3
     Prayer of Healing, rank: 5, count: 0
     pve info: 1
-    hps: 595.568
-For 180 s fights:
-    casts: 14, ticks: 9, ticks_oom: 0
-    Heal, rank: 2, count: 3
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 13
-    Greater Heal, rank: 4, count: 1
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 10, count: 4
-    Prayer of Healing, rank: 5, count: 0
-    pve info: 1
-    hps: 498.473
-For 240 s fights:
-    casts: 11, ticks: 8, ticks_oom: 0
-    Heal, rank: 2, count: 5
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 4
-    Greater Heal, rank: 4, count: 1
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 10, count: 1
-    Prayer of Healing, rank: 5, count: 0
-    pve info: 1
-    hps: 453.927
-For 300 s fights:
-    casts: 11, ticks: 9, ticks_oom: 0
-    Heal, rank: 2, count: 8
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 13
-    Greater Heal, rank: 4, count: 1
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 10, count: 1
-    Prayer of Healing, rank: 5, count: 0
-    pve info: 1
-    hps: 418.509
+    hps: 422.413
 For 360 s fights:
-    casts: 14, ticks: 10, ticks_oom: 0
-    Heal, rank: 2, count: 8
+    casts: 20, ticks: 9, ticks_oom: 0
+    Heal, rank: 2, count: 11
     Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 14
+    Greater Heal, rank: 1, count: 0
     Greater Heal, rank: 4, count: 0
     Flash Heal, rank: 7, count: 0
-    Renew, rank: 10, count: 0
+    Renew, rank: 10, count: 2
     Prayer of Healing, rank: 5, count: 0
     pve info: 1
-    hps: 398.492
+    hps: 408.297
 ------------------
 Current relative stat values for matching or exceeding +50 pts of sp
-int: 113.72
-spi: 62.1942
+int: 107.52
+spi: 47.4413
 sta: 0
 agi: 0
-mp5: 296.688
+mp5: 279
 sp: 100
 sp_shadow: 0
 sp_healing: 100
-spell crit: 331.606
+spell crit: 297.01
 spell hit: 0
 arcane res: 0
 nature res: 0
@@ -616,370 +1186,389 @@ parry: 0
 ------------------
 Diffs to start: 
 Upgrades: 
-(0) -> benediction(42.2433) : 42.2433 = +9.80691%
-magister's robes(11.1408) -> truefaith vestments(24.3945) : 13.2537 = +2.88286%
-briarwood reed(7.14359) -> shard of the scale(16.6761) : 9.53253 = +2.05681%
-devout bracers(5.52115) -> vambraces of prophecy(14.958) : 9.43686 = +2.03575%
-atal'ai gloves of the owl(10.082) -> gloves of prophecy(19.2074) : 9.1254 = +1.96724%
-thuzadin sash(8.87753) -> whipvine cord(16.2529) : 7.37534 = +1.58399%
-pants of prophecy(26.6639) -> leggings of transcendence(32.9979) : 6.33392 = +1.35729%
-omnicast boots(8.74277) -> boots of prophecy(13.9257) : 5.18292 = +1.10791%
-fordring's seal(10.947) -> cauterizing band(15.735) : 4.78809 = +1.02264%
-dragon finger of intellect(2.05112) -> lunar wand of healing(5.10278) : 3.05167 = +0.64937%
-animated chain necklace(9.27649) -> choker of the fire lord(11.1346) : 1.85809 = +0.394386%
-burial shawl(10.5508) -> mantle of prophecy(12.3101) : 1.75928 = +0.373333%
-halo of transcendence(27.6155) -> halo of transcendence(27.6155) : 0 = +0%
-hide of the wild(14.2306) -> hide of the wild(14.2306) : 0 = +0%
-rosewine circle(12.1703) -> rosewine circle(12.1703) : 0 = +0%
-royal seal of eldre'thalas(12.166) -> royal seal of eldre'thalas(12.166) : 0 = +0%
-spellbound tome(5.16168) -> (0) : -5.16168 = +-1.0795%
-the hammer of grace(7.90887) -> (0) : -7.90887 = +-1.64459%
+(0) -> benediction(43.9881) : 43.9881 = +10.1689%
+devout robe(9.25961) -> truefaith vestments(25.2658) : 16.0062 = +3.47539%
+devout bracers(5.56625) -> vambraces of prophecy(14.9243) : 9.35803 = +2.00297%
+grimgore noose(7.18866) -> whipvine cord(16.5425) : 9.35388 = +2.00207%
+shadowy laced handwraps(9.74777) -> gloves of prophecy(17.7645) : 8.01675 = +1.71098%
+briarwood reed(7.85785) -> shard of the scale(15.5526) : 7.6947 = +1.64112%
+padre's trousers(26.7283) -> leggings of transcendence(32.3727) : 5.64441 = +1.19859%
+fordring's seal(11.6799) -> cauterizing band(16.3018) : 4.62195 = +0.979345%
+omnicast boots(9.21368) -> boots of prophecy(13.5267) : 4.31299 = +0.913282%
+devout mantle(8.29501) -> mantle of prophecy(11.7997) : 3.5047 = +0.740857%
+dragon finger of intellect(2.07047) -> lunar wand of healing(5.54041) : 3.46994 = +0.733456%
+animated chain necklace(9.86255) -> choker of the fire lord(11.5278) : 1.66525 = +0.350654%
+rosewine circle(12.067) -> rosewine circle(12.067) : 0 = +0%
+hide of the wild(14.6861) -> hide of the wild(14.6861) : 0 = +0%
+halo of transcendence(27.0519) -> halo of transcendence(27.0519) : 0 = +0%
+royal seal of eldre'thalas(12.4841) -> royal seal of eldre'thalas(12.4841) : 0 = +0%
+penelope's rose(4.69165) -> (0) : -4.69165 = +-0.974875%
+aurastone hammer(13.6694) -> (0) : -13.6694 = +-2.78835%
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 | Upgrades at best in slot level, from start item to candidate: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, halo of transcendence (27.6155) -> :
+head, halo of transcendence (27.0519) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, animated chain necklace (9.27649) -> :
-    choker of the fire lord (11.1346) : +0.394386 %, from: mc
-    choker of enlightenment (9.38058) : +0.0220946 %, from: mc
+neck, animated chain necklace (9.86255) -> :
+    choker of the fire lord (11.5278) : +0.350654 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, burial shawl (10.5508) -> :
-    mantle of prophecy (12.3101) : +0.373333 %, from: mc
+shoulders, devout mantle (8.29501) -> :
+    mantle of prophecy (11.7997) : +0.740857 %, from: mc
+    burial shawl (11.055) : +0.583438 %, from: pre-raid
+    sunderseer mantle (9.6662) : +0.289854 %, from: pre-raid
+    elder wizard's mantle (9.61649) : +0.279346 %, from: pre-raid
+    kentic amice (9.38544) : +0.230504 %, from: pre-raid
+    soulstealer mantle (8.68228) : +0.0818645 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, hide of the wild (14.2306) -> :
+back, hide of the wild (14.6861) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, magister's robes (11.1408) -> :
-    truefaith vestments (24.3945) : +2.88286 %, from: tailoring bop
-    robes of the exalted (21.0569) : +2.15689 %, from: pre-raid
-    robes of prophecy (17.0145) : +1.27762 %, from: mc
-    robe of volatile power (14.5085) : +0.73253 %, from: mc
-    mindsurge robe (12.2813) : +0.248069 %, from: pre-raid
-    the postmaster's tunic (12.1888) : +0.227942 %, from: pre-raid
+chest, devout robe (9.25961) -> :
+    truefaith vestments (25.2658) : +3.47539 %, from: tailoring bop
+    robes of the exalted (22.1211) : +2.79258 %, from: pre-raid
+    robes of prophecy (16.5439) : +1.58161 %, from: mc
+    robe of volatile power (13.9866) : +1.02637 %, from: mc
+    mindsurge robe (11.6833) : +0.52626 %, from: pre-raid
+    the postmaster's tunic (11.6051) : +0.509277 %, from: pre-raid
+    magister's robes (10.354) : +0.237616 %, from: pre-raid
+    dreamweave vest (9.71515) : +0.0989095 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, devout bracers (5.52115) -> :
-    vambraces of prophecy (14.958) : +2.03575 %, from: mc
-    flarecore wraps (10.5721) : +1.0896 %, from: tailoring boe
-    flameweave cuffs of healing (8.26733) : +0.592416 %, from: brd
-    sublime wristguards (7.8382) : +0.49984 %, from: pre-raid
-    wyrmthalak's shackles (5.9317) : +0.0885658 %, from: pre-raid
-    magister's bindings (5.80576) : +0.0613963 %, from: pre-raid
-    magiskull cuffs (5.74252) : +0.0477556 %, from: pre-raid
+wrists, devout bracers (5.56625) -> :
+    vambraces of prophecy (14.9243) : +2.00297 %, from: mc
+    flarecore wraps (10.2612) : +1.0049 %, from: tailoring boe
+    flameweave cuffs of healing (9.02246) : +0.73976 %, from: brd
+    sublime wristguards (8.12338) : +0.547323 %, from: pre-raid
+    magister's bindings (6.0983) : +0.113878 %, from: pre-raid
+    magiskull cuffs (5.92697) : +0.0772073 %, from: pre-raid
+    wyrmthalak's shackles (5.86905) : +0.0648097 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 two-hand,  (0) -> :
-    benediction (42.2433) : +9.80691 %, from: mc
-    aurastone hammer and lei of the lifegiver (30.9546) : +7.18619 %, from: mc, av rep
-    sorcerous dagger and lei of the lifegiver (27.6595) : +6.42122 %, from: mc, av rep
-    staff of dominance (26.5732) : +6.16904 %, from: mc
-    aurastone hammer and brightly glowing stone (24.536) : +5.6961 %, from: mc, pre-raid
-    the hammer of grace and lei of the lifegiver (24.5164) : +5.69154 %, from: pre-raid, av rep
-    aurastone hammer and fire runed grimoire (24.3346) : +5.64934 %, from: mc, mc
-    aurastone hammer and thaurissan's royal scepter (23.9858) : +5.56838 %, from: mc, pre-raid
-    witchblade and lei of the lifegiver (23.0303) : +5.34654 %, from: pre-raid, av rep
-    lorespinner and lei of the lifegiver (22.8405) : +5.30249 %, from: pre-raid, av rep
-    hypnotic blade and lei of the lifegiver (22.7056) : +5.27117 %, from: pre-raid, av rep
-    aurastone hammer and milli's lexicon (22.0586) : +5.12096 %, from: mc, pre-raid
-    gift of the elven magi and lei of the lifegiver (21.755) : +5.05049 %, from: pre-raid (strat live: balnazzar), av rep
-    aurastone hammer and ancient cornerstone grimoire (21.7173) : +5.04173 %, from: mc, onyxia
-    sorcerous dagger and fire runed grimoire (21.4803) : +4.9867 %, from: mc, mc
-    aurastone hammer and spellbound tome (20.9166) : +4.85585 %, from: mc, pre-raid
-    sorcerous dagger and thaurissan's royal scepter (20.7801) : +4.82415 %, from: mc, pre-raid
-    sorcerous dagger and brightly glowing stone (20.4738) : +4.75305 %, from: mc, pre-raid
-    aurastone hammer and penelope's rose (20.4253) : +4.7418 %, from: mc, pre-raid (scholo quest)
-    aurastone hammer and globe of d'sak (20.0951) : +4.66513 %, from: mc, pre-raid
-    sorcerous dagger and milli's lexicon (18.9901) : +4.4086 %, from: mc, pre-raid
-    sorcerous dagger and ancient cornerstone grimoire (18.701) : +4.34148 %, from: mc, onyxia
-    the hammer of grace and fire runed grimoire (18.5415) : +4.30446 %, from: pre-raid, mc
-    aurastone hammer and orb of the forgotten seer (18.2388) : +4.23419 %, from: mc, pre-raid
-    the hammer of grace and thaurissan's royal scepter (17.7341) : +4.11703 %, from: pre-raid, pre-raid
-    sorcerous dagger and spellbound tome (17.5474) : +4.07368 %, from: mc, pre-raid
-    sorcerous dagger and penelope's rose (17.215) : +3.99652 %, from: mc, pre-raid (scholo quest)
-    scepter of the unholy and lei of the lifegiver (16.7969) : +3.89945 %, from: pre-raid, av rep
-    the hammer of grace and brightly glowing stone (16.785) : +3.89669 %, from: pre-raid, pre-raid
-    sorcerous dagger and globe of d'sak (16.6957) : +3.87596 %, from: mc, pre-raid
-    witchblade and fire runed grimoire (16.6942) : +3.87561 %, from: pre-raid, mc
-    anathema (16.6685) : +3.86965 %, from: mc
-    the hammer of grace and milli's lexicon (16.477) : +3.82518 %, from: pre-raid, pre-raid
-    witchblade and brightly glowing stone (16.413) : +3.81032 %, from: pre-raid, pre-raid
-    witchblade and thaurissan's royal scepter (16.3296) : +3.79097 %, from: pre-raid, pre-raid
-    guiding stave of wisdom (16.2826) : +3.78005 %, from: pre-raid
-    lorespinner and fire runed grimoire (16.1995) : +3.76076 %, from: pre-raid, mc
-    lorespinner and brightly glowing stone (16.1447) : +3.74803 %, from: pre-raid, pre-raid
-    the hammer of grace and ancient cornerstone grimoire (16.1333) : +3.7454 %, from: pre-raid, onyxia
-    hypnotic blade and fire runed grimoire (16.0815) : +3.73336 %, from: pre-raid, mc
-    hypnotic blade and thaurissan's royal scepter (16.0019) : +3.71488 %, from: pre-raid, pre-raid
-    hypnotic blade and brightly glowing stone (15.7443) : +3.65509 %, from: pre-raid, pre-raid
-    lorespinner and thaurissan's royal scepter (15.726) : +3.65084 %, from: pre-raid, pre-raid
-    the hammer of grace and spellbound tome (15.1594) : +3.51929 %, from: pre-raid, pre-raid
-    quel'dorai channeling rod (15.0539) : +3.4948 %, from: pre-raid
-    gift of the elven magi and fire runed grimoire (15.0431) : +3.4923 %, from: pre-raid (strat live: balnazzar), mc
-    gift of the elven magi and brightly glowing stone (14.6667) : +3.40491 %, from: pre-raid (strat live: balnazzar), pre-raid
-    gift of the elven magi and thaurissan's royal scepter (14.6332) : +3.39713 %, from: pre-raid (strat live: balnazzar), pre-raid
-    witchblade and milli's lexicon (14.6318) : +3.39682 %, from: pre-raid, pre-raid
-    the hammer of grace and penelope's rose (14.5159) : +3.36991 %, from: pre-raid, pre-raid (scholo quest)
-    sorcerous dagger and orb of the forgotten seer (14.2225) : +3.3018 %, from: mc, pre-raid
-    witchblade and ancient cornerstone grimoire (14.1816) : +3.29229 %, from: pre-raid, onyxia
-    hypnotic blade and milli's lexicon (13.8572) : +3.21698 %, from: pre-raid, pre-raid
-    lorespinner and milli's lexicon (13.8235) : +3.20916 %, from: pre-raid, pre-raid
-    the hammer of grace and globe of d'sak (13.7226) : +3.18574 %, from: pre-raid, pre-raid
-    rod of the ogre magi (13.6958) : +3.17952 %, from: pre-raid
-    lorespinner and ancient cornerstone grimoire (13.4218) : +3.11591 %, from: pre-raid, onyxia
-    hypnotic blade and ancient cornerstone grimoire (13.4124) : +3.11372 %, from: pre-raid, onyxia
-    witchblade and spellbound tome (13.3682) : +3.10346 %, from: pre-raid, pre-raid
-    witchblade and penelope's rose (13.037) : +3.02657 %, from: pre-raid, pre-raid (scholo quest)
-    trindlehaven staff (12.7988) : +2.97127 %, from: pre-raid
-    witchblade and globe of d'sak (12.6442) : +2.93539 %, from: pre-raid, pre-raid
-    gift of the elven magi and milli's lexicon (12.6243) : +2.93077 %, from: pre-raid (strat live: balnazzar), pre-raid
-    hypnotic blade and spellbound tome (12.534) : +2.90981 %, from: pre-raid, pre-raid
-    argent crusader (12.4873) : +2.89896 %, from: pre-raid
-    lorespinner and spellbound tome (12.4398) : +2.88794 %, from: pre-raid, pre-raid
-    gift of the elven magi and ancient cornerstone grimoire (12.222) : +2.83738 %, from: pre-raid (strat live: balnazzar), onyxia
-    hypnotic blade and penelope's rose (12.2034) : +2.83305 %, from: pre-raid, pre-raid (scholo quest)
-    lorespinner and penelope's rose (12.058) : +2.79929 %, from: pre-raid, pre-raid (scholo quest)
-    hypnotic blade and globe of d'sak (11.874) : +2.75659 %, from: pre-raid, pre-raid
-    lorespinner and globe of d'sak (11.6267) : +2.69917 %, from: pre-raid, pre-raid
-    gift of the elven magi and spellbound tome (11.4908) : +2.66762 %, from: pre-raid (strat live: balnazzar), pre-raid
-    gift of the elven magi and penelope's rose (11.1613) : +2.59113 %, from: pre-raid (strat live: balnazzar), pre-raid (scholo quest)
-    scepter of the unholy and fire runed grimoire (10.7471) : +2.49497 %, from: pre-raid, mc
-    gift of the elven magi and globe of d'sak (10.6494) : +2.47229 %, from: pre-raid (strat live: balnazzar), pre-raid
-    the hammer of grace and orb of the forgotten seer (10.614) : +2.46408 %, from: pre-raid, pre-raid
-    witchblade and orb of the forgotten seer (10.1863) : +2.36478 %, from: pre-raid, pre-raid
-    scepter of the unholy and thaurissan's royal scepter (10.0042) : +2.3225 %, from: pre-raid, pre-raid
-    lorespinner and orb of the forgotten seer (9.87732) : +2.29305 %, from: pre-raid, pre-raid
-    hypnotic blade and orb of the forgotten seer (9.51239) : +2.20833 %, from: pre-raid, pre-raid
-    scepter of the unholy and brightly glowing stone (9.13315) : +2.12029 %, from: pre-raid, pre-raid
-    scepter of the unholy and milli's lexicon (8.67206) : +2.01324 %, from: pre-raid, pre-raid
-    gift of the elven magi and orb of the forgotten seer (8.42313) : +1.95545 %, from: pre-raid (strat live: balnazzar), pre-raid
-    scepter of the unholy and ancient cornerstone grimoire (8.33157) : +1.9342 %, from: pre-raid, onyxia
-    scepter of the unholy and spellbound tome (7.37225) : +1.71149 %, from: pre-raid, pre-raid
-    scepter of the unholy and penelope's rose (6.74954) : +1.56693 %, from: pre-raid, pre-raid (scholo quest)
-    scepter of the unholy and globe of d'sak (5.9751) : +1.38714 %, from: pre-raid, pre-raid
-    sarah's guide (5.63861) : +1.30902 %, from: pre-raid
-    scepter of the unholy and orb of the forgotten seer (2.9624) : +0.68773 %, from: pre-raid, pre-raid
+    benediction (43.9881) : +10.1689 %, from: mc
+    aurastone hammer and lei of the lifegiver (32.6721) : +7.55291 %, from: mc, av rep
+    sorcerous dagger and lei of the lifegiver (29.6271) : +6.84898 %, from: mc, av rep
+    the hammer of grace and lei of the lifegiver (27.245) : +6.2983 %, from: pre-raid, av rep
+    staff of dominance (26.632) : +6.1566 %, from: mc
+    aurastone hammer and brightly glowing stone (25.9312) : +5.99458 %, from: mc, pre-raid
+    aurastone hammer and fire runed grimoire (25.0459) : +5.78993 %, from: mc, mc
+    witchblade and lei of the lifegiver (24.9771) : +5.77402 %, from: pre-raid, av rep
+    aurastone hammer and thaurissan's royal scepter (24.807) : +5.7347 %, from: mc, pre-raid
+    hypnotic blade and lei of the lifegiver (24.0178) : +5.55227 %, from: pre-raid, av rep
+    lorespinner and lei of the lifegiver (23.7872) : +5.49896 %, from: pre-raid, av rep
+    sorcerous dagger and brightly glowing stone (22.6007) : +5.22466 %, from: mc, pre-raid
+    gift of the elven magi and lei of the lifegiver (22.5805) : +5.21999 %, from: pre-raid (strat live: balnazzar), av rep
+    aurastone hammer and milli's lexicon (22.425) : +5.18405 %, from: mc, pre-raid
+    sorcerous dagger and fire runed grimoire (21.7962) : +5.0387 %, from: mc, mc
+    aurastone hammer and ancient cornerstone grimoire (21.7932) : +5.03799 %, from: mc, onyxia
+    sorcerous dagger and thaurissan's royal scepter (21.4778) : +4.9651 %, from: mc, pre-raid
+    aurastone hammer and spellbound tome (21.1866) : +4.89777 %, from: mc, pre-raid
+    aurastone hammer and penelope's rose (20.5753) : +4.75644 %, from: mc, pre-raid (scholo quest)
+    aurastone hammer and globe of d'sak (20.5026) : +4.73965 %, from: mc, pre-raid
+    the hammer of grace and fire runed grimoire (19.5861) : +4.52777 %, from: pre-raid, mc
+    the hammer of grace and thaurissan's royal scepter (19.2359) : +4.44682 %, from: pre-raid, pre-raid
+    sorcerous dagger and milli's lexicon (19.1828) : +4.43454 %, from: mc, pre-raid
+    aurastone hammer and orb of the forgotten seer (19.0695) : +4.40835 %, from: mc, pre-raid
+    scepter of the unholy and lei of the lifegiver (18.7891) : +4.34352 %, from: pre-raid, av rep
+    sorcerous dagger and ancient cornerstone grimoire (18.6141) : +4.30307 %, from: mc, onyxia
+    the hammer of grace and brightly glowing stone (18.2393) : +4.21644 %, from: pre-raid, pre-raid
+    sorcerous dagger and spellbound tome (17.9457) : +4.14857 %, from: mc, pre-raid
+    witchblade and brightly glowing stone (17.7159) : +4.09544 %, from: pre-raid, pre-raid
+    witchblade and fire runed grimoire (17.6331) : +4.07628 %, from: pre-raid, mc
+    sorcerous dagger and penelope's rose (17.4153) : +4.02596 %, from: mc, pre-raid (scholo quest)
+    the hammer of grace and milli's lexicon (17.3722) : +4.01597 %, from: pre-raid, pre-raid
+    sorcerous dagger and globe of d'sak (17.2628) : +3.9907 %, from: mc, pre-raid
+    witchblade and thaurissan's royal scepter (17.0969) : +3.95235 %, from: pre-raid, pre-raid
+    lorespinner and brightly glowing stone (16.862) : +3.89803 %, from: pre-raid, pre-raid
+    hypnotic blade and brightly glowing stone (16.7892) : +3.88122 %, from: pre-raid, pre-raid
+    hypnotic blade and fire runed grimoire (16.5656) : +3.82951 %, from: pre-raid, mc
+    anathema (16.4832) : +3.81048 %, from: mc
+    the hammer of grace and ancient cornerstone grimoire (16.3472) : +3.77904 %, from: pre-raid, onyxia
+    hypnotic blade and thaurissan's royal scepter (16.1948) : +3.74379 %, from: pre-raid, pre-raid
+    lorespinner and fire runed grimoire (16.0111) : +3.70134 %, from: pre-raid, mc
+    gift of the elven magi and brightly glowing stone (15.9835) : +3.69494 %, from: pre-raid (strat live: balnazzar), pre-raid
+    guiding stave of wisdom (15.9806) : +3.69429 %, from: pre-raid
+    lorespinner and thaurissan's royal scepter (15.9067) : +3.67719 %, from: pre-raid, pre-raid
+    the hammer of grace and spellbound tome (15.87) : +3.66871 %, from: pre-raid, pre-raid
+    sorcerous dagger and orb of the forgotten seer (15.7557) : +3.64229 %, from: mc, pre-raid
+    the hammer of grace and penelope's rose (15.2753) : +3.53124 %, from: pre-raid, pre-raid (scholo quest)
+    gift of the elven magi and fire runed grimoire (15.1417) : +3.50034 %, from: pre-raid (strat live: balnazzar), mc
+    the hammer of grace and globe of d'sak (15.069) : +3.48354 %, from: pre-raid, pre-raid
+    witchblade and milli's lexicon (15.0308) : +3.4747 %, from: pre-raid, pre-raid
+    gift of the elven magi and thaurissan's royal scepter (14.8975) : +3.44389 %, from: pre-raid (strat live: balnazzar), pre-raid
+    quel'dorai channeling rod (14.6373) : +3.38374 %, from: pre-raid
+    witchblade and ancient cornerstone grimoire (14.2701) : +3.29886 %, from: pre-raid, onyxia
+    rod of the ogre magi (14.1273) : +3.26586 %, from: pre-raid
+    hypnotic blade and milli's lexicon (14.0035) : +3.23722 %, from: pre-raid, pre-raid
+    witchblade and spellbound tome (13.7958) : +3.18922 %, from: pre-raid, pre-raid
+    lorespinner and milli's lexicon (13.6782) : +3.16203 %, from: pre-raid, pre-raid
+    trindlehaven staff (13.3204) : +3.07932 %, from: pre-raid
+    hypnotic blade and ancient cornerstone grimoire (13.2794) : +3.06983 %, from: pre-raid, onyxia
+    witchblade and penelope's rose (13.2672) : +3.06701 %, from: pre-raid, pre-raid (scholo quest)
+    witchblade and globe of d'sak (13.1147) : +3.03176 %, from: pre-raid, pre-raid
+    lorespinner and ancient cornerstone grimoire (12.8277) : +2.96542 %, from: pre-raid, onyxia
+    hypnotic blade and spellbound tome (12.7283) : +2.94243 %, from: pre-raid, pre-raid
+    gift of the elven magi and milli's lexicon (12.5314) : +2.89693 %, from: pre-raid (strat live: balnazzar), pre-raid
+    argent crusader (12.402) : +2.86701 %, from: pre-raid
+    lorespinner and spellbound tome (12.3563) : +2.85643 %, from: pre-raid, pre-raid
+    hypnotic blade and penelope's rose (12.2784) : +2.83844 %, from: pre-raid, pre-raid (scholo quest)
+    hypnotic blade and globe of d'sak (12.0484) : +2.78526 %, from: pre-raid, pre-raid
+    gift of the elven magi and ancient cornerstone grimoire (11.8886) : +2.74832 %, from: pre-raid (strat live: balnazzar), onyxia
+    lorespinner and penelope's rose (11.705) : +2.70588 %, from: pre-raid, pre-raid (scholo quest)
+    lorespinner and globe of d'sak (11.6785) : +2.69976 %, from: pre-raid, pre-raid
+    the hammer of grace and orb of the forgotten seer (11.5336) : +2.66626 %, from: pre-raid, pre-raid
+    gift of the elven magi and spellbound tome (11.4167) : +2.63923 %, from: pre-raid (strat live: balnazzar), pre-raid
+    scepter of the unholy and fire runed grimoire (11.0858) : +2.56273 %, from: pre-raid, mc
+    witchblade and orb of the forgotten seer (10.9168) : +2.52367 %, from: pre-raid, pre-raid
+    gift of the elven magi and penelope's rose (10.8284) : +2.50324 %, from: pre-raid (strat live: balnazzar), pre-raid (scholo quest)
+    scepter of the unholy and thaurissan's royal scepter (10.7751) : +2.4909 %, from: pre-raid, pre-raid
+    gift of the elven magi and globe of d'sak (10.6249) : +2.4562 %, from: pre-raid (strat live: balnazzar), pre-raid
+    lorespinner and orb of the forgotten seer (10.02) : +2.31636 %, from: pre-raid, pre-raid
+    hypnotic blade and orb of the forgotten seer (9.98608) : +2.30851 %, from: pre-raid, pre-raid
+    scepter of the unholy and brightly glowing stone (9.92441) : +2.29425 %, from: pre-raid, pre-raid
+    gift of the elven magi and orb of the forgotten seer (9.14957) : +2.11513 %, from: pre-raid (strat live: balnazzar), pre-raid
+    scepter of the unholy and milli's lexicon (8.86523) : +2.0494 %, from: pre-raid, pre-raid
+    scepter of the unholy and ancient cornerstone grimoire (7.84995) : +1.81469 %, from: pre-raid, onyxia
+    scepter of the unholy and spellbound tome (7.37784) : +1.70556 %, from: pre-raid, pre-raid
+    scepter of the unholy and penelope's rose (6.79059) : +1.5698 %, from: pre-raid, pre-raid (scholo quest)
+    scepter of the unholy and globe of d'sak (6.58603) : +1.52251 %, from: pre-raid, pre-raid
+    sarah's guide (6.49545) : +1.50157 %, from: pre-raid
+    scepter of the unholy and orb of the forgotten seer (3.21906) : +0.744158 %, from: pre-raid, pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon finger of intellect (2.05112) -> :
-    lunar wand of healing (5.10278) : +0.64937 %, from: random green
-    bonecreeper stylus (3.80362) : +0.372919 %, from: pre-raid
-    oblivion's touch (2.96567) : +0.194609 %, from: pre-raid
-    mana channeling wand (2.76108) : +0.151074 %, from: pre-raid
-    lunar wand of the owl (2.58237) : +0.113046 %, from: random green
-    crimson shocker (2.54752) : +0.10563 %, from: mc
-    lunar wand of intellect (2.46899) : +0.0889209 %, from: random green
+ranged, dragon finger of intellect (2.07047) -> :
+    lunar wand of healing (5.54041) : +0.733456 %, from: random green
+    bonecreeper stylus (4.08655) : +0.426148 %, from: pre-raid
+    oblivion's touch (3.09225) : +0.21598 %, from: pre-raid
+    mana channeling wand (2.86768) : +0.16851 %, from: pre-raid
+    crimson shocker (2.58795) : +0.109383 %, from: mc
+    lunar wand of intellect (2.57443) : +0.106526 %, from: random green
+    lunar wand of the owl (2.44031) : +0.0781751 %, from: random green
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, atal'ai gloves of the owl (10.082) -> :
-    gloves of prophecy (19.2074) : +1.96724 %, from: mc
-    hands of the exalted herald (15.9756) : +1.27052 %, from: pre-raid
-    atal'ai hands of healing (13.1179) : +0.654471 %, from: sunken temple
-    high councillor's gloves of healing (11.3857) : +0.281052 %, from: random green
-    hands of power (10.4102) : +0.0707366 %, from: pre-raid
-    shadowy laced handwraps (10.1135) : +0.00678945 %, from: pre-raid
+hands, shadowy laced handwraps (9.74777) -> :
+    gloves of prophecy (17.7645) : +1.71098 %, from: mc
+    hands of the exalted herald (15.4214) : +1.21091 %, from: pre-raid
+    atal'ai hands of healing (14.3281) : +0.977557 %, from: sunken temple
+    high councillor's gloves of healing (12.436) : +0.573743 %, from: random green
+    hands of power (9.82477) : +0.0164329 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, thuzadin sash (8.87753) -> :
-    whipvine cord (16.2529) : +1.58399 %, from: pre-raid
-    girdle of prophecy (14.647) : +1.23909 %, from: mc
-    mana igniting cord (12.6047) : +0.800484 %, from: mc
+waist, grimgore noose (7.18866) -> :
+    whipvine cord (16.5425) : +2.00207 %, from: pre-raid
+    girdle of prophecy (14.085) : +1.47606 %, from: mc
+    mana igniting cord (13.2598) : +1.29945 %, from: mc
+    thuzadin sash (8.89322) : +0.364837 %, from: pre-raid
+    dustfeather sash (8.54346) : +0.289976 %, from: pre-raid
+    magister's belt (7.95746) : +0.164551 %, from: pre-raid
+    ban'thok sash (7.31558) : +0.027166 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, pants of prophecy (26.6639) -> :
-    leggings of transcendence (32.9979) : +1.35729 %, from: mc
+legs, padre's trousers (26.7283) -> :
+    leggings of transcendence (32.3727) : +1.19859 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, omnicast boots (8.74277) -> :
-    boots of prophecy (13.9257) : +1.10791 %, from: mc
-    boots of the full moon (12.4056) : +0.782968 %, from: pre-raid
-    dragonrider boots (10.1426) : +0.299226 %, from: pre-raid
-    wolfrunner shoes (9.21735) : +0.101447 %, from: pre-raid
+feet, omnicast boots (9.21368) -> :
+    boots of prophecy (13.5267) : +0.913282 %, from: mc
+    boots of the full moon (12.7838) : +0.755974 %, from: pre-raid
+    dragonrider boots (10.4862) : +0.269465 %, from: pre-raid
+    wolfrunner shoes (9.26334) : +0.0105139 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, rosewine circle (11.6053) -> :
-    cauterizing band (15.735) : +0.880787 %, from: mc
+finger, fordring's seal (11.7504) -> :
+    cauterizing band (16.3196) : +0.959425 %, from: mc
+    rosewine circle (12.067) : +0.0664821 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, fordring's seal (11.0296) -> :
-    cauterizing band (15.8363) : +1.01868 %, from: mc
-    rosewine circle (12.1703) : +0.241752 %, from: pre-raid
+finger 2, rosewine circle (11.7375) -> :
+    cauterizing band (16.3018) : +0.967005 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (12.166) -> :
-    shard of the scale (12.5646) : +0.084276 %, from: onyxia
+trinket, briarwood reed (7.85785) -> :
+    shard of the scale (15.5526) : +1.64112 %, from: onyxia
+    royal seal of eldre'thalas (13.8305) : +1.27384 %, from: pre-raid
+    mindtap talisman (11.4771) : +0.771899 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, briarwood reed (7.14359) -> :
-    shard of the scale (16.6761) : +2.05681 %, from: onyxia
-    royal seal of eldre'thalas (13.5861) : +1.39009 %, from: pre-raid
-    mindtap talisman (11.8354) : +1.01233 %, from: pre-raid
+trinket 2, royal seal of eldre'thalas (12.4841) -> :
 ------------------
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 | Upgrades at start level, from start item to candidate:  |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, halo of transcendence (24.53) -> :
+head, halo of transcendence (25.4606) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, animated chain necklace (8.98074) -> :
-    choker of the fire lord (10.0861) : +0.288252 %, from: mc
+neck, animated chain necklace (8.93643) -> :
+    choker of the fire lord (10.0969) : +0.301675 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, burial shawl (9.58426) -> :
-    mantle of prophecy (10.4938) : +0.237183 %, from: mc
+shoulders, devout mantle (8.18616) -> :
+    mantle of prophecy (11.0626) : +0.747741 %, from: mc
+    burial shawl (9.62842) : +0.374921 %, from: pre-raid
+    sunderseer mantle (9.27676) : +0.283508 %, from: pre-raid
+    elder wizard's mantle (8.88522) : +0.181725 %, from: pre-raid
+    soulstealer mantle (8.4657) : +0.0726678 %, from: pre-raid
+    kentic amice (8.27695) : +0.0236012 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, hide of the wild (12.8573) -> :
+back, hide of the wild (13.1763) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, magister's robes (12.2303) -> :
-    truefaith vestments (21.47) : +2.40955 %, from: tailoring bop
-    robes of the exalted (18.8675) : +1.73086 %, from: pre-raid
-    robes of prophecy (17.4896) : +1.37153 %, from: mc
-    robe of volatile power (14.4937) : +0.590256 %, from: mc
-    mindsurge robe (13.1902) : +0.250346 %, from: pre-raid
-    the postmaster's tunic (12.4942) : +0.0688319 %, from: pre-raid
+chest, devout robe (11.128) -> :
+    truefaith vestments (22.8672) : +3.05164 %, from: tailoring bop
+    robes of the exalted (20.2695) : +2.37636 %, from: pre-raid
+    robes of prophecy (17.5587) : +1.67168 %, from: mc
+    robe of volatile power (14.1466) : +0.784693 %, from: mc
+    mindsurge robe (13.1737) : +0.531776 %, from: pre-raid
+    the postmaster's tunic (12.6485) : +0.395246 %, from: pre-raid
+    magister's robes (11.9908) : +0.224286 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, devout bracers (4.90091) -> :
-    vambraces of prophecy (13.0847) : +2.13416 %, from: mc
-    flarecore wraps (9.09451) : +1.09361 %, from: tailoring boe
-    flameweave cuffs of healing (7.55328) : +0.691686 %, from: brd
-    sublime wristguards (6.88593) : +0.517652 %, from: pre-raid
-    wyrmthalak's shackles (5.28281) : +0.099591 %, from: pre-raid
-    magister's bindings (5.25375) : +0.0920147 %, from: pre-raid
-    magiskull cuffs (4.92166) : +0.00541169 %, from: pre-raid
+wrists, devout bracers (5.18323) -> :
+    vambraces of prophecy (13.5413) : +2.1727 %, from: mc
+    flarecore wraps (9.81235) : +1.20336 %, from: tailoring boe
+    flameweave cuffs of healing (7.76913) : +0.672217 %, from: brd
+    sublime wristguards (7.36871) : +0.568126 %, from: pre-raid
+    wyrmthalak's shackles (5.78925) : +0.157537 %, from: pre-raid
+    magister's bindings (5.64066) : +0.11891 %, from: pre-raid
+    magiskull cuffs (5.44077) : +0.066948 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 two-hand,  (0) -> :
-    benediction (36.8604) : +9.61244 %, from: mc
-    aurastone hammer and lei of the lifegiver (26.6653) : +6.95377 %, from: mc, av rep
-    sorcerous dagger and lei of the lifegiver (23.9411) : +6.24336 %, from: mc, av rep
-    staff of dominance (22.3673) : +5.83294 %, from: mc
-    the hammer of grace and lei of the lifegiver (21.8149) : +5.68889 %, from: pre-raid, av rep
-    aurastone hammer and brightly glowing stone (20.7479) : +5.41063 %, from: mc, pre-raid
-    aurastone hammer and fire runed grimoire (20.4062) : +5.32153 %, from: mc, mc
-    aurastone hammer and thaurissan's royal scepter (20.1928) : +5.26587 %, from: mc, pre-raid
-    witchblade and lei of the lifegiver (19.9647) : +5.2064 %, from: pre-raid, av rep
-    hypnotic blade and lei of the lifegiver (19.3509) : +5.04631 %, from: pre-raid, av rep
-    lorespinner and lei of the lifegiver (19.0437) : +4.96622 %, from: pre-raid, av rep
-    gift of the elven magi and lei of the lifegiver (18.342) : +4.78323 %, from: pre-raid (strat live: balnazzar), av rep
-    aurastone hammer and milli's lexicon (18.1513) : +4.73349 %, from: mc, pre-raid
-    sorcerous dagger and brightly glowing stone (18.0107) : +4.69682 %, from: mc, pre-raid
-    aurastone hammer and ancient cornerstone grimoire (17.8224) : +4.64773 %, from: mc, onyxia
-    sorcerous dagger and fire runed grimoire (17.5457) : +4.57555 %, from: mc, mc
-    sorcerous dagger and thaurissan's royal scepter (17.4843) : +4.55956 %, from: mc, pre-raid
-    aurastone hammer and spellbound tome (17.1122) : +4.46252 %, from: mc, pre-raid
-    aurastone hammer and penelope's rose (16.7307) : +4.36302 %, from: mc, pre-raid (scholo quest)
-    aurastone hammer and globe of d'sak (16.4732) : +4.29588 %, from: mc, pre-raid
-    the hammer of grace and brightly glowing stone (15.8073) : +4.12221 %, from: pre-raid, pre-raid
-    the hammer of grace and fire runed grimoire (15.5054) : +4.0435 %, from: pre-raid, mc
-    sorcerous dagger and milli's lexicon (15.4496) : +4.02894 %, from: mc, pre-raid
-    the hammer of grace and thaurissan's royal scepter (15.4165) : +4.02031 %, from: pre-raid, pre-raid
-    sorcerous dagger and ancient cornerstone grimoire (15.0605) : +3.92749 %, from: mc, onyxia
-    aurastone hammer and orb of the forgotten seer (14.8717) : +3.87824 %, from: mc, pre-raid
-    scepter of the unholy and lei of the lifegiver (14.5765) : +3.80125 %, from: pre-raid, av rep
-    sorcerous dagger and spellbound tome (14.3004) : +3.72927 %, from: mc, pre-raid
-    guiding stave of wisdom (14.0209) : +3.65636 %, from: pre-raid
-    sorcerous dagger and penelope's rose (13.9803) : +3.64577 %, from: mc, pre-raid (scholo quest)
-    witchblade and brightly glowing stone (13.8848) : +3.62088 %, from: pre-raid, pre-raid
-    witchblade and fire runed grimoire (13.7361) : +3.58209 %, from: pre-raid, mc
-    witchblade and thaurissan's royal scepter (13.5966) : +3.54573 %, from: pre-raid, pre-raid
-    sorcerous dagger and globe of d'sak (13.5616) : +3.53659 %, from: mc, pre-raid
-    the hammer of grace and milli's lexicon (13.4832) : +3.51613 %, from: pre-raid, pre-raid
-    hypnotic blade and brightly glowing stone (13.3663) : +3.48567 %, from: pre-raid, pre-raid
-    anathema (13.3133) : +3.47184 %, from: mc
-    lorespinner and brightly glowing stone (13.2083) : +3.44445 %, from: pre-raid, pre-raid
-    the hammer of grace and ancient cornerstone grimoire (13.0917) : +3.41405 %, from: pre-raid, onyxia
-    hypnotic blade and fire runed grimoire (12.9705) : +3.38243 %, from: pre-raid, mc
-    hypnotic blade and thaurissan's royal scepter (12.8128) : +3.34132 %, from: pre-raid, pre-raid
-    lorespinner and fire runed grimoire (12.6238) : +3.29204 %, from: pre-raid, mc
-    lorespinner and thaurissan's royal scepter (12.5833) : +3.28146 %, from: pre-raid, pre-raid
-    gift of the elven magi and brightly glowing stone (12.3835) : +3.22938 %, from: pre-raid (strat live: balnazzar), pre-raid
-    the hammer of grace and spellbound tome (12.3285) : +3.21503 %, from: pre-raid, pre-raid
-    sorcerous dagger and orb of the forgotten seer (12.1485) : +3.16808 %, from: mc, pre-raid
-    the hammer of grace and penelope's rose (11.9573) : +3.11822 %, from: pre-raid, pre-raid (scholo quest)
-    gift of the elven magi and fire runed grimoire (11.8573) : +3.09214 %, from: pre-raid (strat live: balnazzar), mc
-    gift of the elven magi and thaurissan's royal scepter (11.8138) : +3.08079 %, from: pre-raid (strat live: balnazzar), pre-raid
-    quel'dorai channeling rod (11.6095) : +3.02753 %, from: pre-raid
-    the hammer of grace and globe of d'sak (11.5368) : +3.00857 %, from: pre-raid, pre-raid
-    witchblade and milli's lexicon (11.4392) : +2.98311 %, from: pre-raid, pre-raid
-    witchblade and ancient cornerstone grimoire (11.1857) : +2.917 %, from: pre-raid, onyxia
-    rod of the ogre magi (10.9798) : +2.86331 %, from: pre-raid
-    hypnotic blade and milli's lexicon (10.882) : +2.83782 %, from: pre-raid, pre-raid
-    lorespinner and milli's lexicon (10.6754) : +2.78394 %, from: pre-raid, pre-raid
-    hypnotic blade and ancient cornerstone grimoire (10.5539) : +2.75224 %, from: pre-raid, onyxia
-    witchblade and spellbound tome (10.4026) : +2.71279 %, from: pre-raid, pre-raid
-    lorespinner and ancient cornerstone grimoire (10.189) : +2.65708 %, from: pre-raid, onyxia
-    witchblade and penelope's rose (10.1593) : +2.64934 %, from: pre-raid, pre-raid (scholo quest)
-    trindlehaven staff (10.0059) : +2.60933 %, from: pre-raid
-    the hammer of grace and orb of the forgotten seer (9.99576) : +2.60669 %, from: pre-raid, pre-raid
-    hypnotic blade and spellbound tome (9.84763) : +2.56806 %, from: pre-raid, pre-raid
-    witchblade and globe of d'sak (9.84222) : +2.56665 %, from: pre-raid, pre-raid
-    gift of the elven magi and milli's lexicon (9.76294) : +2.54598 %, from: pre-raid (strat live: balnazzar), pre-raid
-    lorespinner and spellbound tome (9.58511) : +2.4996 %, from: pre-raid, pre-raid
-    argent crusader (9.54016) : +2.48788 %, from: pre-raid
-    hypnotic blade and penelope's rose (9.46921) : +2.46938 %, from: pre-raid, pre-raid (scholo quest)
-    gift of the elven magi and ancient cornerstone grimoire (9.45093) : +2.46461 %, from: pre-raid (strat live: balnazzar), onyxia
-    lorespinner and penelope's rose (9.21805) : +2.40388 %, from: pre-raid, pre-raid (scholo quest)
-    hypnotic blade and globe of d'sak (9.00159) : +2.34743 %, from: pre-raid, pre-raid
-    lorespinner and globe of d'sak (8.65244) : +2.25638 %, from: pre-raid, pre-raid
-    scepter of the unholy and brightly glowing stone (8.60095) : +2.24295 %, from: pre-raid, pre-raid
-    gift of the elven magi and spellbound tome (8.52185) : +2.22233 %, from: pre-raid (strat live: balnazzar), pre-raid
-    scepter of the unholy and fire runed grimoire (8.22412) : +2.14468 %, from: pre-raid, mc
-    gift of the elven magi and penelope's rose (8.20447) : +2.13956 %, from: pre-raid (strat live: balnazzar), pre-raid (scholo quest)
-    scepter of the unholy and thaurissan's royal scepter (8.16776) : +2.12999 %, from: pre-raid, pre-raid
-    witchblade and orb of the forgotten seer (8.05383) : +2.10028 %, from: pre-raid, pre-raid
-    gift of the elven magi and globe of d'sak (7.8887) : +2.05721 %, from: pre-raid (strat live: balnazzar), pre-raid
-    hypnotic blade and orb of the forgotten seer (7.52429) : +1.96218 %, from: pre-raid, pre-raid
-    lorespinner and orb of the forgotten seer (7.34778) : +1.91615 %, from: pre-raid, pre-raid
-    gift of the elven magi and orb of the forgotten seer (6.53064) : +1.70306 %, from: pre-raid (strat live: balnazzar), pre-raid
-    scepter of the unholy and milli's lexicon (6.19653) : +1.61593 %, from: pre-raid, pre-raid
-    scepter of the unholy and ancient cornerstone grimoire (5.80908) : +1.51489 %, from: pre-raid, onyxia
-    scepter of the unholy and spellbound tome (5.05478) : +1.31818 %, from: pre-raid, pre-raid
-    scepter of the unholy and penelope's rose (4.68826) : +1.2226 %, from: pre-raid, pre-raid (scholo quest)
-    scepter of the unholy and globe of d'sak (4.27237) : +1.11415 %, from: pre-raid, pre-raid
-    sarah's guide (4.1351) : +1.07835 %, from: pre-raid
-    scepter of the unholy and orb of the forgotten seer (2.78955) : +0.727459 %, from: pre-raid, pre-raid
+    benediction (37.7441) : +9.81174 %, from: mc
+    aurastone hammer and lei of the lifegiver (27.617) : +7.17916 %, from: mc, av rep
+    sorcerous dagger and lei of the lifegiver (24.4868) : +6.36543 %, from: mc, av rep
+    staff of dominance (22.7978) : +5.92638 %, from: mc
+    the hammer of grace and lei of the lifegiver (22.1617) : +5.76103 %, from: pre-raid, av rep
+    aurastone hammer and brightly glowing stone (21.5249) : +5.59549 %, from: mc, pre-raid
+    aurastone hammer and fire runed grimoire (20.8994) : +5.43289 %, from: mc, mc
+    aurastone hammer and thaurissan's royal scepter (20.8373) : +5.41675 %, from: mc, pre-raid
+    witchblade and lei of the lifegiver (20.6667) : +5.3724 %, from: pre-raid, av rep
+    hypnotic blade and lei of the lifegiver (19.8878) : +5.16992 %, from: pre-raid, av rep
+    lorespinner and lei of the lifegiver (19.7722) : +5.13987 %, from: pre-raid, av rep
+    aurastone hammer and milli's lexicon (18.9728) : +4.93205 %, from: mc, pre-raid
+    gift of the elven magi and lei of the lifegiver (18.789) : +4.88428 %, from: pre-raid (strat live: balnazzar), av rep
+    sorcerous dagger and brightly glowing stone (18.4856) : +4.8054 %, from: mc, pre-raid
+    aurastone hammer and ancient cornerstone grimoire (18.4511) : +4.79644 %, from: mc, onyxia
+    sorcerous dagger and fire runed grimoire (18.0773) : +4.69926 %, from: mc, mc
+    sorcerous dagger and thaurissan's royal scepter (17.863) : +4.64355 %, from: mc, pre-raid
+    aurastone hammer and spellbound tome (17.642) : +4.58611 %, from: mc, pre-raid
+    aurastone hammer and penelope's rose (17.2253) : +4.47778 %, from: mc, pre-raid (scholo quest)
+    aurastone hammer and globe of d'sak (16.8297) : +4.37495 %, from: mc, pre-raid
+    the hammer of grace and brightly glowing stone (16.1835) : +4.20697 %, from: pre-raid, pre-raid
+    the hammer of grace and fire runed grimoire (16.0448) : +4.17092 %, from: pre-raid, mc
+    sorcerous dagger and milli's lexicon (15.9471) : +4.14552 %, from: mc, pre-raid
+    the hammer of grace and thaurissan's royal scepter (15.5997) : +4.05521 %, from: pre-raid, pre-raid
+    aurastone hammer and orb of the forgotten seer (15.5103) : +4.03198 %, from: mc, pre-raid
+    sorcerous dagger and ancient cornerstone grimoire (15.351) : +3.99055 %, from: mc, onyxia
+    sorcerous dagger and spellbound tome (14.7681) : +3.83902 %, from: mc, pre-raid
+    scepter of the unholy and lei of the lifegiver (14.7586) : +3.83657 %, from: pre-raid, av rep
+    sorcerous dagger and penelope's rose (14.412) : +3.74645 %, from: mc, pre-raid (scholo quest)
+    witchblade and brightly glowing stone (14.4083) : +3.74549 %, from: pre-raid, pre-raid
+    guiding stave of wisdom (14.1881) : +3.68826 %, from: pre-raid
+    witchblade and fire runed grimoire (14.0742) : +3.65866 %, from: pre-raid, mc
+    sorcerous dagger and globe of d'sak (14.0169) : +3.64376 %, from: mc, pre-raid
+    witchblade and thaurissan's royal scepter (14.0087) : +3.64161 %, from: pre-raid, pre-raid
+    the hammer of grace and milli's lexicon (13.9385) : +3.62336 %, from: pre-raid, pre-raid
+    hypnotic blade and brightly glowing stone (13.7982) : +3.58689 %, from: pre-raid, pre-raid
+    anathema (13.7033) : +3.56222 %, from: mc
+    lorespinner and brightly glowing stone (13.7031) : +3.56217 %, from: pre-raid, pre-raid
+    hypnotic blade and fire runed grimoire (13.3721) : +3.47613 %, from: pre-raid, mc
+    the hammer of grace and ancient cornerstone grimoire (13.3392) : +3.46758 %, from: pre-raid, onyxia
+    lorespinner and fire runed grimoire (13.1976) : +3.43077 %, from: pre-raid, mc
+    hypnotic blade and thaurissan's royal scepter (13.1635) : +3.4219 %, from: pre-raid, pre-raid
+    lorespinner and thaurissan's royal scepter (12.9468) : +3.36557 %, from: pre-raid, pre-raid
+    the hammer of grace and spellbound tome (12.7539) : +3.31543 %, from: pre-raid, pre-raid
+    gift of the elven magi and brightly glowing stone (12.735) : +3.31051 %, from: pre-raid (strat live: balnazzar), pre-raid
+    sorcerous dagger and orb of the forgotten seer (12.4878) : +3.24626 %, from: mc, pre-raid
+    the hammer of grace and penelope's rose (12.3973) : +3.22274 %, from: pre-raid, pre-raid (scholo quest)
+    gift of the elven magi and fire runed grimoire (12.3039) : +3.19844 %, from: pre-raid (strat live: balnazzar), mc
+    quel'dorai channeling rod (12.1324) : +3.15388 %, from: pre-raid
+    witchblade and milli's lexicon (12.0648) : +3.1363 %, from: pre-raid, pre-raid
+    gift of the elven magi and thaurissan's royal scepter (12.0496) : +3.13233 %, from: pre-raid (strat live: balnazzar), pre-raid
+    the hammer of grace and globe of d'sak (12.0001) : +3.11948 %, from: pre-raid, pre-raid
+    witchblade and ancient cornerstone grimoire (11.5688) : +3.00735 %, from: pre-raid, onyxia
+    rod of the ogre magi (11.4479) : +2.97592 %, from: pre-raid
+    hypnotic blade and milli's lexicon (11.21) : +2.91407 %, from: pre-raid, pre-raid
+    lorespinner and milli's lexicon (11.0396) : +2.86978 %, from: pre-raid, pre-raid
+    witchblade and spellbound tome (10.9873) : +2.85619 %, from: pre-raid, pre-raid
+    hypnotic blade and ancient cornerstone grimoire (10.715) : +2.78541 %, from: pre-raid, onyxia
+    lorespinner and ancient cornerstone grimoire (10.5467) : +2.74165 %, from: pre-raid, onyxia
+    witchblade and penelope's rose (10.4234) : +2.7096 %, from: pre-raid, pre-raid (scholo quest)
+    trindlehaven staff (10.4099) : +2.7061 %, from: pre-raid
+    the hammer of grace and orb of the forgotten seer (10.2335) : +2.66024 %, from: pre-raid, pre-raid
+    witchblade and globe of d'sak (10.1787) : +2.646 %, from: pre-raid, pre-raid
+    gift of the elven magi and milli's lexicon (10.1351) : +2.63467 %, from: pre-raid (strat live: balnazzar), pre-raid
+    hypnotic blade and spellbound tome (10.1347) : +2.63455 %, from: pre-raid, pre-raid
+    argent crusader (9.98251) : +2.59499 %, from: pre-raid
+    lorespinner and spellbound tome (9.79526) : +2.54632 %, from: pre-raid, pre-raid
+    hypnotic blade and penelope's rose (9.72131) : +2.52709 %, from: pre-raid, pre-raid (scholo quest)
+    gift of the elven magi and ancient cornerstone grimoire (9.64206) : +2.50649 %, from: pre-raid (strat live: balnazzar), onyxia
+    hypnotic blade and globe of d'sak (9.38699) : +2.44019 %, from: pre-raid, pre-raid
+    lorespinner and penelope's rose (9.3829) : +2.43912 %, from: pre-raid, pre-raid (scholo quest)
+    lorespinner and globe of d'sak (9.22366) : +2.39773 %, from: pre-raid, pre-raid
+    gift of the elven magi and spellbound tome (9.00424) : +2.34069 %, from: pre-raid (strat live: balnazzar), pre-raid
+    scepter of the unholy and brightly glowing stone (8.80551) : +2.28903 %, from: pre-raid, pre-raid
+    scepter of the unholy and fire runed grimoire (8.59369) : +2.23396 %, from: pre-raid, mc
+    gift of the elven magi and penelope's rose (8.59216) : +2.23357 %, from: pre-raid (strat live: balnazzar), pre-raid (scholo quest)
+    witchblade and orb of the forgotten seer (8.43631) : +2.19305 %, from: pre-raid, pre-raid
+    gift of the elven magi and globe of d'sak (8.25922) : +2.14702 %, from: pre-raid (strat live: balnazzar), pre-raid
+    scepter of the unholy and thaurissan's royal scepter (8.1864) : +2.12809 %, from: pre-raid, pre-raid
+    hypnotic blade and orb of the forgotten seer (7.82068) : +2.03302 %, from: pre-raid, pre-raid
+    lorespinner and orb of the forgotten seer (7.70599) : +2.0032 %, from: pre-raid, pre-raid
+    gift of the elven magi and orb of the forgotten seer (6.74701) : +1.75391 %, from: pre-raid (strat live: balnazzar), pre-raid
+    scepter of the unholy and milli's lexicon (6.48209) : +1.68504 %, from: pre-raid, pre-raid
+    scepter of the unholy and ancient cornerstone grimoire (5.8894) : +1.53097 %, from: pre-raid, onyxia
+    scepter of the unholy and spellbound tome (5.31067) : +1.38053 %, from: pre-raid, pre-raid
+    scepter of the unholy and penelope's rose (4.95883) : +1.28907 %, from: pre-raid, pre-raid (scholo quest)
+    scepter of the unholy and globe of d'sak (4.56619) : +1.187 %, from: pre-raid, pre-raid
+    sarah's guide (4.34579) : +1.12971 %, from: pre-raid
+    scepter of the unholy and orb of the forgotten seer (2.8558) : +0.742378 %, from: pre-raid, pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon finger of intellect (2.75696) -> :
-    lunar wand of healing (4.59424) : +0.479126 %, from: random green
-    bonecreeper stylus (4.0213) : +0.329715 %, from: pre-raid
-    oblivion's touch (3.53925) : +0.204005 %, from: pre-raid
-    mana channeling wand (3.45355) : +0.181658 %, from: pre-raid
-    crimson shocker (3.21664) : +0.119877 %, from: mc
-    lunar wand of the owl (3.1265) : +0.0963679 %, from: random green
-    lunar wand of intellect (2.91965) : +0.0424261 %, from: random green
+ranged, dragon finger of intellect (2.72049) -> :
+    lunar wand of healing (4.73376) : +0.523359 %, from: random green
+    bonecreeper stylus (4.14709) : +0.370852 %, from: pre-raid
+    oblivion's touch (3.63797) : +0.238503 %, from: pre-raid
+    mana channeling wand (3.50708) : +0.204477 %, from: pre-raid
+    crimson shocker (3.33401) : +0.159488 %, from: mc
+    lunar wand of the owl (3.16547) : +0.115674 %, from: random green
+    lunar wand of intellect (3.00003) : +0.0726678 %, from: random green
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, atal'ai gloves of the owl (9.10892) -> :
-    gloves of prophecy (16.334) : +1.88415 %, from: mc
-    hands of the exalted herald (14.401) : +1.38006 %, from: pre-raid
-    atal'ai hands of healing (12.0612) : +0.769893 %, from: sunken temple
-    high councillor's gloves of healing (10.468) : +0.35441 %, from: random green
-    hands of power (9.45996) : +0.0915451 %, from: pre-raid
+hands, shadowy laced handwraps (9.31421) -> :
+    gloves of prophecy (16.6455) : +1.90581 %, from: mc
+    hands of the exalted herald (14.8242) : +1.43235 %, from: pre-raid
+    atal'ai hands of healing (12.3512) : +0.789477 %, from: sunken temple
+    devout gloves (12.2885) : +0.773182 %, from: pre-raid
+    high councillor's gloves of healing (10.72) : +0.365449 %, from: random green
+    hands of power (9.42792) : +0.029559 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, thuzadin sash (8.70819) -> :
-    whipvine cord (14.7028) : +1.56328 %, from: pre-raid
-    girdle of prophecy (13.509) : +1.25196 %, from: mc
-    mana igniting cord (11.5661) : +0.745285 %, from: mc
+waist, grimgore noose (7.25809) -> :
+    whipvine cord (15.049) : +2.02527 %, from: pre-raid
+    girdle of prophecy (13.9485) : +1.73921 %, from: mc
+    mana igniting cord (11.9451) : +1.21842 %, from: mc
+    thuzadin sash (8.57333) : +0.341904 %, from: pre-raid
+    dustfeather sash (7.94925) : +0.17967 %, from: pre-raid
+    magister's belt (7.70306) : +0.115674 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, pants of prophecy (22.8626) -> :
-    leggings of transcendence (28.3631) : +1.43442 %, from: mc
+legs, padre's trousers (21.9404) -> :
+    leggings of transcendence (27.4417) : +1.4301 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, omnicast boots (7.89755) -> :
-    boots of prophecy (11.8572) : +1.03261 %, from: mc
-    boots of the full moon (10.9602) : +0.798686 %, from: pre-raid
-    dragonrider boots (8.7916) : +0.233148 %, from: pre-raid
-    wolfrunner shoes (8.09674) : +0.0519443 %, from: pre-raid
+feet, omnicast boots (8.31726) -> :
+    boots of prophecy (12.2765) : +1.02922 %, from: mc
+    boots of the full moon (11.6147) : +0.857187 %, from: pre-raid
+    devout sandals (11.5359) : +0.836695 %, from: pre-raid
+    dragonrider boots (9.35791) : +0.270521 %, from: pre-raid
+    wolfrunner shoes (8.55566) : +0.0619739 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, rosewine circle (10.7495) -> :
-    cauterizing band (14.1349) : +0.882846 %, from: mc
+finger, fordring's seal (10.3358) -> :
+    cauterizing band (14.4807) : +1.07747 %, from: mc
+    rosewine circle (10.6874) : +0.0914139 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, fordring's seal (10.2502) -> :
-    cauterizing band (14.1757) : +1.02368 %, from: mc
-    rosewine circle (10.7144) : +0.121055 %, from: pre-raid
+finger 2, rosewine circle (11.0876) -> :
+    cauterizing band (14.6642) : +0.929735 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (11.0049) -> :
-    shard of the scale (11.6993) : +0.181085 %, from: onyxia
+trinket, briarwood reed (6.90167) -> :
+    shard of the scale (11.7159) : +1.25147 %, from: onyxia
+    royal seal of eldre'thalas (10.8105) : +1.01612 %, from: pre-raid
+    mindtap talisman (8.18573) : +0.333796 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, briarwood reed (6.74142) -> :
-    shard of the scale (11.0615) : +1.12659 %, from: onyxia
-    royal seal of eldre'thalas (10.5469) : +0.992401 %, from: pre-raid
-    mindtap talisman (7.55945) : +0.213324 %, from: pre-raid
+trinket 2, royal seal of eldre'thalas (11.2509) -> :
+    shard of the scale (12.2536) : +0.260668 %, from: onyxia
 -- Stat values at start item level: --
 Current relative stat values for matching or exceeding +50 pts of sp
-int: 168.636
-spi: 92.8273
+int: 146.547
+spi: 78.6723
 sta: 0
 agi: 0
-mp5: 381.74
+mp5: 386.756
 sp: 100
 sp_shadow: 0
 sp_healing: 100
-spell crit: 298.09
+spell crit: 258.483
 spell hit: 0
 arcane res: 0
 nature res: 0
@@ -991,4 +1580,4 @@ defense: 0
 dodge: 0
 parry: 0
 ------------------
-Best value: 472.994
+Best value: 476.565
