@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 namespace css
 {
@@ -34,8 +35,11 @@ struct Assumptions
 
   float healing_from_crit_fraction = 0.2f;  // e.g. 20% of extra healing from crit is not overhealing
 
-  std::vector<float> pve_combat_lenghts = {60.0f, 120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
+  std::vector<float> pve_combat_lengths = {60.0f, 120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
   std::vector<float> pve_combat_weights = {1.0f,  2.0f,   2.0f,   1.0f,   1.0f,   1.0f};
+
+  // Items with special effects
+  std::string darkmoon_card_name = "darkmoon card";
 };
 
 namespace global

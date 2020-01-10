@@ -4,6 +4,7 @@
 #include <map>
 #include <random>
 
+#include "assumptions.h"
 #include "item.h"
 #include "item_table.h"
 #include "priest_character.h"
@@ -82,7 +83,6 @@ private:
         }
       }
 
-  std::map<std::string, Item> m_items;
   std::map<std::string, bool> m_locked;
   std::map<std::string, bool> m_banned;
   std::map<std::string, bool> m_whitelist;  // to go around a ban of items one has
@@ -96,8 +96,7 @@ private:
   std::vector<std::vector<float>> m_start_pve_healing_counts;
   std::vector<std::vector<float>> m_curr_pve_healing_counts;
   std::vector<std::vector<float>> m_best_pve_healing_counts;
-  const std::vector<float> m_pve_healing_combat_lengths = {120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
-  // const std::vector<float> m_pve_healing_combat_lengths = {60.0f, 120.0f, 180.0f, 240.0f};
+  const std::vector<float> m_pve_healing_combat_lengths = global::assumptions.pve_combat_lengths;
 
   std::vector<float> m_pve_info;
 
@@ -109,6 +108,7 @@ private:
 
   float m_val_best = 0.0f;
   float m_val_best_bans_on = 0.0f;
+  std::map<std::string, Item> m_items;
   std::map<std::string, Item> m_items_best;
   std::map<std::string, Item> m_items_prev_intermediate_results;
   std::map<std::string, Item> m_items_start;

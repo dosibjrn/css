@@ -368,6 +368,7 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
         }
       }
     }
+    // recalculateSpecialEffects(&m_c_curr);
     float res_val = value(m_c_curr);
     updateIfNewBest(res_val, disable_bans, iteration, iters_without_new_best);
     slot_ix++;
