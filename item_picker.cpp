@@ -216,7 +216,7 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
       m_best_pve_healing_counts = m_curr_pve_healing_counts;
       m_pve_info = getPveInfo(m_c_best);
       if (1) {
-        std::cout << std::endl << "*** NEW BEST: " << m_val_best << " ***" << std::endl;
+        std::cout << std::endl << "*** NEW BEST (" << !disable_bans << "): " << *best << std::endl;
         if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValuesAlt();
       }
     }
@@ -232,7 +232,11 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
     m_c_best.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_best);
     bool is_partial = m_c_curr.set_bonuses.getPartial();
     if (was_partial != is_partial) {
-      m_val_best = value(m_c_best);
+      if (is_partial) {
+        m_val_best_bans_on = value(m_c_best);
+      } else {
+        m_val_best = value(m_c_best);
+      }
     }
   }
   std::vector<std::string> slots = item_table.getItemSlots();

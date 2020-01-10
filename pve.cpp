@@ -45,10 +45,9 @@ int PveHealingItemPicking(int argc, char** argv, bool full_buffs)
   auto c = BaseLvl60DiscHolyPvpHealing();
 
   // pve healing specific args
-  float freq = 1.0f;
   auto res = parseFloat("-b", &argc, argv);
   if (res.first) {
-    freq = res.second;
+    global::assumptions.buff_fraction = res.second;
   }
   res = parseFloat("-r", &argc, argv);
   global::assumptions.full_regen_limit = 1.0f;
@@ -58,7 +57,7 @@ int PveHealingItemPicking(int argc, char** argv, bool full_buffs)
 
   // apply buffs if any
   if (full_buffs) {
-    AddFullBuffs(freq, &c);
+    AddFullBuffs(global::assumptions.buff_fraction, &c);
   }
   auto value_choice = ItemPicker::ValueChoice::pve_healing;
   return ItemPickingMain(argc, argv, value_choice, c);

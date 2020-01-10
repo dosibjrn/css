@@ -494,33 +494,27 @@ Regen FindBestRegen(const PriestCharacter& c,
   return Regen(best_casts, best_ticks, best_ticks_oom);
 }
 
-namespace globals
+namespace global
 {
   std::chrono::time_point<std::chrono::system_clock> first_call_start;
   double find_best_pve_healing_counts_time_sum = 0.0;
   int64_t visit_count = 0;
-}  // namespace globals
+}  // namespace global
 
 std::vector<float> InitialSpellCounts()
 {
-    //                          h2,  h4,   g1,  gm,  f5,   r,   p
-    // std::vector<float> init = {10.0, 10.0, 5.0, 1.0, 15.0, 0.0, 0.0};
-
-    // std::vector<float> init =    {11,  0,     6,   0,  15, 0,   0};
-    std::vector<float> init =    {1,  0,     0,   0,  0, 0,   0};
-    // std::vector<float> init = {5.0, 5.0, 5.0, 0.0, 5.0, 0.0, 0.0};
-    return init;
+    return global::assumptions.initial_spell_counts;
 }
 
 std::vector<float> SpellMaxFreqs()
 {
-  return {1.0, 1.0, 1.0, 0.2,   1.0,   0.2,      0.1};
-  // return {1.0, 1.0, 1.0, 1.0,   1.0,   1.0,      1.0};
+  return global::assumptions.spell_max_freqs;
 }
 
 Regen InitialRegen()
 {
-  return Regen(20,20,20);
+  auto v = global::assumptions.initial_regen_vals;
+  return Regen(v[0], v[1], v[2]);
 }
 
 float FreqPenalty(const std::vector<float>& counts)
@@ -544,18 +538,15 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
                                               float combat_length,
                                               Regen *regen)
 {
-  bool quick = false;
-  // bool quick = false;
-  if (quick) {
-
-    //                                 h2, h4, g1, gm, f5, r, p
-    std::vector<float> spell_counts = {11, 0,  6,  0,  15, 0, 0};
+  bool fixed = global::assumptions.use_fixed_spell_counts;
+  if (fixed) {
+    std::vector<float> spell_counts = global::assumptions.fixed_spell_counts;
     *regen = FindBestRegen(c, spell_counts, combat_length, *regen);
     return spell_counts;
   }
   auto t0 = std::chrono::system_clock::now();
-  if (globals::find_best_pve_healing_counts_time_sum == 0.0f) {
-    globals::first_call_start = std::chrono::system_clock::now();
+  if (global::find_best_pve_healing_counts_time_sum == 0.0f) {
+    global::first_call_start = std::chrono::system_clock::now();
   }
   bool verbose = false;
   std::vector<float> spell_counts = initial_spell_counts;
@@ -655,13 +646,13 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
 
   auto t1 = std::chrono::system_clock::now();
   double this_round_s = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count()*1e-9;
-  globals::find_best_pve_healing_counts_time_sum += this_round_s;
+  global::find_best_pve_healing_counts_time_sum += this_round_s;
 
-  bool cout_time = globals::visit_count++ % 1000 == 0;
+  bool cout_time = global::visit_count++ % 1000 == 0;
   if (cout_time) {
-    double total_s = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - globals::first_call_start).count()*1e-9;
-    std::cout << "[Perf] spent in FindBestPveHealingCounts: " << globals::find_best_pve_healing_counts_time_sum << " s";
-    std::cout << ", that's: " << globals::find_best_pve_healing_counts_time_sum/total_s*100.0 << " \% of total." << std::endl;
+    double total_s = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - global::first_call_start).count()*1e-9;
+    std::cout << "[Perf] spent in FindBestPveHealingCounts: " << global::find_best_pve_healing_counts_time_sum << " s";
+    std::cout << ", that's: " << global::find_best_pve_healing_counts_time_sum/total_s*100.0 << " \% of total." << std::endl;
   }
 
 

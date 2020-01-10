@@ -51,8 +51,6 @@ int ItemPickingMain(int argc, char** argv, ItemPicker::ValueChoice value_choice,
         ip.PickBestForSlots(item_table, disable_bans, iter, max_iters, //
                             &static_for_all_slots, &iters_without_new_best);
         std::cout << "*";
-
-        std::cout << std::endl << "best val: " <<  ip.getBestValue() << std::endl;
         std::cout.flush();
       }
       std::cout << std::endl;
