@@ -21,7 +21,11 @@ class Stats {
 
   float getManaRegenTickUnderFsr() const
   {
-    return c_.talents.meditation*0.05*(12.5+c_.spirit*0.25f) + mp5Tick();
+    int meditation = c_.talents.meditation;
+    if (c_.set_bonuses.getTotalBonus().name.find("transcendence 3") != std::string::npos) {
+      meditation += 3;
+    }
+    return meditation*0.05*(12.5+c_.spirit*0.25f) + mp5Tick();
   }
   float getManaRegenTickSpiritTapUnderFsr() const
   {

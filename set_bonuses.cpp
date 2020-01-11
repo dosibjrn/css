@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "assumptions.h"
 #include "item_operations.h"
 #include "priest_character.h"
 
@@ -12,9 +13,12 @@ namespace css
 namespace {
 std::string getSetName(const std::string& item_name)
 {
+  int s = item_name.size();
   if (item_name.substr(0, 6) == "devout") { return "devout"; }
   if (item_name.substr(0, 6) == "dreadm") { return "dreadmist"; }
   if (item_name.substr(0, 6) == "necrop") { return "necropile"; }
+  if (s > 13 && item_name.substr(s-13) == "transcendence") { return "transcendence"; }
+  if (item_name == global::assumptions.darkmoon_card_name) { return global::assumptions.darkmoon_card_name; }
   return "";
 }
 }  // namespace
@@ -60,6 +64,15 @@ SetBonusListType SetBonuses::getSetBonusList()
     i.name = "dreadmist 4";
     bonus_list[i.name] = i;
     i.name = "necropilt 5";
+    bonus_list[i.name] = i;
+  }
+  { 
+    Item i;
+    i.name = "transcendence 3";
+    bonus_list[i.name] = i;
+    i.name = "transcendence 8";
+    bonus_list[i.name] = i;
+    i.name = global::assumptions.darkmoon_card_name + " 1";
     bonus_list[i.name] = i;
   }
 

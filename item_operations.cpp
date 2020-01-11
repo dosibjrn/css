@@ -61,7 +61,6 @@ void AddItem(const Item &i, PriestCharacter* c)
   c->spell_crit += i_tmp.spell_crit;
   c->spell_hit += i_tmp.spell_hit;
 
-  c->spell_hit += i_tmp.spell_hit;
   c->arcane_res += i_tmp.arcane_res;
   c->nature_res += i_tmp.nature_res;
   c->fire_res += i_tmp.fire_res;
@@ -102,7 +101,6 @@ void RemoveItem(const Item &i, PriestCharacter* c)
   c->spell_crit -= i_tmp.spell_crit;
   c->spell_hit -= i_tmp.spell_hit;
 
-  c->spell_hit -= i_tmp.spell_hit;
   c->arcane_res -= i_tmp.arcane_res;
   c->nature_res -= i_tmp.nature_res;
   c->fire_res -= i_tmp.fire_res;

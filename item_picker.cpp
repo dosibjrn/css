@@ -55,7 +55,7 @@ float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
 
 float ItemPicker::valuePveHealing(const PriestCharacter& c) const
 {
-  int count = 0;
+  float weight_sum = 0.0;
   float hps_sum = 0.0f;
   int n_combats = m_pve_healing_combat_lengths.size();
   Stats stats(c);
@@ -66,10 +66,11 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
     Regen regen = regens[i];
     regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
     auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
-    hps_sum += res.first;
-    count++;
+    float w = global::assumptions.pve_combat_weigths[i];
+    hps_sum += w*res.first;
+    weight_sum += w; 
   }
-  return hps_sum/count;
+  return hps_sum/weight_sum;
 }
 
 std::vector<float> ItemPicker::getPveInfo(const PriestCharacter& c) const
@@ -400,6 +401,7 @@ void ItemPicker::CoutDiffsToStart() const
  
   for (auto slot : order) {
     PriestCharacter c_tmp = m_c_best;
+    c_tmp.set_bonuses.SetPartialAndUpdateCharacter(true, &c_tmp);
     try { 
       auto best_item = m_items_best.at(slot);
       auto start_item = items_start.at(slot);
@@ -442,6 +444,7 @@ void ItemPicker::CoutAllUpgradesFromStart()
   for (auto slot : order) {
     std::vector<std::pair<std::string, float>> diffs;
     PriestCharacter c_tmp = m_c_start;
+    c_tmp.set_bonuses.SetPartialAndUpdateCharacter(true, &c_tmp);
 
     auto curr_item = m_items_start.at(slot);
     RemoveItem(curr_item, &c_tmp);
@@ -553,6 +556,7 @@ void ItemPicker::CoutAllUpgrades()
   for (auto slot : order) {
     std::vector<std::pair<std::string, float>> diffs;
     PriestCharacter c_tmp = m_c_best;
+    c_tmp.set_bonuses.SetPartialAndUpdateCharacter(true, &c_tmp);
 
     auto curr_item = m_items_best.at(slot);
     RemoveItem(curr_item, &c_tmp);

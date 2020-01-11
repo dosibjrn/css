@@ -1,6 +1,9 @@
 #include "spell_priest_modify.h"
 
+#include <iostream>
+
 #include "assumptions.h"
+#include "stats.h"
 
 namespace css
 {
@@ -50,6 +53,14 @@ void ModifySpell(const PriestCharacter& c, Spell* s)
     s->damage *= 1.0 + (0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
     float not_overhealing = global::assumptions.healing_from_crit_fraction;
     s->healing *= 1.0 + not_overhealing*(0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
+  }
+
+  // Darkmoon card
+  if (c.set_bonuses.getTotalBonus().name.find(global::assumptions.darkmoon_card_name) != std::string::npos) {
+    Stats stats(c);
+    float average_gain_per_spell = 7.5*0.02*(stats.getManaRegenTickOutOfFsr() - stats.getManaRegenTickUnderFsr());
+    s->cost -= average_gain_per_spell;
+    // std::cout << "Darkmoon on boi!, reduction: " << average_gain_per_spell << std::endl;
   }
 }
 

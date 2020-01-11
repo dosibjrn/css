@@ -125,6 +125,21 @@ Spell GreaterHeal(const PriestCharacter& c, int rank) {
   s.modifier = s.cast_time/3.5f;
   s.can_crit = true;
   ModifySpell(c, &s);
+
+  if (c.set_bonuses.getTotalBonus().name.find("transcendence 8") != std::string::npos) {
+    Spell extra_renew = Renew(c, 5);
+    s.healing += extra_renew.healing*extra_renew.num_ticks;
+  } else if (c.set_bonuses.getPartial()) {
+    int highest = 0;
+    for (int i = 1; i < 8; ++i) {
+      if (c.set_bonuses.getTotalBonus().name.find("transcendence " + std::to_string(i)) != std::string::npos) {
+        highest = i;
+      }
+    }
+    Spell extra_renew = Renew(c, 5);
+    s.healing += extra_renew.healing*extra_renew.num_ticks * highest/8.0f;
+  }
+
   return s;
 }
 
