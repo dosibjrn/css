@@ -386,8 +386,10 @@ void SwapIfSame(Item best, Item* start_a, Item* start_b) {
 
 }
 
-void ItemPicker::CoutDiffsToStart() const
+void ItemPicker::CoutDiffsToStart()
 {
+  auto c_save = m_c_best;
+  m_c_best.set_bonuses.SetPartialAndUpdateCharacter(true, &m_c_best);
   float val = value(m_c_best);
   std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "main hand", "one-hand", "off hand", "ranged",
     "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
@@ -401,7 +403,6 @@ void ItemPicker::CoutDiffsToStart() const
  
   for (auto slot : order) {
     PriestCharacter c_tmp = m_c_best;
-    c_tmp.set_bonuses.SetPartialAndUpdateCharacter(true, &c_tmp);
     try { 
       auto best_item = m_items_best.at(slot);
       auto start_item = items_start.at(slot);
@@ -424,6 +425,7 @@ void ItemPicker::CoutDiffsToStart() const
   for (auto diff : diffs) {
     std::cout << diff.first << std::endl;
   }
+  m_c_best = c_save;
 }
 
 void ItemPicker::CoutAllUpgradesFromStart()
@@ -431,6 +433,9 @@ void ItemPicker::CoutAllUpgradesFromStart()
 
   auto pve_count_tmp = m_curr_pve_healing_counts;
   auto pve_regen_tmp = m_curr_regens;
+  auto c_save = m_c_start;
+
+  m_c_start.set_bonuses.SetPartialAndUpdateCharacter(true, &m_c_start);
 
   m_curr_pve_healing_counts = m_start_pve_healing_counts;
   m_curr_regens = m_start_regens;
@@ -444,7 +449,6 @@ void ItemPicker::CoutAllUpgradesFromStart()
   for (auto slot : order) {
     std::vector<std::pair<std::string, float>> diffs;
     PriestCharacter c_tmp = m_c_start;
-    c_tmp.set_bonuses.SetPartialAndUpdateCharacter(true, &c_tmp);
 
     auto curr_item = m_items_start.at(slot);
     RemoveItem(curr_item, &c_tmp);
@@ -519,7 +523,8 @@ void ItemPicker::CoutAllUpgradesFromStart()
 
   // save counts best, c best
   // pve_count_tmp = m_best_pve_healing_counts;
-  auto c_tmp = m_c_best;
+  m_c_start = c_save;
+  c_save = m_c_best;
 
   // set start counts to best, start c to c best
   // m_best_pve_healing_counts = m_start_pve_healing_counts;
@@ -533,7 +538,7 @@ void ItemPicker::CoutAllUpgradesFromStart()
 
   // set back best counts and best c
   // m_best_pve_healing_counts = pve_count_tmp;
-  m_c_best = c_tmp;
+  m_c_best = c_save;
 }
 
 
@@ -542,6 +547,9 @@ void ItemPicker::CoutAllUpgrades()
 {
   auto pve_count_tmp = m_curr_pve_healing_counts;
   auto pve_regen_tmp = m_curr_regens;
+  auto c_save = m_c_best;
+
+  m_c_best.set_bonuses.SetPartialAndUpdateCharacter(true, &m_c_best);
 
   m_curr_pve_healing_counts = m_best_pve_healing_counts;
   m_curr_regens = m_best_regens;
@@ -556,7 +564,6 @@ void ItemPicker::CoutAllUpgrades()
   for (auto slot : order) {
     std::vector<std::pair<std::string, float>> diffs;
     PriestCharacter c_tmp = m_c_best;
-    c_tmp.set_bonuses.SetPartialAndUpdateCharacter(true, &c_tmp);
 
     auto curr_item = m_items_best.at(slot);
     RemoveItem(curr_item, &c_tmp);
@@ -627,6 +634,7 @@ void ItemPicker::CoutAllUpgrades()
 
   m_curr_pve_healing_counts = pve_count_tmp;
   m_curr_regens = pve_regen_tmp;
+  m_c_best = c_save;
 }
 
 void ItemPicker::FinalCouts()
@@ -833,6 +841,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   Item no_item;
   Item best_item = no_item;
   float best_value = value(c_no_item);
+  float no_item_val = best_value;
   if (verbose) std::cout << "No item value: " << best_value << std::endl;
   bool locked_seen = false;
   for (const Item& item : items_for_slot) {
@@ -866,11 +875,6 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
 
     } else {
       if (verbose) std::cout << item.name << " val: " << val << " is not new best, best is: " << best_item.name << " with val: " << best_value  << std::endl;
-    }
-  }
-  if (verbose && locked_seen && best_item.name != "dragon finger of intellect") {
-    for (int i = 0; i < 10; ++i) {
-      std::cout << "!!!!!!!!!!!!! B O O M !!!!!!!!!!" << std::endl;
     }
   }
   return best_item;

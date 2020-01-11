@@ -18,7 +18,7 @@ std::string getSetName(const std::string& item_name)
   if (item_name.substr(0, 6) == "dreadm") { return "dreadmist"; }
   if (item_name.substr(0, 6) == "necrop") { return "necropile"; }
   if (s > 13 && item_name.substr(s-13) == "transcendence") { return "transcendence"; }
-  if (item_name == global::assumptions.darkmoon_card_name) { return global::assumptions.darkmoon_card_name; }
+  if (item_name == global::assumptions.darkmoon_card_name) { return "darkmoon"; }
   return "";
 }
 }  // namespace
@@ -72,7 +72,7 @@ SetBonusListType SetBonuses::getSetBonusList()
     bonus_list[i.name] = i;
     i.name = "transcendence 8";
     bonus_list[i.name] = i;
-    i.name = global::assumptions.darkmoon_card_name + " 1";
+    i.name = "darkmoon 1";
     bonus_list[i.name] = i;
   }
 
@@ -109,6 +109,7 @@ SetBonusListType SetBonuses::toPartial(SetBonusListType& bonus_list)
     size_t space_pos = set_name.find(" ");
     int n = atoi(set_name.substr(space_pos).c_str());
     set_name = set_name.substr(0, space_pos);
+    // std::cout << "set_name: " << set_name << ", n: " << n << std::endl;
     Item to_split = entry.second;
     float w_sum = 0.0f;
     for (int i = 1; i <= n; ++i) {
@@ -122,7 +123,9 @@ SetBonusListType SetBonuses::toPartial(SetBonusListType& bonus_list)
       ss << set_name << " " << i;
       std::string splitted_name = ss.str();
       if (partial_bonus_list.find(splitted_name) == partial_bonus_list.end()) {
+        partial_item.name = splitted_name;
         partial_bonus_list[splitted_name] = partial_item;
+        // std::cout << "partial bonus: " << partial_item.name << std::endl;
       } else {
         AddToItemWithMul(partial_item, 1.0f, &partial_bonus_list[splitted_name]);
       }

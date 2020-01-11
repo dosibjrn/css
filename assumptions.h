@@ -15,7 +15,7 @@ struct Assumptions
   // Note: spell order:                    h    h    gh   gh   fh   r   poh
   std::vector<float> spell_max_freqs =    {1.0, 1.0, 1.0, 0.2, 1.0, 0.2, 0.1};
   // std::vector<float> spell_max_freqs =    {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-  std::vector<int> spell_ranks =          {2,   4,   1,   4,   7,   10,  5};   
+  std::vector<int> spell_ranks =          {2,   4,   1,   4,   7,   9,  4};   
   std::vector<float> initial_spell_counts = {1,   0,   0,   0,   0,   0,   0};
   std::vector<float> fixed_spell_counts =   {11,  0,   6,   0,   15,  3,   0};
   bool use_fixed_spell_counts = false;
@@ -42,6 +42,9 @@ struct Assumptions
 
   // Items with special effects
   std::string darkmoon_card_name = "darkmoon card: blue dragon";
+
+  // Is the transcendence 8 really obtainable for you?
+  bool transc8_exists = false;
 };
 
 namespace global

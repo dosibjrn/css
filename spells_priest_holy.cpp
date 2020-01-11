@@ -1,5 +1,6 @@
 #include <map>
 
+#include "assumptions.h"
 #include "spell.h"
 #include "priest_character.h"
 #include "spell_priest_modify.h"
@@ -126,18 +127,21 @@ Spell GreaterHeal(const PriestCharacter& c, int rank) {
   s.can_crit = true;
   ModifySpell(c, &s);
 
-  if (c.set_bonuses.getTotalBonus().name.find("transcendence 8") != std::string::npos) {
-    Spell extra_renew = Renew(c, 5);
-    s.healing += extra_renew.healing*extra_renew.num_ticks;
-  } else if (c.set_bonuses.getPartial()) {
-    int highest = 0;
-    for (int i = 1; i < 8; ++i) {
-      if (c.set_bonuses.getTotalBonus().name.find("transcendence " + std::to_string(i)) != std::string::npos) {
-        highest = i;
+  bool transc8_exists = global::assumptions.transc8_exists;
+  if (transc8_exists) {
+    if (c.set_bonuses.getTotalBonus().name.find("transcendence 8") != std::string::npos) {
+      Spell extra_renew = Renew(c, 5);
+      s.healing += extra_renew.healing*extra_renew.num_ticks;
+    } else if (c.set_bonuses.getPartial()) {
+      int highest = 0;
+      for (int i = 1; i < 8; ++i) {
+        if (c.set_bonuses.getTotalBonus().name.find("transcendence " + std::to_string(i)) != std::string::npos) {
+          highest = i;
+        }
       }
+      Spell extra_renew = Renew(c, 5);
+      s.healing += extra_renew.healing*extra_renew.num_ticks * highest/8.0f;
     }
-    Spell extra_renew = Renew(c, 5);
-    s.healing += extra_renew.healing*extra_renew.num_ticks * highest/8.0f;
   }
 
   return s;

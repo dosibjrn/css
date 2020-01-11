@@ -56,7 +56,7 @@ void ModifySpell(const PriestCharacter& c, Spell* s)
   }
 
   // Darkmoon card
-  if (c.set_bonuses.getTotalBonus().name.find(global::assumptions.darkmoon_card_name) != std::string::npos) {
+  if (c.set_bonuses.getTotalBonus().name.find("darkmoon") != std::string::npos) {
     Stats stats(c);
     float average_gain_per_spell = 7.5*0.02*(stats.getManaRegenTickOutOfFsr() - stats.getManaRegenTickUnderFsr());
     s->cost -= average_gain_per_spell;
