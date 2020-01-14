@@ -69,6 +69,8 @@ PriestCharacter BaseLvl60UdShadowEnchanted();
 PriestCharacter BaseLvl60HolyDiscHealing();
 PriestCharacter BaseLvl60DiscHolyPvpHealing();
 
-void AddFullBuffs(float freq, PriestCharacter *c);
+void ApplyBuffs(PriestCharacter *c);
+
+void AddEnchants(PriestCharacter* c);
 
 }  // namespace css

@@ -1,5 +1,7 @@
 #include "priest_character.h"
 
+#include "assumptions.h"
+
 namespace css
 {
 
@@ -243,15 +245,50 @@ PriestCharacter BaseLvl60DiscHolyPvpHealing()
   return c;
 }
 
-void AddFullBuffs(float freq, PriestCharacter *c) {
-  c->mp5 += 60.0f*freq;  // major mana potion
-  c->mp5 += 50.0f*freq;  // runes
-  c->mp5 += 12.0f*freq;  // brilliant mana oil
-  c->mp5 += 12.0f*freq;  // mageblood potion
+void ApplyBuffs(PriestCharacter *c) {
+  float frac = global::assumptions.buff_fraction;
+  c->mp5 += 60.0f*frac;  // major mana potion
+  c->mp5 += 50.0f*frac;  // runes
+  c->mp5 += 12.0f*frac;  // brilliant mana oil
+  c->mp5 += 12.0f*frac;  // mageblood potion
 
-  // Flask of distilled wisdom: -crit to affet only mana.
-  c->intelligence += 133.333333f*freq;
-  c->spell_crit += -2.244668911*freq;
+  global::assumptions.flask = false;
+  if (frac >= 1.0f) {
+    global::assumptions.flask = true;
+  }
+  if (global::assumptions.flask) {
+    // Flask of distilled wisdom: -crit to affet only mana.
+    c->intelligence += 133.333333f;
+    c->spell_crit += -2.244668911;
+  }
+
+  if (global::assumptions.fort) {
+    c->stamina += 70;
+  }
+  if (global::assumptions.motw) {
+    c->armor += 285*1.35f;
+    c->strength += 12*1.35f;
+    c->agility += 12*1.35f;
+    c->spirit += 12*1.35f;
+    c->stamina += 12*1.35f;
+    c->intelligence += 12*1.35f;
+
+    c->arcane_res += 20*1.35f;
+    c->nature_res += 20*1.35f;
+    c->fire_res += 20*1.35f;
+    c->frost_res += 20*1.35f;
+    c->shadow_res += 20*1.35f;
+  }
+  if (global::assumptions.spirit) {
+    c->spirit += 40;
+  }
+  if (global::assumptions.ai) {
+    c->intelligence += 31;
+  }
+}
+
+void AddEnchants(PriestCharacter* c) {
+  c->sp_healing += 55;
 }
 
 }  // namespace css

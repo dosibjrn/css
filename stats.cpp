@@ -39,7 +39,7 @@ float Stats::getEffectiveHp(float attacker_level, float attacker_attack, float p
   float shadow_reduction = std::max(0.0, std::min(1.0, (c_.shadow_res / (attacker_level * 5)) * 0.75));
 
   Spell shield = Shield(c_, 10); 
-  float ehp = c_.base_hp + (c_.stamina + 70)*10.0f + 2.0f*shield.shield;
+  float ehp = c_.base_hp + c_.stamina*10.0f + 2.0f*shield.shield;
   float ehp_was = ehp;
   ehp /= (phys*phys_through + arcane*(1.0 - arcane_reduction) + nature*(1.0 - nature_reduction) + fire*(1.0 - fire_reduction)
           + frost*(1.0 - frost_reduction) + shadow*(1.0 - shadow_reduction) + holy);

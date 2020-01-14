@@ -42,7 +42,13 @@ std::pair<bool, float> parseFloat(const std::string& key, int* argc, char **argv
 
 int PveHealingItemPicking(int argc, char** argv, bool full_buffs)
 {
+  if (full_buffs) {
+    global::assumptions.buff_fraction = 1.0f;
+  }
   auto c = BaseLvl60DiscHolyPvpHealing();
+  if (global::assumptions.enchantments) {
+    AddEnchants(&c);
+  }
 
   // pve healing specific args
   auto res = parseFloat("-b", &argc, argv);
@@ -56,9 +62,7 @@ int PveHealingItemPicking(int argc, char** argv, bool full_buffs)
   }
 
   // apply buffs if any
-  if (full_buffs) {
-    AddFullBuffs(global::assumptions.buff_fraction, &c);
-  }
+  ApplyBuffs(&c);
   auto value_choice = ItemPicker::ValueChoice::pve_healing;
   return ItemPickingMain(argc, argv, value_choice, c);
 }

@@ -48,8 +48,8 @@ int HandleManaRegen(float time, float last_cast_time, const Stats& stats, float*
 
 float RemainingManaAsHealing(const PriestCharacter& c, float in_full_regen, float mana)
 {
-  Spell heal = GreaterHeal(c, 4);
-  // Spell heal = FlashHeal(c, -1);
+  // Spell heal = GreaterHeal(c, 4);
+  Spell heal = FlashHeal(c, -1);
   float hps = heal.healing/heal.cast_time;
   float spell_cost_per_s = heal.cost/heal.cast_time;
 
@@ -387,13 +387,9 @@ Regen FindBestRegen(const PriestCharacter& c,
                     float combat_length, 
                     Regen current_regen) 
 {
-  // constexpr int max_casts = 100;
-  // constexpr int max_ticks = 100;
-  constexpr int max_casts = 20;
-  constexpr int max_ticks = 10;
-  // constexpr int max_ticks_oom = 4*max_ticks;
-  constexpr int max_ticks_oom = max_ticks;
-  // constexpr int max_ticks_oom = 0;
+  const int max_casts = global::assumptions.max_casts;
+  const int max_ticks = global::assumptions.max_ticks;
+  const int max_ticks_oom = global::assumptions.max_ticks_oom;
  
   current_regen.ticks = std::min(max_ticks, current_regen.ticks);
   current_regen.casts = std::min(max_casts, current_regen.casts);
