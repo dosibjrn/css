@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "csv.h"
+
 namespace css
 {
 
@@ -116,22 +118,6 @@ std::string wand_dps_name = "wand dps";
 std::string wand_type_name = "wand type";
 
 std::string source_name = "source";
-
-std::vector<std::string> SplitCsvLine(const std::string& line)
-{
-  char d = ',';
-  int s = 0;
-  int e = 0;
-  int size = line.size();
-  std::vector<std::string> splitted;
-  while (e >= 0) {
-    e = line.find(d, s);
-    splitted.push_back(line.substr(s, e - s));
-    s = e + 1;
-    // std::cout << "splitted: |" << splitted.back() << "|, s:" << s << ", e: " << e << std::endl;
-  }
-  return splitted;
-}
 
 int IxFrom(const std::vector<std::string>& splitted, const std::string& name)
 {
