@@ -8,8 +8,8 @@ namespace css
 
 struct Assumptions
 {
-  float full_regen_limit = 1.0f;  // overrided by -r argument
-  float buff_fraction = 0.0f;  // overridden by -b argument, set to 1.0 on mode 5
+  float full_regen_limit = 0.3f;  // overrided by -r argument
+  float buff_fraction = 0.2f;  // overridden by -b argument, set to 1.0 on mode 5
 
   // gh = greater heal; fh = flash heal; h = heal; r = renew; poh = prayer of healing
   // Note: spell order:                      h    h    gh   gh   fh   r    poh
@@ -65,5 +65,7 @@ namespace global
 extern Assumptions assumptions;
 
 }  // namespace global
+
+void ReadAssumptions(const std::string& fn);
 
 }  // namespace css
