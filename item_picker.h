@@ -9,6 +9,7 @@
 #include "item_table.h"
 #include "priest_character.h"
 #include "regen.h"
+#include "hps.h"
 
 namespace css
 {
@@ -38,8 +39,7 @@ class ItemPicker {
   void CoutCurrentValuesAlt() const;
   void CoutBestCounts() const;
   void CoutDiffsToStart();
-  void CoutAllUpgrades();
-  void CoutAllUpgradesFromStart();
+  void CoutAllUpgrades(bool partial, bool from_start);
 
   std::vector<Item> getBestItems() const;
   float getBestValue() const { return m_val_best; }
@@ -52,7 +52,7 @@ private:
   float valuePvpHealing(const PriestCharacter& c) const;
   float valuePveHealing(const PriestCharacter& c) const;
 
-  std::vector<float> getPveInfo(const PriestCharacter& c) const;
+  std::vector<PveInfo> getPveInfo(const PriestCharacter& c) const;
 
   void intermediateCout(int iteration);
 
@@ -98,7 +98,7 @@ private:
   std::vector<std::vector<float>> m_best_pve_healing_counts;
   const std::vector<float> m_pve_healing_combat_lengths = global::assumptions.pve_combat_lengths;
 
-  std::vector<float> m_pve_info;
+  std::vector<PveInfo> m_pve_info;
 
   // const std::vector<float> m_pve_healing_combat_lengths = {120.0f};
   // const std::vector<float> m_pve_healing_combat_lengths = {60.0f, 120.0f, 180.0f};

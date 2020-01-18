@@ -1,4 +1,9 @@
 # Run from e.g. css/build
+
+./css 4 ../items/more_raid.csv ../items/bwl.txt start_with.txt -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
+./css 4 ../items/more_raid.csv ../items/bwl.txt -a ../confs/our_mc.csv | tee ../sample_output/our_raids_mc_ony.txt
+./css 4 ../items/more_raid.csv ../items/bwl.txt start_with.txt -a ../confs/our_mc.csv | tee ../sample_output/our_raids_current.txt
+
 for mode in 2 3 4 5; do
   ./css $mode ../items/more_raid.csv | tee ../sample_output/css_${mode}_bwl.txt
   ./css $mode ../items/more_raid.csv ../items/banned_and_onyxia_mc.txt | tee ../sample_output/css_${mode}_pre-raid.txt

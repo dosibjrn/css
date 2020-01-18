@@ -97,6 +97,8 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("spirit", assumptions_in, &global::assumptions.spirit);
   SetIfGiven("ai", assumptions_in, &global::assumptions.ai);
   SetIfGiven("flask", assumptions_in, &global::assumptions.flask);
+
+  SetIfGiven("target_hp", assumptions_in, &global::assumptions.target_hp);
 }
 
 }  // namespace css

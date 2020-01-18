@@ -57,6 +57,9 @@ struct Assumptions
 
 
   bool flask = false;
+
+  // More
+  float target_hp = 10000.0f;
 };
 
 namespace global

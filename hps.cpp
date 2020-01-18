@@ -66,7 +66,7 @@ float RemainingManaAsHealing(const PriestCharacter& c, float in_full_regen, floa
 }
 }  // namespace
 
-std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, Regen regen)
+std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, Regen regen)
 {
   int casts = regen.casts;
   int ticks = regen.ticks;
@@ -183,9 +183,11 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
     }
   }
 
+  PveInfo info;
+
   float regen_penalty_mul = 1.0f;
   if (in_full_regen/time > global::assumptions.full_regen_limit) {
-    regen_penalty_mul = (1.0 - (in_full_regen/time - global::assumptions.full_regen_limit));
+    info.regen_penalty_mul = (1.0 - (in_full_regen/time - global::assumptions.full_regen_limit));
   }
 
   float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana);
@@ -209,13 +211,22 @@ std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector
   heal_sum += from_rem_mana;
   if (verbose) std::cout << heal_sum << ", time: " << time << ", hps: " << heal_sum/time << std::endl;
 
-  // float info = heal_sum_before_oom_or_end/heal_sum;
-  float oom_penalty_mul = 1.0f - (total_ticks_oom*2.0f)/(time*5);
+  info.oom_penalty_mul = 1.0f - (total_ticks_oom*2.0f)/(time*5);
 
-  float info = oom_penalty_mul*regen_penalty_mul;
-  heal_sum *= info;
+  float hps = heal_sum/time;
+  // Check that our regen does not cause target to die. Assumes hps = steady dps in,
+  float target_alive = global::assumptions.target_hp/hps;
+  if (target_alive < ticks*2) {
+    // 20% hps drop per second of excess regen
+    float mul = 1.0f - (ticks*2 - target_alive)*0.1;
+    mul = std::max(0.0f, std::min(mul, 1.0f));
+    info.target_alive_mul = mul;
+  }
 
-  return {heal_sum/time, info};
+
+  hps *= info.target_alive_mul*info.oom_penalty_mul*info.regen_penalty_mul;
+
+  return {hps, info};
 }
 
 float HpsPvp(const PriestCharacter& c)

@@ -10,7 +10,14 @@
 namespace css
 {
 
-std::pair<float, float> HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, Regen regen);
+struct PveInfo
+{
+  float target_alive_mul = 1.0f;
+  float oom_penalty_mul = 1.0f;
+  float regen_penalty_mul = 1.0f;
+};
+
+std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, Regen regen);
 float HpsPvp(const PriestCharacter& c);
 float HpsPve(const PriestCharacter& c, float combat_length);
 std::vector<Spell> PveHealingSequence(const PriestCharacter& c);

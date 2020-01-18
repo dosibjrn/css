@@ -44,7 +44,7 @@ int main(int argc, char** argv)
       std::cout << "       4 := healing item picking, second arg for item table file name. 2, 3, 4, 5 and 6 minute fights." << std::endl;
       std::cout << "            third arg for banned items / sources, fourth arg for locked items" << std::endl;
       std::cout << "            ./css 4 -r [0-1] sets maximum fraction of time spent in full regen. Default is 1.0." << std::endl;
-      std::cout << "            -a sets assumptions file, which is a csv. example file in example_conf.csv" << std::endl;
+      std::cout << "            -a sets assumptions file, which is a csv. example file in confs/example_conf.csv" << std::endl;
       std::cout << "       5 := same as 4, but with potions, runes, mana oil, mageblood and flask" << std::endl;
       std::cout << "            ./css 5 -f [0-1] sets consumable use to 0% - 100%. Default is 1.0." << std::endl;
       std::cout << "All items listed in start_with.txt will be used for initial optimization for options 2-5." << std::endl; 

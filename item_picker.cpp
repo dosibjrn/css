@@ -73,17 +73,17 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
   return hps_sum/weight_sum;
 }
 
-std::vector<float> ItemPicker::getPveInfo(const PriestCharacter& c) const
+std::vector<PveInfo> ItemPicker::getPveInfo(const PriestCharacter& c) const
 {
   if (m_value_choice != ValueChoice::pve_healing) {
-    return m_pve_healing_combat_lengths;
+    return std::vector<PveInfo>(m_pve_healing_combat_lengths.size());
   }
   int n_combats = m_pve_healing_combat_lengths.size();
   Stats stats(c);
 
   auto regens = m_curr_regens;
   auto counts = m_curr_pve_healing_counts;
-  std::vector<float> out;
+  std::vector<PveInfo> out;
   for (int i = 0; i < n_combats; ++i) {
     Regen regen = regens[i];
     auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
@@ -391,7 +391,7 @@ void ItemPicker::CoutDiffsToStart()
   auto c_save = m_c_best;
   m_c_best.set_bonuses.SetPartialAndUpdateCharacter(true, &m_c_best);
   float val = value(m_c_best);
-  std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "main hand", "one-hand", "off hand", "ranged",
+  std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "ranged",
     "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
   std::cout << "Upgrades: " << std::endl;
   std::vector<std::pair<std::string, float>> diffs;
@@ -406,6 +406,22 @@ void ItemPicker::CoutDiffsToStart()
     try { 
       auto best_item = m_items_best.at(slot);
       auto start_item = items_start.at(slot);
+      if (slot == "two-hand") {
+        AddToItemWithMul(m_items_best.at("main hand"), 1.0f, &best_item);
+        best_item.name += ", " + m_items_best.at("main hand").name;
+        AddToItemWithMul(m_items_best.at("one-hand"), 1.0f, &best_item);
+        best_item.name += ", " + m_items_best.at("one-hand").name;
+        AddToItemWithMul(m_items_best.at("off hand"), 1.0f, &best_item);
+        best_item.name += ", " + m_items_best.at("off hand").name;
+
+        AddToItemWithMul(items_start.at("main hand"), 1.0f, &start_item);
+        start_item.name += ", " + items_start.at("main hand").name;
+        AddToItemWithMul(items_start.at("one-hand"), 1.0f, &start_item);
+        start_item.name += ", " + items_start.at("one-hand").name;
+        AddToItemWithMul(items_start.at("off hand"), 1.0f, &start_item);
+        start_item.name += ", " + items_start.at("off hand").name;
+      }
+
       RemoveItem(best_item, &c_tmp);
       float val_no_item = value(c_tmp);
       AddItem(start_item, &c_tmp);
@@ -428,144 +444,45 @@ void ItemPicker::CoutDiffsToStart()
   m_c_best = c_save;
 }
 
-void ItemPicker::CoutAllUpgradesFromStart()
-{
-
-  auto pve_count_tmp = m_curr_pve_healing_counts;
-  auto pve_regen_tmp = m_curr_regens;
-  auto c_save = m_c_start;
-
-  m_c_start.set_bonuses.SetPartialAndUpdateCharacter(true, &m_c_start);
-
-  m_curr_pve_healing_counts = m_start_pve_healing_counts;
-  m_curr_regens = m_start_regens;
-
-  ItemTable item_table(m_item_table_name);
-  std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "ranged",
-    "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
-  std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" << std::endl;
-  std::cout << "| Upgrades at start level, from start item to candidate:  |" << std::endl;
-  std::cout << ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." << std::endl;
-  for (auto slot : order) {
-    std::vector<std::pair<std::string, float>> diffs;
-    PriestCharacter c_tmp = m_c_start;
-
-    auto curr_item = m_items_start.at(slot);
-    RemoveItem(curr_item, &c_tmp);
-
-    float val_no_item = value(c_tmp);
-
-    auto start_item = m_items_start.at(slot);
-    AddItem(start_item, &c_tmp);
-    float val_start = value(c_tmp);
-    // std::cout << "slot: " << slot << ", val_no_item: " << val_no_item << ", val_start: " << val_start << std::endl;
-
-    auto items_for_slot = item_table.getItems(slot);
-    if (slot == "two-hand") {
-      auto off_hands = item_table.getItems("off hand");
-      auto main_hands = item_table.getItems("main hand");
-      auto one_hands = item_table.getItems("one-hand");
-      main_hands.insert(main_hands.begin(), one_hands.begin(), one_hands.end());
-      for (auto off_hand : off_hands) {
-        for (auto main_hand : main_hands) {
-          // construct one/main-hand + off-hand pairs into new items with "two-hand" slot type
-          Item both = main_hand;
-          both.name.append(" and " + off_hand.name);
-          AddToItemWithMul(off_hand, 1.0f, &both);
-          both.slot = "two-hand";
-
-          // add those to list
-          items_for_slot.push_back(both);
-        }
-      }
-    }
-
-    RemoveItem(start_item, &c_tmp);
-
-    // output outline:
-    // back, ebin cloak (8.25) -> :
-    //     lege cloak (12.5) : +2.5%
-    //     uber cloak (10.5) : +1.5%
-    // here the (val) are cand_diff
-    // the percentages are (cand_diff - start_diff)/val_start
-    float start_diff = val_start - val_no_item;
-    std::cout << "- . - ' - . - ' - . - ' - . - ' - . - ' - . -" << std::endl;
-    std::cout << slot << ", " << start_item.name << " (" << start_diff << ") -> :" << std::endl;
-
-    // loop through said list
-    for (auto item : items_for_slot) {
-      AddItem(item, &c_tmp);
-      float val_candidate = value(c_tmp);
-      RemoveItem(item, &c_tmp);
-
-      // if val > val_start -> add to list
-      if (val_candidate > val_start && !isBanned(item)) {
-        float cand_diff = val_candidate - val_no_item;
-        std::stringstream ss;
-        ss << "    " << item.name << " (" << cand_diff << ") : +" << (cand_diff - start_diff)/val_start*100.0f << " %";
-        ss << ", from: " << item.source;
-        diffs.push_back(std::make_pair<std::string, float>(ss.str(), cand_diff - start_diff));
-      }
-    }
-    // Back to start state
-    AddItem(curr_item, &c_tmp);
-
-    // sort list
-    std::sort(diffs.begin(), diffs.end(), [](const std::pair<std::string, float> &a, const std::pair<std::string, float>& b) -> bool { return a.second > b.second; });
-    // cout slot
-    for (auto diff : diffs) {
-      std::cout << diff.first << std::endl;
-    } 
-  }  // for slots
-
-  m_curr_pve_healing_counts = pve_count_tmp;
-  m_curr_regens = pve_regen_tmp;
-
-  // save counts best, c best
-  // pve_count_tmp = m_best_pve_healing_counts;
-  m_c_start = c_save;
-  c_save = m_c_best;
-
-  // set start counts to best, start c to c best
-  // m_best_pve_healing_counts = m_start_pve_healing_counts;
-  m_c_best = m_c_start;
-
-  // cout counts and current values alt
-  // std::cout << "-- Counts at start item level: --" << std::endl;
-  // CoutBestCounts();
-  std::cout << "-- Stat values at start item level: --" << std::endl;
-  CoutCurrentValuesAlt();
-
-  // set back best counts and best c
-  // m_best_pve_healing_counts = pve_count_tmp;
-  m_c_best = c_save;
-}
-
-
-
-void ItemPicker::CoutAllUpgrades()
+void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
 {
   auto pve_count_tmp = m_curr_pve_healing_counts;
   auto pve_regen_tmp = m_curr_regens;
   auto c_save = m_c_best;
 
-  m_c_best.set_bonuses.SetPartialAndUpdateCharacter(true, &m_c_best);
+  if (from_start) {
+    m_c_best = m_c_start;
+  }
 
-  m_curr_pve_healing_counts = m_best_pve_healing_counts;
-  m_curr_regens = m_best_regens;
+  m_c_best.set_bonuses.SetPartialAndUpdateCharacter(partial, &m_c_best);
+
+  if (from_start) {
+    m_curr_pve_healing_counts = m_start_pve_healing_counts;
+    m_curr_regens = m_start_regens;
+  } else {
+    m_curr_pve_healing_counts = m_best_pve_healing_counts;
+    m_curr_regens = m_best_regens;
+  }
 
   ItemTable item_table(m_item_table_name);
   std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "ranged",
     "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
-  std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" << std::endl;
-  std::cout << "| Upgrades at best in slot level, from start item to candidate: |" << std::endl;
-  std::cout << ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." << std::endl;
+  std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " << std::endl;
+  if (from_start) {
+    std::cout << "| Upgrades at start level, from start item to candidate, partial bonuses: " << partial << ": |" << std::endl;
+  } else {
+    std::cout << "| Upgrades at best in slot level, from start item to candidate, partial bonuses: " << partial << ": |" << std::endl;
+  }
+  std::cout << ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . " << std::endl;
   auto items_start = m_items_start;
   for (auto slot : order) {
     std::vector<std::pair<std::string, float>> diffs;
     PriestCharacter c_tmp = m_c_best;
 
     auto curr_item = m_items_best.at(slot);
+    if (from_start) {
+      curr_item = m_items_start.at(slot);
+    }
     RemoveItem(curr_item, &c_tmp);
 
     float val_no_item = value(c_tmp);
@@ -651,9 +568,10 @@ void ItemPicker::FinalCouts()
   std::cout << "------------------" << std::endl;
   std::cout << "Diffs to start: " << std::endl;
   CoutDiffsToStart();
-  CoutAllUpgrades();
-  std::cout << "------------------" << std::endl;
-  CoutAllUpgradesFromStart();
+  CoutAllUpgrades(true, false);
+  CoutAllUpgrades(false, false);
+  CoutAllUpgrades(true, true);
+  CoutAllUpgrades(false, true);
   std::cout << "------------------" << std::endl;
   std::cout << "Best value: " << getBestValue() << std::endl;
 }
@@ -789,7 +707,11 @@ void ItemPicker::CoutBestCounts() const
         float count = m_best_pve_healing_counts[combat_ix][spell_ix];
         std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
       }
-      std::cout << "    pve info: " << m_pve_info[combat_ix] << std::endl;
+      std::cout << "    pve info: "
+          << "target_alive_mul: " << m_pve_info[combat_ix].target_alive_mul
+          << ", oom_penalty_mul: " << m_pve_info[combat_ix].oom_penalty_mul
+          << ", regen_penalty_mul: " << m_pve_info[combat_ix].regen_penalty_mul
+          << std::endl;
 
       float hps = HpsWithRegen(m_c_best, 
                                PveHealingSequence(m_c_best, m_best_pve_healing_counts[combat_ix]), 
