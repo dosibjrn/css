@@ -36,7 +36,6 @@ class ItemPicker {
   void CoutBestItems();
   void CoutCharacterStats() const;
   void CoutCurrentValues() const;
-  void CoutCurrentValuesAlt() const;
   void CoutBestCounts() const;
   void CoutDiffsToStart();
   void CoutAllUpgrades(bool partial, bool from_start);

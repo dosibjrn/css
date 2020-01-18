@@ -224,7 +224,9 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
   }
 
 
-  hps *= info.target_alive_mul*info.oom_penalty_mul*info.regen_penalty_mul;
+  if (global::assumptions.penalize_oom) {
+    hps *= info.target_alive_mul*info.oom_penalty_mul*info.regen_penalty_mul;
+  }
 
   return {hps, info};
 }

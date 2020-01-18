@@ -218,7 +218,7 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
       m_pve_info = getPveInfo(m_c_best);
       if (1) {
         std::cout << std::endl << "*** NEW BEST (" << !disable_bans << "): " << *best << std::endl;
-        if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValuesAlt();
+        if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValues();
       }
     }
   }
@@ -564,7 +564,7 @@ void ItemPicker::FinalCouts()
   std::cout << "Best counts:" << std::endl;
   CoutBestCounts();
   std::cout << "------------------" << std::endl;
-  CoutCurrentValuesAlt();
+  CoutCurrentValues();
   std::cout << "------------------" << std::endl;
   std::cout << "Diffs to start: " << std::endl;
   CoutDiffsToStart();
@@ -802,8 +802,10 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   return best_item;
 }
 
-void ItemPicker::CoutCurrentValuesAlt() const
+void ItemPicker::CoutCurrentValues() const
 {
+  auto saved = global::assumptions.penalize_oom;
+  global::assumptions.penalize_oom = false;
   PriestCharacter c = m_c_best;
   float val_start = value(c); 
   std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "agi",      "mp5",  "sp",  "sp_shadow",  "sp_healing", "spell crit",
@@ -828,10 +830,17 @@ void ItemPicker::CoutCurrentValuesAlt() const
     float diff_required = 0.0f;
     int max_tries = 200;
     float obtained_val_diff = 0.0f;
+
+    float diff_required_sum = 0.0f;
+    float obtained_val_diff_sum = 0.0f;
     while (1) {
       diff_required += steps[i];
       *(stat_ptrs[i]) += steps[i]*1.0f;
       float val = value(c);
+
+      obtained_val_diff_sum += val - val_start;
+      diff_required_sum += diff_required;
+
       if (val - val_start >= ref_val_diff) {
         obtained_val_diff = val - val_start;
         break;
@@ -839,6 +848,7 @@ void ItemPicker::CoutCurrentValuesAlt() const
       if (diff_required/steps[i] > diff/steps[ref_ix] && val <= val_start) {
         obtained_val_diff = val - val_start;
         diff_required = 1e20;
+        diff_required_sum += 1e20;
         break;
       }
       if (diff_required/steps[i] > max_tries) {
@@ -846,52 +856,11 @@ void ItemPicker::CoutCurrentValuesAlt() const
         break;
       }
     }
-    float relative_value = obtained_val_diff/ref_val_diff*diff/diff_required*100.0f;
+    // float relative_value = obtained_val_diff/ref_val_diff*diff/diff_required*100.0f;
+    float relative_value = obtained_val_diff_sum/ref_val_diff*diff/diff_required_sum*100.0f;
     std::cout << stat_names[i] << ": " << relative_value << std::endl;
   }
-}
-
-void ItemPicker::CoutCurrentValues() const
-{
-  int diff = 50;
-  PriestCharacter c = m_c_best;
-  float val_start = value(c); 
-  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "mp5",  "sp",  "sp_shadow",  "sp_healing"};
-  std::vector<float*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing};
-  int n_vals = stat_names.size();
-  std::vector<float> val_results(n_vals);
-  for (int i = 0; i < n_vals; ++i) {
-    *(stat_ptrs[i]) += diff;
-    val_results[i] = value(c) - val_start;
-    c = m_c_curr;
-  }
-  int ref_ix = 4;
-  float normalization_ref_val = val_results[4];
-  float normalization_mul = 100.f/normalization_ref_val;
-  std::cout << "Current relative stat values for " << diff << " pt diff for each:" << std::endl;
-  std::vector<int> next_step_sizes(val_results.size());
-  for (int i = 0; i < n_vals; ++i) {
-    next_step_sizes[i] = normalization_ref_val/val_results[i]*diff;
-    if (val_results[i] == 0) {
-      next_step_sizes[i] = 1;
-    }
-    val_results[i] *= normalization_mul;
-    std::cout << stat_names[i] << ": " << val_results[i] << ", next step size: " << next_step_sizes[i] << std::endl;
-  }
-
-  // same normalization_ref_val, same normalization_mul
-  for (int i = 0; i < n_vals; ++i) {
-    *(stat_ptrs[i]) += next_step_sizes[i];
-    float result_rel = (value(c) - val_start)/(next_step_sizes[i]);
-    result_rel *= diff*normalization_mul;
-    c = m_c_curr;
-    std::cout << stat_names[i] << ": " << result_rel << std::endl;
-  }
-
-  
-  // take 20 of ref index and matching amount of everything else
-  // std::vector<float> val_results_relative(val_results.size());
-
+  global::assumptions.penalize_oom = saved;
 }
 
 }  // namespace css
