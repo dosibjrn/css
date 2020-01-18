@@ -1,8 +1,16 @@
 # Run from e.g. css/build
 
-./css 4 ../items/more_raid.csv ../items/bwl.txt start_with.txt -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
-./css 4 ../items/more_raid.csv ../items/bwl.txt -a ../confs/our_mc.csv | tee ../sample_output/our_raids_mc_ony.txt
-./css 4 ../items/more_raid.csv ../items/bwl.txt start_with.txt -a ../confs/our_mc.csv | tee ../sample_output/our_raids_current.txt
+./css 4 ../items/more_raid.csv foo ../items/have.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
+./css 4 ../items/more_raid.csv ../items/bwl.txt foo pve_healing_mc_ony -a ../confs/our_mc.csv | tee ../sample_output/our_raids_mc_ony.txt
+./css 4 ../items/more_raid.csv foo ../items/have.txt pve_healing_current -a ../confs/our_mc.csv | tee ../sample_output/our_raids_current.txt
+./css 4 ../items/more_raid.csv foo foo pve_healing_bwl -a ../confs/our_mc.csv | tee ../sample_output/our_raids_bwl.txt
+./css 3 ../items/more_raid.csv foo ../items_have.txt pvp_heal_current
+./css 3 ../items/more_raid.csv ../items/bwl.txt foo pvp_heal_mc_ony
+./css 2 ../items/more_raid.csv ../items/banned_and_onyxia_mc.txt shadow_pvp_pre-raid
+./css 2 ../items/more_raid.csv ../items/bwl.txt foo shdow_pvp_mc_ony
+
+mkdir ../sample_output/tags/
+cp *.pawn_tag.txt ../sample_output/tags/. 
 
 for mode in 2 3 4 5; do
   ./css $mode ../items/more_raid.csv | tee ../sample_output/css_${mode}_bwl.txt

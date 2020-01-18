@@ -23,6 +23,7 @@ class ItemPicker {
     pve_healing,
   };
   ItemPicker(const PriestCharacter& c, std::string item_table_name, ValueChoice value_choice = ValueChoice::pvp_shadow);
+  void setTagName(const std::string& tag_name) { m_tag_name = tag_name; }
   void AddLocked(std::string s) { m_locked[s] = true; }
   void ClearLocked() { m_locked.clear(); }
   void AddBanned(std::string s) { m_banned[s] = true; }
@@ -35,7 +36,7 @@ class ItemPicker {
 
   void CoutBestItems();
   void CoutCharacterStats() const;
-  void CoutCurrentValues() const;
+  void CoutCurrentValues(std::string tag_name = "") const;
   void CoutBestCounts() const;
   void CoutDiffsToStart();
   void CoutAllUpgrades(bool partial, bool from_start);
@@ -115,6 +116,8 @@ private:
   std::default_random_engine m_generator;
 
   ValueChoice m_value_choice = ValueChoice::pvp_shadow;
+
+  std::string m_tag_name;
 };
 
 }  // namespace css

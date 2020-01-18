@@ -72,6 +72,11 @@ int ItemPickingMain(int argc, char** argv, ItemPicker::ValueChoice value_choice,
       ip.AddLocked(line);
     }
   }
+
+  if (argc > 5) {
+    std::cout << "Setting tag name to: " << argv[5] << std::endl;
+    ip.setTagName(argv[5]);
+  }
   ip.Calculate();
   ip.FinalCouts();
   return 0;

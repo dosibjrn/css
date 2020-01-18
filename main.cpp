@@ -48,6 +48,7 @@ int main(int argc, char** argv)
       std::cout << "       5 := same as 4, but with potions, runes, mana oil, mageblood and flask" << std::endl;
       std::cout << "            ./css 5 -f [0-1] sets consumable use to 0% - 100%. Default is 1.0." << std::endl;
       std::cout << "All items listed in start_with.txt will be used for initial optimization for options 2-5." << std::endl; 
+      std::cout << "Fifth optional arg is tag name for saving pawn tag for modes 2-5." << std::endl;
       break;
   }
   return 0;

@@ -564,7 +564,7 @@ void ItemPicker::FinalCouts()
   std::cout << "Best counts:" << std::endl;
   CoutBestCounts();
   std::cout << "------------------" << std::endl;
-  CoutCurrentValues();
+  CoutCurrentValues(m_tag_name);
   std::cout << "------------------" << std::endl;
   std::cout << "Diffs to start: " << std::endl;
   CoutDiffsToStart();
@@ -802,18 +802,18 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   return best_item;
 }
 
-void ItemPicker::CoutCurrentValues() const
+void ItemPicker::CoutCurrentValues(std::string tag_name) const
 {
   auto saved = global::assumptions.penalize_oom;
   global::assumptions.penalize_oom = false;
   PriestCharacter c = m_c_best;
   float val_start = value(c); 
-  std::vector<std::string> stat_names = {"int",           "spi",     "sta",      "agi",      "mp5",  "sp",  "sp_shadow",  "sp_healing", "spell crit",
-    "spell hit",  "arcane res",  "nature res",  "fire res",  "frost res",  "shadow res",  "armor",  "defense",  "dodge",  "parry"};
-  std::vector<float*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.agility, &c.mp5, &c.sp, &c.sp_shadow, &c.sp_healing, &c.spell_crit,
-    &c.spell_hit, &c.arcane_res, &c.nature_res, &c.fire_res, &c.frost_res, &c.shadow_res, &c.armor, &c.defense, &c.dodge, &c.parry};
-  std::vector<float> steps =            {1,               1,         1,          1,           1,      1,     1,            1,            1,
-    1,            10,            10,            10,          10,           10,            100,      1,          1,         1};
+  std::vector<std::string> stat_names = {"Intellect",    "Spirit",   "Stamina",  "Agility",  "Mp5", "SpellPower", "ShadowSpellDamage", "Healing",    "SpellCritRating",
+    "SpellHitRating",  "ArcaneResist",  "NatureResist",  "FireResist",  "FrostResist",  "ShadowResist",  "Armor",  "DefenseRating",  "DodgeRating",  "ParryRating"};
+  std::vector<float*> stat_ptrs =       {&c.intelligence, &c.spirit, &c.stamina, &c.agility, &c.mp5, &c.sp,       &c.sp_shadow,        &c.sp_healing, &c.spell_crit,
+    &c.spell_hit,      &c.arcane_res,   &c.nature_res,   &c.fire_res,   &c.frost_res,   &c.shadow_res,   &c.armor, &c.defense,       &c.dodge, &c.parry};
+  std::vector<float> steps =            {1,               1,         1,          1,          1,     1,             1,                  1,             1,
+    1,                 10,              10,              10,            10,             10,              100,      1,                1,              1};
   int n_vals = stat_names.size();
   int ref_ix = 5;
 
@@ -825,6 +825,8 @@ void ItemPicker::CoutCurrentValues() const
   std::cout << "Current relative stat values for matching or exceeding +" << diff << " pts of " << stat_names[ref_ix] //
       << std::endl;
   std::vector<float> matching_diffs(n_vals);
+  std::stringstream ss;
+  ss << "( Pawn: v1: \"" << tag_name << "\": ";
   for (int i = 0; i < n_vals; ++i) {
     c = m_c_best;
     float diff_required = 0.0f;
@@ -859,6 +861,17 @@ void ItemPicker::CoutCurrentValues() const
     // float relative_value = obtained_val_diff/ref_val_diff*diff/diff_required*100.0f;
     float relative_value = obtained_val_diff_sum/ref_val_diff*diff/diff_required_sum*100.0f;
     std::cout << stat_names[i] << ": " << relative_value << std::endl;
+    ss << stat_names[i] << "=" << relative_value << ", ";
+  }
+  ss << "IsFist=X, Is2HMace=X, IsCrossbow=X, IsGun=X, IsShield=X, IsPolearm=X, Is2HAxe=X, IsBow=X, IsMail=X, IsPlate=X, IsLeather=X, IsAxe=X, Is2HAxe=X, IsSword=X, Is2HSword=X)";
+  if (!tag_name.empty()) {
+    std::string fn = tag_name + ".pawn_tag.txt";
+    std::ofstream os(fn, std::ofstream::app);
+    os << ss.str() << std::endl;
+    os.close();
+    std::cout << "Appended tag:" << std::endl;
+    std::cout << ss.str() << std::endl;
+    std::cout << "To file: " << fn << std::endl; 
   }
   global::assumptions.penalize_oom = saved;
 }
