@@ -62,6 +62,7 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
 
   auto regens = m_curr_regens;
   auto counts = m_curr_pve_healing_counts;
+  // counts = bestCounts(c, counts, &regens);
   for (int i = 0; i < n_combats; ++i) {
     Regen regen = regens[i];
     regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
