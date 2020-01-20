@@ -83,7 +83,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
   float heal_sum_before_oom_or_end = 0.0f;
 
   float pi_end = -180.0f + 15.0f;
-  if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f) {
+  if (global::assumptions.pi_self && c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f) {
     pi_end = time + 15.0f;
     time += 1.5f;
     mana -= 0.2*c.base_mana;
@@ -114,7 +114,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
     }
     curr_casts++;
 
-    if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
+    if (global::assumptions.pi_self && c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
       pi_end = time + 15.0f;
       time += 1.5f;
       mana -= 0.2*c.base_mana;
@@ -192,7 +192,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
 
   float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana);
 
-  if (c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
+  if (global::assumptions.pi_self && c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
     pi_end = time + 15.0f;
     in_full_regen -= 1.5f;
     mana -= 0.2*c.base_mana;

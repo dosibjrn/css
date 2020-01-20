@@ -60,6 +60,7 @@ struct Assumptions
 
   // More
   float target_hp = 10000.0f;
+  bool pi_self = false;
 };
 
 namespace global

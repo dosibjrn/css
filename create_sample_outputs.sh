@@ -9,6 +9,8 @@ cp ../items/have.txt start_with.txt
 ./css 2 ../items/more_raid.csv ../items/banned_and_onyxia_mc.txt no-lock shadow_pvp_pre-raid
 ./css 2 ../items/more_raid.csv ../items/bwl.txt no-lock shadow_pvp_mc_ony
 ./css 5 ../items/more_raid.csv ../items/bwl.txt no-lock pve_heal_mc_ony_full_buff
+./css 4 ../items/more_raid.csv ../items/bwl.txt no-locks pve_average_raiding -a ../confs/average_raiding.csv | tee ../sample_output/average_raiding.txt
+./css 4 ../items/more_raid.csv ../items/bwl.txt no-locks pve_avg_split_onyxia -a ../confs/avg_split_onyxia.csv | tee ../sample_output/average_split_onyxia.txt
 
 mkdir ../sample_output/tags/
 cp *.pawn_tag.txt ../sample_output/tags/. 
