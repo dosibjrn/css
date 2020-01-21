@@ -82,6 +82,8 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
   int regen_ticks = 0;
   Stats stats(c);
   float mana = stats.getMaxMana();
+  mana = std::max(mana*0.5f, mana - global::assumptions.mana_penalty);
+
   float in_full_regen = 0.0f;
   bool verbose = false;
   float heal_sum_before_oom_or_end = 0.0f;
@@ -232,8 +234,8 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
   // Check that our regen does not cause target to die. Assumes hps = steady dps in,
   float target_alive = global::assumptions.target_hp/hps;
   if (target_alive < ticks*2) {
-    // 20% hps drop per second of excess regen
-    float mul = 1.0f - (ticks*2 - target_alive)*0.1;
+    // 5% hps drop per second of excess regen
+    float mul = 1.0f - (ticks*2 - target_alive)*0.05;
     mul = std::max(0.0f, std::min(mul, 1.0f));
     info.target_alive_mul = mul;
   }
@@ -601,7 +603,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         regen_curr = FindBestRegen(c, spell_counts, combat_length, regen_curr);
         score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length, regen_curr).first;
         score -= FreqPenalty(spell_counts);
-        if (score > best_score) {
+        if (score >= best_score) {
           if (verbose) {
             auto max_freqs = SpellMaxFreqs();
             std::cout << "new best sequence for combat_length: " << combat_length << ", score: " << score
@@ -640,7 +642,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
         regen_curr = FindBestRegen(c, spell_counts, combat_length, regen_curr);
         score = HpsWithRegen(c, PveHealingSequence(c, spell_counts), combat_length, regen_curr).first;
         score -= FreqPenalty(spell_counts);
-        if (score > best_score) {
+        if (score >= best_score) {
           if (verbose) {
             auto max_freqs = SpellMaxFreqs();
             std::cout << "new best sequence for combat_length: " << combat_length << ", score: " << score

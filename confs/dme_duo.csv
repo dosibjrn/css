@@ -1,10 +1,8 @@
 
 full_regen_limit,1.0
-# we do 3 holy novas for about 900 mana = 2700 mana, one of which is free... let's say it's -2k mana
-# over 180s which is 36*5 s. buff_frac = 1.0 is 134 mp5 or 4824 mana here -> approx -0.414 to compensate for that
-buff_fraction,-0.414
+buff_fraction,0.0
 # comment line        h    h    gh   gh   fh   r   poh
-spell_max_freqs,      1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.1
+spell_max_freqs,      1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.1
 spell_ranks,          2,   4,   1,   4,   7,   9,   4   
 initial_spell_counts, 1,   0,   0,   0,   0,   0,   0
 fixed_spell_counts,   1,   0,   0,   0,   0,   0,   0
@@ -13,12 +11,12 @@ use_fixed_spell_counts, 0
 # empty lines are cool as well
 # ints ok as they cast to floats
 #                   casts, ticks, ticks_oom
-initial_regen_vals, 20,    20,    20
+initial_regen_vals, 3,     20,     0
  
 # For each spell sequence, e.g. 1-20 casts, then 0-10 ticks of regen. when oom, regen 0-10 ticks and until mana for next spell is obtained
 max_casts, 20
-max_ticks, 20
-max_ticks_oom, 20
+max_ticks, 40
+max_ticks_oom, 0
 
 penalize_oom, 1
 
@@ -46,3 +44,7 @@ flask, 0
 
 # target hp pool == allowed hp drop when regening for optimized amount of ticks
 target_hp, 4000
+
+# we do 3 holy novas for about 750 mana = 2700 mana, one of which is free... let's say it's -2k mana
+# mana reserved for something else, up to max 50% of mana
+mana_penalty, 2000

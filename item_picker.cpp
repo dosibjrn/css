@@ -235,13 +235,13 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
     m_c_curr.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_curr);
     m_c_best.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_best);
     bool is_partial = m_c_curr.set_bonuses.getPartial();
-    if (was_partial != is_partial) {
-      if (is_partial) {
-        m_val_best_bans_on = value(m_c_best);
-      } else {
-        m_val_best = value(m_c_best);
-      }
-    }
+    // if (was_partial != is_partial) {
+      // if (is_partial) {
+        // m_val_best_bans_on = value(m_c_best);
+      // } else {
+        // m_val_best = value(m_c_best);
+      // }
+    // }
   }
   std::vector<std::string> slots = item_table.getItemSlots();
   if (m_items.empty()) {

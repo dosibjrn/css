@@ -27,7 +27,7 @@ struct Assumptions
   // For each spell sequence, e.g. 1-20 casts, then 0-10 ticks of regen. when oom, regen 0-10 ticks and until mana for next spell is obtained
   int max_casts = 20;
   int max_ticks = 10;
-  int max_ticks_oom = max_ticks;
+  int max_ticks_oom = 0;
 
   bool penalize_oom = true;
 
@@ -61,6 +61,7 @@ struct Assumptions
   // More
   float target_hp = 10000.0f;
   bool pi_self = false;
+  float mana_penalty = 0.0f;
 };
 
 namespace global

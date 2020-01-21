@@ -99,6 +99,7 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("flask", assumptions_in, &global::assumptions.flask);
 
   SetIfGiven("target_hp", assumptions_in, &global::assumptions.target_hp);
+  SetIfGiven("mana_penalty", assumptions_in, &global::assumptions.mana_penalty);
 }
 
 }  // namespace css
