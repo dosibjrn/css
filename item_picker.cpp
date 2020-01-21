@@ -6,6 +6,8 @@
 #include <string>
 #include <sstream>
 
+#include <omp.h>
+
 #include "dps.h"
 #include "hps.h"
 #include "item_table.h"
@@ -65,7 +67,7 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
   // counts = bestCounts(c, counts, &regens);
   for (int i = 0; i < n_combats; ++i) {
     Regen regen = regens[i];
-    regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
+    // regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
     auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
     float w = global::assumptions.pve_combat_weigths[i];
     hps_sum += w*res.first;
@@ -767,7 +769,20 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   float no_item_val = best_value;
   if (verbose) std::cout << "No item value: " << best_value << std::endl;
   bool locked_seen = false;
-  for (const Item& item : items_for_slot) {
+  int n_items = items_for_slot.size();
+  std::vector<double> vals(n_items);
+#pragma omp parallel for
+  for (int i = 0; i < n_items; ++i) {
+    const Item& item = items_for_slot[i];
+    PriestCharacter c_tmp = c_no_item;
+    AddItem(item, &c_tmp);
+    float val = value(c_tmp);
+    vals[i] = val;
+  }
+
+  // for (const Item& item : items_for_slot) {
+  for (int i = 0; i < n_items; ++i) {
+    const Item& item = items_for_slot[i];
   // set char to state without item
     if (item.name == taken_name) {
       if (verbose) std::cout << item.name << " taken." << std::endl;
@@ -783,9 +798,10 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     }
     PriestCharacter c_tmp = c_no_item;
     // add effect of new item
-    AddItem(item, &c_tmp);
+    // AddItem(item, &c_tmp);
     // calculate objective function value
-    float val = value(c_tmp);
+    // float val = value(c_tmp);
+    float val = vals[i];
     if ((isBanned(item.name) || isBanned(item.source)) && !isWhitelisted(item.name) ) {
       val = 0.0f;
     }

@@ -46,12 +46,16 @@ int HandleManaRegen(float time, float last_cast_time, const Stats& stats, float*
   return full_ticks;
 }
 
-float RemainingManaAsHealing(const PriestCharacter& c, float in_full_regen, float mana)
+float RemainingManaAsHealing(const PriestCharacter& c, float in_full_regen, float mana, float hps_casting, float spell_cost_per_s)
 {
   // Spell heal = GreaterHeal(c, 4);
-  Spell heal = FlashHeal(c, -1);
-  float hps = heal.healing/heal.cast_time;
-  float spell_cost_per_s = heal.cost/heal.cast_time;
+  // Spell heal = FlashHeal(c, -1);
+
+  // heal / mana;  heal / second
+  // -> mana / second
+
+  float hps = hps_casting;
+  // float spell_cost_per_s = heal.cost/heal.cast_time;
 
   Stats stats(c);
   float regen_cost_per_s = 0.5*(stats.getManaRegenTickSpiritTapOutOfFsr() - stats.getManaRegenTickUnderFsr());
@@ -83,10 +87,14 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
   float heal_sum_before_oom_or_end = 0.0f;
 
   float pi_end = -180.0f + 15.0f;
+  float cost_sum = 0.0f;
+  float cast_time_sum = 0.0f;
   if (global::assumptions.pi_self && c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f) {
     pi_end = time + 15.0f;
     time += 1.5f;
+    cast_time_sum += 1.5f;
     mana -= 0.2*c.base_mana;
+    cost_sum += 0.2*c.base_mana;
   }
 
   int ix = 0;
@@ -118,6 +126,8 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
       pi_end = time + 15.0f;
       time += 1.5f;
       mana -= 0.2*c.base_mana;
+      cost_sum += 0.2*c.base_mana;
+      cast_time_sum += 1.5f;
       if (verbose) std::cout << "Pi started, time: " << time << ", pi_end: " << pi_end << ", mana: " << mana << std::endl;
     }
 
@@ -152,10 +162,12 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
       }
     }
     mana -= spell.cost;
+    cost_sum += spell.cost;
     if (mana < 0 && verbose) {
       std::cout << "Went to negative mana with spell: " << spell.name << std::endl;
     }
     time += spell.cast_time;
+    cast_time_sum += spell.cast_time;
     last_cast_time = time;
     if (spell.instant) {
       last_cast_time -= spell.cast_time;
@@ -190,7 +202,10 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
     info.regen_penalty_mul = (1.0 - (in_full_regen/time - global::assumptions.full_regen_limit));
   }
 
-  float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana);
+  float hps_casting = heal_sum/cast_time_sum;
+  float spell_cost_per_s = cost_sum/cast_time_sum;
+
+  float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana, hps_casting, spell_cost_per_s);
 
   if (global::assumptions.pi_self && c.talents.power_infusion && time >= pi_end + 180.0f - 15.0f && mana > 0.2*c.base_mana) {
     pi_end = time + 15.0f;
@@ -198,7 +213,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
     mana -= 0.2*c.base_mana;
   }
 
-  float from_rem_mana_b = RemainingManaAsHealing(c, in_full_regen, mana);
+  float from_rem_mana_b = RemainingManaAsHealing(c, in_full_regen, mana, hps_casting, spell_cost_per_s);
   if (time < pi_end) {
     from_rem_mana_b *= 1.2;
   }
@@ -657,7 +672,8 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
   double this_round_s = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count()*1e-9;
   global::find_best_pve_healing_counts_time_sum += this_round_s;
 
-  bool cout_time = global::visit_count++ % 1000 == 0;
+  // bool cout_time = global::visit_count++ % 1000 == 0;
+  bool cout_time = false;
   if (cout_time) {
     double total_s = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - global::first_call_start).count()*1e-9;
     std::cout << "[Perf] spent in FindBestPveHealingCounts: " << global::find_best_pve_healing_counts_time_sum << " s";
