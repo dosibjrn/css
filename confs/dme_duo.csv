@@ -1,6 +1,8 @@
 
 full_regen_limit,1.0
-buff_fraction,0.0
+# we do 3 holy novas for about 900 mana = 2700 mana, one of which is free... let's say it's -2k mana
+# over 180s which is 36*5 s. buff_frac = 1.0 is 134 mp5 or 4824 mana here -> approx -0.414 to compensate for that
+buff_fraction,-0.414
 # comment line        h    h    gh   gh   fh   r   poh
 spell_max_freqs,      1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.1
 spell_ranks,          2,   4,   1,   4,   7,   9,   4   

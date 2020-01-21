@@ -247,6 +247,7 @@ PriestCharacter BaseLvl60DiscHolyPvpHealing()
 
 void ApplyBuffs(PriestCharacter *c) {
   float frac = global::assumptions.buff_fraction;
+  // Note: total 134 mp5 for full
   c->mp5 += 60.0f*frac;  // major mana potion
   c->mp5 += 50.0f*frac;  // runes
   c->mp5 += 12.0f*frac;  // brilliant mana oil
