@@ -582,7 +582,9 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
   float best_score = HpsWithRegen(c, PveHealingSequence(c, best_spell_counts), combat_length,
                                   *regen).first;
   bool converged = false;
-  while (!converged) {
+  int max_iters = 10;
+  int iter = 0;
+  while (!converged && iter++ < max_iters) {
     auto counts_at_start = best_spell_counts;
     auto regen_at_start = *regen;
     Regen regen_curr = FindBestRegen(c, spell_counts, combat_length, regen_at_start);

@@ -8,10 +8,10 @@ Found key: spell_ranks, saw vals: 2 4 1 4 7 9 4
 Found key: initial_spell_counts, saw vals: 1 0 0 0 0 0 0 
 Found key: fixed_spell_counts, saw vals: 17 0 11 1 13 3 0 
 Found key: use_fixed_spell_counts, saw val: 1
-Found key: initial_regen_vals, saw vals: 20 20 20 
+Found key: initial_regen_vals, saw vals: 20 20 0 
 Found key: max_casts, saw val: 20
 Found key: max_ticks, saw val: 20
-Found key: max_ticks_oom, saw val: 20
+Found key: max_ticks_oom, saw val: 0
 Found key: penalize_oom, saw val: 1
 Found key: pvp_combat_length, saw val: 100
 Found key: healing_from_crit_fraction, saw val: 0.2
@@ -26,7 +26,7 @@ Found key: flask, saw val: 0
 Found key: target_hp, saw val: 10000
 ./css 4 ../items/more_raid.csv ../items/bwl.txt no-locks pve_average_raiding 
 ./css 4 ../items/more_raid.csv ../items/bwl.txt no-locks pve_average_raiding 
-Shuffle seed: 923142458
+Shuffle seed: 4220490022
 Reading banned from: ../items/bwl.txt
 Banning: bwl
 Reading tmp locked from: start_with.txt
@@ -115,58 +115,82 @@ Locking: leggings of transcendence
 Locking: robes of prophecy
 Optimizing start items...
 
-*** NEW BEST (1): 208.839
+*** NEW BEST (1): 236.569
 
-*** NEW BEST (1): 243.496
+*** NEW BEST (1): 261.244
+***
+*** NEW BEST (0): 292.171
+neck : anastari heirloom -> animated chain necklace => val: 292.171 -> 298.405
 
-*** NEW BEST (1): 286.65
+*** NEW BEST (0): 300.15
+back : spritecaster cape -> hide of the wild => val: 300.15 -> 308.87
 
-*** NEW BEST (1): 319.678
+*** NEW BEST (0): 308.87
+waist : grimgore noose -> girdle of prophecy => val: 308.87 -> 315.139
 
-*** NEW BEST (1): 343.642
+*** NEW BEST (0): 315.139
+finger : blood of the martyr -> fordring's seal => val: 315.139 -> 321.126
 
-*** NEW BEST (1): 352.121
+*** NEW BEST (0): 321.126
+chest : robes of the royal crown -> robes of prophecy => val: 321.126 -> 333.767
 
-*** NEW BEST (1): 363.023
+*** NEW BEST (0): 333.767
+shoulders : necropile mantle -> burial shawl => val: 333.767 -> 340.375
 
-*** NEW BEST (1): 375.135
+*** NEW BEST (0): 340.375
+hands : dreamweave gloves -> gloves of prophecy => val: 340.375 -> 349.347
 
-*** NEW BEST (1): 379.817
+*** NEW BEST (0): 349.347
+head : dreamweave circlet -> halo of transcendence => val: 349.347 -> 354.496
 
-*** NEW BEST (1): 384.376
+*** NEW BEST (0): 375.377
+feet : maleki's footwraps -> dragonrider boots => val: 375.377 -> 383.287
 
-*** NEW BEST (1): 401.381
+*** NEW BEST (0): 408.13
+wrists : devout bracers -> sublime wristguards => val: 408.13 -> 410.907
 
-*** NEW BEST (1): 414.267
+*** NEW BEST (0): 410.907
+ranged : nature's breath -> dragon finger of healing => val: 410.907 -> 413.4
 
-*** NEW BEST (1): 443.98
+*** NEW BEST (0): 413.4
+finger 2 : cyclopean band -> rosewine circle => val: 413.4 -> 417.657
 
-*** NEW BEST (1): 454.087
+*** NEW BEST (0): 417.657
+trinket 2 : briarwood reed -> royal seal of eldre'thalas => val: 417.657 -> 420.702
+
+*** NEW BEST (0): 420.702
+two-hand : sarah's guide    -> benediction    => val: 420.702 -> 462.029
+
+*** NEW BEST (0): 462.029
+legs : rainstrider leggings -> leggings of transcendence => val: 462.029 -> 490.518
+
+*** NEW BEST (0): 490.518
+*chest : robes of prophecy -> robes of the exalted => val: 490.518 -> 491.496
+
+*** NEW BEST (0): 491.496
+trinket : eye of the beast -> briarwood reed => val: 491.496 -> 498.139
+
+*** NEW BEST (0): 498.139
 *
-*** NEW BEST (1): 454.348
-**back : spritecaster cape -> royal tribunal cloak => val: 452.235 -> 454.494
-
-*** NEW BEST (0): 454.494
-wrists : devout bracers -> necropile cuffs => val: 454.494 -> 454.508
-
-*** NEW BEST (0): 454.508
-**
 Read starting items and cleared locks.
  ----------------------------
  --- head --- 
-name: devout crown
+name: halo of transcendence
 slot: head
-intelligence: 24
-stamina: 13
-spirit: 15
-armor: 71
+intelligence: 27
+stamina: 17
+spirit: 22
+sp_healing: 48
+fire_res: 10
+frost_res: 10
+armor: 94
  ----------------------------
  --- neck --- 
-name: heart of the fiend
+name: animated chain necklace
 slot: neck
-intelligence: 5
-stamina: 5
-spirit: 15
+stamina: 7
+spirit: 6
+sp_healing: 33
  ----------------------------
  --- shoulders --- 
 name: burial shawl
@@ -176,11 +200,12 @@ sp: 20
 armor: 65
  ----------------------------
  --- back --- 
-name: royal tribunal cloak
+name: hide of the wild
 slot: back
-intelligence: 16
-stamina: 7
-armor: 42
+intelligence: 10
+stamina: 8
+sp_healing: 42
+armor: 48
  ----------------------------
  --- chest --- 
 name: robes of the exalted
@@ -191,12 +216,13 @@ sp_healing: 68
 armor: 89
  ----------------------------
  --- wrists --- 
-name: necropile cuffs
+name: sublime wristguards
 slot: wrists
-intelligence: 11
-stamina: 12
-spirit: 7
-armor: 38
+intelligence: 10
+stamina: 6
+spirit: 6
+sp: 12
+armor: 37
  ----------------------------
  --- two-hand --- 
 name: benediction
@@ -226,12 +252,15 @@ slot: ranged
 sp_healing: 18
  ----------------------------
  --- hands --- 
-name: shadowy laced handwraps
+name: gloves of prophecy
 slot: hands
 intelligence: 15
-mp5: 5
-shadow_res: 12
-armor: 53
+stamina: 10
+spirit: 15
+sp_healing: 18
+mp5: 6
+fire_res: 7
+armor: 63
  ----------------------------
  --- waist --- 
 name: girdle of prophecy
@@ -265,17 +294,17 @@ sp_healing: 18
 armor: 61
  ----------------------------
  --- finger --- 
-name: rosewine circle
-slot: finger
-sp_healing: 29
-mp5: 5
- ----------------------------
- --- finger --- 
 name: fordring's seal
 slot: finger
 intelligence: 5
 stamina: 4
 sp_healing: 37
+ ----------------------------
+ --- finger --- 
+name: rosewine circle
+slot: finger
+sp_healing: 29
+mp5: 5
  ----------------------------
  --- trinket --- 
 name: briarwood reed
@@ -293,7 +322,7 @@ name:
 slot: Set bonuses
  --- And counts for start items ---
 For 81 s fights:
-    casts: 14, ticks: 11, ticks_oom: 0
+    casts: 15, ticks: 9, ticks_oom: 0
     Heal, rank: 2, count: 17
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 11
@@ -302,54 +331,107 @@ For 81 s fights:
     Renew, rank: 10, count: 3
     Prayer of Healing, rank: 5, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 454.508
+    hps: 498.139
 Reading locked from: no-locks
 Setting tag name to: pve_average_raiding
 .
-*** NEW BEST (1): 453.824
+*** NEW BEST (1): 501.492
+.
+*** NEW BEST (1): 506.514
 
-*** NEW BEST (1): 454.131
+*** NEW BEST (1): 510.624
 
-*** NEW BEST (1): 454.309
+*** NEW BEST (1): 510.927
 
-*** NEW BEST (1): 454.47
+*** NEW BEST (1): 519.344
 
-*** NEW BEST (1): 454.497
+*** NEW BEST (1): 519.641
 
-*** NEW BEST (1): 454.539
-...
-*** NEW BEST (1): 454.541
+*** NEW BEST (1): 523.961
+.
+*** NEW BEST (1): 526.15
+
+*** NEW BEST (1): 527.406
+
+*** NEW BEST (1): 527.502
+
+*** NEW BEST (1): 527.601
 ........
-*** NEW BEST (1): 460.316
-
-*** NEW BEST (1): 460.548
-
-*** NEW BEST (1): 460.55
-
-*** NEW BEST (1): 474.377
-
-*** NEW BEST (1): 477.622
-
-*** NEW BEST (1): 482.037
-
-*** NEW BEST (1): 492.657
-
-*** NEW BEST (1): 502.245
-
-*** NEW BEST (1): 505.795
-
-*** NEW BEST (1): 509.964
-
-*** NEW BEST (1): 528.732
-
-*** NEW BEST (1): 528.802
-...
 *** NEW BEST (1): 529.276
 
 *** NEW BEST (1): 529.425
-......................................................................................Temporary bans and partial set bonuses off.
-.ranged : lunar wand of healing -> oblivion's touch => val: 526.737 -> 527.229
-neck : choker of enlightenment -> choker of the fire lord => val: 527.229 -> 529.276
+..........................................................................................Temporary bans and partial set bonuses off.
+.
+*** NEW BEST (0): 511.392
+Current relative stat values for matching or exceeding +50 pts of SpellPower
+Intellect: 177.93
+Spirit: 20.3199
+Stamina: 0
+Agility: 0
+Mp5: 189.279
+SpellPower: 99.9995
+ShadowSpellDamage: 0
+Healing: 99.9995
+SpellCritRating: 291.701
+SpellHitRating: 0
+ArcaneResist: 0
+NatureResist: 0
+FireResist: 0
+FrostResist: 0
+ShadowResist: 0
+Armor: 0
+DefenseRating: 0
+DodgeRating: 0
+ParryRating: 0
+ranged : oblivion's touch -> lunar wand of healing => val: 511.392 -> 511.816
+
+*** NEW BEST (0): 511.816
+Current relative stat values for matching or exceeding +50 pts of SpellPower
+Intellect: 173.937
+Spirit: 21.5856
+Stamina: 0
+Agility: 0
+Mp5: 184.638
+SpellPower: 100.001
+ShadowSpellDamage: 0
+Healing: 100.001
+SpellCritRating: 295.378
+SpellHitRating: 0
+ArcaneResist: 0
+NatureResist: 0
+FireResist: 0
+FrostResist: 0
+ShadowResist: 0
+Armor: 0
+DefenseRating: 0
+DodgeRating: 0
+ParryRating: 0
+two-hand : staff of dominance    -> benediction    => val: 511.816 -> 529.425
+
+*** NEW BEST (0): 529.425
+Current relative stat values for matching or exceeding +50 pts of SpellPower
+Intellect: 184.67
+Spirit: 24.092
+Stamina: 0
+Agility: 0
+Mp5: 195.393
+SpellPower: 99.9999
+ShadowSpellDamage: 0
+Healing: 99.9999
+SpellCritRating: 306.69
+SpellHitRating: 0
+ArcaneResist: 0
+NatureResist: 0
+FireResist: 0
+FrostResist: 0
+ShadowResist: 0
+Armor: 0
+DefenseRating: 0
+DodgeRating: 0
+ParryRating: 0
+Temporary bans and partial set bonuses on.
+.....................................................................................................Temporary bans and partial set bonuses off.
+.back : sapphiron drape -> hide of the wild => val: 524.967 -> 529.276
 .ranged : oblivion's touch -> lunar wand of healing => val: 529.276 -> 529.425
 .......... ----------------------------
  --- head --- 
@@ -573,18 +655,18 @@ To file: pve_average_raiding.pawn_tag.txt
 ------------------
 Diffs to start: 
 Upgrades: 
-devout crown(15.4174) -> halo of transcendence(32.4204) : 17.003 = +3.31816%
-heart of the fiend(4.41962) -> choker of the fire lord(14.9275) : 10.5079 = +2.02496%
-necropile cuffs(7.46237) -> vambraces of prophecy(17.8037) : 10.3414 = +1.99224%
-royal tribunal cloak(8.89114) -> hide of the wild(18.8578) : 9.96667 = +1.91867%
 rosewine circle(12.4622) -> cauterizing band(21.5436) : 9.08142 = +1.74527%
-shadowy laced handwraps(11.9203) -> gloves of prophecy(19.6587) : 7.7384 = +1.48334%
+sublime wristguards(9.64407) -> vambraces of prophecy(17.8037) : 8.15967 = +1.56536%
 briarwood reed(8.6991) -> darkmoon card: blue dragon(14.0294) : 5.33032 = +1.01705%
+animated chain necklace(10.819) -> choker of the fire lord(14.9275) : 4.10846 = +0.782092%
 dragonrider boots(14.5287) -> boots of prophecy(17.514) : 2.98523 = +0.56706%
 burial shawl(15.8942) -> mantle of prophecy(17.8176) : 1.92334 = +0.364613%
 robes of the exalted(24.5676) -> truefaith vestments(26.0289) : 1.4613 = +0.276781%
 dragon finger of healing(5.54657) -> lunar wand of healing(6.16284) : 0.616272 = +0.11654%
+halo of transcendence(32.4204) -> halo of transcendence(32.4204) : 0 = +0%
+hide of the wild(18.8578) -> hide of the wild(18.8578) : 0 = +0%
 benediction, , , (52.8311) -> benediction, , , (52.8311) : 0 = +0%
+gloves of prophecy(19.6587) -> gloves of prophecy(19.6587) : 0 = +0%
 girdle of prophecy(19.2703) -> girdle of prophecy(19.2703) : 0 = +0%
 leggings of transcendence(33.1717) -> leggings of transcendence(33.1717) : 0 = +0%
 fordring's seal(14.3683) -> fordring's seal(14.3683) : 0 = +0%
@@ -593,46 +675,25 @@ royal seal of eldre'thalas(13.0654) -> royal seal of eldre'thalas(13.0654) : 0 =
 | Upgrades at best in slot level, from start item to candidate, partial bonuses: 1: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, devout crown (15.4174) -> :
-    halo of transcendence (32.4204) : +3.31816 %, from: onyxia
-    circlet of prophecy (20.6047) : +1.01231 %, from: mc
-    the postmaster's band (19.7414) : +0.843831 %, from: pre-raid
-    eternal crown of healing (19.0451) : +0.707949 %, from: random green
-    magister's crown (17.6763) : +0.440818 %, from: pre-raid
-    papal fez (16.9823) : +0.305389 %, from: pre-raid
-    starfire tiara (16.9276) : +0.294717 %, from: pre-raid
-    green lens of healing (16.0693) : +0.127223 %, from: pre-raid
+head, halo of transcendence (32.4204) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, heart of the fiend (4.41962) -> :
-    choker of the fire lord (14.9275) : +2.02496 %, from: mc
-    choker of enlightenment (12.2394) : +1.50694 %, from: mc
-    animated chain necklace (10.819) : +1.23322 %, from: pre-raid
-    tooth of gnarr (10.3516) : +1.14314 %, from: pre-raid
-    archlight talisman (6.66925) : +0.433525 %, from: pre-raid
-    gemshard heart (6.66925) : +0.433525 %, from: pre-raid
-    star of mystaria (5.92975) : +0.291016 %, from: pre-raid
-    dark advisor's pendant (4.45087) : +0.00602215 %, from: pre-raid
-    triune amulet (4.45087) : +0.00602215 %, from: pre-raid
+neck, animated chain necklace (10.819) -> :
+    choker of the fire lord (14.9275) : +0.782092 %, from: mc
+    choker of enlightenment (12.2394) : +0.27038 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 shoulders, burial shawl (15.8942) -> :
     mantle of prophecy (17.8176) : +0.364613 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, royal tribunal cloak (8.89114) -> :
-    hide of the wild (18.8578) : +1.91867 %, from: pre-raid
-    sapphiron drape (13.9721) : +0.978121 %, from: onyxia
-    cloak of the cosmos (13.9435) : +0.972622 %, from: pre-raid
-    archivist cape of healing (12.2549) : +0.647541 %, from: pre-raid
+back, hide of the wild (18.8578) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 chest, robes of the exalted (24.5676) -> :
     truefaith vestments (26.0289) : +0.276781 %, from: tailoring bop
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, necropile cuffs (7.46237) -> :
-    vambraces of prophecy (17.8037) : +1.99224 %, from: mc
-    flarecore wraps (10.3144) : +0.549428 %, from: tailoring boe
-    flameweave cuffs of healing (9.96591) : +0.4823 %, from: brd
-    magiskull cuffs (9.72745) : +0.43636 %, from: pre-raid
-    sublime wristguards (9.64407) : +0.420299 %, from: pre-raid
-    magister's bindings (8.96805) : +0.290064 %, from: pre-raid
+wrists, sublime wristguards (9.64407) -> :
+    vambraces of prophecy (17.8037) : +1.56536 %, from: mc
+    flarecore wraps (10.3144) : +0.128589 %, from: tailoring boe
+    flameweave cuffs of healing (9.96591) : +0.0617417 %, from: brd
+    magiskull cuffs (9.72745) : +0.0159945 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 two-hand, benediction (52.8311) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
@@ -641,11 +702,7 @@ ranged, dragon finger of healing (5.54657) -> :
     oblivion's touch (6.01318) : +0.0882386 %, from: pre-raid
     bonecreeper stylus (5.65674) : +0.0208333 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, shadowy laced handwraps (11.9203) -> :
-    gloves of prophecy (19.6587) : +1.48334 %, from: mc
-    hands of the exalted herald (19.0351) : +1.3638 %, from: pre-raid
-    atal'ai hands of healing (15.8912) : +0.761163 %, from: sunken temple
-    high councillor's gloves of healing (13.7923) : +0.358838 %, from: random green
+hands, gloves of prophecy (19.6587) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 waist, girdle of prophecy (19.2703) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
@@ -655,13 +712,13 @@ feet, dragonrider boots (14.5287) -> :
     boots of prophecy (17.514) : +0.56706 %, from: mc
     boots of the full moon (15.4329) : +0.171753 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, rosewine circle (12.4622) -> :
-    cauterizing band (21.5436) : +1.74527 %, from: mc
-    fordring's seal (14.2533) : +0.344222 %, from: pre-raid
-    band of sulfuras (14.0095) : +0.297362 %, from: mc
+finger, fordring's seal (14.2533) -> :
+    cauterizing band (21.5436) : +1.39625 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, fordring's seal (14.3683) -> :
-    cauterizing band (20.9656) : +1.24611 %, from: mc
+finger 2, rosewine circle (11.8241) -> :
+    cauterizing band (20.9656) : +1.73502 %, from: mc
+    fordring's seal (14.3683) : +0.482889 %, from: pre-raid
+    band of sulfuras (14.0908) : +0.430204 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 trinket, briarwood reed (8.6991) -> :
     darkmoon card: blue dragon (14.0294) : +1.01705 %, from: 
@@ -673,46 +730,25 @@ trinket 2, royal seal of eldre'thalas (13.0654) -> :
 | Upgrades at best in slot level, from start item to candidate, partial bonuses: 0: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, devout crown (14.7127) -> :
-    halo of transcendence (32.4204) : +3.46045 %, from: onyxia
-    circlet of prophecy (20.6047) : +1.15142 %, from: mc
-    the postmaster's band (19.7414) : +0.982708 %, from: pre-raid
-    eternal crown of healing (19.0451) : +0.846639 %, from: random green
-    magister's crown (17.6763) : +0.57914 %, from: pre-raid
-    papal fez (16.9823) : +0.443524 %, from: pre-raid
-    starfire tiara (16.9276) : +0.432837 %, from: pre-raid
-    green lens of healing (16.0693) : +0.265113 %, from: pre-raid
+head, halo of transcendence (32.4204) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, heart of the fiend (4.41962) -> :
-    choker of the fire lord (14.9275) : +2.02496 %, from: mc
-    choker of enlightenment (12.2394) : +1.50694 %, from: mc
-    animated chain necklace (10.819) : +1.23322 %, from: pre-raid
-    tooth of gnarr (10.3516) : +1.14314 %, from: pre-raid
-    archlight talisman (6.66925) : +0.433525 %, from: pre-raid
-    gemshard heart (6.66925) : +0.433525 %, from: pre-raid
-    star of mystaria (5.92975) : +0.291016 %, from: pre-raid
-    dark advisor's pendant (4.45087) : +0.00602215 %, from: pre-raid
-    triune amulet (4.45087) : +0.00602215 %, from: pre-raid
+neck, animated chain necklace (10.819) -> :
+    choker of the fire lord (14.9275) : +0.782092 %, from: mc
+    choker of enlightenment (12.2394) : +0.27038 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 shoulders, burial shawl (15.8942) -> :
     mantle of prophecy (17.8176) : +0.364613 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, royal tribunal cloak (8.89114) -> :
-    hide of the wild (18.8578) : +1.91867 %, from: pre-raid
-    sapphiron drape (13.9721) : +0.978121 %, from: onyxia
-    cloak of the cosmos (13.9435) : +0.972622 %, from: pre-raid
-    archivist cape of healing (12.2549) : +0.647541 %, from: pre-raid
+back, hide of the wild (18.8578) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 chest, robes of the exalted (24.5676) -> :
     truefaith vestments (26.0289) : +0.276781 %, from: tailoring bop
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, necropile cuffs (6.72147) -> :
-    vambraces of prophecy (17.8037) : +2.13802 %, from: mc
-    flarecore wraps (10.3144) : +0.69315 %, from: tailoring boe
-    flameweave cuffs of healing (9.96591) : +0.625927 %, from: brd
-    magiskull cuffs (9.72745) : +0.579921 %, from: pre-raid
-    sublime wristguards (9.64407) : +0.563837 %, from: pre-raid
-    magister's bindings (8.96805) : +0.433416 %, from: pre-raid
+wrists, sublime wristguards (9.64407) -> :
+    vambraces of prophecy (17.8037) : +1.56536 %, from: mc
+    flarecore wraps (10.3144) : +0.128589 %, from: tailoring boe
+    flameweave cuffs of healing (9.96591) : +0.0617417 %, from: brd
+    magiskull cuffs (9.72745) : +0.0159945 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 two-hand, benediction (52.8311) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
@@ -721,11 +757,7 @@ ranged, dragon finger of healing (5.54657) -> :
     oblivion's touch (6.01318) : +0.0882386 %, from: pre-raid
     bonecreeper stylus (5.65674) : +0.0208333 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, shadowy laced handwraps (11.9203) -> :
-    gloves of prophecy (19.6587) : +1.48334 %, from: mc
-    hands of the exalted herald (19.0351) : +1.3638 %, from: pre-raid
-    atal'ai hands of healing (15.8912) : +0.761163 %, from: sunken temple
-    high councillor's gloves of healing (13.7923) : +0.358838 %, from: random green
+hands, gloves of prophecy (19.6587) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 waist, girdle of prophecy (19.2703) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
@@ -735,13 +767,13 @@ feet, dragonrider boots (14.5287) -> :
     boots of prophecy (17.514) : +0.56706 %, from: mc
     boots of the full moon (15.4329) : +0.171753 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, rosewine circle (12.4622) -> :
-    cauterizing band (21.5436) : +1.74527 %, from: mc
-    fordring's seal (14.2533) : +0.344222 %, from: pre-raid
-    band of sulfuras (14.0095) : +0.297362 %, from: mc
+finger, fordring's seal (14.2533) -> :
+    cauterizing band (21.5436) : +1.39625 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, fordring's seal (14.3683) -> :
-    cauterizing band (20.9656) : +1.24611 %, from: mc
+finger 2, rosewine circle (11.8241) -> :
+    cauterizing band (20.9656) : +1.73502 %, from: mc
+    fordring's seal (14.3683) : +0.482889 %, from: pre-raid
+    band of sulfuras (14.0908) : +0.430204 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 trinket, briarwood reed (8.6991) -> :
     darkmoon card: blue dragon (14.0294) : +1.01705 %, from: 
@@ -753,117 +785,111 @@ trinket 2, royal seal of eldre'thalas (13.0654) -> :
 | Upgrades at start level, from start item to candidate, partial bonuses: 1: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, devout crown (11.6315) -> :
-    mooncloth circlet (13.1734) : +0.340403 %, from: pre-raid
-    cassandra's grace (13.065) : +0.316458 %, from: pre-raid
-    cassandra's grace (13.065) : +0.316458 %, from: pre-raid
-    crimson felt hat (13.024) : +0.307417 %, from: pre-raid
-    dreadmist mask (12.462) : +0.183342 %, from: pre-raid
-    dreamweave circlet (12.2126) : +0.128292 %, from: pre-raid
-    crown of caer darrow (11.7781) : +0.032366 %, from: pre-raid
+head, halo of transcendence (31.5147) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, heart of the fiend (0.559662) -> :
+neck, animated chain necklace (10.2758) -> :
+    choker of the fire lord (13.6288) : +0.673105 %, from: mc
+    choker of enlightenment (11.9458) : +0.335257 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, burial shawl (11.1473) -> :
-    devout mantle (12.3938) : +0.275185 %, from: pre-raid
-    sunderseer mantle (11.9276) : +0.172273 %, from: pre-raid
-    elder wizard's mantle (11.7854) : +0.14087 %, from: pre-raid
-    soulstealer mantle (11.6783) : +0.117229 %, from: pre-raid
-    magister's mantle (11.6783) : +0.117229 %, from: pre-raid
+shoulders, burial shawl (15.5172) -> :
+    mantle of prophecy (16.8449) : +0.266532 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, royal tribunal cloak (5.4548) -> :
-    raincaster drape (6.94949) : +0.32998 %, from: pre-raid
-    frostweaver cape (6.94336) : +0.328626 %, from: pre-raid
-    spritecaster cape (6.09152) : +0.140567 %, from: pre-raid
-    deep woodlands cloak (5.49536) : +0.00895389 %, from: pre-raid
-    shroud of the exile (5.47122) : +0.00362467 %, from: pre-raid
+back, hide of the wild (18.0684) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, robes of the exalted (20.1263) -> :
-    robes of prophecy (21.1818) : +0.23303 %, from: mc
+chest, robes of the exalted (24.0112) -> :
+    truefaith vestments (25.3831) : +0.275396 %, from: tailoring bop
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, necropile cuffs (4.04276) -> :
-    wyrmthalak's shackles (4.90305) : +0.189925 %, from: pre-raid
-    dreadmist bracers (4.08798) : +0.0099847 %, from: pre-raid (boe scholo)
+wrists, sublime wristguards (10.2252) -> :
+    vambraces of prophecy (17.4801) : +1.45639 %, from: mc
+    flarecore wraps (10.3918) : +0.0334497 %, from: tailoring boe
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (46.1125) -> :
+two-hand, benediction (50.7358) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon finger of healing (2.31924) -> :
-    dragon finger of intellect (3.62326) : +0.287885 %, from: pre-raid
-    nature's breath (3.43448) : +0.246208 %, from: pre-raid
-    lunar wand of the owl (3.43448) : +0.246208 %, from: random green
-    lunar wand of intellect (2.80215) : +0.106611 %, from: random green
-    stormrager (2.75015) : +0.0951308 %, from: pre-raid (epl quest chain)
+ranged, dragon finger of healing (5.20981) -> :
+    oblivion's touch (6.01596) : +0.161833 %, from: pre-raid
+    lunar wand of healing (5.7886) : +0.116192 %, from: random green
+    bonecreeper stylus (5.452) : +0.0486185 %, from: pre-raid
+    crimson shocker (5.26944) : +0.0119708 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, shadowy laced handwraps (8.15359) -> :
-    mooncloth gloves (9.71024) : +0.343657 %, from: pre-raid
-    atal'ai gloves of the owl (9.14838) : +0.219616 %, from: pre-raid
-    silkweb gloves (8.99118) : +0.184912 %, from: pre-raid
-    hands of power (8.35709) : +0.0449244 %, from: pre-raid
-    magister's gloves (8.32635) : +0.0381399 %, from: pre-raid
-    devout gloves (8.23743) : +0.0185074 %, from: pre-raid
+hands, gloves of prophecy (19.3214) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, girdle of prophecy (14.8367) -> :
-    mana igniting cord (15.8008) : +0.212838 %, from: mc
-    whipvine cord (15.6652) : +0.182905 %, from: pre-raid
+waist, girdle of prophecy (19.0967) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, leggings of transcendence (27.168) -> :
+legs, leggings of transcendence (31.5913) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, dragonrider boots (10.5781) -> :
-    omnicast boots (11.1423) : +0.124559 %, from: pre-raid
+feet, dragonrider boots (14.9498) -> :
+    boots of prophecy (17.1971) : +0.451142 %, from: mc
+    boots of the full moon (15.7201) : +0.154634 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, rosewine circle (8.17212) -> :
-    ring of spellpower (9.51138) : +0.295667 %, from: mc
-    maiden's circle (9.32489) : +0.254495 %, from: pre-raid
-    seal of rivendare (8.88657) : +0.157727 %, from: pre-raid
-    ring of demonic guile (8.79172) : +0.136788 %, from: pre-raid
-    eye of orgrimmar (8.65109) : +0.105742 %, from: pre-raid
+finger, fordring's seal (13.6742) -> :
+    cauterizing band (20.0999) : +1.28994 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, fordring's seal (10.5439) -> :
-    band of sulfuras (11.2004) : +0.14494 %, from: mc
-    rosewine circle (11.0563) : +0.11314 %, from: pre-raid
+finger 2, rosewine circle (12.0262) -> :
+    cauterizing band (20.8612) : +1.7736 %, from: mc
+    band of sulfuras (14.1516) : +0.426661 %, from: mc
+    fordring's seal (13.6741) : +0.330803 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, briarwood reed (5.5087) -> :
-    second wind (6.37888) : +0.192108 %, from: pre-raid
-    mindtap talisman (5.99268) : +0.106847 %, from: pre-raid
+trinket, briarwood reed (8.3931) -> :
+    darkmoon card: blue dragon (12.3526) : +0.794859 %, from: 
+    royal seal of eldre'thalas (11.7731) : +0.678533 %, from: pre-raid
+    shard of the scale (9.44611) : +0.211389 %, from: onyxia
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, royal seal of eldre'thalas (8.66071) -> :
-    darkmoon card: blue dragon (8.98502) : +0.0715974 %, from: 
+trinket 2, royal seal of eldre'thalas (12.4505) -> :
+    darkmoon card: blue dragon (13.0483) : +0.120015 %, from: 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at start level, from start item to candidate, partial bonuses: 0: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, devout crown (13.8635) -> :
+head, halo of transcendence (31.5147) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, heart of the fiend (3.45432) -> :
-    dark advisor's pendant (3.48141) : +0.00596241 %, from: pre-raid
+neck, animated chain necklace (10.2758) -> :
+    choker of the fire lord (13.6288) : +0.673105 %, from: mc
+    choker of enlightenment (11.9458) : +0.335257 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, burial shawl (14.0256) -> :
+shoulders, burial shawl (15.5172) -> :
+    mantle of prophecy (16.8449) : +0.266532 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, royal tribunal cloak (8.34174) -> :
+back, hide of the wild (18.0684) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, robes of the exalted (22.9909) -> :
+chest, robes of the exalted (24.0112) -> :
+    truefaith vestments (25.3831) : +0.275396 %, from: tailoring bop
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, necropile cuffs (6.24374) -> :
+wrists, sublime wristguards (10.2252) -> :
+    vambraces of prophecy (17.4801) : +1.45639 %, from: mc
+    flarecore wraps (10.3918) : +0.0334497 %, from: tailoring boe
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (48.3051) -> :
+two-hand, benediction (50.7358) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon finger of healing (5.21103) -> :
-    bonecreeper stylus (5.23267) : +0.00476053 %, from: pre-raid
+ranged, dragon finger of healing (5.20981) -> :
+    oblivion's touch (6.01596) : +0.161833 %, from: pre-raid
+    lunar wand of healing (5.7886) : +0.116192 %, from: random green
+    bonecreeper stylus (5.452) : +0.0486185 %, from: pre-raid
+    crimson shocker (5.26944) : +0.0119708 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, shadowy laced handwraps (11.0366) -> :
+hands, gloves of prophecy (19.3214) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, girdle of prophecy (17.0363) -> :
+waist, girdle of prophecy (19.0967) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, leggings of transcendence (29.3645) -> :
+legs, leggings of transcendence (31.5913) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, dragonrider boots (13.4572) -> :
+feet, dragonrider boots (14.9498) -> :
+    boots of prophecy (17.1971) : +0.451142 %, from: mc
+    boots of the full moon (15.7201) : +0.154634 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, rosewine circle (11.055) -> :
+finger, fordring's seal (13.6742) -> :
+    cauterizing band (20.0999) : +1.28994 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, fordring's seal (13.4233) -> :
+finger 2, rosewine circle (12.0262) -> :
+    cauterizing band (20.8612) : +1.7736 %, from: mc
+    band of sulfuras (14.1516) : +0.426661 %, from: mc
+    fordring's seal (13.6741) : +0.330803 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, briarwood reed (8.39557) -> :
+trinket, briarwood reed (8.3931) -> :
+    darkmoon card: blue dragon (12.3526) : +0.794859 %, from: 
+    royal seal of eldre'thalas (11.7731) : +0.678533 %, from: pre-raid
+    shard of the scale (9.44611) : +0.211389 %, from: onyxia
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, royal seal of eldre'thalas (11.543) -> :
+trinket 2, royal seal of eldre'thalas (12.4505) -> :
+    darkmoon card: blue dragon (13.0483) : +0.120015 %, from: 
 ------------------
 Best value: 529.425

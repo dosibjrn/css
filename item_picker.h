@@ -117,6 +117,8 @@ private:
 
   ValueChoice m_value_choice = ValueChoice::pvp_shadow;
 
+  bool m_pve_healing_optimizes_counts = false;
+
   std::string m_tag_name;
 };
 
