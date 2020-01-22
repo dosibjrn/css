@@ -43,7 +43,7 @@ int ItemPickingMain(int argc, char** argv, ItemPicker::ValueChoice value_choice,
       int iters_without_new_best = 0;
       std::cout << "Optimizing start items..." << std::endl;
       bool disable_bans = false;
-      int max_iters = 5;
+      int max_iters = 10;
       for (int iter = 0; iter < max_iters; ++iter) {
         if (iter > max_iters/2) {
           disable_bans = true;

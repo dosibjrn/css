@@ -279,7 +279,7 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
     }
 
     Item i_best = pickBest(m_c_curr, i_curr, items_for_slot, taken);
-    if (i_best.name == "" && i_best.slot != "two-hand" && i_best.slot != "one-hand" && i_best.slot != "main hand" && i_best.slot != "off hand" && iteration < 10) {
+    if (i_best.name == "" && i_best.slot != "two-hand" && iteration < 10) {
       // m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_curr_regens);
       m_pve_healing_optimizes_counts = true;
       std::cout << "Initial best item for slot: " << slot << " : " << i_best.name << ", redoing with count optimization" << std::endl;
@@ -815,7 +815,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     if ((isBanned(item.name) || isBanned(item.source)) && !isWhitelisted(item.name) ) {
       val = 0.0f;
     }
-    if (val >= best_value 
+    if (val > best_value 
         && (!locked_seen || isLocked(item.name))) {
       
       if (verbose) std::cout << item.name << " val: " << val << " is new best, old was: " << best_item.name << " with val: " << best_value  << std::endl;

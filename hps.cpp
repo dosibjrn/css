@@ -582,7 +582,7 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
   float best_score = HpsWithRegen(c, PveHealingSequence(c, best_spell_counts), combat_length,
                                   *regen).first;
   bool converged = false;
-  int max_iters = 10;
+  int max_iters = 3;
   int iter = 0;
   while (!converged && iter++ < max_iters) {
     auto counts_at_start = best_spell_counts;
@@ -670,6 +670,9 @@ std::vector<float> FindBestPveHealingCounts(const PriestCharacter& c,
     same &= regen_at_start.casts == regen->casts;
     same &= regen_at_start.ticks == regen->ticks;
     converged = same;
+    // if (converged) {
+      // std::cout << "Conv i: " << iter << std::endl;
+    // }
   }
 
   auto t1 = std::chrono::system_clock::now();
