@@ -30,7 +30,6 @@ float Stats::getEffectiveHp(float attacker_level, float attacker_attack, float p
   float phys_reduction = (c_.armor + c_.agility*2) / (c_.armor + c_.agility*2 + 400 + 85 * (attacker_level + 4.5 * (attacker_level - 59)));
   float phys_through = std::max(0.0, std::min(1.0 - phys_reduction, 1.0));
   phys_through *= std::max(0.0, std::min(1.0, (100.0 - (c_.dodge + (c_.agility/agi_to_dodge_ratio) + (c_.defense - attacker_attack) * 0.04))/100.0));
-  // TODO: parry for other classes
   if (c_.talents.shadowform) {
     phys_through *= 0.85f;
   }
@@ -42,7 +41,7 @@ float Stats::getEffectiveHp(float attacker_level, float attacker_attack, float p
   float shadow_reduction = std::max(0.0, std::min(1.0, (c_.shadow_res / (attacker_level * 5)) * 0.75));
 
   Spell shield = Shield(c_, 10); 
-  float ehp = c_.base_hp + c_.stamina*10.0f + 2.0f*shield.shield;
+  float ehp = c_.base_hp + (c_.stamina + 70)*10.0f + 2.0f*shield.shield;
   float ehp_was = ehp;
   ehp /= (phys*phys_through + arcane*(1.0 - arcane_reduction) + nature*(1.0 - nature_reduction) + fire*(1.0 - fire_reduction)
           + frost*(1.0 - frost_reduction) + shadow*(1.0 - shadow_reduction) + holy);

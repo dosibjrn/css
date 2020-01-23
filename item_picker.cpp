@@ -776,6 +776,8 @@ void ItemPicker::CoutCharacterStats() const
   std::cout << "ShadowDps: " << ShadowDps(m_c_curr) << std::endl;
   std::cout << "Value pvp healing: " << valuePvpHealing(m_c_curr) << std::endl;
   std::cout << "Value pvp shadow: " << valuePvpShadow(m_c_curr) << std::endl;
+  std::cout << "Effective hp-pvp: " << s.getEffectiveHpPvp() << std::endl;
+  std::cout << "Effecctive mana for 100 s, 0.33 fsr: " << s.getEffectiveMana(100, 0.33) << std::endl;
 }
 
 
