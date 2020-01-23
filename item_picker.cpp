@@ -223,7 +223,7 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
       m_pve_info = getPveInfo(m_c_best);
       global::assumptions.target_dps_in.clear();
       for (auto info : m_pve_info) {
-        global::assumptions.target_dps_in.push_back(info.hps);
+        global::assumptions.target_dps_in.push_back(info.hps * 0.8);
       }
       
       if (1) {
