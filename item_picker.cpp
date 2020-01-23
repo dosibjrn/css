@@ -119,7 +119,6 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   , m_value_choice(value_choice)
 {
   unsigned my_seed = std::chrono::system_clock::now().time_since_epoch().count();
-  // my_seed = 1549490914;
   std::cout << "Shuffle seed: " << my_seed << std::endl;
   m_generator.seed(my_seed);
 
@@ -222,6 +221,11 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
       m_best_regens = m_curr_regens;
       m_best_pve_healing_counts = m_curr_pve_healing_counts;
       m_pve_info = getPveInfo(m_c_best);
+      global::assumptions.target_dps_in.clear();
+      for (auto info : m_pve_info) {
+        global::assumptions.target_dps_in.push_back(info.hps);
+      }
+      
       if (1) {
         std::cout << std::endl << "*** NEW BEST (" << !disable_bans << "): " << *best << std::endl;
         if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValues();
@@ -282,8 +286,19 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
     if (i_best.name == "" && i_best.slot != "two-hand" && iteration < 10) {
       // m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_curr_regens);
       m_pve_healing_optimizes_counts = true;
+      // bool penalty = global::assumptions.penalize_oom;
+      // global::assumptions.penalize_oom = false;
       std::cout << "Initial best item for slot: " << slot << " : " << i_best.name << ", redoing with count optimization" << std::endl;
       i_best = pickBest(m_c_curr, i_curr, items_for_slot, taken);
+      bool debug = false;
+      if (debug) {
+        m_pve_info = getPveInfo(m_c_curr);
+        m_c_best = m_c_curr;
+        m_best_pve_healing_counts = m_curr_pve_healing_counts;
+        m_best_regens = m_curr_regens;
+        CoutBestCounts();
+      }
+      // global::assumptions.penalize_oom = penalty;
       m_pve_healing_optimizes_counts = false;
     }
 
@@ -812,6 +827,8 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     // calculate objective function value
     // float val = value(c_tmp);
     float val = vals[i];
+
+    if (verbose) std::cout << item.name << " val: " << val << " , best so far: " << best_item.name << " with val: " << best_value  << std::endl;
     if ((isBanned(item.name) || isBanned(item.source)) && !isWhitelisted(item.name) ) {
       val = 0.0f;
     }

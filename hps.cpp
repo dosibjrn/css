@@ -68,7 +68,21 @@ float RemainingManaAsHealing(const PriestCharacter& c, float in_full_regen, floa
   }
   return healing_out;
 }
+
+float Dps(float end_at_s)
+{
+  float eps = 1.0f;
+  for (int i = 0; i < global::assumptions.pve_combat_lengths.size(); ++i) {
+    if (fabs(global::assumptions.pve_combat_lengths[i] - end_at_s) < eps && i < global::assumptions.target_dps_in.size()) {
+      return global::assumptions.target_dps_in[i];
+    }
+  }
+  // std::cout << "Did not find dps for end_at_s: " << end_at_s << std::endl;
+  return 100.0f;
+}
+
 }  // namespace
+
 
 std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, Regen regen)
 {
@@ -110,7 +124,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
         time += 2.0f;
         float pre = heal_sum;
         HandleHots(time, &hots, &heal_sum);
-        if (heal_sum > pre && verbose) std::cout << "hots while regen, sum: " << heal_sum << ", mana: " << mana 
+        if (heal_sum > pre && verbose) std::cout << "    hots while regen, sum: " << heal_sum << ", mana: " << mana 
           << ", time: " << time << ", tick: " << curr_tick << "/" << ticks << std::endl;
         in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
         if (time >= end_at_s) {
@@ -130,7 +144,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
       mana -= 0.2*c.base_mana;
       cost_sum += 0.2*c.base_mana;
       cast_time_sum += 1.5f;
-      if (verbose) std::cout << "Pi started, time: " << time << ", pi_end: " << pi_end << ", mana: " << mana << std::endl;
+      if (verbose) std::cout << "    Pi started, time: " << time << ", pi_end: " << pi_end << ", mana: " << mana << std::endl;
     }
 
     Spell spell = spell_sequence[ix];
@@ -149,7 +163,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
         time += 2.0f;
         float pre = heal_sum;
         HandleHots(time, &hots, &heal_sum);
-        if (heal_sum > pre && verbose) std::cout << "hots while regen, sum: " << heal_sum << ", mana: " << mana //
+        if (heal_sum > pre && verbose) std::cout << "    hots while regen, sum: " << heal_sum << ", mana: " << mana //
           << ", spell.cost: " << spell.cost << ", time: " << time << std::endl;
         in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
         ticks_in_loop++;
@@ -166,7 +180,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
     mana -= spell.cost;
     cost_sum += spell.cost;
     if (mana < 0 && verbose) {
-      std::cout << "Went to negative mana with spell: " << spell.name << std::endl;
+      std::cout << "    Went to negative mana with spell: " << spell.name << std::endl;
     }
     time += spell.cast_time;
     cast_time_sum += spell.cast_time;
@@ -181,12 +195,12 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
     if (!spell.over_time) {
       heal_sum += spell.healing;
       heal_sum += spell.shield;
-      if (verbose) std::cout << "spell: " << spell.name << ", sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
+      if (verbose) std::cout << "    spell: " << spell.name << ", sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
     }
 
     float pre = heal_sum;
     HandleHots(time, &hots, &heal_sum);
-    if (heal_sum > pre && verbose) std::cout << "hots, sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
+    if (heal_sum > pre && verbose) std::cout << "    hots, sum: " << heal_sum << ", mana: " << mana << ", time: " << time << std::endl;
     in_full_regen += 2.0*HandleManaRegen(time, last_cast_time, stats, &mana, &regen_ticks);
     if (time >= end_at_s) {
       break;
@@ -220,7 +234,7 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
     from_rem_mana_b *= 1.2;
   }
   float from_rem_mana = std::max(from_rem_mana_a, from_rem_mana_b);
-  if (verbose) std::cout << "mana: " << mana << ", in_full_regen: " << in_full_regen << ", from_rem_mana_a: " << from_rem_mana_a
+  if (verbose) std::cout << "    mana: " << mana << ", in_full_regen: " << in_full_regen << ", from_rem_mana_a: " << from_rem_mana_a
       << ", from_rem_mana_b: " << from_rem_mana_b << ", heal_sum: " << heal_sum << " -> ";
   if (heal_sum_before_oom_or_end == 0.0f) {
     heal_sum_before_oom_or_end = heal_sum;
@@ -231,8 +245,9 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
   info.oom_penalty_mul = 1.0f - (total_ticks_oom*2.0f)/(time*5);
 
   float hps = heal_sum/time;
+  info.hps = hps;
   // Check that our regen does not cause target to die. Assumes hps = steady dps in,
-  float target_alive = global::assumptions.target_hp/hps;
+  float target_alive = global::assumptions.target_hp/Dps(end_at_s);
   if (target_alive < ticks*2) {
     // 5% hps drop per second of excess regen
     float mul = 1.0f - (ticks*2 - target_alive)*0.05;
