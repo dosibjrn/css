@@ -31,6 +31,9 @@ float Stats::getEffectiveHp(float attacker_level, float attacker_attack, float p
   float phys_through = std::max(0.0, std::min(1.0 - phys_reduction, 1.0));
   phys_through *= std::max(0.0, std::min(1.0, (100.0 - (c_.dodge + (c_.agility/agi_to_dodge_ratio) + (c_.defense - attacker_attack) * 0.04))/100.0));
   // TODO: parry for other classes
+  if (c_.talents.shadowform) {
+    phys_through *= 0.85f;
+  }
 
   float arcane_reduction = std::max(0.0, std::min(1.0, (c_.arcane_res / (attacker_level * 5)) * 0.75));
   float nature_reduction = std::max(0.0, std::min(1.0, (c_.nature_res / (attacker_level * 5)) * 0.75));
