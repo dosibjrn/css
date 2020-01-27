@@ -223,9 +223,9 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
       m_pve_info = getPveInfo(m_c_best);
       global::assumptions.target_dps_in.clear();
       for (auto info : m_pve_info) {
-        global::assumptions.target_dps_in.push_back(info.hps * 0.8);
+          global::assumptions.target_dps_in.push_back(info.hps * 0.8f);
       }
-      
+
       if (1) {
         std::cout << std::endl << "*** NEW BEST (" << !disable_bans << "): " << *best << std::endl;
         if (iteration > 5 && (disable_bans || !m_items_prev_intermediate_results.empty())) CoutCurrentValues();
@@ -238,17 +238,8 @@ void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans
                                   int* static_for_all_slots, int* iters_without_new_best)
 {
   {
-    bool was_partial = m_c_curr.set_bonuses.getPartial();
     m_c_curr.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_curr);
     m_c_best.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_best);
-    bool is_partial = m_c_curr.set_bonuses.getPartial();
-    // if (was_partial != is_partial) {
-      // if (is_partial) {
-        // m_val_best_bans_on = value(m_c_best);
-      // } else {
-        // m_val_best = value(m_c_best);
-      // }
-    // }
   }
   std::vector<std::string> slots = item_table.getItemSlots();
   if (m_items.empty()) {
@@ -507,15 +498,21 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
     std::vector<std::pair<std::string, float>> diffs;
     PriestCharacter c_tmp = m_c_best;
 
-    auto curr_item = m_items_best.at(slot);
-    if (from_start) {
-      curr_item = m_items_start.at(slot);
+    Item curr_item;
+    if (m_items_best.find(slot) != m_items_best.end()) {
+        curr_item = m_items_best.at(slot);
+    }
+    if (from_start && m_items_start.find(slot) != m_items_start.end()) {
+        curr_item = m_items_start.at(slot);
     }
     RemoveItem(curr_item, &c_tmp);
 
     float val_no_item = value(c_tmp);
 
-    auto start_item = items_start.at(slot);
+    Item start_item;
+    if (items_start.find(slot) != items_start.end()) {
+        start_item = items_start.at(slot);
+    }
     AddItem(start_item, &c_tmp);
     float val_start = value(c_tmp);
 
@@ -627,7 +624,7 @@ void ItemPicker::Calculate()
   m_val_best = 0.0f;
 
   int iteration = 0;
-  bool verbose = false;
+  //  bool verbose = false;
   constexpr int max_static_for_all_slots = 10;
   const int max_iters_without_new_best = max_iterations/10;
   int iters_without_new_best = 0;

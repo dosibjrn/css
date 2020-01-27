@@ -1,5 +1,6 @@
 #include "stats.h"
 
+#include <algorithm>
 #include <iostream>
 
 #include "spells_priest_disc.h"

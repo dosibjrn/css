@@ -1,8 +1,9 @@
 #include "hps.h"
 
+#include <algorithm>
 #include <cassert>
-#include <cmath>
 #include <chrono>
+#include <cmath>
 #include <iostream>
 #include <numeric>
 

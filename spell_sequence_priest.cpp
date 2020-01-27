@@ -1,5 +1,7 @@
 #include "spell_sequence_priest.h"
 
+#include <algorithm>
+
 #include "spells_priest_shadow.h"
 #include "spells_priest_disc.h"
 

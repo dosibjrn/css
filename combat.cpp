@@ -1,5 +1,6 @@
 #include "combat.h"
 
+#include <algorithm>
 #include <iostream>
 
 #include "fight_result.h"
