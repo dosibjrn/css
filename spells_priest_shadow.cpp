@@ -136,7 +136,7 @@ Spell Swp(const PriestCharacter&c, int rank)
 
   ModifySpell(c, &s);
   s.tick_after = 3.0f;
-  s.num_ticks = 6 + c.talents.imp_swp;
+  s.num_ticks = 6.0f + c.talents.imp_swp;
   return s;
 }
 
@@ -187,7 +187,7 @@ Spell MindFlay(const PriestCharacter& c, int rank, int ticks)
 
   ModifySpell(c, &s);
   s.tick_after = 1.0f;
-  s.num_ticks = ticks;
+  s.num_ticks = static_cast<float>(ticks);
   s.channeled = true;
   return s;
 }

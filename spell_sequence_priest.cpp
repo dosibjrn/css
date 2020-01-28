@@ -45,11 +45,11 @@ std::vector<Spell> SpellsSequencePaistiLvl52(const PriestCharacter& c, int mind_
                                              float flay_down_rank, float blast_down_rank)
 {
   std::vector<Spell> spells;
-  int blast_base_down_rank = blast_down_rank;
+  int blast_base_down_rank = static_cast<int>(blast_down_rank);
   float blast_rem_down_rank = blast_down_rank - blast_base_down_rank;
   float blast_additional_down_rank_sum = 0.0f;
 
-  int flay_base_down_rank = flay_down_rank;
+  int flay_base_down_rank = static_cast<int>(flay_down_rank);
   float flay_rem_down_rank = flay_down_rank - flay_base_down_rank;
   float flay_additional_down_rank_sum = 0.0f;
 
@@ -76,7 +76,7 @@ std::vector<Spell> SpellsSequencePaistiLvl52(const PriestCharacter& c, int mind_
       ticks = std::min(2, mind_flay_ticks);
     }
     flay_additional_down_rank_sum += flay_rem_down_rank;
-    spells.push_back(MindFlay(c, std::max<int>(1, std::min<int>(flay_max_rank, flay_max_rank - (flay_base_down_rank + flay_additional_down_rank_sum))), ticks));
+    spells.push_back(MindFlay(c, std::max<int>(1, std::min<int>(flay_max_rank, static_cast<int>(flay_max_rank - (flay_base_down_rank + flay_additional_down_rank_sum)))), ticks));
     if (flay_additional_down_rank_sum >= 1.0f) {
       flay_additional_down_rank_sum -= 1.0f;
     }
@@ -89,7 +89,7 @@ std::vector<Spell> SpellsSequencePaistiLvl52(const PriestCharacter& c, int mind_
   }
   while (mind_blasts > 0) {
     blast_additional_down_rank_sum += blast_rem_down_rank;
-    spells.push_back(MindBlast(c, std::max<int>(1, std::min<int>(blast_max_rank, blast_max_rank - (blast_base_down_rank + blast_additional_down_rank_sum)))));
+    spells.push_back(MindBlast(c, std::max<int>(1, std::min<int>(blast_max_rank, static_cast<int>(blast_max_rank - (blast_base_down_rank + blast_additional_down_rank_sum))))));
     if (blast_additional_down_rank_sum >= 1.0f) {
       blast_additional_down_rank_sum -= 1.0f;
     }

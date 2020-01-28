@@ -9,14 +9,14 @@
 int LevelingStats(int argc, char** argv)
 {
   if (argc > 2) {
-    css::globals::setTimeToPull(std::atof(argv[2]));
+    css::globals::setTimeToPull(static_cast<float>(std::atof(argv[2])));
     std::cout << "Setting time to pull: " << css::globals::getTimeToPull() << std::endl;
   }
   std::vector<css::FightResult> results(6);
   css::Mob mob;
   std::vector<float> mob_healths{3000, 3200, 3400, 3600};
   std::vector<float> multis{1.1f, 1.2f, 1.3f};
-  int count = mob_healths.size()*multis.size();
+  int count = static_cast<int>(mob_healths.size()*multis.size());
   for (auto mob_health : mob_healths) {
     // for (auto medi : meditations) {
       for (auto multi : multis) {
@@ -29,8 +29,8 @@ int LevelingStats(int argc, char** argv)
         auto result = css::RelativeValues(paisti, multi, mob);
         int i = 0;
         for (auto res : result) {
-          fightResultMul(1.0f/count, &result[i]);
-          results[i] = fightResultSum(result[i], results[i]);
+          fightResultMul(1.0f/count, &res);
+          results[i] = fightResultSum(res, results[i]);
           i++;
         }
       }

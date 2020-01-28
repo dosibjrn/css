@@ -192,7 +192,7 @@ Water BestWater(const PriestCharacter &c)
 float DrinkToFull(const Stats& stats, const Water& water, const FightResult& fr, float current_mana)
 {
   float max_mana = stats.getMaxMana();
-  int normal_ticks = fr.time_to_out_of_fsr/2.0f;
+  int normal_ticks = static_cast<int>(fr.time_to_out_of_fsr/2.0f);
   float time = 0.0f;
   int spirit_tap_max_ticks = 7;
   float last_water_tick = 0.0f;
@@ -225,7 +225,7 @@ float DrinkToFull(const Stats& stats, const Water& water, const FightResult& fr,
 
 float RegenForNext(const Stats& stats, const FightResult& fr, int ticks_for_next, float *current_mana)
 {
-  int normal_ticks = fr.time_to_out_of_fsr/2.0f;
+  int normal_ticks = static_cast<int>(fr.time_to_out_of_fsr/2.0f);
   float time = 0.0f;
   int i = 0;
   int spirit_tap_max_ticks = 7;
@@ -258,7 +258,6 @@ FightResult FightMobs(const PriestCharacter& c, const std::vector<Spell>& spells
   FightResult fr;
   Stats stats(c);
   auto water = BestWater(c);  // best for level
-  float regen_after_kill;
   float current_mana = stats.getMaxMana();
   float time_elapsed = 0.0f;
   float regen_for_next_sum = 0.0f;
@@ -286,13 +285,13 @@ FightResult FightMobs(const PriestCharacter& c, const std::vector<Spell>& spells
     fr.regen_for_next_time = regen_for_next_sum/regen_for_next_count;
   }
   fr.mobs_per_min = n_killed/(time_elapsed/60.0f);
-  fr.mobs_per_drink = n_killed;
+  fr.mobs_per_drink = static_cast<float>(n_killed);
   return fr;
 }
 FightResult BestMobsPerMin(const PriestCharacter&c, const Mob& mob) {
   FightResult bfr;
   std::vector<int> ticks_for_next_opts;
-  for (int i = globals::getTimeToPull()/2; i < 10; ++i) {
+  for (int i = static_cast<int>(globals::getTimeToPull()/2); i < 10; ++i) {
     ticks_for_next_opts.push_back(i);
   }
 
@@ -325,12 +324,12 @@ FightResult BestMobsPerMin(const PriestCharacter&c, const Mob& mob) {
                 FightResult fr = FightMobs(c, spells, mob, ticks_for_next);
                 if (fr.mobs_per_min > bfr.mobs_per_min) {
                   bfr = fr;
-                  bfr.flay_ticks = ticks;
-                  bfr.blasts = blasts;
-                  bfr.shields = shields;
-                  bfr.touches = touches;
-                  bfr.flay_down_rank = flay_down_rank;
-                  bfr.blast_down_rank = blast_down_rank;
+                  bfr.flay_ticks = static_cast<float>(ticks);
+                  bfr.blasts = static_cast<float>(blasts);
+                  bfr.shields = static_cast<float>(shields);
+                  bfr.touches = static_cast<float>(touches);
+                  bfr.flay_down_rank = static_cast<float>(flay_down_rank);
+                  bfr.blast_down_rank = static_cast<float>(blast_down_rank);
                 }
               }
             }
@@ -354,7 +353,7 @@ std::vector<FightResult> RelativeValues(const PriestCharacter& c, float multipli
 
   // int
   auto c_int = c;
-  c_int.intelligence *= (2.0*multiplier);
+  c_int.intelligence *= (2.0f*multiplier);
   // std::cout << "Int: " << c.intelligence << " vs. " << c_int.intelligence << std::endl;
   auto int_fr = BestMobsPerMin(c_int, mob);
   float int_mobs_per_min = int_fr.mobs_per_min;
@@ -396,7 +395,7 @@ std::vector<FightResult> RelativeValues(const PriestCharacter& c, float multipli
 
   // mp5
   auto c_mp5 = c;
-  c_mp5.mp5 = std::max<int>(c.mp5 + 10, c.mp5*multiplier);  //
+  c_mp5.mp5 = std::max<float>(c.mp5 + 10, c.mp5*multiplier);  //
   // std::cout << "Mp5: " << c.mp5 << " vs. " << c_mp5.mp5 << std::endl;
   auto mp5_fr = BestMobsPerMin(c_mp5, mob);
   float mp5_mobs_per_min = mp5_fr.mobs_per_min;

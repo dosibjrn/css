@@ -32,7 +32,7 @@ float ItemPicker::valuePvpShadow(const PriestCharacter& c) const
   float ehp = s.getEffectiveHpPvp();
   return dps*dps*emana*ehp*ehp
       *((100.0f + 2.5f*std::min(6.0f, c.spell_hit))/100.0f)
-      /1e15;
+      /1e15f;
 }
 
 float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
@@ -52,14 +52,14 @@ float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
   return hps*hps*emana*ehp*ehp
       // Note: this is just based on hydra's post raid bis where the 2 hit pieces are picked over everything else
       *((100.0f + 2.5f*std::min(6.0f, c.spell_hit))/100.0f)
-      /1e15;
+      /1e15f;
 }
 
 float ItemPicker::valuePveHealing(const PriestCharacter& c) const
 {
   float weight_sum = 0.0;
   float hps_sum = 0.0f;
-  int n_combats = m_pve_healing_combat_lengths.size();
+  int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
   Stats stats(c);
 
   auto regens = m_curr_regens;
@@ -83,7 +83,7 @@ std::vector<PveInfo> ItemPicker::getPveInfo(const PriestCharacter& c) const
   if (m_value_choice != ValueChoice::pve_healing) {
     return std::vector<PveInfo>(m_pve_healing_combat_lengths.size());
   }
-  int n_combats = m_pve_healing_combat_lengths.size();
+  int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
   Stats stats(c);
 
   auto regens = m_curr_regens;
@@ -118,12 +118,12 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   , m_item_table_name(item_table_name)
   , m_value_choice(value_choice)
 {
-  unsigned my_seed = std::chrono::system_clock::now().time_since_epoch().count();
+  unsigned my_seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
   std::cout << "Shuffle seed: " << my_seed << std::endl;
   m_generator.seed(my_seed);
 
   if (m_value_choice == ValueChoice::pve_healing) {
-    int n_combats = m_pve_healing_combat_lengths.size();
+      int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
     m_curr_pve_healing_counts.resize(n_combats);
     std::vector<float> init = InitialSpellCounts();
     for (int i = 0; i < n_combats; ++i) {
@@ -174,8 +174,8 @@ bool ItemPicker::isBanned(std::string s) const {
 }
 
 bool SameItems(const std::map<std::string, Item>& a, const std::map<std::string, Item>& b) {
-  int a_size = a.size();
-  int b_size = b.size();
+  int a_size = static_cast<int>(a.size());
+  int b_size = static_cast<int>(b.size());
 
   if (a_size != b_size) {
     return false;
@@ -706,7 +706,7 @@ std::vector<std::vector<float>> ItemPicker::bestCounts(const PriestCharacter& c,
 {
 
   std::vector<std::vector<float>> counts_out = init_counts;
-  int n_combats = m_pve_healing_combat_lengths.size();
+  int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
   Stats stats(c);
   for (int combat_ix = 0; combat_ix < n_combats; ++combat_ix) {
     counts_out[combat_ix]
@@ -720,8 +720,8 @@ std::vector<std::vector<float>> ItemPicker::bestCounts(const PriestCharacter& c,
 void ItemPicker::CoutBestCounts() const
 {
   if (m_value_choice == ValueChoice::pve_healing) {
-    int n_combats = m_pve_healing_combat_lengths.size();
-    int n_spells = m_best_pve_healing_counts[0].size();
+    int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
+    int n_spells = static_cast<int>(m_best_pve_healing_counts[0].size());
     for (int combat_ix = 0; combat_ix < n_combats; combat_ix++) {
       float dura = m_pve_healing_combat_lengths[combat_ix];
       std::cout << "For " << dura << " s fights:" << std::endl;
@@ -774,7 +774,7 @@ void ItemPicker::CoutCharacterStats() const
   std::cout << "Value pvp healing: " << valuePvpHealing(m_c_curr) << std::endl;
   std::cout << "Value pvp shadow: " << valuePvpShadow(m_c_curr) << std::endl;
   std::cout << "Effective hp-pvp: " << s.getEffectiveHpPvp() << std::endl;
-  std::cout << "Effecctive mana for 100 s, 0.33 fsr: " << s.getEffectiveMana(100, 0.33) << std::endl;
+  std::cout << "Effecctive mana for 100 s, 0.33 fsr: " << s.getEffectiveMana(100.f, 0.33f) << std::endl;
 }
 
 
@@ -790,11 +790,10 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   Item no_item;
   Item best_item = no_item;
   float best_value = value(c_no_item);
-  float no_item_val = best_value;
   if (verbose) std::cout << "No item value: " << best_value << std::endl;
   bool locked_seen = false;
-  int n_items = items_for_slot.size();
-  std::vector<double> vals(n_items);
+  int n_items = static_cast<int>(items_for_slot.size());
+  std::vector<float> vals(n_items);
 #pragma omp parallel for
   for (int i = 0; i < n_items; ++i) {
     const Item& item = items_for_slot[i];
@@ -857,11 +856,11 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
     &c.spell_hit,      &c.arcane_res,   &c.nature_res,   &c.fire_res,   &c.frost_res,   &c.shadow_res,   &c.armor, &c.defense,       &c.dodge, &c.parry};
   std::vector<float> steps =            {1,               1,         1,          1,          1,     1,             1,                  1,             1,
     1,                 10,              10,              10,            10,             10,              100,      1,                1,              1};
-  int n_vals = stat_names.size();
+  int n_vals = static_cast<int>(stat_names.size());
   int ref_ix = 5;
 
 
-  int diff = 50*steps[ref_ix];
+  int diff = static_cast<int>(50*steps[ref_ix]);
   *(stat_ptrs[ref_ix]) += diff;
   float ref_val_diff = value(c) - val_start;
 
@@ -892,8 +891,8 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
       }
       if (diff_required/steps[i] > diff/steps[ref_ix] && val <= val_start) {
         obtained_val_diff = val - val_start;
-        diff_required = 1e20;
-        diff_required_sum += 1e20;
+        diff_required = 1e20f;
+        diff_required_sum += 1e20f;
         break;
       }
       if (diff_required/steps[i] > max_tries) {

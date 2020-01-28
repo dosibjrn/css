@@ -39,7 +39,7 @@ Spell FlashHeal(const PriestCharacter& c, int rank)
   s.rank = rank;
   s.name = "Flash Heal";
   s.level_req = vals[rank][0];
-  s.cost = vals[rank][1];
+  s.cost = static_cast<float>(vals[rank][1]);
   s.healing = 0.5f*(vals[rank][2] + vals[rank][3]);
   s.modifier = 0.4285f;
   s.can_crit = true;
@@ -88,8 +88,8 @@ Spell Renew(const PriestCharacter& c, int rank)
   s.name = "Renew";
   s.instant = true;
   s.level_req = vals[rank][0];
-  s.cost = vals[rank][1];
-  s.healing = vals[rank][2];
+  s.cost = static_cast<float>(vals[rank][1]);
+  s.healing = static_cast<float>(vals[rank][2]);
   s.over_time = true;
 
   // ticks
@@ -97,7 +97,7 @@ Spell Renew(const PriestCharacter& c, int rank)
   s.num_ticks = 5;
   s.tick_after = 3.0f;
   s.modifier = 0.20f;
-  s.healing *= 1.0f + c.talents.imp_renew*0.05;
+  s.healing *= 1.0f + c.talents.imp_renew*0.05f;
   s.can_crit = false;
   s.type = School::Holy;
   ModifySpell(c, &s);
@@ -121,7 +121,7 @@ Spell GreaterHeal(const PriestCharacter& c, int rank) {
   s.name = "Greater Heal";
   s.cast_time = 3.0f;
   s.level_req = vals[rank][0];
-  s.cost = vals[rank][1];
+  s.cost = static_cast<float>(vals[rank][1]);
   s.healing = 0.5f*(vals[rank][2] + vals[rank][3]);
   s.modifier = s.cast_time/3.5f;
   s.can_crit = true;
@@ -161,7 +161,7 @@ Spell Heal(const PriestCharacter& c, int rank) {
   s.name = "Heal";
   s.cast_time = 3.0f;
   s.level_req = vals[rank][0];
-  s.cost = vals[rank][1];
+  s.cost = static_cast<float>(vals[rank][1]);
   s.healing = 0.5f*(vals[rank][2] + vals[rank][3]);
   s.modifier = s.cast_time/3.5f;
   s.can_crit = true;
@@ -186,7 +186,7 @@ Spell PrayerOfHealing(const PriestCharacter& c, int rank, int targets)
   s.name = "Prayer of Healing";
   s.cast_time = 3.0f;
   s.level_req = vals[rank][0];
-  s.cost = vals[rank][1];
+  s.cost = static_cast<float>(vals[rank][1]);
   s.healing = 0.5f*(vals[rank][2] + vals[rank][3])*targets;
   s.modifier = (s.cast_time/3.5f)/3.0f;
   s.can_crit = true;

@@ -28,24 +28,24 @@ float Stats::getEffectiveHp(float attacker_level, float attacker_attack, float p
   nature /= school_sum;
 
   const float agi_to_dodge_ratio = 20;  // TODO check
-  float phys_reduction = (c_.armor + c_.agility*2) / (c_.armor + c_.agility*2 + 400 + 85 * (attacker_level + 4.5 * (attacker_level - 59)));
-  float phys_through = std::max(0.0, std::min(1.0 - phys_reduction, 1.0));
-  phys_through *= std::max(0.0, std::min(1.0, (100.0 - (c_.dodge + (c_.agility/agi_to_dodge_ratio) + (c_.defense - attacker_attack) * 0.04))/100.0));
+  float phys_reduction = (c_.armor + c_.agility*2) / (c_.armor + c_.agility*2 + 400.0f + 85.0f * (attacker_level + 4.5f * (attacker_level - 59.0f)));
+  float phys_through = std::max(0.0f, std::min(1.0f - phys_reduction, 1.0f));
+  phys_through *= std::max(0.0f, std::min(1.0f, (100.0f - (c_.dodge + (c_.agility/agi_to_dodge_ratio) + (c_.defense - attacker_attack) * 0.04f))/100.0f));
   if (c_.talents.shadowform) {
     phys_through *= 0.85f;
   }
 
-  float arcane_reduction = std::max(0.0, std::min(1.0, (c_.arcane_res / (attacker_level * 5)) * 0.75));
-  float nature_reduction = std::max(0.0, std::min(1.0, (c_.nature_res / (attacker_level * 5)) * 0.75));
-  float fire_reduction = std::max(0.0, std::min(1.0, (c_.fire_res / (attacker_level * 5)) * 0.75));
-  float frost_reduction = std::max(0.0, std::min(1.0, (c_.frost_res / (attacker_level * 5)) * 0.75));
-  float shadow_reduction = std::max(0.0, std::min(1.0, (c_.shadow_res / (attacker_level * 5)) * 0.75));
+  float arcane_reduction = std::max(0.0f, std::min(1.0f, (c_.arcane_res / (attacker_level * 5)) * 0.75f));
+  float nature_reduction = std::max(0.0f, std::min(1.0f, (c_.nature_res / (attacker_level * 5)) * 0.75f));
+  float fire_reduction = std::max(0.0f, std::min(1.0f, (c_.fire_res / (attacker_level * 5)) * 0.75f));
+  float frost_reduction = std::max(0.0f, std::min(1.0f, (c_.frost_res / (attacker_level * 5)) * 0.75f));
+  float shadow_reduction = std::max(0.0f, std::min(1.0f, (c_.shadow_res / (attacker_level * 5)) * 0.75f));
 
   Spell shield = Shield(c_, 10); 
   float ehp = c_.base_hp + (c_.stamina + 70)*10.0f + 2.0f*shield.shield;
   float ehp_was = ehp;
-  ehp /= (phys*phys_through + arcane*(1.0 - arcane_reduction) + nature*(1.0 - nature_reduction) + fire*(1.0 - fire_reduction)
-          + frost*(1.0 - frost_reduction) + shadow*(1.0 - shadow_reduction) + holy);
+  ehp /= (phys*phys_through + arcane*(1.0f - arcane_reduction) + nature*(1.0f - nature_reduction) + fire*(1.0f - fire_reduction)
+          + frost*(1.0f - frost_reduction) + shadow*(1.0f - shadow_reduction) + holy);
   // if (c_.armor > 50 || c_.frost_res > 50 || c_.dodge > 50) {
   // if (c_.armor > 3050) {
   if (0) {
@@ -64,20 +64,13 @@ float Stats::getEffectiveHpPvp() const
 {
   float attacker_level = 60;
   float attacker_attack = 300;
-  float phys = 0.45;
-  float arcane = 0.05;
-  float nature = 0.05;
-  float fire = 0.1;
-  float frost = 0.2;
-  float shadow = 0.13;
-  float holy = 0.05;
-  // float phys = 0.45;
-  // float frost = 0.1;
-  // float shadow = 0.1;
-  // float fire = 0.1;
-  // float nature = 0.1;
-  // float holy = 0.05;
-  // float arcane = 0.1;
+  float phys = 0.45f;
+  float arcane = 0.05f;
+  float nature = 0.05f;
+  float fire = 0.1f;
+  float frost = 0.2f;
+  float shadow = 0.13f;
+  float holy = 0.05f;
   return getEffectiveHp(attacker_level, attacker_attack, phys, 
                         arcane, nature, fire, frost, shadow, holy);
 }
@@ -86,7 +79,7 @@ float Stats::getEffectiveHpPvp() const
 void Stats::CoutStats() const
 {
   std::cout << "Effective hp: " << getEffectiveHp() << std::endl;
-  std::cout << "Effective mana: " << getEffectiveMana(100, 2.0/3.0) << std::endl;
+  std::cout << "Effective mana: " << getEffectiveMana(100.0f, 2.0f/3.0f) << std::endl;
   std::cout << "Raw max mana: " << getMaxMana() << std::endl;
   std::cout << "Int: " << c_.intelligence << std::endl;
   std::cout << "Stam: " << c_.stamina << std::endl;

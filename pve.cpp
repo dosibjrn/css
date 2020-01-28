@@ -19,7 +19,7 @@ std::pair<bool, float> ParseFloat(const std::string& key, int* argc, char **argv
     }
     if (strcmp(argv[i], key.c_str()) == 0) {
       if (i + 1 < *argc) {
-        val = atof(argv[i + 1]);
+        val = static_cast<float>(atof(argv[i + 1]));
         i++;
         seen = true;
       }

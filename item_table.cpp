@@ -121,7 +121,7 @@ std::string source_name = "source";
 
 int IxFrom(const std::vector<std::string>& splitted, const std::string& name)
 {
-  int size = splitted.size();
+  int size = static_cast<int>(splitted.size());
   for (int i = 0; i < size; ++i) {
     if (splitted[i] == name) {
       return i;
@@ -135,7 +135,7 @@ float FloatWithCheck(const std::vector<std::string>& splitted, int ix)
   if (ix < 0 || ix >= splitted.size()) {
     return 0.0f;
   } else {
-    return atof(splitted[ix].c_str());
+    return static_cast<float>(atof(splitted[ix].c_str()));
   }
 }
 

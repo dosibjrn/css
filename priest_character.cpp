@@ -55,7 +55,7 @@ PriestCharacter PaistiLvl60PvPShadow()
   paisti.base_hp = 1387.0f;
   paisti.spirit = 204;
   paisti.sp = 215;
-  paisti.wand.dps = 62.6;
+  paisti.wand.dps = 62.6f;
   paisti.wand.speed = 1.9f;
   paisti.wand.type = School::Arcane;
   paisti.talents.meditation = 3;
@@ -78,7 +78,7 @@ PriestCharacter PaistiLvl60PvPShadowIter2()
   paisti.spirit = 211;
   paisti.sp = 149;
   paisti.mp5 = 3;
-  paisti.wand.dps = 62.6;
+  paisti.wand.dps = 62.6f;
   paisti.wand.speed = 1.9f;
   paisti.wand.type = School::Arcane;
   paisti.talents.meditation = 3;
@@ -100,7 +100,7 @@ PriestCharacter PaistiLvl60PvPShadowIter3()
   paisti.base_hp = 1387.0f;
   paisti.spirit = 202;
   paisti.sp = 144;
-  paisti.wand.dps = 62.6;
+  paisti.wand.dps = 62.6f;
   paisti.wand.speed = 1.9f;
   paisti.wand.type = School::Arcane;
   paisti.talents.meditation = 3;
@@ -122,7 +122,7 @@ PriestCharacter PaistiLvl60PvPShadowIter4()
   paisti.base_hp = 1387.0f;
   paisti.spirit = 211;
   paisti.sp = 149;
-  paisti.wand.dps = 62.6;
+  paisti.wand.dps = 62.6f;
   paisti.wand.speed = 1.9f;
   paisti.wand.type = School::Arcane;
   paisti.talents.meditation = 3;
@@ -144,7 +144,7 @@ PriestCharacter PaistiLvl60PvPShadowRaid1()
   paisti.base_hp = 1387.0f;
   paisti.spirit = 268;
   paisti.sp = 166;
-  paisti.wand.dps = 62.6;
+  paisti.wand.dps = 62.6f;
   paisti.wand.speed = 1.9f;
   paisti.wand.type = School::Arcane;
   paisti.talents.meditation = 3;
@@ -260,7 +260,7 @@ void ApplyBuffs(PriestCharacter *c) {
   if (global::assumptions.flask) {
     // Flask of distilled wisdom: -crit to affet only mana.
     c->intelligence += 133.333333f;
-    c->spell_crit += -2.244668911;
+    c->spell_crit += -2.244668911f;
   }
 
   if (global::assumptions.fort) {

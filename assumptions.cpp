@@ -25,7 +25,7 @@ void SetVal(const std::vector<float>& vals_in, std::vector<T>* vals_out)
   vals_out->clear();
   std::cout << "saw vals: ";
   for (auto val : vals_in) {
-    vals_out->push_back(val);
+    vals_out->push_back(static_cast<T>(val));
     std::cout << val << " ";
   }
   std::cout << std::endl;
@@ -34,7 +34,7 @@ void SetVal(const std::vector<float>& vals_in, std::vector<T>* vals_out)
 template<typename T>
 void SetVal(const std::vector<float>& vals_in, T* val_out)
 {
-  *val_out = vals_in[0];
+  *val_out = static_cast<T>(vals_in[0]);
   std::cout << "saw val: " << vals_in[0] << std::endl;
 }
 
@@ -62,7 +62,7 @@ std::map<std::string, std::vector<float>> AssumptionsToMap(const std::string &fn
         std::string key = entries[0];
         assumptions_in[key] = std::vector<float>();
         for (int i = 1; i < entries.size(); ++i) {
-          assumptions_in[key].push_back(atof(entries[i].c_str()));
+          assumptions_in[key].push_back(static_cast<float>(atof(entries[i].c_str())));
         }
       }
     }

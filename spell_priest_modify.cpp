@@ -11,7 +11,7 @@ namespace css
 void ModifySpell(const PriestCharacter& c, Spell* s)
 {
   s->cost *= 1.0f - (c.talents.mental_agility * 0.02f);
-  float bonus_sp = c.talents.spiritual_guidance*0.05*c.spirit;
+  float bonus_sp = c.talents.spiritual_guidance*0.05f*c.spirit;
   if (s->shield > 0.0f) {
     s->shield += (c.sp + c.sp_healing + bonus_sp)*s->modifier;
   }
@@ -25,12 +25,12 @@ void ModifySpell(const PriestCharacter& c, Spell* s)
     }
   }
 
-  s->healing *= 1.0f + 0.02*c.talents.spiritual_healing;
+  s->healing *= 1.0f + 0.02f*c.talents.spiritual_healing;
   if (s->name == "Lesser Heal" || s->name == "Heal" || s->name == "Greater Heal") {
     s->cost *= 1.0f - 0.05f*c.talents.improved_healing;
   }
   if (s->name == "Heal" || s->name == "Greater Heal" || s->name == "Smite" || s->name == "Holy Fire") {
-    s->cast_time -= 0.1*c.talents.divine_fury;
+    s->cast_time -= 0.1f*c.talents.divine_fury;
   }
   if (s->instant) {
     s->cost *= 1.0f - 0.02f*c.talents.mental_agility;
@@ -48,19 +48,18 @@ void ModifySpell(const PriestCharacter& c, Spell* s)
   if (s->can_crit) {
     float more_crit = 0.0f;
     if (s->type == School::Holy) {
-      more_crit = c.talents.holy_specialization;
+        more_crit = static_cast<float>(c.talents.holy_specialization);
     }
-    s->damage *= 1.0 + (0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
+    s->damage *= 1.0f + (0.01f*(c.spell_crit + more_crit + c.intelligence/59.4f));
     float not_overhealing = global::assumptions.healing_from_crit_fraction;
-    s->healing *= 1.0 + not_overhealing*(0.01*(c.spell_crit + more_crit + c.intelligence/59.4));
+    s->healing *= 1.0f + not_overhealing*(0.01f*(c.spell_crit + more_crit + c.intelligence/59.4f));
   }
 
   // Darkmoon card
   if (c.set_bonuses.getTotalBonus().name.find("darkmoon") != std::string::npos) {
     Stats stats(c);
-    float average_gain_per_spell = 7.5*0.02*(stats.getManaRegenTickOutOfFsr() - stats.getManaRegenTickUnderFsr());
+    float average_gain_per_spell = 7.5f*0.02f*(stats.getManaRegenTickOutOfFsr() - stats.getManaRegenTickUnderFsr());
     s->cost -= average_gain_per_spell;
-    // std::cout << "Darkmoon on boi!, reduction: " << average_gain_per_spell << std::endl;
   }
 }
 

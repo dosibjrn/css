@@ -13,7 +13,7 @@ namespace css
 namespace {
 std::string getSetName(const std::string& item_name)
 {
-  int s = item_name.size();
+  int s = static_cast<int>(item_name.size());
   if (item_name.substr(0, 6) == "devout") { return "devout"; }
   if (item_name.substr(0, 6) == "dreadm") { return "dreadmist"; }
   if (item_name.substr(0, 6) == "necrop") { return "necropile"; }
@@ -154,7 +154,7 @@ void SetBonuses::addItem(const Item& item, const SetBonusListType& bonus_list, I
     (*sets)[set_name] = s;
   }
   (*sets)[set_name].insert(item.name);
-  int items_of_set = (*sets)[set_name].size();
+  int items_of_set = static_cast<int>((*sets)[set_name].size());
   std::stringstream ss;
   ss << set_name << " " << items_of_set;
   std::string bonus_name = ss.str();
@@ -198,7 +198,7 @@ void SetBonuses::removeItem(const Item& item, const SetBonusListType& bonus_list
     std::cout << "!!!! Trying to remove non existing item: " << item.name << " from set: " << set_name << "??? come on." << std::endl;
     return;
   }
-  int items_of_set = (*sets)[set_name].size();
+  int items_of_set = static_cast<int>((*sets)[set_name].size());
   (*sets)[set_name].erase(item_it);
   std::stringstream ss;
   ss << set_name << " " << items_of_set;

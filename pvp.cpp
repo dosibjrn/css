@@ -21,7 +21,7 @@ void PvpStats(const PriestCharacter &c)
   float rel_imp_per_100_sp = (dps_b/dps_a - 1.0f);
 
   std::cout << "100 sp, dps from: " << dps_a << " to : " << dps_b << " which was a " << rel_imp_per_100_sp*100
-      << "\% improvement." << std::endl;
+      << "% improvement." << std::endl;
 
 
   rel_imp_per_100_sp = (1.0f + rel_imp_per_100_sp)*(1.0f + rel_imp_per_100_sp) - 1.0f;
@@ -38,8 +38,8 @@ void PvpStats(const PriestCharacter &c)
   float combat_dur = 100.0f;
   float under_fsr = 2.0f/3.0f;
 
-  int no_fsr_ticks = (combat_dur * (1.0f - under_fsr))/2.0f;
-  int fsr_ticks = combat_dur/2.0f - no_fsr_ticks;
+  int no_fsr_ticks = static_cast<int>((combat_dur * (1.0f - under_fsr))/2.0f);
+  int fsr_ticks = static_cast<int>(combat_dur/2.0f - no_fsr_ticks);
   Stats s(c);
   float effective_mana = s.getMaxMana() + no_fsr_ticks*s.getManaRegenTickOutOfFsr()
       + fsr_ticks*s.getManaRegenTickUnderFsr();
@@ -51,7 +51,7 @@ void PvpStats(const PriestCharacter &c)
   float matching_mp5 = (effective_mana*rel_imp_per_100_sp)/(combat_dur/5.0f);
   std::cout << "Or " << matching_mp5 << " mp5" << std::endl;
 
-  float mana_goal = effective_mana*(1.0 + rel_imp_per_100_sp); 
+  float mana_goal = effective_mana*(1.0f + rel_imp_per_100_sp);
   std::cout << "For spirit, we wanted to get effective_mana of: " << mana_goal << std::endl;
   
   float spirit_attempt = 100.0f/35.0f*matching_int;
@@ -82,7 +82,7 @@ void PvpStats(const PriestCharacter &c)
   std::cout << "Your stats btw: " << std::endl;
 
   std::cout << "Dps: " << dps_a << std::endl;
-  std::cout << "Effective mana for " << combat_dur << " s fight with " << under_fsr*100 << "\% in fsr: " << effective_mana << std::endl;
+  std::cout << "Effective mana for " << combat_dur << " s fight with " << under_fsr*100.0f << "% in fsr: " << effective_mana << std::endl;
   std::cout << "Effective hp: " << ehp_start << std::endl;
   std::cout << "dps*dps*emana*ehp/1e12: " << (dps_a*dps_a*ehp_start*effective_mana)/1e12 << std::endl;
 }
@@ -107,7 +107,7 @@ int PvpStatsVsBase(int argc, char** argv)
   float dps_a = ShadowDps(a);
   float dps_b = ShadowDps(b);
   float sp_rel_imp_sq = (((dps_a*dps_a)/(dps_b*dps_b)) - 1.0f)/(a.sp + a.sp_shadow - b.sp - b.sp_shadow);
-  std::cout << "Squared relative improvement of dps per point of sp: " << sp_rel_imp_sq*100 << "\%" << std::endl;
+  std::cout << "Squared relative improvement of dps per point of sp: " << sp_rel_imp_sq*100 << "%" << std::endl;
 
   b = a;
   b.stamina = base.stamina;
@@ -124,8 +124,8 @@ int PvpStatsVsBase(int argc, char** argv)
   float combat_dur = 100.0f;
   float under_fsr = 2.0f/3.0f;
 
-  int no_fsr_ticks = (combat_dur * (1.0f - under_fsr))/2.0f;
-  int fsr_ticks = combat_dur/2.0f - no_fsr_ticks;
+  int no_fsr_ticks = static_cast<int>((combat_dur * (1.0f - under_fsr))/2.0f);
+  int fsr_ticks = static_cast<int>(combat_dur/2.0f - no_fsr_ticks);
 
   float int_to_match_sp = 0.0f;
   {
@@ -188,7 +188,7 @@ int PvpStatsVsBase(int argc, char** argv)
   float effective_mana = s_a.getMaxMana() + no_fsr_ticks*s_a.getManaRegenTickOutOfFsr()
       + fsr_ticks*s_a.getManaRegenTickUnderFsr();
   std::cout << "Dps: " << dps_a << std::endl;
-  std::cout << "Effective mana for " << combat_dur << " s fight with " << under_fsr*100 << "\% in fsr: " << effective_mana << std::endl;
+  std::cout << "Effective mana for " << combat_dur << " s fight with " << under_fsr*100.0f << "% in fsr: " << effective_mana << std::endl;
   std::cout << "Effective hp: " << ehp_a << std::endl;
   std::cout << "dps*dps*emana*ehp/1e12: " << (dps_a*dps_a*ehp_a*effective_mana)/1e12 << std::endl;
 
