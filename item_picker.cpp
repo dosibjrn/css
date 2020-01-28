@@ -71,7 +71,7 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
     Regen regen = regens[i];
     // regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
     auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
-    float w = global::assumptions.pve_combat_weigths[i];
+    float w = global::assumptions.pve_combat_weights[i];
     hps_sum += w*res.first;
     weight_sum += w; 
   }

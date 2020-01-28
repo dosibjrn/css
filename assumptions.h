@@ -38,7 +38,7 @@ struct Assumptions
 
   std::vector<float> pve_combat_lengths = {60.0f, 120.0f, 180.0f, 240.0f, 300.0f, 360.0f};
   // std::vector<float> pve_combat_lengths = {150.0f};
-  std::vector<float> pve_combat_weigths = {1.0f,  2.0f,   2.0f,   1.0f,   1.0f,   1.0f};
+  std::vector<float> pve_combat_weights = {1.0f,  2.0f,   2.0f,   1.0f,   1.0f,   1.0f};
 
   std::vector<float> target_dps_in =      {100,   100,    100,    100,    100,    100};
 

@@ -129,8 +129,8 @@ The encounter dps that you're supposed to heal in combination with target_hp con
 
 You can additionally control the lengths of the encounters that are calculated, and their relative weights in the opimization by setting
 
-pve_combat_lenght, 60, 120, 180 # in seconds
-pve_combat_weight, 1.5, 2, 1 # relative weights
+pve_combat_lengths, 60, 120, 180 # lengths in seconds
+pve_combat_weights, 1.5, 2, 1 # relative weights
 
 or some other suitable valuesi.
 
