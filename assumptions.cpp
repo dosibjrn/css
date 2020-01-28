@@ -90,6 +90,7 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("pvp_combat_length", assumptions_in, &global::assumptions.pvp_combat_length);
   SetIfGiven("healing_from_crit_fraction", assumptions_in, &global::assumptions.healing_from_crit_fraction);
   SetIfGiven("pve_combat_lengths", assumptions_in, &global::assumptions.pve_combat_lengths);
+  SetIfGiven("pve_combat_weights", assumptions_in, &global::assumptions.pve_combat_weights);
   SetIfGiven("transc8_exists", assumptions_in, &global::assumptions.transc8_exists);
   SetIfGiven("enchantments", assumptions_in, &global::assumptions.enchantments);
   SetIfGiven("fort", assumptions_in, &global::assumptions.fort);
