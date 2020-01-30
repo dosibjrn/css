@@ -844,6 +844,73 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   return best_item;
 }
 
+namespace
+{
+
+void MatchValues(const PriestCharacter& c, float* int_val, float* mp5_val, float* crit_val)
+{
+  float int_val_in = *int_val;
+  float mp5_val_in = *mp5_val;
+  float crit_val_in = *crit_val;
+
+
+  float weighted_sum = 0.0f;
+  float weight_sum = 0.0f;
+  const auto& lens = global::assumptions.pve_combat_lengths;
+  auto n_fights = lens.size(); 
+  for (size_t i = 0; i < n_fights; ++i) {
+    float len = lens[i];
+    float w = global::assumptions.pve_combat_weights[i];
+    weighted_sum += w*len;
+    weight_sum += w;
+  }
+
+  bool debug = false;
+  float average_len = weighted_sum/weight_sum;
+  float average_mana_from_mp5 = average_len/5.0f;
+  float one_mana_worth = mp5_val_in/average_mana_from_mp5;
+  if (debug) std::cout << "average_len: " << average_len << ", average_mana_from_mp5: " << average_mana_from_mp5 << ", one_mana_worth: " << one_mana_worth << std::endl;
+
+  float int_to_mana = (15.0f * (1.0f + 0.02*c.talents.mental_strength));
+  float int_to_crit = 1.0f/59.2f;
+
+  float int_val_alt = one_mana_worth*int_to_mana + crit_val_in*int_to_crit;
+  if (debug) std::cout << "int_val_alt: " << int_val_alt << ", vs int_val_in: " << int_val_in << std::endl;
+
+  // Given the eq for int_val_alt above, we need to define crit_val/int_val, to obtain multiplier for scaled int val.
+  // 1 = one_mana_worth*int_to_mana/int_val_alt + crit_val_in*int_to_crit/int_val_alt
+  // 1 - one_mana_worth*int_to_mana/int_val_alt = crit_val_in*int_to_crit/int_val_alt
+  // 1/int_to_crit - one_mana_worth*int_to_mana/(int_val_alt*int_to_crit) = crit_val_in/int_val_alt
+  float int_val_to_crit_val = 1.0f/int_to_crit - one_mana_worth*int_to_mana/(int_val_alt*int_to_crit);
+
+  // In same manner, one_mana_worth/int_val
+  // int_val = one_mana_worth*int_to_mana + crit_val_in*int_to_crit;
+  // 1 = one_mana_worth*int_to_mana/int_val + crit_val_in*int_to_crit/int_val;
+  // 1 - crit_val_in*int_to_crit/int_val = one_mana_worth*int_to_mana/int_val
+  // (1 - crit_val_in*int_to_crit/int_val)/int_to_mana = one_mana_worth/int_val
+  float int_val_to_one_mana_worth = (1.0f - crit_val_in*int_to_crit/int_val_alt)/int_to_mana;
+
+  // we have a fraction of int_to_crit coming from the crit part and int_to_mana fraction coming from mana.
+  // 2/3 weight on averaging for the alt value, 1 for int
+  // with given split derive the respective crit and mp5 vals so that everything matches.
+  float int_val_weighted = 2.0/3.0f*int_val_alt + 1.0f/3.0f*int_val_in;
+  float crit_val_weighted = int_val_weighted*int_val_to_crit_val;
+  float one_mana_worth_weighted = int_val_weighted*int_val_to_one_mana_worth;
+  float mp5_val_weighted = one_mana_worth_weighted*average_mana_from_mp5;
+  if (debug) {
+    std::cout << "int_val_to_crit_val: " << int_val_to_crit_val << ", int_val_to_one_mana_worth: " << int_val_to_one_mana_worth
+        << ", int_val_weighted: " << int_val_weighted << ", crit_val_weighted: " << crit_val_weighted << ", mp5_val_weighted: " << mp5_val_weighted << std::endl;
+    std::cout << "one_mana_worth_weighted: " << one_mana_worth_weighted << ", average_mana_from_mp5: " << average_mana_from_mp5 << std::endl;
+
+    float int_val_again_from_weighted_crit_and_mp5 = one_mana_worth_weighted*int_to_mana + crit_val_weighted*int_to_crit;
+    std::cout << "int_val_again_from_weighted_crit_and_mp5: " << int_val_again_from_weighted_crit_and_mp5 << std::endl;
+  }
+  *int_val = int_val_weighted;
+  *mp5_val = mp5_val_weighted;
+  *crit_val = crit_val_weighted;
+}
+}  // namespace
+
 void ItemPicker::CoutCurrentValues(std::string tag_name) const
 {
   auto saved = global::assumptions.penalize_oom;
@@ -859,7 +926,6 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
   int n_vals = static_cast<int>(stat_names.size());
   int ref_ix = 5;
 
-
   int diff = static_cast<int>(50*steps[ref_ix]);
   *(stat_ptrs[ref_ix]) += diff;
   float ref_val_diff = value(c) - val_start;
@@ -869,6 +935,7 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
   std::vector<float> matching_diffs(n_vals);
   std::stringstream ss;
   ss << "( Pawn: v1: \"" << tag_name << "\": ";
+  std::vector<float> relative_values(n_vals);
   for (int i = 0; i < n_vals; ++i) {
     c = m_c_best;
     float diff_required = 0.0f;
@@ -902,9 +969,23 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
     }
     // float relative_value = obtained_val_diff/ref_val_diff*diff/diff_required*100.0f;
     float relative_value = obtained_val_diff_sum/ref_val_diff*diff/diff_required_sum*100.0f;
+    relative_values[i] = relative_value;
+  }
+
+  int int_ix = 0;
+  int mp5_ix = 4;
+  int crit_ix = 8;
+
+  MatchValues(m_c_best, &relative_values[int_ix], &relative_values[mp5_ix], &relative_values[crit_ix]);
+  // Finally rescale
+  const float ref_val = relative_values[ref_ix];
+  for (int i = 0; i < n_vals; ++i) {
+    float relative_value = relative_values[i]/ref_val * 100.0f;
     std::cout << stat_names[i] << ": " << relative_value << std::endl;
     ss << stat_names[i] << "=" << relative_value << ", ";
   }
+
+
   ss << "IsFist=X, Is2HMace=X, IsCrossbow=X, IsGun=X, IsShield=X, IsPolearm=X, Is2HAxe=X, IsBow=X, IsMail=X, IsPlate=X, IsLeather=X, IsAxe=X, Is2HAxe=X, IsSword=X, Is2HSword=X)";
   if (!tag_name.empty()) {
     std::string fn = tag_name + ".pawn_tag.txt";
