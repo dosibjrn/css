@@ -976,7 +976,10 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
   int mp5_ix = 4;
   int crit_ix = 8;
 
-  MatchValues(m_c_best, &relative_values[int_ix], &relative_values[mp5_ix], &relative_values[crit_ix]);
+  if (m_value_choice == ValueChoice::pve_healing) {
+    MatchValues(m_c_best, &relative_values[int_ix], &relative_values[mp5_ix], &relative_values[crit_ix]);
+  }
+
   // Finally rescale
   const float ref_val = relative_values[ref_ix];
   for (int i = 0; i < n_vals; ++i) {
