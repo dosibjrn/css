@@ -207,7 +207,7 @@ PriestCharacter BaseLvl60HolyDiscHealing()
   c.talents.meditation = 3;
   c.talents.spiritual_guidance = 5;
   c.talents.spiritual_healing = 5;
-  c.talents.imp_renew = 3;
+  c.talents.imp_renew = 0;
   c.talents.improved_healing = 3;
   c.talents.divine_fury = 5;
   c.talents.holy_specialization = 5;
@@ -290,6 +290,8 @@ void ApplyBuffs(PriestCharacter *c) {
 
 void AddEnchants(PriestCharacter* c) {
   c->sp_healing += 55;
+  c->sp_healing += 24;
+  c->sp += 8;
 }
 
 }  // namespace css

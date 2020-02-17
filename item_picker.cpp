@@ -949,8 +949,10 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
       *(stat_ptrs[i]) += steps[i]*1.0f;
       float val = value(c);
 
-      obtained_val_diff_sum += val - val_start;
-      diff_required_sum += diff_required;
+      if (val > val_start) {
+        obtained_val_diff_sum += val - val_start;
+        diff_required_sum += diff_required;
+      }
 
       if (val - val_start >= ref_val_diff) {
         obtained_val_diff = val - val_start;
@@ -968,8 +970,12 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
       }
     }
     // float relative_value = obtained_val_diff/ref_val_diff*diff/diff_required*100.0f;
-    float relative_value = obtained_val_diff_sum/ref_val_diff*diff/diff_required_sum*100.0f;
-    relative_values[i] = relative_value;
+    if (diff_required_sum > 0.0f) {
+      float relative_value = obtained_val_diff_sum/ref_val_diff*diff/diff_required_sum*100.0f;
+      relative_values[i] = relative_value;
+    } else {
+      relative_values[i] = 0.0f;
+    }
   }
 
   int int_ix = 0;

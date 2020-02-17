@@ -220,6 +220,8 @@ std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vect
 
   float hps_casting = heal_sum/cast_time_sum;
   float spell_cost_per_s = cost_sum/cast_time_sum;
+  info.spell_cost_per_s = spell_cost_per_s;
+  info.hpm = heal_sum/cost_sum;
 
   float from_rem_mana_a = RemainingManaAsHealing(c, in_full_regen, mana, hps_casting, spell_cost_per_s);
 

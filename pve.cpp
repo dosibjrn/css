@@ -81,6 +81,9 @@ int PveHealingItemPicking(int argc, char** argv, bool full_buffs)
     global::assumptions.buff_fraction = 1.0f;
   }
   auto c = BaseLvl60DiscHolyPvpHealing();
+  if (global::assumptions.holy_disc) {
+    c = BaseLvl60HolyDiscHealing();
+  }
   if (global::assumptions.enchantments) {
     AddEnchants(&c);
   }

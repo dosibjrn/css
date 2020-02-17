@@ -101,6 +101,7 @@ void ReadAssumptions(const std::string& fn)
 
   SetIfGiven("target_hp", assumptions_in, &global::assumptions.target_hp);
   SetIfGiven("mana_penalty", assumptions_in, &global::assumptions.mana_penalty);
+  SetIfGiven("holy_disc", assumptions_in, &global::assumptions.holy_disc);
 }
 
 }  // namespace css

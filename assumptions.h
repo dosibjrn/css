@@ -64,6 +64,8 @@ struct Assumptions
   float target_hp = 10000.0f;
   bool pi_self = false;
   float mana_penalty = 0.0f;
+
+  bool holy_disc = true;
 };
 
 namespace global

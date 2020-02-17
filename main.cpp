@@ -61,4 +61,4 @@ int main(int argc, char** argv)
 // * unit tests: could still have a ton of bugs
 // * refactoring of spell counts and ranks: hps.cpp & .hpp functionality under class?
 // * all upgrade couting needs refactoring and seems a bit fishy every now and then: ring values differ notably
-// * int vs mp5 with known combat length: how is this even remotely posisble? :)
+// * would probably be informative to get numbers like heal per mana, frac out of fsr in pve info?

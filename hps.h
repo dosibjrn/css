@@ -16,6 +16,9 @@ struct PveInfo
   float oom_penalty_mul = 1.0f;
   float regen_penalty_mul = 1.0f;
   float hps = 1.0f;
+  float hpm = 0.0f;
+  float out_of_fsr_fraction = 0.0f;
+  float spell_cost_per_s = 0.0f;
 };
 
 std::pair<float, PveInfo> HpsWithRegen(const PriestCharacter& c, const std::vector<Spell>& spell_sequence, float end_at_s, Regen regen);
