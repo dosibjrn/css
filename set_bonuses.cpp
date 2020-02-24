@@ -14,10 +14,20 @@ namespace {
 std::string getSetName(const std::string& item_name)
 {
   int s = static_cast<int>(item_name.size());
+  // Prefix sets
   if (item_name.substr(0, 6) == "devout") { return "devout"; }
   if (item_name.substr(0, 6) == "dreadm") { return "dreadmist"; }
   if (item_name.substr(0, 6) == "necrop") { return "necropile"; }
-  if (s > 13 && item_name.substr(s-13) == "transcendence") { return "transcendence"; }
+
+  // Suffix sets
+  std::string suffix = "transcendence";
+  int suffix_len = static_cast<int>(suffix.size());
+  if (s > suffix_len && item_name.substr(s - suffix_len) == suffix) { return suffix; }
+  suffix = "prophecy";
+  suffix_len = static_cast<int>(suffix.size());
+  if (s > suffix_len && item_name.substr(s - suffix_len) == suffix) { return suffix; }
+
+  // "Special" sets
   if (item_name == global::assumptions.darkmoon_card_name) { return "darkmoon"; }
   return "";
 }
@@ -72,6 +82,19 @@ SetBonusListType SetBonuses::getSetBonusList()
     bonus_list[i.name] = i;
     i.name = "transcendence 8";
     bonus_list[i.name] = i;
+    i.name = "darkmoon 1";
+    bonus_list[i.name] = i;
+  }
+  { 
+    Item i;
+    i.name = "prophecy 3";
+    bonus_list[i.name] = i;
+    i.name = "prophecy 5";
+    i.spell_crit = 2.0f;
+    bonus_list[i.name] = i;
+  }
+  {
+    Item i;
     i.name = "darkmoon 1";
     bonus_list[i.name] = i;
   }
