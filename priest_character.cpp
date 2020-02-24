@@ -204,6 +204,7 @@ PriestCharacter BaseLvl60HolyDiscHealing()
   c.defense = 300;
   c.armor = 1395;
 
+  c.talents.imp_pws = 3;
   c.talents.meditation = 3;
   c.talents.spiritual_guidance = 5;
   c.talents.spiritual_healing = 5;
@@ -226,11 +227,10 @@ PriestCharacter BaseLvl60DiscHolyPvpHealing()
   c.base_mana = 1436.0f;
   c.base_hp = 1387.0f;
 
-  // c.mp5 = 1800.0f/120.0f*5.0f;  // major mana pot
-
   c.defense = 300;
   c.armor = 1814;
 
+  c.talents.imp_pws = 3;
   c.talents.meditation = 3;
   c.talents.spiritual_guidance = 0;
   c.talents.spiritual_healing = 0;
@@ -247,18 +247,22 @@ PriestCharacter BaseLvl60DiscHolyPvpHealing()
 
 void ApplyBuffs(PriestCharacter *c) {
   float frac = global::assumptions.buff_fraction;
-  // Note: total 134 mp5 for full
   c->mp5 += 60.0f*frac;  // major mana potion
   c->mp5 += 50.0f*frac;  // runes
-  c->mp5 += 12.0f*frac;  // brilliant mana oil
-  c->mp5 += 12.0f*frac;  // mageblood potion
+  // c->mp5 += 12.0f*frac;  // brilliant mana oil
+  // c->mp5 += 12.0f*frac;  // mageblood potion
+  c->mp5 += 10.0f*frac;  // nightfin soup
+  c->mp5 += 10.0f*frac;  // wcb
+  c->spell_crit += 10.0f*frac;  // ony
+  c->spell_crit += 3.0f*frac;  // tribute
+  c->intelligence += 25.0f*frac; // cerebral cortex compound
 
   global::assumptions.flask = false;
   if (frac >= 1.0f) {
     global::assumptions.flask = true;
   }
   if (global::assumptions.flask) {
-    // Flask of distilled wisdom: -crit to affet only mana.
+    // Flask of distilled wisdom: -crit to affect only mana.
     c->intelligence += 133.333333f;
     c->spell_crit += -2.244668911f;
   }

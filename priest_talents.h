@@ -10,6 +10,7 @@ struct PriestTalents {
   int wand_specialization = 0;
   int mental_strength = 0;
   int power_infusion = 0;
+  int imp_pws = 0;
 
   // Holy
   int imp_renew = 0;

@@ -331,43 +331,74 @@ std::vector<Spell> PveHealingSequence(const PriestCharacter& c)
 
 
 
+namespace {
+bool ix_to_spell_checked = false;
+}
 
 Spell IxToSpell(const PriestCharacter& c, int choice_ix)
 {
-  int max_rank = -1;
+  if (!ix_to_spell_checked) {
+    const auto& h = global::assumptions.h;
+    const auto& gh = global::assumptions.gh;
+    const auto& fh = global::assumptions.fh;
+    const auto& r = global::assumptions.r;
+    const auto& poh = global::assumptions.poh;
+    const auto& s = global::assumptions.s;
+    const std::vector<std::string> assumed{h,h,gh,gh,fh,fh,fh,r,poh,s};
+    size_t size = assumed.size();
+    if (size != global::assumptions.spell_names.size() || size != global::assumptions.spell_ranks.size()) {
+      throw std::runtime_error("Sizes do not match in assumptions. spell_names: " 
+                               + std::to_string(global::assumptions.spell_names.size()) + ", spell_ranks: "
+                               + std::to_string(global::assumptions.spell_ranks.size()));
+    }
+    for (size_t i = 0; i < size; ++i) {
+      if (assumed[i] != global::assumptions.spell_names[i]) {
+        throw std::runtime_error("Names do not match. assumed: " + assumed[i] + ", assumptions: " + global::assumptions.spell_names[i]);
+      }
+    }
+    ix_to_spell_checked = true;
+  }
+
   int poh_targets = 3;
   switch (choice_ix) {
     case 0:
-      return Heal(c, 2);
+      return Heal(c, global::assumptions.spell_ranks[0]);
     case 1:
-      return Heal(c, 4);
+      return Heal(c, global::assumptions.spell_ranks[1]);
     case 2:
-      return GreaterHeal(c, 1);
+      return GreaterHeal(c, global::assumptions.spell_ranks[2]);
     case 3:
-      return GreaterHeal(c, 4);
+      return GreaterHeal(c, global::assumptions.spell_ranks[3]);
     case 4:
-      return FlashHeal(c, max_rank);
+      return FlashHeal(c, global::assumptions.spell_ranks[4]);
     case 5:
-      return Renew(c, max_rank);
+      return FlashHeal(c, global::assumptions.spell_ranks[5]);
     case 6:
-      return PrayerOfHealing(c, max_rank, poh_targets);
+      return FlashHeal(c, global::assumptions.spell_ranks[6]);
+    case 7:
+      return Renew(c, global::assumptions.spell_ranks[7]);
+    case 8:
+      return PrayerOfHealing(c, global::assumptions.spell_ranks[8], poh_targets);
+    case 9:
+      return Shield(c, global::assumptions.spell_ranks[9]);
     default:
-      return Heal(c, 2);
+      return Heal(c, global::assumptions.spell_ranks[0]);
   }
 }
 
 int SpellToIx(const Spell& spell)
 {
-  auto s = spell.name;
-  auto l = spell.level_req;
-  auto r = spell.rank;
-  if (s == "Heal" && r == 2) return 0;
-  if (s == "Heal" && r == 4) return 1;
-  if (s == "Greater Heal" && l != 60) return 2;
-  if (s == "Greater Heal" && l == 60) return 3;
-  if (s == "Flash Heal") return 4;
-  if (s == "Renew") return 5;
-  if (s == "Prayer of Healing") return 6;
+  const auto s = spell.name;
+  const auto r = spell.rank;
+  const size_t size = global::assumptions.spell_names.size();
+  if (size != global::assumptions.spell_names.size() || size != global::assumptions.spell_ranks.size()) {
+    throw std::runtime_error("Sizes do not match in assumptions. spell_names: " 
+                             + std::to_string(global::assumptions.spell_names.size()) + ", spell_ranks: "
+                             + std::to_string(global::assumptions.spell_ranks.size()));
+  }
+  for (size_t i = 0; i < size; ++i) {
+    if (s == global::assumptions.spell_names[i] && r == global::assumptions.spell_ranks[i]) return i;
+  }
   return 0;
 }
 
@@ -566,7 +597,7 @@ float FreqPenalty(const std::vector<float>& counts)
   auto max_freqs = SpellMaxFreqs();
   const int s = static_cast<int>(counts.size());
   float penalty = 0.0f;
-  constexpr float penalty_per_count = 100.0f;  // hps
+  constexpr float penalty_per_count = 1000.0f;  // hps
   for (int i = 0; i < s; ++i) {
     if (counts[i] > max_freqs[i]*sum) {
       penalty += penalty_per_count*(counts[i] - max_freqs[i]*sum);

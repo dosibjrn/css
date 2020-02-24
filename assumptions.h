@@ -11,13 +11,18 @@ struct Assumptions
   float full_regen_limit = 0.3f;  // overrided by -r argument
   float buff_fraction = 0.2f;  // overridden by -b argument, set to 1.0 on mode 5
 
-  // gh = greater heal; fh = flash heal; h = heal; r = renew; poh = prayer of healing
-  // Note: spell order:                      h    h    gh   gh   fh   r    poh
-  std::vector<float> spell_max_freqs =      {1.0f, 1.0f, 1.0f, 0.2f, 1.0f, 0.2f, 0.1f};
-  // std::vector<float> spell_max_freqs =      {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
-  std::vector<int> spell_ranks =            {2,    4,    1,    4,    7,    9,    4};
-  std::vector<float> initial_spell_counts = {1,    0,    0,    0,    0,    0,    0};
-  std::vector<float> fixed_spell_counts =   {1,    0,    0,    0,    0,    0,    0};
+  const std::string h = "Heal";
+  const std::string gh = "Greater Heal";
+  const std::string fh = "Flash Heal";
+  const std::string r = "Renew";
+  const std::string poh = "Prayer of Healing";
+  const std::string s = "Power Word: Shield";
+  const std::vector<std::string> spell_names = {h,    h,    gh,   gh,   fh,   fh,   fh,   r,    poh,  s};
+  std::vector<float> spell_max_freqs =      {1.0f, 1.0f, 1.0f, 0.2f, 1.0f, 1.0f, 1.0f, 0.2f, 0.1f, 0.3f};
+  // std::vector<float> spell_max_freqs =      {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
+  std::vector<int> spell_ranks =            {2,    4,    1,    4,    1,    4,    7,    9,    4,    10};
+  std::vector<float> initial_spell_counts = {1,    0,    0,    0,    0,    0,    0,    0,    0,    0};
+  std::vector<float> fixed_spell_counts =   {1,    0,    0,    0,    0,    0,    0,    0,    0,    0};
   bool use_fixed_spell_counts = 0;
 
   //                                     casts, ticks, ticks_oom
