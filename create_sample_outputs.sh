@@ -31,7 +31,7 @@ done
 
 mkdir ../sample_output/snipe_bwl
 for snipe in 0.0 0.2 0.4 0.6 0.8 1.0; do
-  ./css 4 ../items/more_raid.csv no-bans no-locks -a confs/bwl_snipe${snipe}.f | tee ../sample_output/snipe_bwl/css_4_snipe${snipe}.txt
+  ./css 4 ../items/more_raid.csv no-bans no-locks bwl_snipe${snipe} -a ../confs/bwl_snipe${snipe}f | tee ../sample_output/snipe_bwl/css_4_snipe${snipe}.txt
 done
 
 
