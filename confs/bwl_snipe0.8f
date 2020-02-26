@@ -1,0 +1,60 @@
+full_regen_limit,0.3
+buff_fraction,0.6
+
+# comment line        h    h    gh   gh   fh   fh   fh   r    poh  s
+spell_max_freqs,      1.0, 1.0, 1.0, 0.2, 1.0, 1.0, 1.0, 0.5, 0.1, 0.3
+spell_ranks,          2,   4,   1,   4,   1,   4,   7,   9,   4,   10 
+initial_spell_counts, 1,   0,   0,   0,   0,   0,   0,   0,   0,   0
+fixed_spell_counts,   16.2, 0, 3.4, 0, 8.8, 8, 2.4, 8, 0, 3.2
+use_fixed_spell_counts, 1
+
+#fixed_spell_counts, 12, 0, 0, 0, 11, 10, 3, 10, 0, 4
+#fixed_spell_counts, 33, 0, 17, 0, 0, 0, 0, 0, 0, 0
+# 0.2, 28.8, 0, 13.6, 0, 2.2, 2, 0.6, 2, 0, 0.8
+# 0.4, 24.6, 0, 10.2, 0, 4.4, 4, 1.2, 4, 0, 1.6
+# 0.6, 20.4, 0, 6.8, 0, 6.6, 6, 1.8, 6, 0, 2.4
+# 0.8, 16.2, 0, 3.4, 0, 8.8, 8, 2.4, 8, 0, 3.2
+
+
+# empty lines are cool as well
+# ints ok as they cast to floats
+#                   casts, ticks, ticks_oom
+initial_regen_vals, 20,    20,    0
+ 
+# For each spell sequence, e.g. 1-20 casts, then 0-10 ticks of regen. when oom, regen 0-10 ticks and until mana for next spell is obtained
+max_casts, 20
+max_ticks, 20
+max_ticks_oom, 0
+
+penalize_oom, 1
+
+
+pvp_combat_length, 100.0
+
+# e.g. 20% of extra healing from crit is not overhealing
+healing_from_crit_fraction, 0.2
+
+pve_combat_lengths, 150, 240, 83,  186, 108, 74,  170, 348
+# pve_combat_lengths, 81
+pve_combat_weigths, 1.0f,1.0f,1.0f,1.0f,1.0f,1.0f,1.0f,1.0f
+
+transc8_exists, 0
+
+enchantments, 1
+
+# Raid buffs
+fort, 1
+motw, 1
+spirit, 1
+ai, 1
+
+# flask is set to 1 if buff_fraction == 1.0f
+flask, 0
+
+# target hp pool == allowed hp drop when regening for optimized amount of ticks
+target_hp, 10000
+
+pi_self, 0
+
+# other
+holy_disc, 0

@@ -28,3 +28,10 @@ for buffs in 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0; do
 done
 
 #./css 5 ../items/more_raid.csv ../items/bwl.txt -b 0.2 -r 0.3 | tee ../sample_output/css_5_b_0.2_r_0.3_mc_ony.txt
+
+mkdir ../sample_output/snipe_bwl
+for snipe in 0.0 0.2 0.4 0.6 0.8 1.0; do
+  ./css 4 ../items/more_raid.csv no-bans no-locks -a confs/bwl_snipe${snipe}.f | tee ../sample_output/snipe_bwl/css_4_snipe${snipe}.txt
+done
+
+
