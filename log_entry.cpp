@@ -279,8 +279,9 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
     int absorbed = atoi(line.substr(start + 1, start - end - 2).c_str());
 
     // e->hp_diff = -1.0f * (raw_amount - mitigated - resisted - blocked - absorbed);
-    int total_damage = mitigated;
-    if (total_damage == 0) {
+    // int total_damage = mitigated;
+    int total_damage = (raw_amount - mitigated);
+    if (total_damage <= 0) {
       return false;
     }
     e->hp_diff = -1.0f * total_damage;

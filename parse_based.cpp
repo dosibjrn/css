@@ -14,7 +14,7 @@ void ParseBased(const std::string& log_fn)
   std::string line;
   while (std::getline(is, line)) {
     LogEntry e;
-    if (!LineToLogEntryIfAny(line, &e)) {
+    if (LineToLogEntryIfAny(line, &e)) {
       // std::cout << "ignored line: " << line << std::endl;
     }
   }

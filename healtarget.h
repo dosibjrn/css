@@ -14,7 +14,7 @@ struct HealTarget {
 
   bool alive = true;
 
-  float deficit = 0.0f;;
+  float deficit = 0.0f;
 
   std::vector<Heal> incoming;
   float incoming_sum = 0.0f;;
