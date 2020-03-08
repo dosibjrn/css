@@ -360,30 +360,45 @@ Spell IxToSpell(const PriestCharacter& c, int choice_ix)
   }
 
   int poh_targets = 3;
+  Spell s;
   switch (choice_ix) {
     case 0:
-      return Heal(c, global::assumptions.spell_ranks[0]);
+      s = Heal(c, global::assumptions.spell_ranks[0]);
+      break;
     case 1:
-      return Heal(c, global::assumptions.spell_ranks[1]);
+      s = Heal(c, global::assumptions.spell_ranks[1]);
+      break;
     case 2:
-      return GreaterHeal(c, global::assumptions.spell_ranks[2]);
+      s = GreaterHeal(c, global::assumptions.spell_ranks[2]);
+      break;
     case 3:
-      return GreaterHeal(c, global::assumptions.spell_ranks[3]);
+      s = GreaterHeal(c, global::assumptions.spell_ranks[3]);
+      break;
     case 4:
-      return FlashHeal(c, global::assumptions.spell_ranks[4]);
+      s = FlashHeal(c, global::assumptions.spell_ranks[4]);
+      break;
     case 5:
-      return FlashHeal(c, global::assumptions.spell_ranks[5]);
+      s = FlashHeal(c, global::assumptions.spell_ranks[5]);
+      break;
     case 6:
-      return FlashHeal(c, global::assumptions.spell_ranks[6]);
+      s = FlashHeal(c, global::assumptions.spell_ranks[6]);
+      break;
     case 7:
-      return Renew(c, global::assumptions.spell_ranks[7]);
+      s = Renew(c, global::assumptions.spell_ranks[7]);
+      break;
     case 8:
-      return PrayerOfHealing(c, global::assumptions.spell_ranks[8], poh_targets);
+      s = PrayerOfHealing(c, global::assumptions.spell_ranks[8], poh_targets);
+      break;
     case 9:
-      return Shield(c, global::assumptions.spell_ranks[9]);
+      s = Shield(c, global::assumptions.spell_ranks[9]);
+      break;
     default:
-      return Heal(c, global::assumptions.spell_ranks[0]);
+      s = Heal(c, global::assumptions.spell_ranks[0]);
+      break;
   }
+  s.healing *= (1.0f - global::assumptions.spell_overheal[choice_ix]);
+  s.shield *= (1.0f - global::assumptions.spell_overheal[choice_ix]);
+  return s;
 }
 
 int SpellToIx(const Spell& spell)

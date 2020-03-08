@@ -18,11 +18,12 @@ struct Assumptions
   const std::string poh = "Prayer of Healing";
   const std::string s = "Power Word: Shield";
   const std::vector<std::string> spell_names = {h,    h,    gh,   gh,   fh,   fh,   fh,   r,    poh,  s};
-  std::vector<float> spell_max_freqs =      {1.0f, 1.0f, 1.0f, 0.2f, 1.0f, 1.0f, 1.0f, 0.2f, 0.1f, 0.3f};
+  std::vector<float> spell_max_freqs =         {1.0f, 1.0f, 1.0f, 0.2f, 1.0f, 1.0f, 1.0f, 0.2f, 0.1f, 0.3f};
   // std::vector<float> spell_max_freqs =      {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
-  std::vector<int> spell_ranks =            {2,    4,    1,    4,    1,    4,    7,    9,    4,    10};
-  std::vector<float> initial_spell_counts = {1,    0,    0,    0,    0,    0,    0,    0,    0,    0};
-  std::vector<float> fixed_spell_counts =   {1,    0,    0,    0,    0,    0,    0,    0,    0,    0};
+  std::vector<int> spell_ranks =               {2,    4,    1,    4,    1,    4,    7,    9,    4,    10};
+  std::vector<float> spell_overheal =          {0.3,  0.4,  0.4,  0.5,  0.05, 0.1,  0.15, 0.3,  0.2,  0.0};
+  std::vector<float> initial_spell_counts =    {1,    0,    0,    0,    0,    0,    0,    0,    0,    0};
+  std::vector<float> fixed_spell_counts =      {1,    0,    0,    0,    0,    0,    0,    0,    0,    0};
   bool use_fixed_spell_counts = 0;
 
   //                                     casts, ticks, ticks_oom
