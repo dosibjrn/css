@@ -1,5 +1,7 @@
 #include "log_entry.h"
 
+#include <iostream>
+
 // 2/26 21:49:12.929  SWING_DAMAGE,Creature-0-4458-469-5988-12017-000056C441,"Broodlord Lashlayer",0xa48,0x0,Player-4476-013D02E7,"Rawrmew-Gehennas",0x10514,0x0,Creature-0-4458-469-5988-12017-000056C441,0000000000000000,84,100,0,0,0,-1,0,0,0,-7612.08,-1096.62,0,5.4551,63,1726,3226,-1,1,0,0,0,nil,nil,1
 // Based on github JanKoppe/wow-log-parser: parse.js
 // 2/26 21:49:12.929 : month, day, h, min, s, ms
@@ -142,9 +144,36 @@ enum Type {
   BAD = 2
 };
 
+
+int64_t GetTime(int64_t month, int64_t day, int64_t hour, int64_t minute, int64_t s, int64_t ms)
+{
+  // First seconds since 1st jan
+  struct tm  tm;
+  time_t rawtime;
+  time ( &rawtime );
+  tm = *localtime ( &rawtime );
+  tm.tm_year = 0;
+  tm.tm_mon = month - 1;
+  tm.tm_mday = day;
+  tm.tm_hour = hour;
+  tm.tm_min = minute;
+  tm.tm_sec = s;
+  mktime(&tm);
+  int64_t stamp = ((((tm.tm_yday*24) + hour)*60 + minute)*60 + s)*1000 + ms;
+  return stamp;
+}
+
+void IncrementCell(int increment, const std::string& line, size_t* start, size_t* end)
+{
+  for (int i = 0; i < increment; ++i) {
+    *start = *end;
+    *end = line.find(',', *start + 1);
+  }
+}
+
 }  // namespace
 
-bool LineToLogEntryIfAny(const std::string &line, LogEntry* e) {
+bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
   // Example entry A
   // 2/26 21:48:51.188  SPELL_HEAL,Player-4476-004E8DD3,"Paisti-Gehennas",0x511,0x0,Player-4476-0241EF6A,"Imajoke-Gehennas",0x10514,0x0,10917,"Flash Heal",0x2,Player-4476-0241EF6A,0000000000000000,100,100,0,0,0,-1,0,0,0,-7623.41,-1096.02,0,0.9683,68,1342,1342,276,0,nil
   // Example entry B
@@ -154,41 +183,112 @@ bool LineToLogEntryIfAny(const std::string &line, LogEntry* e) {
 
 
   size_t start = 0;
-  size_t end = line.find(start, ',');
+  size_t end = line.find(',', start);
+  if (end == std::string::npos) {
+    return false;
+  }
 
-  std::string cell = line.substr(start, end);
+  std::string cell = line.substr(start, end + 6);
   
   Type type = Type::BAD;
 
   size_t cell_size = cell.size();
 
-  // HEALING
-  if (cell.substr(cell_size - 7, cell_size) == "HEALING") {
+  if (cell.substr(cell_size - 10, 10) == "HEAL,Playe") {
     type = Type::HEAL;
-  // DAMAGE
-  } else if (cell.substr(cell_size - 6, cell_size) == "DAMAGE") {
+  } else if (cell.substr(cell_size - 12, 12) == "DAMAGE,Creat") {
     type = Type::DMG; 
   } else {
     // type = Type::BAD;
     return false;
   }
-  
 
+  // 2/26 21:48:51.188
   start = 0;
-  end = line.find(start, '/');
-  int64_t month = atoi(cell.substr(start, end).c_str());
+  end = line.find('/', start);
+  int64_t month = atoi(cell.substr(start, end - start).c_str());
+
+  start = end + 1;
+  end = cell.find(' ', start);
+  int64_t day = atoi(cell.substr(start, end - start).c_str()) ;
 
   start = end;
-  end = cell.find(start, ' ');
-  int64_t day ;
-  int64_t hour;
-  int64_t min;
-  int64_t s;
-  int64_t ms;
+  end = cell.find(':', start);
+  int64_t hour = atoi(cell.substr(start, end - start).c_str());
+
+  start = end + 1;
+  end = cell.find(':', start);
+  int64_t minute = atoi(cell.substr(start, end - start).c_str());
+
+  start = end + 1;
+  end = cell.find('.', start);
+  int64_t s = atoi(cell.substr(start, end - start).c_str());
+
+  start = end + 1;
+  end = cell.find(' ', start);
+  int64_t ms = atoi(cell.substr(start, end - start).c_str());
 
   // date entry -> time since 2000-01-01
+  e->time = GetTime(month, day, hour, minute, s, ms);
 
 
+  // Get target player name: 7th cell in csv
+  end = 0;
+  IncrementCell(7, line, &start, &end);
+  e->player = line.substr(start + 2, end - start - 4);  // skip both commas, both quotation marks
+
+  
+  // 2/26 21:48:51.188  SPELL_HEAL,Player-4476-004E8DD3,"Paisti-Gehennas",0x511,0x0,Player-4476-0241EF6A,"Imajoke-Gehennas",0x10514,0x0,10917,"Flash Heal",0x2,Player-4476-0241EF6A,0000000000000000,100,100,0,0,0,-1,0,0,0,-7623.41,-1096.02,0,0.9683,68,1342,1342,276,0,nil
+  if (type == Type::HEAL) {
+    // Number of commas before the heal entry: 29 -> 30th cell
+    IncrementCell(23, line, &start, &end);
+    int healing = atoi(line.substr(start + 1, start - end - 2).c_str());
+
+    IncrementCell(1, line, &start, &end);
+    int overhealing = atoi(line.substr(start + 1, start - end - 2).c_str());
+    e->hp_diff = healing - overhealing;
+
+    std::cout << "line: " << line << std::endl;
+    std::cout << "time: " << e->time << ", player: " << e->player << ", hp_diff: " << e->hp_diff << std::endl;
+    return true;
+  } else if (type == Type::DMG) {
+    // 2/26 21:49:12.929  SWING_DAMAGE,Creature-0-4458-469-5988-12017-000056C441,"Broodlord Lashlayer",0xa48,0x0,Player-4476-013D02E7,"Rawrmew-Gehennas",0x10514,0x0,Creature-0-4458-469-5988-12017-000056C441,0000000000000000,84,100,0,0,0,-1,0,0,0,-7612.08,-1096.62,0,5.4551,63,1726,3226,-1,1,0,0,0,nil,nil,1
+    // Note: this indexing starts from 0
+    // 25 onwards: 1726,3226,-1,1,0,0,0,
+    // 25  amount  Mitigated damage amount
+    IncrementCell(19, line, &start, &end);
+    int mitigated = atoi(line.substr(start + 1, start - end - 2).c_str());
+
+    // 26  rawAmount  Raw damage amount (pre-armor, etc.)
+    IncrementCell(1, line, &start, &end);
+    int raw_amount = atoi(line.substr(start + 1, start - end - 2).c_str());
+
+    // 27  overkill  Overkill amount
+    // 28  school  Spell school
+
+    // 29  resisted  Resisted amount
+    IncrementCell(3, line, &start, &end);
+    int resisted = atoi(line.substr(start + 1, start - end - 2).c_str());
+
+    // 30  blocked  Blocked amount
+    IncrementCell(1, line, &start, &end);
+    int blocked = atoi(line.substr(start + 1, start - end - 2).c_str());
+
+    // 31  absorbed  Absorbed amount
+    IncrementCell(1, line, &start, &end);
+    int absorbed = atoi(line.substr(start + 1, start - end - 2).c_str());
+
+    // e->hp_diff = -1.0f * (raw_amount - mitigated - resisted - blocked - absorbed);
+    int total_damage = mitigated;
+    if (total_damage == 0) {
+      return false;
+    }
+    e->hp_diff = -1.0f * total_damage;
+    std::cout << "line: " << line << std::endl;
+    std::cout << "time: " << e->time << ", player: " << e->player << ", hp_diff: " << e->hp_diff << std::endl;
+    return true;
+  }
+  return false;  // Should not really get here
 }
 
 }  // namespace css

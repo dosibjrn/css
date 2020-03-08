@@ -8,7 +8,7 @@ namespace css
 
 struct LogEntry {
   float hp_diff;
-  int64_t time;  // in milliseconds since 2000-01-01
+  int64_t time;  // in milliseconds since 00:00 1st january
   std::string player;
 };
 
