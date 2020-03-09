@@ -141,7 +141,8 @@ namespace {
 enum Type {
   HEAL = 0,
   DMG = 1,
-  BAD = 2
+  SPELL_DMG = 2,
+  BAD = 3
 };
 
 
@@ -177,7 +178,11 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
   // Example entry A
   // 2/26 21:48:51.188  SPELL_HEAL,Player-4476-004E8DD3,"Paisti-Gehennas",0x511,0x0,Player-4476-0241EF6A,"Imajoke-Gehennas",0x10514,0x0,10917,"Flash Heal",0x2,Player-4476-0241EF6A,0000000000000000,100,100,0,0,0,-1,0,0,0,-7623.41,-1096.02,0,0.9683,68,1342,1342,276,0,nil
   // Example entry B
-  // 2/26 21:49:12.929  SWING_DAMAGE,Creature-0-4458-469-5988-12017-000056C441,"Broodlord Lashlayer",0xa48,0x0,Player-4476-013D02E7,"Rawrmew-Gehennas",0x10514,0x0,Creature-0-4458-469-5988-12017-000056C441,0000000000000000,84,100,0,0,0,-1,0,0,0,-7612.08,-1096.62,0,5.4551,63,1726,3226,-1,1,0,0,0,nil,nil,1
+  // 2/26 21:49:12.929  SWING_DAMAGE,Creature-0-4458-469-5988-12017-000056C441,"Broodlord Lashlayer",0xa48,0x0,Player-4476-013D02E7,"Rawrmew-Gehennas",0x10514,0x0, Creature-0-4458-469-5988-12017-000056C441,0000000000000000,84,100,0 ,0,0,-1,0,0,0,-7612.08,-1096.62,0,5.4551,63,1726,3226,-1,1,0,0,0,nil,nil,1
+  // 2/26 21:48:36.477  SPELL_PERIODIC_DAMAGE,Creature-0-4458-469-5988-12468-000456C441,"Death Talon Hatcher",0xa48,0x0,Player-4476-00FC8B3C,"Ghan-Gehennas",0x514,0x0, 22442,"Growing Flames",0x4,Player-4476-00FC8B3C, 0000000000000000,58,100,0,0,0,-1,0,0,0,-7621.67,-1098.88,0,6.2650,68,200,200,-1,4,0,0,0,nil,nil,nil
+
+  // For periodic spell damage, damage seems to 2nd cell after the heading, which is the float in [0, 2pi] range
+  // That is 29th cell
 
   // Start by checking type: if not interesting, we can just skip line
 
@@ -198,6 +203,9 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
     type = Type::HEAL;
   } else if (cell.substr(cell_size - 12, 12) == "DAMAGE,Creat") {
     type = Type::DMG; 
+    if (cell.find("SPELL") != std::string::npos) {
+      type = Type::SPELL_DMG;
+    }
   } else {
     // type = Type::BAD;
     return false;
@@ -235,7 +243,7 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
   // Get target player name: 7th cell in csv
   end = 0;
   IncrementCell(7, line, &start, &end);
-  e->player = line.substr(start + 2, end - start - 4);  // skip both commas, both quotation marks
+  e->player = line.substr(start + 2, end - start - 3);  // skip both commas, both quotation marks
 
   
   // 2/26 21:48:51.188  SPELL_HEAL,Player-4476-004E8DD3,"Paisti-Gehennas",0x511,0x0,Player-4476-0241EF6A,"Imajoke-Gehennas",0x10514,0x0,10917,"Flash Heal",0x2,Player-4476-0241EF6A,0000000000000000,100,100,0,0,0,-1,0,0,0,-7623.41,-1096.02,0,0.9683,68,1342,1342,276,0,nil
@@ -247,10 +255,6 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
     IncrementCell(1, line, &start, &end);
     int overhealing = atoi(line.substr(start + 1, start - end - 2).c_str());
     e->hp_diff = healing - overhealing;
-
-    std::cout << "line: " << line << std::endl;
-    std::cout << "time: " << e->time << ", player: " << e->player << ", hp_diff: " << e->hp_diff << std::endl;
-    return true;
   } else if (type == Type::DMG) {
     // 2/26 21:49:12.929  SWING_DAMAGE,Creature-0-4458-469-5988-12017-000056C441,"Broodlord Lashlayer",0xa48,0x0,Player-4476-013D02E7,"Rawrmew-Gehennas",0x10514,0x0,Creature-0-4458-469-5988-12017-000056C441,0000000000000000,84,100,0,0,0,-1,0,0,0,-7612.08,-1096.62,0,5.4551,63,1726,3226,-1,1,0,0,0,nil,nil,1
     // Note: this indexing starts from 0
@@ -280,16 +284,25 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
 
     // e->hp_diff = -1.0f * (raw_amount - mitigated - resisted - blocked - absorbed);
     // int total_damage = mitigated;
-    int total_damage = (raw_amount - mitigated);
+    int total_damage = mitigated;
     if (total_damage <= 0) {
       return false;
     }
     e->hp_diff = -1.0f * total_damage;
-    std::cout << "line: " << line << std::endl;
-    std::cout << "time: " << e->time << ", player: " << e->player << ", hp_diff: " << e->hp_diff << std::endl;
-    return true;
+  } else if (type == Type::SPELL_DMG) {
+    // 7->29
+    IncrementCell(22, line, &start, &end);
+    int total_damage = atoi(line.substr(start + 1, start - end - 2).c_str());
+    if (total_damage <= 0) {
+      return false;
+    }
+    e->hp_diff = -1.0f * total_damage;
+  } else {
+    return false;
   }
-  return false;  // Should not really get here
+  // std::cout << "line: " << line << std::endl;
+  std::cout << "time: " << e->time << ", player: " << e->player << ", hp_diff: " << e->hp_diff << std::endl;
+  return true;  // Should not really get here
 }
 
 }  // namespace css
