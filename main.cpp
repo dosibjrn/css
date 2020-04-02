@@ -35,6 +35,10 @@ int main(int argc, char** argv)
     case 5:
       return css::PveHealingItemPicking(argc, argv, true);
     case 6:
+      if (argc < 3) {
+        std::cout << "please give a wow log file name as the third argument" << std::endl;
+        return 1;
+      }
       css::ParseBased(argv[2]);
       break;
  
