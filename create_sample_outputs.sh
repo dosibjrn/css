@@ -3,7 +3,7 @@ cp ../items/have.txt start_with.txt
 ./css 4 ../items/more_raid.csv no-bans ../items/have.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
 ./css 4 ../items/more_raid.csv ../items/bwl.txt no-lock pve_healing_mc_ony -a ../confs/our_mc.csv | tee ../sample_output/our_raids_mc_ony.txt
 ./css 4 ../items/more_raid.csv no-bans ../items/have.txt pve_healing_current -a ../confs/our_mc.csv | tee ../sample_output/our_raids_current.txt
-./css 4 ../items/more_raid.csv no-bans no-lock pve_healing_bwl -a ../confs/our_mc.csv | tee ../sample_output/our_raids_bwl.txt
+./css 4 ../items/more_raid.csv no-bans no-lock pve_healing_bwl -a ../confs/bwl_0401.csv | tee ../sample_output/our_raids_bwl.txt
 ./css 3 ../items/more_raid.csv no-bans ../items_have.txt pvp_heal_current
 ./css 3 ../items/more_raid.csv ../items/bwl.txt no-lock pvp_heal_mc_ony
 ./css 2 ../items/more_raid.csv ../items/banned_and_onyxia_mc.txt no-lock shadow_pvp_pre-raid

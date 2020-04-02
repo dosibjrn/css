@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 #include "log_entry.h"
 
@@ -18,6 +19,7 @@ void ParseBased(const std::string& log_fn)
   int64_t ms_start = 0;
   int64_t ms_end = 0;
   
+  std::vector<LogEntry> log;
   while (std::getline(is, line)) {
     LogEntry e;
     if (LineToLogEntryIfAny(line, &e)) {
@@ -32,6 +34,7 @@ void ParseBased(const std::string& log_fn)
         heal_sum += e.hp_diff;
       }
       ms_end = e.time;
+      log.push_back(e);
     }
   }
   float time_s = (ms_end - ms_start)*1e-3f;
