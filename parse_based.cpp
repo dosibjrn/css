@@ -85,10 +85,25 @@ float SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>& lo
   float mana = max_mana;
   int64_t prev_cast = 0;
   int64_t prev_tick = start_time;
+  float in_combat_sum_s = 0.0f;
+  int64_t prev_log_time_ms = start_time;
+  int64_t in_combat_thr_ms = 2e3;
+  int64_t prev_damage_taken_ms = 0;
   while (log_ix < log_s) {
     // while log entry stamp =< time, handle log entries
     while (log_ix < log_s && time >= log[log_ix].time) {
       HandleLogEntry(log[log_ix], &deficits);
+      if (log[log_ix].time - prev_log_time_ms < in_combat_thr_ms) {
+        in_combat_sum_s += static_cast<float>(log[log_ix].time - prev_log_time_ms)/1e3;
+      }
+      // big pause -> you probably did drink really
+      if (log[log_ix].time - prev_log_time_ms > 30e3) {
+        mana = max_mana;
+      }
+      prev_log_time_ms = log[log_ix].time;
+      if (log[log_ix].hp_diff < 0) {
+        prev_damage_taken_ms = log[log_ix].time;
+      }
       log_ix++;
     }
   
@@ -132,14 +147,49 @@ float SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>& lo
         mana += s.getManaRegenTickUnderFsr();
       }
       prev_tick = time;
+
+      // You are probably drinking. We only drink champagne here.
+      if (time - prev_damage_taken_ms > 10e3) {
+        mana += max_mana*0.04;
+      }
       mana = std::min(max_mana, mana);
     }
 
     // time goes on
     time += time_step_ms;
   }
-  return heal_sum/(static_cast<float>(time - start_time)/1e3f);
+  std::cout << "Total time in combat: " << in_combat_sum_s << " s." << std::endl;
+  return heal_sum/in_combat_sum_s;
 }
+
+std::vector<LogEntry> PrunedLog(const std::vector<LogEntry>& log)
+{
+  if (log.empty()) return log;
+
+  int64_t max_diff_ms = 2e3;
+  int64_t min_combat_len_ms = 30e3;
+  std::vector<LogEntry> out;
+  int64_t prev_t_ms = log[0].time;
+  std::vector<LogEntry> this_combat;
+  int64_t start_time = prev_t_ms;
+  for (const auto& e : log) {
+    if (e.player.find(" ") == std::string::npos) {
+      this_combat.push_back(e);
+    }
+    if (e.time - prev_t_ms > max_diff_ms) {
+      if (this_combat.back().time - this_combat.front().time > min_combat_len_ms) {
+        std::cout << "Combat from " << (this_combat.front().time - start_time)/1e3 << " to " << (this_combat.back().time - start_time)/1e3 << " s" << std::endl;
+        for (auto& e : this_combat) {
+          out.push_back(e);
+        }
+      }
+      this_combat.clear();
+    }
+    prev_t_ms = e.time;
+  }
+  return out;
+}
+
 
 void ParseBased(const std::string& log_fn)
 {
@@ -152,6 +202,7 @@ void ParseBased(const std::string& log_fn)
   int64_t ms_end = 0;
   
   std::vector<LogEntry> log;
+  int64_t lines = 0;
   while (std::getline(is, line)) {
     LogEntry e;
     if (LineToLogEntryIfAny(line, &e)) {
@@ -168,14 +219,21 @@ void ParseBased(const std::string& log_fn)
       ms_end = e.time;
       log.push_back(e);
     }
+    lines++;
   }
   float time_s = (ms_end - ms_start)*1e-3f;
   is.close();
+  std::cout << "Saw " << lines << " lines of log." << std::endl;
   std::cout << "diff_sum: " << diff_sum << std::endl;
   std::cout << "/40: " << diff_sum/40.0f << std::endl;
   std::cout << "heal_sum: " << heal_sum << " -> hps: " << heal_sum/time_s << std::endl;
   std::cout << "damage_sum: " << damage_sum << " -> dtps: " << damage_sum/time_s << std::endl;
   std::cout << "time_s: " << time_s << std::endl;
+
+  std::cout << "Pruning log from: " << log.size() << " entries." << std::endl;
+  log = PrunedLog(log);
+  std::cout << "Pruned to: " << log.size() << " entries." << std::endl;
+  
 
   float time_step = 0.2f;
   auto c = BaseLvl60HolyDiscHealing();
