@@ -77,10 +77,14 @@ float SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>& lo
   my_cast.done = true;
 
   const auto best_spell_eu = FlashHeal(c, 7); 
+  const auto lame_spell = Heal(c, 2);
 
   float heal_sum = 0.0f;
   Stats s(c);
-  float mana = s.getMaxMana();
+  const float max_mana = s.getMaxMana();
+  float mana = max_mana;
+  int64_t prev_cast = 0;
+  int64_t prev_tick = start_time;
   while (log_ix < log_s) {
     // while log entry stamp =< time, handle log entries
     while (log_ix < log_s && time >= log[log_ix].time) {
@@ -104,19 +108,37 @@ float SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>& lo
         deficits[my_cast.player] -= healing;
         mana -= my_cast.cost;
         my_cast.done = true;
+        prev_cast = time;
+        float time_since_start_s = static_cast<float>(time - start_time)/1e3;
+        std::cout << "@ time: " << time_since_start_s << " s, healed: " << my_cast.player << " for " << healing << " (" 
+            << my_cast.hp_diff - healing << " oh), " << deficit << " -> " << deficit - healing << ", mana left: " << mana << std::endl;
       }
     }
 
     // if not casting, pick best target and start casting
     if (my_cast.done) {
-      PickBestCastIfAny(c, mana, time, deficits, best_spell_eu, &my_cast);
+      const Spell* s = &best_spell_eu;
+      if (mana < max_mana * 0.2) {
+        s = &lame_spell;
+      }
+      PickBestCastIfAny(c, mana, time, deficits, *s, &my_cast);
     }
 
     // mana regen
+    if (time >= prev_tick + 2e3 ) {
+      if (time >= prev_cast + 5e3) {
+        mana += s.getManaRegenTickOutOfFsr();
+      } else {
+        mana += s.getManaRegenTickUnderFsr();
+      }
+      prev_tick = time;
+      mana = std::min(max_mana, mana);
+    }
 
     // time goes on
     time += time_step_ms;
   }
+  return heal_sum/(static_cast<float>(time - start_time)/1e3f);
 }
 
 void ParseBased(const std::string& log_fn)
