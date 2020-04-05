@@ -142,7 +142,8 @@ enum Type {
   HEAL = 0,
   DMG = 1,
   SPELL_DMG = 2,
-  BAD = 3
+  UNIT_DIED = 3,
+  BAD = 4
 };
 
 
@@ -206,6 +207,9 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
     if (cell.find("SPELL") != std::string::npos) {
       type = Type::SPELL_DMG;
     }
+  } else if ( (cell.substr(cell_size - 15, 15) == "UNIT_DIED,00000")
+             && (line.find("Player-") != std::string::npos) ) {
+    type = Type::UNIT_DIED;
   } else {
     // type = Type::BAD;
     return false;
@@ -301,6 +305,11 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
       return false;
     }
     e->hp_diff = -1.0f * total_damage;
+  } else if (type == Type::UNIT_DIED) {
+    // From healing point of view, dead is as good as healed to full, funnily enough
+
+    // std::cout << "(unit died) line: " << line << std::endl;
+    e->hp_diff = 1e5f; // + 100 000 should do it in classic context
   } else {
     return false;
   }
