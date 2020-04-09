@@ -427,6 +427,7 @@ int SpellToIx(const Spell& spell)
 std::vector<Spell> PveHealingSequence(const PriestCharacter& c, const std::vector<float>& spell_counts)
 {
   float total_count = std::accumulate(spell_counts.begin(), spell_counts.end(), 0.0f);
+
   bool verbose = false;
 
   if (verbose) {

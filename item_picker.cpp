@@ -71,7 +71,10 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
     Regen regen = regens[i];
     // regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
     auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
-    float w = global::assumptions.pve_combat_weights[i];
+    float w = 1.0f;
+    if (i < global::assumptions.pve_combat_weights.size()) {
+      w = global::assumptions.pve_combat_weights[i];
+    }
     hps_sum += w*res.first;
     weight_sum += w; 
   }
@@ -860,7 +863,10 @@ void MatchValues(const PriestCharacter& c, float* int_val, float* mp5_val, float
   auto n_fights = lens.size(); 
   for (size_t i = 0; i < n_fights; ++i) {
     float len = lens[i];
-    float w = global::assumptions.pve_combat_weights[i];
+    float w = 1.0f;
+    if (i < global::assumptions.pve_combat_weights.size()) {
+      w = global::assumptions.pve_combat_weights[i];
+    }
     weighted_sum += w*len;
     weight_sum += w;
   }
