@@ -297,7 +297,7 @@ void ParseBased(const std::string& log_fn)
           if (res.second > time_min_s) {
             time_sum += res.second;
             heal_sum += res.first;
-            std::cout << "HPS: " << res.first/res.second << std::endl;
+            // std::cout << "HPS: " << res.first/res.second << std::endl;
           }
         }
       }
