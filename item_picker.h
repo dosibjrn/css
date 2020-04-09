@@ -7,6 +7,7 @@
 #include "assumptions.h"
 #include "item.h"
 #include "item_table.h"
+#include "log_entry.h"
 #include "priest_character.h"
 #include "regen.h"
 #include "hps.h"
@@ -21,6 +22,7 @@ class ItemPicker {
     pvp_shadow,
     pvp_healing,
     pve_healing,
+    pve_healing_log,
   };
   ItemPicker(const PriestCharacter& c, std::string item_table_name, ValueChoice value_choice = ValueChoice::pvp_shadow);
   void setTagName(const std::string& tag_name) { m_tag_name = tag_name; }
@@ -51,6 +53,7 @@ private:
   float valuePvpShadow(const PriestCharacter& c) const;
   float valuePvpHealing(const PriestCharacter& c) const;
   float valuePveHealing(const PriestCharacter& c) const;
+  float valuePveCombatLogHealing(const PriestCharacter& c) const;
 
   std::vector<PveInfo> getPveInfo(const PriestCharacter& c) const;
 
@@ -120,6 +123,9 @@ private:
   bool m_pve_healing_optimizes_counts = false;
 
   std::string m_tag_name;
+
+  // Combat Log Healing related shizzles
+  std::vector<std::vector<LogEntry>> m_logs;
 };
 
 }  // namespace css

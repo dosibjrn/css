@@ -225,7 +225,7 @@ std::vector<std::vector<LogEntry>> PrunedLog(const std::vector<LogEntry>& log, c
 }
 
 
-void ParseBased(const std::string& log_fn)
+std::vector<std::vector<LogEntry>> GetLogs(const std::string& log_fn)
 {
   std::ifstream is(log_fn.c_str());
   std::string line;
@@ -267,20 +267,40 @@ void ParseBased(const std::string& log_fn)
   std::cout << "Pruning log from: " << log.size() << " entries." << std::endl;
   std::string remove_player = "Paisti-Gehennas";
   auto logs = PrunedLog(log, remove_player);
-  std::cout << "Pruned to: " << log.size() << " entries." << std::endl;
-  
+  int total_size = 0;
+  for (auto one_log : logs) {
+    total_size += one_log.size();
+  }
+  std::cout << "Pruned to: " << total_size << " entries." << std::endl;
+  return logs;
+}
 
-  float time_step = 0.2f;
-  auto c = BaseLvl60HolyDiscHealing();
-  c.sp = 700;
-  c.intelligence = 400;
-  c.spirit = 400;
-  c.mp5 = 70;
-  c.talents.meditation = 6;  // 3p T2
+float HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_mul, const LogsType& logs)
+{
+  float heal_sum = 0.0f;
+  float time_sum = 0.0f;
 
+  // TODO: From assumptions
+  const float time_step = 0.2f;
+  const float time_min_s = 30.0f;  // oh no your short combats do not count and if someone dies there l2p
+  for (const auto& log : logs) {
+    float log_time = (log.back().time - log.front().time) / 1e3;
+    if (log_time > time_min_s) {
+      auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul);
+      if (res.second > time_min_s) {
+        time_sum += res.second;
+        heal_sum += res.first;
+        // std::cout << "HPS: " << res.first/res.second << std::endl;
+      }
+    }
+  }
+  float hps = heal_sum/time_sum; 
+  std::cout << "oh_limit: " << oh_limit << ", time_left_mul: " << time_left_mul << " -> total hps: " << heal_sum/time_sum << std::endl;
+  return hps;
+}
 
-  // const float oh_limit = 0.75f;
-  // const float time_left_mul = 2.0f;
+std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, const LogsType& logs)
+{
   const float time_min_s = 30.0f;
   float best_hps = 0.0f;
   float best_oh_limit = 0.0f;
@@ -288,21 +308,7 @@ void ParseBased(const std::string& log_fn)
 
   for (float oh_limit = 0.1f; oh_limit <= 0.95f; oh_limit += 0.1f) {
     for (float time_left_mul = 0.1f; time_left_mul <= 3.0f; time_left_mul += 0.2f) {
-      heal_sum = 0.0f;
-      float time_sum = 0.0f;
-      for (const auto& log : logs) {
-        float log_time = (log.back().time - log.front().time) / 1e3;
-        if (log_time > time_min_s) {
-          auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul);
-          if (res.second > time_min_s) {
-            time_sum += res.second;
-            heal_sum += res.first;
-            // std::cout << "HPS: " << res.first/res.second << std::endl;
-          }
-        }
-      }
-      float hps = heal_sum/time_sum; 
-      std::cout << "oh_limit: " << oh_limit << ", time_left_mul: " << time_left_mul << " -> total hps: " << heal_sum/time_sum << std::endl;
+      float hps = HpsForLogs(c, oh_limit, time_left_mul, logs);
       if (hps > best_hps) {
         best_hps = hps;
         best_oh_limit = oh_limit;
@@ -311,6 +317,22 @@ void ParseBased(const std::string& log_fn)
     }
   }
   std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul << std::endl;
+  return {best_oh_limit, best_time_left_mul};
+
+}
+
+void ParseBased(const std::string& log_fn)
+{
+  auto logs = GetLogs(log_fn);
+
+  float time_step = 0.2f;
+  auto c = BaseLvl60HolyDiscHealing();
+  c.sp = 700;
+  c.intelligence = 400;
+  c.spirit = 400;
+  c.mp5 = 70;
+  c.talents.meditation = 6;  // 3p T2
+  FindBestOhLimitAndTimeLeftMul(c, logs);
 }
 
 }  // namespace css
