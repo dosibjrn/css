@@ -25,6 +25,10 @@ int ItemPickingMain(int argc, char** argv, ItemPicker::ValueChoice value_choice,
     }
   }
 
+  if (global::assumptions.log_in != "") {
+    ip.AddLog(global::assumptions.log_in);
+  }
+
   {
     bool got_something = false;
     std::string fn = "start_with.txt";

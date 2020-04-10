@@ -77,6 +77,13 @@ int PveHealingItemPicking(int argc, char** argv, bool full_buffs)
   if (res_string.first) {
     ReadAssumptions(res_string.second);  
   }
+
+  res_string = ParseString("-l", &argc, argv);
+  if (res_string.first) {
+    global::assumptions.log_in = res_string.second;
+    std::cout << "Will read log from: " << global::assumptions.log_in << std::endl;
+  }
+
   if (full_buffs) {
     global::assumptions.buff_fraction = 1.0f;
   }

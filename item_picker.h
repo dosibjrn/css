@@ -7,7 +7,7 @@
 #include "assumptions.h"
 #include "item.h"
 #include "item_table.h"
-#include "log_entry.h"
+#include "parse_based.h"
 #include "priest_character.h"
 #include "regen.h"
 #include "hps.h"
@@ -30,6 +30,8 @@ class ItemPicker {
   void ClearLocked() { m_locked.clear(); }
   void AddBanned(std::string s) { m_banned[s] = true; }
   void AddWhitelisted(std::string s) { m_whitelist[s] = true; }
+
+  void AddLog(const std::string& log_fn);
 
   void Calculate();
   void PickBestForSlots(const ItemTable &item_table, bool disable_bans, int iteration, int max_iterations, //
@@ -125,7 +127,9 @@ private:
   std::string m_tag_name;
 
   // Combat Log Healing related shizzles
-  std::vector<std::vector<LogEntry>> m_logs;
+  LogsType m_logs;
+  float m_oh_limit = 0.9f;
+  float m_time_left_mul = 0.5f;
 };
 
 }  // namespace css

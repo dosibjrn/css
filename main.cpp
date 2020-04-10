@@ -70,4 +70,6 @@ int main(int argc, char** argv)
 // * unit tests: could still have a ton of bugs
 // * refactoring of spell counts and ranks: hps.cpp & .hpp functionality under class?
 // * all upgrade couting needs refactoring and seems a bit fishy every now and then: ring values differ notably
+// * for each iter pick best params for log based pve hps
+// * carry out with the option of actually using that with the obj func as say 6/7 opt
 // * would probably be informative to get numbers like heal per mana, frac out of fsr in pve info?

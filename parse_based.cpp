@@ -225,7 +225,7 @@ std::vector<std::vector<LogEntry>> PrunedLog(const std::vector<LogEntry>& log, c
 }
 
 
-std::vector<std::vector<LogEntry>> GetLogs(const std::string& log_fn)
+LogsType GetLogs(const std::string& log_fn)
 {
   std::ifstream is(log_fn.c_str());
   std::string line;
@@ -295,7 +295,7 @@ float HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_mul, 
     }
   }
   float hps = heal_sum/time_sum; 
-  std::cout << "oh_limit: " << oh_limit << ", time_left_mul: " << time_left_mul << " -> total hps: " << heal_sum/time_sum << std::endl;
+  // std::cout << "oh_limit: " << oh_limit << ", time_left_mul: " << time_left_mul << " -> total hps: " << heal_sum/time_sum << std::endl;
   return hps;
 }
 
@@ -316,7 +316,7 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
       }
     }
   }
-  std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul << std::endl;
+  // std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul << std::endl;
   return {best_oh_limit, best_time_left_mul};
 
 }

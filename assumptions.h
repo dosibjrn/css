@@ -72,6 +72,9 @@ struct Assumptions
   float mana_penalty = 0.0f;
 
   bool holy_disc = true;
+
+  // Log input related
+  std::string log_in = "";
 };
 
 namespace global

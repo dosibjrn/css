@@ -57,28 +57,33 @@ float ItemPicker::valuePvpHealing(const PriestCharacter& c) const
 
 float ItemPicker::valuePveHealing(const PriestCharacter& c) const
 {
-  float weight_sum = 0.0;
-  float hps_sum = 0.0f;
-  int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
-  Stats stats(c);
+  // TODO: consider a separate type...
+  if (!m_logs.empty()) {
+    return HpsForLogs(c, m_oh_limit, m_time_left_mul, m_logs); 
+  } else {
+    float weight_sum = 0.0;
+    float hps_sum = 0.0f;
+    int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
+    Stats stats(c);
 
-  auto regens = m_curr_regens;
-  auto counts = m_curr_pve_healing_counts;
-  if (m_pve_healing_optimizes_counts) {
-    counts = bestCounts(c, counts, &regens);
-  }
-  for (int i = 0; i < n_combats; ++i) {
-    Regen regen = regens[i];
-    // regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
-    auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
-    float w = 1.0f;
-    if (i < global::assumptions.pve_combat_weights.size()) {
-      w = global::assumptions.pve_combat_weights[i];
+    auto regens = m_curr_regens;
+    auto counts = m_curr_pve_healing_counts;
+    if (m_pve_healing_optimizes_counts) {
+      counts = bestCounts(c, counts, &regens);
     }
-    hps_sum += w*res.first;
-    weight_sum += w; 
+    for (int i = 0; i < n_combats; ++i) {
+      Regen regen = regens[i];
+      // regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
+      auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
+      float w = 1.0f;
+      if (i < global::assumptions.pve_combat_weights.size()) {
+        w = global::assumptions.pve_combat_weights[i];
+      }
+      hps_sum += w*res.first;
+      weight_sum += w; 
+    }
+    return hps_sum/weight_sum;
   }
-  return hps_sum/weight_sum;
 }
 
 std::vector<PveInfo> ItemPicker::getPveInfo(const PriestCharacter& c) const
@@ -211,7 +216,9 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
   }
   if (val > *best) {
     if (m_value_choice == ValueChoice::pve_healing) {
-      m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_curr_regens);
+      if (m_logs.empty()) {
+        m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_curr_regens);
+      }
       val = value(m_c_curr);
     }
     if (val > *best) {
@@ -638,7 +645,11 @@ void ItemPicker::Calculate()
          && iteration < max_iterations
          && iters_without_new_best < max_iters_without_new_best)
          || iters_no_bans < max_iters_no_bans) {
-    if (m_value_choice == ValueChoice::pve_healing) {
+    if (!m_logs.empty()) {
+      auto res = FindBestOhLimitAndTimeLeftMul(m_c_curr, m_logs);
+      m_oh_limit = res.first;
+      m_time_left_mul = res.second;
+    } else if (m_value_choice == ValueChoice::pve_healing) {
       m_curr_pve_healing_counts = bestCounts(m_c_curr, m_curr_pve_healing_counts, &m_curr_regens);
     }
 
@@ -1012,6 +1023,12 @@ void ItemPicker::CoutCurrentValues(std::string tag_name) const
     std::cout << "To file: " << fn << std::endl; 
   }
   global::assumptions.penalize_oom = saved;
+}
+
+
+void ItemPicker::AddLog(const std::string& log_fn)
+{
+  m_logs = GetLogs(log_fn);
 }
 
 }  // namespace css
