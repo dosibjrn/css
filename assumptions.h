@@ -75,6 +75,13 @@ struct Assumptions
 
   // Log input related
   std::string log_in = "";
+  float min_combat_length = 30.0f; // 30.0f;
+  float max_log_entry_diff_in_combat = 2.0f; //600.0f; // 2.0f
+  bool precast = true;
+  bool swap_cast = true;
+  float time_step = 0.2f;
+
+  std::string skip_player = "Paisti-Gehennas";
 };
 
 namespace global

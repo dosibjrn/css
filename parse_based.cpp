@@ -1,10 +1,12 @@
 #include "parse_based.h"
 
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <vector>
 
+#include "assumptions.h"
 #include "log_entry.h"
 #include "priest_character.h"
 #include "spells_priest_holy.h"
@@ -13,15 +15,32 @@
 namespace css
 {
 
-void HandleLogEntry(const LogEntry& e, std::map<std::string, float>* d)
+void HandleLogEntry(const LogEntry& e, std::map<std::string, float>* d, std::map<std::string, float>* damage_taken)
 {
-  if (d->find(e.player) != d->end()) {
-    (*d)[e.player] = 0.0f;
-  }
+  // NOTE: this is probably not actually needed due to how maps work in practice
+  // if (d->find(e.player) != d->end()) {
+    // (*d)[e.player] = 0.0f;
+    // (*damage_taken)[e.player] = 0.0f;
+  // }
   
-  (*d)[e.player] = -1.0f*e.hp_diff;
+  (*d)[e.player] += -1.0f*e.hp_diff;
   if ((*d)[e.player] < 0.0f) {
     (*d)[e.player] = 0.0f;
+  }
+
+  if (e.hp_diff < 0.0f) {
+    (*damage_taken)[e.player] += -1.0f*e.hp_diff;
+  }
+}
+
+void DamageTakenDecay(const float time_step, std::map<std::string, float>* damage_taken)
+{
+  constexpr float w_per_s = 0.2f;  // -> around last 5 seconds of damage taken present at each time;
+
+  // TODO do the math and make this more accurate cba now
+  const float mul = time_step*w_per_s;
+  for (auto& entry : *damage_taken) {
+    entry.second *= (1.0f - mul);
   }
 }
 
@@ -33,7 +52,51 @@ struct MyCast : public LogEntry {
 };
 
 
-// TODO: should keep track of the biggest deficit target i guess or sth
+void PickBestPreCast(const PriestCharacter &c, float mana, int64_t time, const std::map<std::string, float>& deficits, //
+                     const std::map<std::string, float>& damage_taken, const std::vector<Spell>& spells,               //
+                     MyCast* my_cast)
+{
+  if (damage_taken.empty()) return;
+  float max_val = 0.0f;
+  std::string player = "";
+
+  for (const auto& dt : damage_taken) {
+    float deficit = 0.0f;
+    if (deficits.find(dt.first) != deficits.end()) {
+      deficit = deficits.at(dt.first);
+    }
+
+    // Damage taken reflects roughly last 5 seconds
+    // Pick one with max (deficit + dps_in)
+    float val = dt.second * 0.2f + deficit;
+    if (val > max_val) {
+      max_val = val;
+      player = dt.first;
+    }
+  }
+  
+  // Pick spell with healing closest to max_val
+  const Spell* best_spell = &spells.front();
+  float min_d = fabs(best_spell->healing - max_val);
+  for (const auto& spell : spells) {
+    float d = fabs(spell.healing - max_val);
+    if (d < min_d) {
+      best_spell = &spell;
+      min_d = d;
+    }
+  }
+
+  my_cast->player = player;
+  my_cast->hp_diff = best_spell->healing;
+  my_cast->time = best_spell->cast_time*1e3 + time;
+  my_cast->cost = best_spell->cost;
+  my_cast->done = false;
+  my_cast->spell_name = best_spell->name;
+  my_cast->spell_rank = best_spell->rank;
+
+}
+
+// TODO: should keep track of the biggest deficit target i guess or sth, for perf
 void PickBestCastIfAny(const PriestCharacter& c, float mana, int64_t time, const std::map<std::string, float>& deficits, //
                        const std::vector<Spell>& spells, MyCast* my_cast)
 {
@@ -62,12 +125,14 @@ void PickBestCastIfAny(const PriestCharacter& c, float mana, int64_t time, const
   }
 }
 
-std::pair<float, float> SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>& log, float time_step,
+LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>& log, float time_step,
                                          float oh_limit, float time_left_mul)
 {
-  if (log.empty()) return {0.0f, 0.0f};
+  LogResult out;
+  if (log.empty()) return out;
 
   std::map<std::string, float> deficits;
+  std::map<std::string, float> damage_taken;
   const int64_t time_step_ms = std::max<int64_t>(1, time_step * 1e3);
 
   // take first log entry -> combat start
@@ -88,12 +153,14 @@ std::pair<float, float> SimpleLogHealing(const PriestCharacter& c, const std::ve
   my_cast.spell_name = "Unreal";
   my_cast.spell_rank = 1;
 
-  const auto best_spell_eu = FlashHeal(c, 7); 
-  const auto lame_spell = Heal(c, 2);
 
   std::vector<Spell> spells_fast;
   spells_fast.push_back(FlashHeal(c, 1));
+  spells_fast.push_back(FlashHeal(c, 2));
+  spells_fast.push_back(FlashHeal(c, 3));
   spells_fast.push_back(FlashHeal(c, 4));
+  spells_fast.push_back(FlashHeal(c, 5));
+  spells_fast.push_back(FlashHeal(c, 6));
   spells_fast.push_back(FlashHeal(c, 7));
 
   // cheaper / longer spells that will more likely get cancelled and thus conserve mana
@@ -103,22 +170,34 @@ std::pair<float, float> SimpleLogHealing(const PriestCharacter& c, const std::ve
   spells_hpm.push_back(GreaterHeal(c, 1));
   spells_hpm.push_back(GreaterHeal(c, 4));
 
-  float heal_sum = 0.0f;
+  for (const auto& spell : spells_fast) {
+    std::string spell_id = spell.name + " " + std::to_string(spell.rank);
+    out.spell_id_to_spell[spell_id] = spell;
+  }
+
+  for (const auto& spell : spells_hpm) {
+    std::string spell_id = spell.name + " " + std::to_string(spell.rank);
+    out.spell_id_to_spell[spell_id] = spell;
+  }
+
   Stats s(c);
   const float max_mana = s.getMaxMana();
   float mana = max_mana;
   int64_t prev_cast = 0;
   int64_t prev_tick = start_time;
-  float in_combat_sum_s = 0.0f;
   int64_t prev_log_time_ms = start_time;
   int64_t in_combat_thr_ms = 2e3;
   int64_t prev_damage_taken_ms = 0;
+
+  const bool precast = global::assumptions.precast;
+  const bool swap_cast = global::assumptions.swap_cast;
+
   while (log_ix < log_s) {
     // while log entry stamp =< time, handle log entries
     while (log_ix < log_s && time >= log[log_ix].time) {
-      HandleLogEntry(log[log_ix], &deficits);
+      HandleLogEntry(log[log_ix], &deficits, &damage_taken);
       if (log[log_ix].time - prev_log_time_ms < in_combat_thr_ms) {
-        in_combat_sum_s += static_cast<float>(log[log_ix].time - prev_log_time_ms)/1e3;
+        out.in_combat_sum += static_cast<float>(log[log_ix].time - prev_log_time_ms)/1e3;
       }
       // big pause -> you probably did drink really
       if (log[log_ix].time - prev_log_time_ms > 30e3) {
@@ -130,16 +209,36 @@ std::pair<float, float> SimpleLogHealing(const PriestCharacter& c, const std::ve
       }
       log_ix++;
     }
-
+    const float relative_time_left = 1.0 - static_cast<double>(time - start_time)/(end_time - start_time);
     const float time_since_start_s = static_cast<float>(time - start_time)/1e3;
   
     // cancel oh
     if (!my_cast.done && my_cast.time > time) {
       if (deficits.find(my_cast.player) != deficits.end() && deficits[my_cast.player] < my_cast.hp_diff*(1.0f - oh_limit)) {
-        my_cast.done = true;
-        if (announce) std::cout << "@ time: " << time_since_start_s << ", cancelled cast " << my_cast.spell_name 
+        // TODO if last tick or better heal available
+
+        if (swap_cast) {
+          MyCast better_cast;
+          if (mana/max_mana > time_left_mul * relative_time_left) {
+            PickBestCastIfAny(c, mana, time, deficits, spells_fast, &better_cast);
+          } else {
+            PickBestCastIfAny(c, mana, time, deficits, spells_hpm, &better_cast);
+          }
+
+          bool better_target_found = deficits[better_cast.player] > deficits[my_cast.player]*2.0f;
+
+          if (better_target_found) {
+            my_cast = better_cast;
+          }
+        }
+
+        bool last_tick = time + time_step > my_cast.time;
+        if (last_tick) {
+          my_cast.done = true;
+          if (announce) std::cout << "@ time: " << time_since_start_s << ", cancelled cast " << my_cast.spell_name 
             << " r" << my_cast.spell_rank << " for " << my_cast.hp_diff << " on " << my_cast.player 
-            << ", would oh: " << my_cast.hp_diff - deficits[my_cast.player] << std::endl;
+                << ", would oh: " << my_cast.hp_diff - deficits[my_cast.player] << std::endl;
+        }
       }
     }
 
@@ -148,7 +247,10 @@ std::pair<float, float> SimpleLogHealing(const PriestCharacter& c, const std::ve
       if (deficits.find(my_cast.player) != deficits.end()) {
         float deficit = deficits[my_cast.player];
         float healing = std::min(my_cast.hp_diff, deficit);
-        heal_sum += healing;
+        out.heal_sum += healing;
+        std::string spell_id = my_cast.spell_name + " " + std::to_string(my_cast.spell_rank);
+        out.spell_casts[spell_id]++;
+        out.spell_heal_sums[spell_id] += healing;
         deficits[my_cast.player] -= healing;
         mana -= my_cast.cost;
         my_cast.done = true;
@@ -162,13 +264,20 @@ std::pair<float, float> SimpleLogHealing(const PriestCharacter& c, const std::ve
     // if not casting, pick best target and start casting
     if (my_cast.done) {
       // More mana than time left
-      const float relative_time_left = 1.0 - static_cast<double>(time - start_time)/(end_time - start_time);
 
       // Low time_left_mul -> keep casting fast heals
       if (mana/max_mana > time_left_mul * relative_time_left) {
         PickBestCastIfAny(c, mana, time, deficits, spells_fast, &my_cast);
+        // If could not find target, pick precast target
+        if (my_cast.done && precast) {
+          PickBestPreCast(c, mana, time, deficits, damage_taken, spells_fast, &my_cast);
+        }
       } else {
+        // Same stuff for the hpm spells
         PickBestCastIfAny(c, mana, time, deficits, spells_hpm, &my_cast);
+        if (my_cast.done && precast) {
+          PickBestPreCast(c, mana, time, deficits, damage_taken, spells_hpm, &my_cast);
+        }
       }
     }
 
@@ -188,19 +297,24 @@ std::pair<float, float> SimpleLogHealing(const PriestCharacter& c, const std::ve
       mana = std::min(max_mana, mana);
     }
 
+    // Decay for damage taken so recent damage is more heavily weighted
+    if (precast) {
+      DamageTakenDecay(time_step, &damage_taken);
+    }
+
     // time goes on
     time += time_step_ms;
   }
-  if (announce) std::cout << "Total time in combat: " << in_combat_sum_s << " s." << std::endl;
-  return {heal_sum, in_combat_sum_s};
+  if (announce) std::cout << "Total time in combat: " << out.in_combat_sum << " s." << std::endl;
+  return out;
 }
 
-std::vector<std::vector<LogEntry>> PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_player)
+LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_player)
 {
   if (log.empty()) return std::vector<std::vector<LogEntry>>{};
 
-  int64_t max_diff_ms = 2e3;
-  int64_t min_combat_len_ms = 30e3;
+  int64_t max_diff_ms = global::assumptions.max_log_entry_diff_in_combat * 1e3;
+  int64_t min_combat_len_ms = global::assumptions.min_combat_length*1e3;
   std::vector<std::vector<LogEntry>> out;
   int64_t prev_t_ms = log[0].time;
   std::vector<LogEntry> this_combat;
@@ -265,7 +379,7 @@ LogsType GetLogs(const std::string& log_fn)
   std::cout << "time_s: " << time_s << std::endl;
 
   std::cout << "Pruning log from: " << log.size() << " entries." << std::endl;
-  std::string remove_player = "Paisti-Gehennas";
+  std::string remove_player = global::assumptions.skip_player;
   auto logs = PrunedLog(log, remove_player);
   int total_size = 0;
   for (auto one_log : logs) {
@@ -275,28 +389,36 @@ LogsType GetLogs(const std::string& log_fn)
   return logs;
 }
 
-float HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_mul, const LogsType& logs)
+LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_mul, const LogsType& logs)
 {
+  LogResult out;
   float heal_sum = 0.0f;
   float time_sum = 0.0f;
 
-  // TODO: From assumptions
-  const float time_step = 0.2f;
-  const float time_min_s = 30.0f;  // oh no your short combats do not count and if someone dies there l2p
+  const float time_step = global::assumptions.time_step;
+  const float time_min_s = global::assumptions.min_combat_length;
   for (const auto& log : logs) {
     float log_time = (log.back().time - log.front().time) / 1e3;
     if (log_time > time_min_s) {
       auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul);
-      if (res.second > time_min_s) {
-        time_sum += res.second;
-        heal_sum += res.first;
+      if (res.in_combat_sum > time_min_s) {
+        out.in_combat_sum += res.in_combat_sum;
+        out.heal_sum += res.heal_sum;
+        for (const auto& entry : res.spell_casts) {
+          out.spell_casts[entry.first] += entry.second;
+        }
+        for (const auto& entry : res.spell_heal_sums) {
+          out.spell_heal_sums[entry.first] += entry.second;
+        }
+        if (out.spell_id_to_spell.empty()) {
+          out.spell_id_to_spell = res.spell_id_to_spell;
+        }
         // std::cout << "HPS: " << res.first/res.second << std::endl;
       }
     }
   }
-  float hps = heal_sum/time_sum; 
   // std::cout << "oh_limit: " << oh_limit << ", time_left_mul: " << time_left_mul << " -> total hps: " << heal_sum/time_sum << std::endl;
-  return hps;
+  return out;
 }
 
 std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, const LogsType& logs)
@@ -308,7 +430,8 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
 
   for (float oh_limit = 0.1f; oh_limit <= 0.95f; oh_limit += 0.1f) {
     for (float time_left_mul = 0.1f; time_left_mul <= 3.0f; time_left_mul += 0.2f) {
-      float hps = HpsForLogs(c, oh_limit, time_left_mul, logs);
+      auto res = HpsForLogs(c, oh_limit, time_left_mul, logs);
+      float hps = res.heal_sum/res.in_combat_sum;
       if (hps > best_hps) {
         best_hps = hps;
         best_oh_limit = oh_limit;

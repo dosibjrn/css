@@ -73,3 +73,4 @@ int main(int argc, char** argv)
 // * for each iter pick best params for log based pve hps
 // * carry out with the option of actually using that with the obj func as say 6/7 opt
 // * would probably be informative to get numbers like heal per mana, frac out of fsr in pve info?
+// * could try minimizing deficit*time instead of maximizing hps

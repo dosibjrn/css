@@ -59,7 +59,8 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
 {
   // TODO: consider a separate type...
   if (!m_logs.empty()) {
-    return HpsForLogs(c, m_oh_limit, m_time_left_mul, m_logs); 
+    auto res = HpsForLogs(c, m_oh_limit, m_time_left_mul, m_logs); 
+    return res.heal_sum/res.in_combat_sum;
   } else {
     float weight_sum = 0.0;
     float hps_sum = 0.0f;
@@ -734,29 +735,53 @@ std::vector<std::vector<float>> ItemPicker::bestCounts(const PriestCharacter& c,
 void ItemPicker::CoutBestCounts() const
 {
   if (m_value_choice == ValueChoice::pve_healing) {
-    int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
-    int n_spells = static_cast<int>(m_best_pve_healing_counts[0].size());
-    for (int combat_ix = 0; combat_ix < n_combats; combat_ix++) {
-      float dura = m_pve_healing_combat_lengths[combat_ix];
-      std::cout << "For " << dura << " s fights:" << std::endl;
-      std::cout << "    casts: " << m_best_regens[combat_ix].casts << ", ticks: " << m_best_regens[combat_ix].ticks //
-          << ", ticks_oom: " << m_best_regens[combat_ix].ticks_oom << std::endl;
-      for (int spell_ix = 0; spell_ix < n_spells; spell_ix++) {
-        Spell s = IxToSpell(m_c_curr, spell_ix);
-        float count = m_best_pve_healing_counts[combat_ix][spell_ix];
-        std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
-      }
-      std::cout << "    pve info: "
-          << "target_alive_mul: " << m_pve_info[combat_ix].target_alive_mul
-          << ", oom_penalty_mul: " << m_pve_info[combat_ix].oom_penalty_mul
-          << ", regen_penalty_mul: " << m_pve_info[combat_ix].regen_penalty_mul
-          << std::endl;
+    if (m_logs.empty()) {
+      int n_combats = static_cast<int>(m_pve_healing_combat_lengths.size());
+      int n_spells = static_cast<int>(m_best_pve_healing_counts[0].size());
+      for (int combat_ix = 0; combat_ix < n_combats; combat_ix++) {
+        float dura = m_pve_healing_combat_lengths[combat_ix];
+        std::cout << "For " << dura << " s fights:" << std::endl;
+        std::cout << "    casts: " << m_best_regens[combat_ix].casts << ", ticks: " << m_best_regens[combat_ix].ticks //
+            << ", ticks_oom: " << m_best_regens[combat_ix].ticks_oom << std::endl;
+        for (int spell_ix = 0; spell_ix < n_spells; spell_ix++) {
+          Spell s = IxToSpell(m_c_curr, spell_ix);
+          float count = m_best_pve_healing_counts[combat_ix][spell_ix];
+          std::cout << "    " << s.name << ", rank: " << s.rank << ", count: " << count << std::endl;
+        }
+        std::cout << "    pve info: "
+            << "target_alive_mul: " << m_pve_info[combat_ix].target_alive_mul
+            << ", oom_penalty_mul: " << m_pve_info[combat_ix].oom_penalty_mul
+            << ", regen_penalty_mul: " << m_pve_info[combat_ix].regen_penalty_mul
+            << std::endl;
 
-      float hps = HpsWithRegen(m_c_best, 
-                               PveHealingSequence(m_c_best, m_best_pve_healing_counts[combat_ix]), 
-                               m_pve_healing_combat_lengths[combat_ix], 
-                               m_best_regens[combat_ix]).first;
-      std::cout << "    hps: " << hps << std::endl; 
+        float hps = HpsWithRegen(m_c_best, 
+                                 PveHealingSequence(m_c_best, m_best_pve_healing_counts[combat_ix]), 
+                                 m_pve_healing_combat_lengths[combat_ix], 
+                                 m_best_regens[combat_ix]).first;
+        std::cout << "    hps: " << hps << std::endl; 
+      }
+    } else {
+      auto res = HpsForLogs(m_c_best, m_oh_limit, m_time_left_mul, m_logs); 
+      std::cout << "oh_limit: " << m_oh_limit << std::endl;
+      std::cout << "time_left_mul: " << m_time_left_mul << std::endl;
+      std::cout << "in combat total: " << res.in_combat_sum << std::endl;
+
+      float cast_time_sum = 0.0f;
+      for (const auto& entry : res.spell_casts) {
+        std::string spell_id = entry.first;
+        Spell spell = res.spell_id_to_spell[spell_id];
+
+        float heal_sum = res.spell_heal_sums[spell_id];
+        
+        float cast_time = spell.cast_time;
+        cast_time_sum += cast_time*entry.second;
+        std::cout << spell_id << ", casts: " << entry.second << ", avg: " << heal_sum/entry.second << ", " 
+            << heal_sum/res.heal_sum*100.0f << "\%" << ", cast time " << entry.second*cast_time/res.in_combat_sum
+            << "\% of in combat, overheal: " << (entry.second*spell.healing - heal_sum)/(entry.second*spell.healing)
+            << std::endl;
+        // TODO: overheal overall, overheal per spell, total time casting, total hpm,
+      }
+      std::cout << "Total time casting: " << cast_time_sum << ", which is: " << cast_time_sum/res.in_combat_sum << "\% of time in combat." << std::endl;
     }
   }
 }
