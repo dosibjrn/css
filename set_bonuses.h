@@ -3,6 +3,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "item.h"
 
@@ -12,6 +13,8 @@ namespace css
 typedef std::map<std::string, Item> SetBonusListType;
 
 struct PriestCharacter;
+
+std::vector<std::string> getSetNames(const std::string& item_name);
 
 class SetBonuses {
  public:

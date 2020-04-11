@@ -51,7 +51,7 @@ class ItemPicker {
   PriestCharacter getCharacter() { return m_c_best; }
 
 private:
-  Item pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name = "");
+  Item pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name = "", bool use_alt = false);
   float value(const PriestCharacter& c) const;
   float valuePvpShadow(const PriestCharacter& c) const;
   float valuePvpHealing(const PriestCharacter& c) const;
@@ -73,6 +73,8 @@ private:
   void updateIfNewBest(float val, bool disable_bans);
 
   void updateIfNewBest(float val, bool disable_bans, int iteration, int* iters_without_new_best);
+
+  float ValueIncreaseWeightsBased(const Item& item);
 
   template<typename T>
       void shuffle(std::vector<T>* v)
@@ -134,7 +136,7 @@ private:
 
   // For item comparisons -> stat weights
   std::vector<std::pair<Item, float>> m_stat_diffs_to_hps_diffs;
-  Item m_stat_weights;
+  std::vector<float> m_weights;
 };
 
 }  // namespace css

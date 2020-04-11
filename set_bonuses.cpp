@@ -31,6 +31,8 @@ bool SuffixMatches(const std::string& suffix, const std::string& item_name) {
   }
 }
 
+}  // namespace
+
 // Some belong to two sets due to special effects modelled as set bonuses and being in a set
 // the all-seeing eye of zuldazar, I am looking at you and judging by your name, you're looking back
 std::vector<std::string> getSetNames(const std::string& item_name)
@@ -54,7 +56,6 @@ std::vector<std::string> getSetNames(const std::string& item_name)
 
   return {};
 }
-}  // namespace
 
 SetBonusListType SetBonuses::getSetBonusList()
 {
