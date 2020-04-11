@@ -8,6 +8,9 @@
 
 #include <omp.h>
 
+#include <Eigen/Dense>
+  // if (verbose) std::cout << "No item value: " << best_value << std::endl;
+
 #include "dps.h"
 #include "hps.h"
 #include "item_table.h"
@@ -818,7 +821,7 @@ void ItemPicker::CoutCharacterStats() const
 
 
 
-Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name) const
+Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name)
 {
   // bool verbose = current_item.slot == "shoulders";
   bool verbose = false;
@@ -828,8 +831,9 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   // for each item
   Item no_item;
   Item best_item = no_item;
-  float best_value = value(c_no_item);
-  if (verbose) std::cout << "No item value: " << best_value << std::endl;
+  float no_item_value = value(c_no_item);
+  if (verbose) std::cout << "No item value: " << no_item_value << std::endl;
+  float best_value = no_item_value;
   bool locked_seen = false;
   int n_items = static_cast<int>(items_for_slot.size());
   std::vector<float> vals(n_items);
@@ -840,6 +844,10 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     AddItem(item, &c_tmp);
     float val = value(c_tmp);
     vals[i] = val;
+  }
+
+  for (int i = 0; i < n_items; ++i) {
+    m_stat_diffs_to_hps_diffs.push_back({items_for_slot[i], vals[i] - no_item_value}); 
   }
 
   // for (const Item& item : items_for_slot) {
@@ -953,8 +961,63 @@ void MatchValues(const PriestCharacter& c, float* int_val, float* mp5_val, float
 }
 }  // namespace
 
-void ItemPicker::CoutCurrentValues(std::string tag_name) const
+void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
 {
+  // Use old entries with least squares fit to find a 
+
+  // A should probably be the item stat weights
+  const int n_entries = static_cast<int>(m_stat_diffs_to_hps_diffs.size());
+  constexpr int n_stat_types = 20;
+
+  // TODO we do not random init
+  
+  // n_entries rows, n_stat_types cols
+  Eigen::MatrixXf A = Eigen::MatrixXf::Zero(n_entries, n_stat_types);
+  Eigen::VectorXf b = Eigen::VectorXf::Zero(n_entries);
+  for (int i = 0; i < n_entries; ++i) {
+    auto row = A.row(i);
+    const Item& item = m_stat_diffs_to_hps_diffs[i].first;
+    row[0] = item.strength;
+    row[1] = item.agility;
+    row[2] = item.intelligence;
+    row[3] = item.stamina;
+    row[4] = item.spirit;
+
+
+    row[5] = item.sp;
+    row[6] = item.sp_shadow;
+    row[7] = item.sp_healing;
+    row[8] = item.mp5;
+    row[9] = item.spell_crit;
+    row[10] = item.spell_hit;
+
+
+    row[11] = item.arcane_res;
+    row[12] = item.nature_res;
+    row[13] = item.fire_res;
+    row[14] = item.frost_res;
+    row[15] = item.shadow_res;
+
+
+    row[16] = item.armor;
+    row[17] = item.defense;
+    row[18] = item.dodge;
+    row[19] = item.parry;
+
+    b[i] = m_stat_diffs_to_hps_diffs[i].second;
+  }
+
+  // And this should be the weights
+  std::cout << "The least-squares solution is:\n"
+      << A.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b) << std::endl;
+
+  // clear for next
+  m_stat_diffs_to_hps_diffs.clear();
+}
+
+void ItemPicker::CoutCurrentValues(std::string tag_name)
+{
+  CoutCurrentValuesBasedOnRecordedDiffs(tag_name);
   auto saved = global::assumptions.penalize_oom;
   global::assumptions.penalize_oom = false;
   PriestCharacter c = m_c_best;

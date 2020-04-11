@@ -40,7 +40,8 @@ class ItemPicker {
 
   void CoutBestItems();
   void CoutCharacterStats() const;
-  void CoutCurrentValues(std::string tag_name = "") const;
+  void CoutCurrentValues(std::string tag_name = "");
+  void CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name);
   void CoutBestCounts() const;
   void CoutDiffsToStart();
   void CoutAllUpgrades(bool partial, bool from_start);
@@ -50,7 +51,7 @@ class ItemPicker {
   PriestCharacter getCharacter() { return m_c_best; }
 
 private:
-  Item pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name = "") const;
+  Item pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name = "");
   float value(const PriestCharacter& c) const;
   float valuePvpShadow(const PriestCharacter& c) const;
   float valuePvpHealing(const PriestCharacter& c) const;
@@ -130,6 +131,10 @@ private:
   LogsType m_logs;
   float m_oh_limit = 0.9f;
   float m_time_left_mul = 0.5f;
+
+  // For item comparisons -> stat weights
+  std::vector<std::pair<Item, float>> m_stat_diffs_to_hps_diffs;
+  Item m_stat_weights;
 };
 
 }  // namespace css
