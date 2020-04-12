@@ -80,7 +80,7 @@ struct Assumptions
   bool precast = true;
   bool swap_cast = true;
   float time_step = 0.1f;
-  float reaction_time = 0.5f;
+  float reaction_time = 0.2f;
 
   std::string skip_player = "Paisti-Gehennas";
 };

@@ -48,6 +48,8 @@ void SetIfGiven(const std::string& key, std::map<std::string, std::vector<float>
   }
 }
 
+// TODO add string reading
+
 std::map<std::string, std::vector<float>> AssumptionsToMap(const std::string &fn)
 {
   std::map<std::string, std::vector<float>> assumptions_in;
@@ -102,6 +104,13 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("target_hp", assumptions_in, &global::assumptions.target_hp);
   SetIfGiven("mana_penalty", assumptions_in, &global::assumptions.mana_penalty);
   SetIfGiven("holy_disc", assumptions_in, &global::assumptions.holy_disc);
+
+  SetIfGiven("min_combat_length", assumptions_in, &global::assumptions.min_combat_length);
+  SetIfGiven("max_log_entry_diff_in_combat", assumptions_in, &global::assumptions.max_log_entry_diff_in_combat);
+  SetIfGiven("precast", assumptions_in, &global::assumptions.precast);
+  SetIfGiven("swap_cast", assumptions_in, &global::assumptions.swap_cast);
+  SetIfGiven("time_step", assumptions_in, &global::assumptions.time_step);
+  SetIfGiven("reaction_time", assumptions_in, &global::assumptions.reaction_time);
 }
 
 }  // namespace css

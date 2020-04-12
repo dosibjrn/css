@@ -240,18 +240,18 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   
     // cancel oh
     if (!my_cast.done && my_cast.time > time) {
-      if (deficits.find(my_cast.player) != deficits.end() && deficits[my_cast.player] < my_cast.hp_diff*(1.0f - oh_limit)) {
+      if (deficits_delayed.find(my_cast.player) != deficits_delayed.end() && deficits_delayed[my_cast.player] < my_cast.hp_diff*(1.0f - oh_limit)) {
         // TODO if last tick or better heal available
 
         if (swap_cast) {
           MyCast better_cast;
           if (mana/max_mana > time_left_mul * relative_time_left) {
-            PickBestCastIfAny(c, mana, time, deficits, spells_fast, &better_cast);
+            PickBestCastIfAny(c, mana, time, deficits_delayed, spells_fast, &better_cast);
           } else {
-            PickBestCastIfAny(c, mana, time, deficits, spells_hpm, &better_cast);
+            PickBestCastIfAny(c, mana, time, deficits_delayed, spells_hpm, &better_cast);
           }
 
-          bool better_target_found = deficits[better_cast.player] > deficits[my_cast.player]*2.0f;
+          bool better_target_found = deficits_delayed[better_cast.player] > deficits_delayed[my_cast.player]*2.0f;
 
           if (better_target_found) {
             my_cast = better_cast;
@@ -263,7 +263,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
           my_cast.done = true;
           if (announce) std::cout << "@ time: " << time_since_start_s << ", cancelled cast " << my_cast.spell_name 
             << " r" << my_cast.spell_rank << " for " << my_cast.hp_diff << " on " << my_cast.player 
-                << ", would oh: " << my_cast.hp_diff - deficits[my_cast.player] << std::endl;
+                << ", would oh: " << my_cast.hp_diff - deficits_delayed[my_cast.player] << std::endl;
         }
       }
     }
@@ -277,16 +277,16 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
 
       // Low time_left_mul -> keep casting fast heals
       if (mana/max_mana > time_left_mul * relative_time_left) {
-        PickBestCastIfAny(c, mana, time, deficits, spells_fast, &my_cast);
+        PickBestCastIfAny(c, mana, time, deficits_delayed, spells_fast, &my_cast);
         // If could not find target, pick precast target
         if (my_cast.done && precast) {
-          PickBestPreCast(c, mana, time, deficits, damage_taken, spells_fast, &my_cast);
+          PickBestPreCast(c, mana, time, deficits_delayed, damage_taken, spells_fast, &my_cast);
         }
       } else {
         // Same stuff for the hpm spells
-        PickBestCastIfAny(c, mana, time, deficits, spells_hpm, &my_cast);
+        PickBestCastIfAny(c, mana, time, deficits_delayed, spells_hpm, &my_cast);
         if (my_cast.done && precast) {
-          PickBestPreCast(c, mana, time, deficits, damage_taken, spells_hpm, &my_cast);
+          PickBestPreCast(c, mana, time, deficits_delayed, damage_taken, spells_hpm, &my_cast);
         }
       }
     }
