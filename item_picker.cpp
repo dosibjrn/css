@@ -795,6 +795,7 @@ void ItemPicker::CoutBestCounts() const
       std::cout << "in combat total: " << res.in_combat_sum << std::endl;
 
       float cast_time_sum = 0.0f;
+      float raw_heal_sum = 0.0f;
       for (const auto& entry : res.spell_casts) {
         std::string spell_id = entry.first;
         Spell spell = res.spell_id_to_spell[spell_id];
@@ -803,13 +804,15 @@ void ItemPicker::CoutBestCounts() const
         
         float cast_time = spell.cast_time;
         cast_time_sum += cast_time*entry.second;
+        raw_heal_sum += entry.second*spell.healing;
         std::cout << spell_id << ", casts: " << entry.second << ", avg: " << heal_sum/entry.second << ", " 
-            << heal_sum/res.heal_sum*100.0f << "\%" << ", cast time " << entry.second*cast_time/res.in_combat_sum
+            << heal_sum/res.heal_sum*100.0f << "\%" << ", cast time " << (entry.second*cast_time)/res.in_combat_sum*100.0f
             << "\% of in combat, overheal: " << (entry.second*spell.healing - heal_sum)/(entry.second*spell.healing)
             << std::endl;
         // TODO: overheal overall, overheal per spell, total time casting, total hpm,
       }
-      std::cout << "Total time casting: " << cast_time_sum << ", which is: " << cast_time_sum/res.in_combat_sum << "\% of time in combat." << std::endl;
+      std::cout << "Total time casting: " << cast_time_sum << ", which is: " << cast_time_sum/res.in_combat_sum*100.0f << "\% of time in combat." << std::endl;
+      std::cout << "Total hps: " << res.heal_sum/res.in_combat_sum << ", raw hps: " << raw_heal_sum/res.in_combat_sum << ", oh: " << (raw_heal_sum - res.heal_sum)/(raw_heal_sum) << std::endl;
     }
   }
 }

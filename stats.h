@@ -24,7 +24,13 @@ class Stats {
     int meditation = c_.talents.meditation;
     if (c_.set_bonuses.getTotalBonus().name.find("transcendence 3") != std::string::npos) {
       meditation += 3;
+    } else if (c_.set_bonuses.getPartial() && c_.set_bonuses.getTotalBonus().name.find("transcendence 2") != std::string::npos) {
+      meditation += 2;
+    } else if (c_.set_bonuses.getPartial() && c_.set_bonuses.getTotalBonus().name.find("transcendence 1") != std::string::npos) {
+      meditation += 1;
     }
+
+
     return meditation*0.05f*(12.5f + c_.spirit*0.25f) + mp5Tick();
   }
   float getManaRegenTickSpiritTapUnderFsr() const

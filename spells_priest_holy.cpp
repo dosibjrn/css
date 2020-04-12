@@ -46,6 +46,10 @@ Spell FlashHeal(const PriestCharacter& c, int rank)
   s.type = School::Holy;
   if (c.set_bonuses.getTotalBonus().name.find("prophecy 3") != std::string::npos) {
     s.cast_time -= 0.1f;
+  } else if (c.set_bonuses.getPartial() && c.set_bonuses.getTotalBonus().name.find("prophecy 2") != std::string::npos) {
+    s.cast_time -= 0.066666f;
+  } else if (c.set_bonuses.getPartial() && c.set_bonuses.getTotalBonus().name.find("prophecy 1") != std::string::npos) {
+    s.cast_time -= 0.033333f;
   }
 
   ModifySpell(c, &s);

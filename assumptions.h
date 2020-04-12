@@ -79,7 +79,8 @@ struct Assumptions
   float max_log_entry_diff_in_combat = 2.0f; //600.0f; // 2.0f
   bool precast = true;
   bool swap_cast = true;
-  float time_step = 0.2f;
+  float time_step = 0.1f;
+  float reaction_time = 0.5f;
 
   std::string skip_player = "Paisti-Gehennas";
 };
