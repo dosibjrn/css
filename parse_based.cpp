@@ -232,7 +232,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
       log_ix++;
     }
     while (log_ix_delayed < log_s && time - reaction_time_ms >= log[log_ix_delayed].time) {
-      HandleLogEntry(log[log_ix], &deficits_delayed, &damage_taken);
+      HandleLogEntry(log[log_ix_delayed], &deficits_delayed, &damage_taken);
       log_ix_delayed++;
     }
     const float relative_time_left = 1.0 - static_cast<double>(time - start_time)/(end_time - start_time);
