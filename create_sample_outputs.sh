@@ -1,5 +1,5 @@
 # Run from e.g. css/build
-cp ../items/have_atiy,txt start_with.txt
+cp ../items/have_atiy.txt start_with.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_04-12.txt
 
 cp ../items/have.txt start_with.txt

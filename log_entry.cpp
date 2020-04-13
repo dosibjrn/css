@@ -200,14 +200,14 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
 
   size_t cell_size = cell.size();
 
-  if (cell.substr(cell_size - 10, 10) == "HEAL,Playe") {
+  if (cell_size > 10 && cell.substr(cell_size - 10, 10) == "HEAL,Playe") {
     type = Type::HEAL;
-  } else if (cell.substr(cell_size - 12, 12) == "DAMAGE,Creat") {
+  } else if (cell_size > 12 && cell.substr(cell_size - 12, 12) == "DAMAGE,Creat") {
     type = Type::DMG; 
     if (cell.find("SPELL") != std::string::npos) {
       type = Type::SPELL_DMG;
     }
-  } else if ( (cell.substr(cell_size - 15, 15) == "UNIT_DIED,00000")
+  } else if ( cell_size > 15 && (cell.substr(cell_size - 15, 15) == "UNIT_DIED,00000")
              && (line.find("Player-") != std::string::npos) ) {
     type = Type::UNIT_DIED;
   } else {
