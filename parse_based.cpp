@@ -382,6 +382,8 @@ LogsType GetLogs(const std::string& log_fn)
   
   std::vector<LogEntry> log;
   int64_t lines = 0;
+  int64_t time_prev_ms = 0;
+  constexpr int64_t hour_ms = 60*60*1e3;
   while (std::getline(is, line)) {
     LogEntry e;
     if (LineToLogEntryIfAny(line, &e)) {
@@ -389,6 +391,7 @@ LogsType GetLogs(const std::string& log_fn)
       diff_sum += e.hp_diff;
       if (ms_start == 0) {
         ms_start = e.time;
+        time_prev_ms = ms_start;
       }
       if (e.hp_diff < 0) {
         damage_sum -= e.hp_diff;
@@ -396,7 +399,14 @@ LogsType GetLogs(const std::string& log_fn)
         heal_sum += e.hp_diff;
       }
       ms_end = e.time;
-      log.push_back(e);
+      if (e.time - time_prev_ms > hour_ms) {
+        std::cout << "Pretty strange time increment of : " << static_cast<float>(e.time - time_prev_ms)/hour_ms 
+            << " hours. Let's say we skip this line:" << std::endl;
+        std::cout << line << std::endl;
+      } else {
+        log.push_back(e);
+        time_prev_ms = e.time;
+      }
     }
     lines++;
   }
@@ -435,7 +445,10 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
 
   int64_t time = logs.front().front().time;
 
+  int n_logs = static_cast<int>(logs.size());
   for (const auto& log : logs) {
+    if (log.empty()) continue;
+
     float log_time = (log.back().time - log.front().time) / 1e3;
     if (log_time > time_min_s) {
 
