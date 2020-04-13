@@ -164,3 +164,4 @@ The log based healing is still pretty experimental and some issues remain, e.g.:
 
 So all log based results should be taken with a pinch of salt for now.
 
+Please note that for now this functionality is not available in the windows exe, just if you compile it yourself.
