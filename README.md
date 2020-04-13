@@ -50,12 +50,16 @@ PvE healing has some assumptions and limitations.
 
 The basic functionality optimizes regen pattern within given range (1-20 casts, then 0-10 ticks of regen).
 The spell sequence is optimized as well: number of following spells is adjusted:
-  * heal rank 2
-  * heal rank 4
-  * greater heal rank 1
-  * greater heal rank 4
-  * renew, max rank
-  * poh, max rank
+  * heal, rank 2
+  * heal, rank 4
+  * greater heal, rank 1
+  * greater heal, rank 4
+  * flash heal, rank 1
+  * flash heal, rank 4
+  * flash heal, rank 7
+  * renew, rank 9
+  * poh, rank 4
+  * shield, rank 10
 
 These spells have specific "max frequencies", limiting their relative amount. Max rank renews are limited to 20%,
 max rank greater heals are limited to 20%, and PoH is limited to 10% due to the fact that it's not really realistic to
@@ -121,7 +125,7 @@ Couple more notes on updating assumptions via -a argument:
 
 The entries here are read from non-empty lines. # can be used for commenting full or partial lines
 
-The maxium consecutve regen ticks can be controlled by setting full_regen_limit to a suitable range in [0.0 - 1.0]
+The maxium consecutive regen ticks can be controlled by setting full_regen_limit to a suitable range in [0.0 - 1.0]
 This limits the regen outside the five second rule to be under this relative amount.
 You can additionally control the max_ticks entry, limiting maximum consecutive regen ticks to set value.
 Moreover, you can adjust the target_hp, which should reflect the amount of hp in your healing pool you can let drop before continuing your heals.
@@ -134,4 +138,29 @@ pve_combat_weights, 1.5, 2, 1 # relative weights
 
 or some other suitable valuesi.
 
+Spell ranks are also controllable, by setting e.g.
+
+spell_ranks, 2, 4, 1, 4, 1, 4, 7, 9, 4, 10
+
+for default values. The order here is: 2 heals, 2 greater heals, 3 flash heals, renew, poh, shield.
+
+
+
+Log Based PvE Healing
+
+The ./css 4 and ./css 5 can be combined with -l mylogfile.txt
+where mylogfile.txt should be a proper wow classic combat log.
+The log will be parsed to form heal deficits and their changes during combat. Spells used will be picked from flash heal ranks and heal and greater heal ranks, depending on current mana, relative time left of current combat, and optimized parameters. That is, the tool tries to find an optimal strategy
+for maximizing hps. Output will show chosen spells, chosen parameter values controlling overheal and flash/slow heal tradeoff, as well as the usual output for 
+a pve healing run. The optimization is a bit more prone to fit to local minimas, so the actual values for items seem to be a bit more noisy.
+Due to this, we use Eigen to do a least squares fit to last 3000 "stat change -> hps change" data points, to obtain weights for stats
+with currently optimized gear.
+These alternative values are shown in the gear scores output at end as "Alt:". This alternative scoring does not take special effects, such as set bonuses into
+account, so for set items, the original scores may be more telling.
+
+The log based healing is still pretty experimental and some issues remain, e.g.:
+* Spirit value resulting from least squares fit seems surprisingly low
+* Hps seems a bit high / combat time a bit low: there have been cases when casting time sum was over 100% of combat time.
+
+So all log based results should be taken with a pinch of salt for now.
 
