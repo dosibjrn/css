@@ -20,6 +20,9 @@ struct LogResult
   std::map<std::string, int64_t> spell_casts;
   std::map<std::string, float> spell_heal_sums;
   std::map<std::string, Spell> spell_id_to_spell;
+  int n_combats = 0;
+  float mana_at_start_sum = 0.0f;
+  float mana_at_end_sum = 0.0f;
 };
 
 void ParseBased(const std::string& log_fn);

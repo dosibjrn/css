@@ -19,27 +19,27 @@ Assumptions assumptions;
 namespace
 {
 
-template<typename T>
-void SetVal(const std::vector<float>& vals_in, std::vector<T>* vals_out)
+template<typename TypeIn, typename TypeOut>
+void SetVal(const std::vector<TypeIn>& vals_in, std::vector<TypeOut>* vals_out)
 {
   vals_out->clear();
   std::cout << "saw vals: ";
   for (auto val : vals_in) {
-    vals_out->push_back(static_cast<T>(val));
+    vals_out->push_back(static_cast<TypeOut>(val));
     std::cout << val << " ";
   }
   std::cout << std::endl;
 }
 
-template<typename T>
-void SetVal(const std::vector<float>& vals_in, T* val_out)
+template<typename TypeIn, typename TypeOut>
+void SetVal(const std::vector<TypeIn>& vals_in, TypeOut* val_out)
 {
-  *val_out = static_cast<T>(vals_in[0]);
+  *val_out = static_cast<TypeOut>(vals_in[0]);
   std::cout << "saw val: " << vals_in[0] << std::endl;
 }
 
-template<typename T>
-void SetIfGiven(const std::string& key, std::map<std::string, std::vector<float>>& assumptions_in, T* val)
+template<typename TypeIn, typename TypeOut>
+void SetIfGiven(const std::string& key, std::map<std::string, std::vector<TypeIn>>& assumptions_in, TypeOut* val)
 {
   if (assumptions_in.find(key) != assumptions_in.end()) {
     const auto& vals = assumptions_in[key];
@@ -47,8 +47,6 @@ void SetIfGiven(const std::string& key, std::map<std::string, std::vector<float>
     SetVal(vals, val);
   }
 }
-
-// TODO add string reading
 
 std::map<std::string, std::vector<float>> AssumptionsToMap(const std::string &fn)
 {
@@ -72,11 +70,34 @@ std::map<std::string, std::vector<float>> AssumptionsToMap(const std::string &fn
   return assumptions_in;
 }
 
+std::map<std::string, std::vector<std::string>> AssumptionsToStringMap(const std::string &fn)
+{
+  std::map<std::string, std::vector<std::string>> assumptions_in;
+  std::ifstream is(fn.c_str());
+  while (is.good()) {
+    std::string line;
+    std::getline(is, line);
+    line = RemoveComments(line);
+    if (!line.empty()) {
+      auto entries = SplitCsvLine(line);
+      if (entries.size() > 1) {
+        std::string key = entries[0];
+        assumptions_in[key] = std::vector<std::string>();
+        for (int i = 1; i < entries.size(); ++i) {
+          assumptions_in[key].push_back(entries[i]);
+        }
+      }
+    }
+  }
+  return assumptions_in;
+}
+
 }  // namespace
 
 void ReadAssumptions(const std::string& fn)
 {
   auto assumptions_in = AssumptionsToMap(fn);
+  auto assumptions_in_string = AssumptionsToStringMap(fn);
   SetIfGiven("full_regen_limit", assumptions_in, &global::assumptions.full_regen_limit);
   SetIfGiven("buff_fraction", assumptions_in, &global::assumptions.buff_fraction);
   SetIfGiven("spell_max_freqs", assumptions_in, &global::assumptions.spell_max_freqs);
@@ -111,6 +132,8 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("swap_cast", assumptions_in, &global::assumptions.swap_cast);
   SetIfGiven("time_step", assumptions_in, &global::assumptions.time_step);
   SetIfGiven("reaction_time", assumptions_in, &global::assumptions.reaction_time);
+  SetIfGiven("skip_player", assumptions_in_string, &global::assumptions.skip_player);
+  SetIfGiven("n_last_entries_for_alt_stats", assumptions_in, &global::assumptions.n_last_entries_for_alt_stats);
 }
 
 }  // namespace css

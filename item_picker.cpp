@@ -813,6 +813,9 @@ void ItemPicker::CoutBestCounts() const
       }
       std::cout << "Total time casting: " << cast_time_sum << ", which is: " << cast_time_sum/res.in_combat_sum*100.0f << "\% of time in combat." << std::endl;
       std::cout << "Total hps: " << res.heal_sum/res.in_combat_sum << ", raw hps: " << raw_heal_sum/res.in_combat_sum << ", oh: " << (raw_heal_sum - res.heal_sum)/(raw_heal_sum) << std::endl;
+      std::cout << "Number of combats: " << res.n_combats << std::endl;
+      std::cout << "Average mana at start of combat: " << res.mana_at_start_sum/res.n_combats << std::endl;
+      std::cout << "Average mana at end of combat: " << res.mana_at_end_sum/res.n_combats << std::endl;
     }
   }
 }
@@ -1004,7 +1007,7 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
 
   // A should probably be the item stat weights
   const int n_entries = static_cast<int>(m_stat_diffs_to_hps_diffs.size());
-  const int start = std::max(0, n_entries - 3000);
+  const int start = std::max(0, n_entries - global::assumptions.n_last_entries_for_alt_stats);
   constexpr int n_stat_types = 6;
 
   // TODO we do not random init
@@ -1047,7 +1050,7 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   }
 
   // And this should be the weights
-  std::cout << "Based last on: " << n_entries -start << " entries, ";
+  std::cout << "Based on last: " << n_entries - start << " entries, out of total: " << n_entries << " entries, ";
   Eigen::VectorXf res = A.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b);
   std::cout << "The least-squares solution is:" << std::endl;
   m_weights.resize(4);
