@@ -243,11 +243,14 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
   // date entry -> time since 2000-01-01
   e->time = GetTime(month, day, hour, minute, s, ms);
 
-
-  // Get target player name: 7th cell in csv
   end = 0;
-  IncrementCell(7, line, &start, &end);
-  e->player = line.substr(start + 2, end - start - 3);  // skip both commas, both quotation marks
+  // Get source player name: 3th cell in csv
+  IncrementCell(3, line, &start, &end);
+  e->source = line.substr(start + 2, end - start - 3);  // skip both commas, both quotation marks
+
+  // Get target player name: 7th cell in csv -> 4 more
+  IncrementCell(4, line, &start, &end);
+  e->player = line.substr(start + 2, end - start - 3);
 
   
   // 2/26 21:48:51.188  SPELL_HEAL,Player-4476-004E8DD3,"Paisti-Gehennas",0x511,0x0,Player-4476-0241EF6A,"Imajoke-Gehennas",0x10514,0x0,10917,"Flash Heal",0x2,Player-4476-0241EF6A,0000000000000000,100,100,0,0,0,-1,0,0,0,-7623.41,-1096.02,0,0.9683,68,1342,1342,276,0,nil
@@ -257,12 +260,12 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
     int healing = atoi(line.substr(start + 1, start - end - 2).c_str());
 
     IncrementCell(1, line, &start, &end);
-    int overhealing = atoi(line.substr(start + 1, start - end - 2).c_str());
-    int total_healing = healing - overhealing;
+    // int overhealing = atoi(line.substr(start + 1, start - end - 2).c_str());
+    int total_healing = healing;  // we handle overhealing separately // - overhealing;
     if (total_healing <= 0) {
       return false;
     }
-    e->hp_diff = healing - overhealing;
+    e->hp_diff = total_healing;
   } else if (type == Type::DMG) {
     // 2/26 21:49:12.929  SWING_DAMAGE,Creature-0-4458-469-5988-12017-000056C441,"Broodlord Lashlayer",0xa48,0x0,Player-4476-013D02E7,"Rawrmew-Gehennas",0x10514,0x0,Creature-0-4458-469-5988-12017-000056C441,0000000000000000,84,100,0,0,0,-1,0,0,0,-7612.08,-1096.62,0,5.4551,63,1726,3226,-1,1,0,0,0,nil,nil,1
     // Note: this indexing starts from 0

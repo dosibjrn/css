@@ -15,15 +15,23 @@
 namespace css
 {
 
-void HandleLogEntry(const LogEntry& e, std::map<std::string, float>* d, std::map<std::string, float>* damage_taken = nullptr)
+void HandleLogEntry(const LogEntry& e, std::map<std::string, float>* d, //
+                    std::map<std::string, float>* damage_taken = nullptr,
+                    std::map<std::string, float>* healing_done = nullptr)
 {
+  float overheal = 0.0f;
   (*d)[e.player] += -1.0f*e.hp_diff;
   if ((*d)[e.player] < 0.0f) {
+    overheal = -1.0*(*d)[e.player];
     (*d)[e.player] = 0.0f;
   }
 
   if (damage_taken && e.hp_diff < 0.0f) {
     (*damage_taken)[e.player] += -1.0f*e.hp_diff;
+  }
+
+  if (healing_done && e.hp_diff > 0.0f) {
+    (*healing_done)[e.source] += e.hp_diff - overheal;
   }
 }
 
@@ -228,7 +236,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
         in_combat = true;
       }
 
-      HandleLogEntry(log[log_ix], &deficits);
+      HandleLogEntry(log[log_ix], &deficits, nullptr, &out.player_heal_sums);
       if (in_combat) {
         ResolveHealIfTime(log[log_ix].time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &out); 
       } else {
@@ -349,7 +357,7 @@ LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_p
   std::vector<LogEntry> this_combat;
   int64_t start_time = prev_t_ms;
   for (const auto& e : log) {
-    if (e.player.find(" ") == std::string::npos && e.player != remove_player) {
+    if (e.player.find(" ") == std::string::npos && e.source != remove_player) {
       this_combat.push_back(e);
     }
     if (e.time - prev_t_ms > max_diff_ms) {
@@ -470,6 +478,9 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
         }
         for (const auto& entry : res.spell_heal_sums) {
           out.spell_heal_sums[entry.first] += entry.second;
+        }
+        for (const auto& entry : res.player_heal_sums) {
+          out.player_heal_sums[entry.first] += entry.second;
         }
         if (out.spell_id_to_spell.empty()) {
           out.spell_id_to_spell = res.spell_id_to_spell;

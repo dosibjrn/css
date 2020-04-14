@@ -816,6 +816,14 @@ void ItemPicker::CoutBestCounts() const
       std::cout << "Number of combats: " << res.n_combats << std::endl;
       std::cout << "Average mana at start of combat: " << res.mana_at_start_sum/res.n_combats << std::endl;
       std::cout << "Average mana at end of combat: " << res.mana_at_end_sum/res.n_combats << std::endl;
+      constexpr float hps_limit = 100.0f;
+      std::cout << "Other players with hps > " << hps_limit << ":" << std::endl;
+      for (const auto& entry : res.player_heal_sums) {
+        float hps = entry.second / res.in_combat_sum;
+        if (hps > hps_limit) {
+          std::cout << "  " << entry.first << " : " << hps << " hps" << std::endl;
+        }
+      }
     }
   }
 }
