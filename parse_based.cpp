@@ -323,13 +323,17 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
         *mana += s.getManaRegenTickUnderFsr();
       }
       prev_tick = time;
-
-
     }
 
     // You are probably drinking. We only drink champagne here, i.e. festival dumplings
     if (!in_combat) {
       *mana += max_mana*0.04*time_step_s;
+    } else {
+      for (const auto& deficit : deficits) {
+        if (deficit.second > 0) {
+          out.deficit_time_sum += deficit.second*time_step_s;
+        }
+      }
     }
     *mana = std::min(max_mana, *mana);
 
@@ -473,6 +477,7 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
         out.n_combats++;
         out.in_combat_sum += res.in_combat_sum;
         out.heal_sum += res.heal_sum;
+        out.deficit_time_sum += res.deficit_time_sum;
         for (const auto& entry : res.spell_casts) {
           out.spell_casts[entry.first] += entry.second;
         }

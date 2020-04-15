@@ -137,6 +137,8 @@ private:
   // For item comparisons -> stat weights
   std::vector<std::pair<Item, float>> m_stat_diffs_to_hps_diffs;
   std::vector<float> m_weights;
+
+  float m_baseline_deficit_time_sum = 0.0f;
 };
 
 }  // namespace css

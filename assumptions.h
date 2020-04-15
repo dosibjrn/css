@@ -85,6 +85,8 @@ struct Assumptions
   std::string skip_player = "Paisti-Gehennas";
 
   int n_last_entries_for_alt_stats = 3000;
+
+  bool use_deficit_time_sum = false;
 };
 
 namespace global

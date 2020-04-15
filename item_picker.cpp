@@ -63,7 +63,11 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
   // TODO: consider a separate type...
   if (!m_logs.empty()) {
     auto res = HpsForLogs(c, m_oh_limit, m_time_left_mul, m_logs); 
-    return res.heal_sum/res.in_combat_sum;
+    if (global::assumptions.use_deficit_time_sum) {
+      return (m_baseline_deficit_time_sum - res.deficit_time_sum)/res.in_combat_sum;
+    } else {
+      return res.heal_sum/res.in_combat_sum;
+    }
   } else {
     float weight_sum = 0.0;
     float hps_sum = 0.0f;
@@ -813,6 +817,10 @@ void ItemPicker::CoutBestCounts() const
       }
       std::cout << "Total time casting: " << cast_time_sum << ", which is: " << cast_time_sum/res.in_combat_sum*100.0f << "\% of time in combat." << std::endl;
       std::cout << "Total hps: " << res.heal_sum/res.in_combat_sum << ", raw hps: " << raw_heal_sum/res.in_combat_sum << ", oh: " << (raw_heal_sum - res.heal_sum)/(raw_heal_sum) << std::endl;
+
+      std::cout << "Deficit time sum: " << res.deficit_time_sum << ", baseline: " << m_baseline_deficit_time_sum << std::endl;
+      std::cout << "Deficit*time change / s: " << (m_baseline_deficit_time_sum - res.deficit_time_sum)/res.in_combat_sum << " hp" << std::endl;
+
       std::cout << "Number of combats: " << res.n_combats << std::endl;
       std::cout << "Average mana at start of combat: " << res.mana_at_start_sum/res.n_combats << std::endl;
       std::cout << "Average mana at end of combat: " << res.mana_at_end_sum/res.n_combats << std::endl;
@@ -1185,6 +1193,10 @@ void ItemPicker::CoutCurrentValues(std::string tag_name)
 void ItemPicker::AddLog(const std::string& log_fn)
 {
   m_logs = GetLogs(log_fn);
+  PriestCharacter c;
+  // no mana -> no heals
+  auto res = HpsForLogs(c, 0.5, 0.5, m_logs); 
+  m_baseline_deficit_time_sum = res.deficit_time_sum;
 }
 
 }  // namespace css

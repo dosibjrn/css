@@ -24,6 +24,7 @@ struct LogResult
   int n_combats = 0;
   float mana_at_start_sum = 0.0f;
   float mana_at_end_sum = 0.0f;
+  float deficit_time_sum = 0.0f;  // discrete integral of deficit * time: sum of deficit at each time step * time step 
 };
 
 void ParseBased(const std::string& log_fn);
