@@ -13,6 +13,34 @@ namespace css
 
 typedef std::vector<std::vector<LogEntry>> LogsType;
 
+// holds entries which control spell choices in log based healing (the tad more complex iteration, WIP)
+struct LogBasedParameters
+{
+  float heal_deficit_mul;
+  float heal_dtps_mul;
+
+  float hot_deficit_mul;
+  float hot_dtps_mul;
+
+  float shield_deficit_mul;
+  float shield_dtps_mul;
+
+  float heal_mul;
+  float hot_mul;
+  float shield_mul;
+
+  float time_left_mul;
+  float oh_limit;
+
+  // So the idea here is that deficit_mul*deficit + dtps_mul*dtps get us value per category.
+  //   spell rank is picked by this value and oh_limit (aiming overhealing of half the oh_limit)
+  // This value is multiplied by the category multiplier. Highest value of this product = the pick for cast.
+
+  // The only "mana saving" approach here is again the slow spells and this is controlled by the time_left_mul
+
+  // Should probably add incoming heals here, ugh.
+};
+
 struct LogResult
 {
   float heal_sum = 0.0f;

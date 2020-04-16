@@ -200,6 +200,14 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   spells_hpm.push_back(GreaterHeal(c, 1));
   spells_hpm.push_back(GreaterHeal(c, 4));
 
+  // So in order to get better score for the deficit time sum diff
+  // Pick highest val1 = (a*deficit + b*damage) -> heal/fh closest to val
+  // Pick highest val2 = (c*deficit + d*damage) with no renew -> renew closest to val 
+  // Pick highest val3 = (e*deficit + f*damage) with no shield debuff -> shield closest to val
+  // w1*val1, w2*val2, w3*val3 -> pick highest -> go with that
+
+  // These 9 params + the 2 existing will be optimized at start of each iteration. We can probably just go in order
+
   for (const auto& spell : spells_fast) {
     std::string spell_id = spell.name + " " + std::to_string(spell.rank);
     out.spell_id_to_spell[spell_id] = spell;
