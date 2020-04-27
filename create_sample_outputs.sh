@@ -6,6 +6,7 @@ cp ../items/have_atiy.txt start_with.txt
 
 cp ../items/have.txt start_with.txt
 
+./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_log_my_start_gear.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l bwl.txt | tee ../sample_output/log_based/bwl_02-26.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09_reaction_1s.csv -l bwl.txt | tee ../sample_output/log_based/bwl_02-26_reaction_1s.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l nefarian.txt | tee ../sample_output/log_based/nefarian_02-26.txt
