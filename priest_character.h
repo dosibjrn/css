@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "cooldown.h"
 #include "priest_talents.h"
 #include "set_bonuses.h"
 #include "spell.h"

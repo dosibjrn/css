@@ -52,7 +52,7 @@ std::vector<std::string> getSetNames(const std::string& item_name)
   // "Special" sets
   if (item_name == global::assumptions.darkmoon_card_name) return {"darkmoon"};
   if (item_name == "the all-seeing eye of zuldazar") return {"confessor's", "all-seeing"};
-  if (item_name == "haxx'rah's charm of healing") return {"confessor's", "hazz'rah's"};
+  if (item_name == "hazz'rah's charm of healing") return {"confessor's", "hazz'rah's"};
 
   return {};
 }

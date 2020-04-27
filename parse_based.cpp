@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "assumptions.h"
+#include "cooldown.h"
 #include "log_entry.h"
 #include "priest_character.h"
 #include "spells_priest_holy.h"
@@ -199,6 +200,22 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   spells_hpm.push_back(Heal(c, 4));
   spells_hpm.push_back(GreaterHeal(c, 1));
   spells_hpm.push_back(GreaterHeal(c, 4));
+
+#if 0
+  std::vector<Spell> spells_hazz;
+  if (c.set_bonuses.getTotalBonus().name.find("hazz'rah's") != std::string::npos) {
+    Cooldown cd;
+    cd.name = "hazz'rah's charm of healing";
+    cd.effect_end_ms = 0;
+    cd.off_cooldown_ms = 0;
+    cd.active = true;
+    c.cooldowns[cd.name] = cd;
+    for (int i = 1 i <= 4; ++i) {
+      spells_hazz.push_back(GreaterHeal(c, i));
+    }
+    c.cooldowns[cd.name].active = false;
+  }
+#endif
 
   // So in order to get better score for the deficit time sum diff
   // Pick highest val1 = (a*deficit + b*damage) -> heal/fh closest to val
@@ -466,6 +483,7 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
   int64_t time = logs.front().front().time;
 
   int n_logs = static_cast<int>(logs.size());
+  // std::map<std::string, Cooldown> cds;
   for (const auto& log : logs) {
     if (log.empty()) continue;
 
@@ -477,6 +495,7 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
       mana += 0.04*max_mana*before_log_time_s;
       mana = std::min(mana, max_mana);
       float mana_at_start = mana;
+      // auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul, &mana, &cds);
       auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul, &mana);
       time = log.back().time;
       if (res.in_combat_sum > time_min_s) {

@@ -61,6 +61,19 @@ void ModifySpell(const PriestCharacter& c, Spell* s)
     float average_gain_per_spell = 7.5f*0.02f*(stats.getManaRegenTickOutOfFsr() - stats.getManaRegenTickUnderFsr());
     s->cost -= average_gain_per_spell;
   }
+
+}
+
+void ApplyCooldownEffects(const Cooldowns& cooldowns, Spell* s)
+{
+  // ZG trinket
+  bool hazz_active = cooldowns.find("hazz'rah's charm of healing") != cooldowns.end() && cooldowns.at("hazz'rah's charm of healing").active;
+  if (hazz_active) {
+    s->cost *= 0.85f;
+    if (s->name == "Greater Heal") {
+      s->cast_time *= 0.6f;
+    }
+  }
 }
 
 }  // namespace css
