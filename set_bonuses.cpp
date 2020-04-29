@@ -43,7 +43,7 @@ std::vector<std::string> getSetNames(const std::string& item_name)
   if (PrefixMatches("necrop", item_name)) return {"necropile"};
   if (PrefixMatches("zanzil", item_name)) return {"zanzil"};
   if (PrefixMatches("zandalar confessor's", item_name)) return {"confessor's"};
-  if (PrefixMatches("primalist's", item_name)) return {"primalist"};
+  if (PrefixMatches("primalist", item_name)) return {"primalist"};
 
   // Suffix sets
   if (SuffixMatches("transcendence", item_name)) return {"transcendence"};
@@ -135,6 +135,7 @@ SetBonusListType SetBonuses::getSetBonusList()
     Item i;
     i.name = "primalist 2";
     i.sp_healing = 33;
+    bonus_list[i.name] = i;
   }
   { 
     Item i;
