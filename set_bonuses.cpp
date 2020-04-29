@@ -97,7 +97,7 @@ SetBonusListType SetBonuses::getSetBonusList()
     bonus_list[i.name] = i;
     i.name = "dreadmist 4";
     bonus_list[i.name] = i;
-    i.name = "necropilt 5";
+    i.name = "necropile 5";
     bonus_list[i.name] = i;
   }
   { 
