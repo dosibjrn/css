@@ -494,6 +494,11 @@ float ItemPicker::ValueIncreaseWeightsBased(const Item& item)
   return increase;
 }
 
+namespace {
+std::string plusIfPos(float f) {
+  return f >= 0.0 ? "+" : "";
+}
+}  // namespace
 
 void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
 {
@@ -593,13 +598,21 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
       float val_candidate_alt = val_no_item + ValueIncreaseWeightsBased(item);
 
       // if val > val_start -> add to list
-      if ((val_candidate > val_start || val_candidate_alt > val_start) && !isBanned(item)) {
+      auto setNames = getSetNames(item.name);
+      bool relevantSet = false;
+      for (auto name : setNames) {
+        if (m_c_best.set_bonuses.getTotalBonus().name.find(name) != std::string::npos) {
+          relevantSet = true;
+        }
+      }
+
+      if ((val_candidate > val_start || val_candidate_alt > val_alt_start || (relevantSet && !m_weights.empty())) && !isBanned(item)) {
         float cand_diff = val_candidate - val_no_item;
         std::stringstream ss;
-        ss << "    " << item.name << " (" << cand_diff << ") : +" << (cand_diff - start_diff)/val_start*100.0f << " %";
+        ss << "    " << item.name << " (" << cand_diff << ") : " << plusIfPos(cand_diff - start_diff) << (cand_diff - start_diff)/val_start*100.0f << " %";
         if (!m_weights.empty()) {
           float alt_diff = ValueIncreaseWeightsBased(item);
-          ss << ", alt : +" << alt_diff;
+          ss << ", alt : " << plusIfPos(alt_diff) << alt_diff;
           cand_diff = start_diff + alt_diff;  // To fix sorting below
         }
         ss << ", from: " << item.source;
