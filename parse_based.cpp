@@ -12,6 +12,7 @@
 #include "priest_character.h"
 #include "spells_priest_holy.h"
 #include "stats.h"
+#include "water.h"
 
 namespace css
 {
@@ -350,9 +351,9 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
       prev_tick = time;
     }
 
-    // You are probably drinking. We only drink champagne here, i.e. festival dumplings
     if (!in_combat) {
-      *mana += max_mana*0.04*time_step_s;
+      auto water = BestWater(c);
+      *mana += water.per_tick/3.0*time_step_s;
     } else {
       for (const auto& deficit : deficits) {
         if (deficit.second > 0) {
@@ -492,7 +493,7 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
 
       // drink before next combat
       float before_log_time_s = (log.front().time - time)/1e3;
-      mana += 0.04*max_mana*before_log_time_s;
+      mana += stats.getManaRegenPerSecondDrinking()*before_log_time_s;
       mana = std::min(mana, max_mana);
       float mana_at_start = mana;
       // auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul, &mana, &cds);

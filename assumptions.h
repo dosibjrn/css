@@ -87,6 +87,8 @@ struct Assumptions
   int n_last_entries_for_alt_stats = 3000;
 
   bool use_deficit_time_sum = false;
+
+  int water_type = 0;  // 0 = 4200/30s (dm water), 1 = 4410/30s (manna biscuits); 2 = 4%/s (festival dumplings)
 };
 
 namespace global

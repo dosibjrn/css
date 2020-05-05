@@ -4,9 +4,30 @@
 #include <iostream>
 
 #include "spells_priest_disc.h"
+#include "water.h"
 
 namespace css 
 {
+
+
+float Stats::getManaRegenPerSecondDrinking(bool under_fsr, bool spirit_tap)
+{
+  Water w = BestWater(c_);
+  float mana_per_s = w.per_tick/3.0;
+  if (spirit_tap) {
+    if (under_fsr) {
+      mana_per_s += 0.5f*getManaRegenTickSpiritTapUnderFsr();
+    } else {
+      mana_per_s += 0.5f*getManaRegenTickSpiritTapOutOfFsr();
+    }
+  } else {
+    if (under_fsr) {
+      mana_per_s += 0.5f*getManaRegenTickUnderFsr();
+    } else {
+      mana_per_s += 0.5f*getManaRegenTickOutOfFsr();
+    }
+  }
+}
 
 float Stats::getEffectiveHp() const
 {
