@@ -6,7 +6,7 @@ namespace css
 void ApplyCooldownEffects(const Cooldowns& cooldowns, Spell* s)
 {
   // ZG trinket
-  bool hazz_active = cooldowns.find("hazz'rah's") != cooldowns.end() && cooldowns.at("hazz'rah's").active;
+  bool hazz_active = cooldowns.find("hazza'rah's") != cooldowns.end() && cooldowns.at("hazza'rah's").active;
   if (hazz_active) {
     s->cost *= 0.85f;
     if (s->name == "Greater Heal") {
@@ -18,10 +18,10 @@ void ApplyCooldownEffects(const Cooldowns& cooldowns, Spell* s)
 Cooldowns SetsToCooldowns(const SetBonuses& sb)
 {
   Cooldowns out;
-  if (sb.HasBonus("hazz'rah's 1")) {
+  if (sb.HasBonus("hazza'rah's 1")) {
     Cooldown cd;
-    cd.name = "hazz'rah's";
-    out["hazz'rah's"] = cd;
+    cd.name = "hazza'rah's";
+    out["hazza'rah's"] = cd;
   }
   return out;
 }

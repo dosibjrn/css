@@ -53,7 +53,29 @@ struct MyCast : public LogEntry {
   bool done;
   std::string spell_name;
   int spell_rank;
+  std::string spell_id;
 };
+
+namespace {
+
+MyCast SpellToMyCast(const Spell& s, const std::string& player, int64_t time)
+{
+  MyCast out;
+  out.player = player;
+  out.hp_diff = s.healing;
+  out.time = s.cast_time*1e3 + time;
+  out.cost = s.cost;
+  out.done = false;
+  out.spell_name = s.name;
+  out.spell_rank = s.rank;
+  out.spell_id = out.spell_name + " " + std::to_string(out.spell_rank);
+  if (out.spell_name == "Greater Heal" && s.cast_time < 2.0) {
+    out.spell_id += " hazz";
+  }
+  return out;
+}
+
+}  // namespace
 
 
 void PickBestPreCast(const PriestCharacter &c, float mana, int64_t time, const std::map<std::string, float>& deficits, //
@@ -91,15 +113,8 @@ void PickBestPreCast(const PriestCharacter &c, float mana, int64_t time, const s
   }
 
   if (best_spell->cost < mana) {
-    my_cast->player = player;
-    my_cast->hp_diff = best_spell->healing;
-    my_cast->time = best_spell->cast_time*1e3 + time;
-    my_cast->cost = best_spell->cost;
-    my_cast->done = false;
-    my_cast->spell_name = best_spell->name;
-    my_cast->spell_rank = best_spell->rank;
+    *my_cast = SpellToMyCast(*best_spell, player, time);
   }
-
 }
 
 // TODO: should keep track of the biggest deficit target i guess or sth, for perf
@@ -120,13 +135,7 @@ void PickBestCastIfAny(const PriestCharacter& c, float mana, int64_t time, const
   my_cast->hp_diff = 0;
   for (const Spell& spell : spells) {
     if (deficit > spell.healing && spell.healing > my_cast->hp_diff && mana > spell.cost) {
-      my_cast->player = player;
-      my_cast->hp_diff = spell.healing;
-      my_cast->time = spell.cast_time*1e3 + time;
-      my_cast->cost = spell.cost;
-      my_cast->done = false;
-      my_cast->spell_name = spell.name;
-      my_cast->spell_rank = spell.rank;
+      *my_cast = SpellToMyCast(spell, player, time);
     }
   }
 }
@@ -141,7 +150,7 @@ void ResolveHealIfTime(int64_t time, MyCast* my_cast, std::map<std::string, floa
       float deficit = (*deficits)[my_cast->player];
       float healing = std::min(my_cast->hp_diff, deficit);
       out->heal_sum += healing;
-      std::string spell_id = my_cast->spell_name + " " + std::to_string(my_cast->spell_rank);
+      const std::string spell_id = my_cast->spell_id;
       out->spell_casts[spell_id]++;
       out->spell_heal_sums[spell_id] += healing;
       (*deficits)[my_cast->player] -= healing;
@@ -203,9 +212,9 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   spells_hpm.push_back(GreaterHeal(c, 4));
 
   std::vector<Spell> spells_hazz;
-  bool have_hazz = cds->find("hazz'rah's") != cds->end();
+  bool have_hazz = cds->find("hazza'rah's") != cds->end();
   if (have_hazz) {
-    auto& cd = cds->at("hazz'rah's");
+    auto& cd = cds->at("hazza'rah's");
     cd.active = true;
     for (int i = 1; i <= 4; ++i) {
       Spell spell = GreaterHeal(c, i);
@@ -290,7 +299,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
 
       if (have_hazz) {
         bool active = false;
-        auto& cd = cds->at("hazz'rah's");
+        auto& cd = cds->at("hazza'rah's");
         if (cd.active && time < cd.effect_end_ms) active = true;
         if (cd.active && time > cd.effect_end_ms) cd.active = false;
         

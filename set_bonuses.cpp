@@ -52,7 +52,7 @@ std::vector<std::string> getSetNames(const std::string& item_name)
   // "Special" sets
   if (item_name == global::assumptions.darkmoon_card_name) return {"darkmoon"};
   if (item_name == "the all-seeing eye of zuldazar") return {"confessor's", "all-seeing"};
-  if (item_name == "hazz'rah's charm of healing") return {"confessor's", "hazz'rah's"};
+  if (item_name == "hazza'rah's charm of healing") return {"confessor's", "hazza'rah's"};
 
   return {};
 }
@@ -125,7 +125,7 @@ SetBonusListType SetBonuses::getSetBonusList()
     i.name = "confessor's 2";
     i.sp = 23;
     bonus_list[i.name] = i;
-    i.name = "hazz'ra's 1";
+    i.name = "hazza'rah's 1";
     i.sp = 0;
     bonus_list[i.name] = i;
     i.name = "all-seeing 1";
