@@ -152,6 +152,30 @@ SetBonuses::SetBonuses() {
   m_bonus_list_partial = toPartial(m_bonus_list);
 }
 
+bool SetBonuses::HasBonus(const std::string& bonus_name) const //
+{ 
+  if (m_partial) { 
+    return m_bonus_names_partial.find(bonus_name) != m_bonus_names_partial.end();
+  } else {
+    return m_bonus_names.find(bonus_name) != m_bonus_names.end();
+  }
+}
+
+int SetBonuses::NumPieces(const std::string& set_name) const //
+{ 
+  int max_n = 0;
+  auto& set = m_partial ? m_bonus_names_partial : m_bonus_names;
+  for (auto& entry : set) {
+    size_t t = entry.find(' ');
+    if (set_name == entry.substr(0, t)) {
+      int n = std::atoi(entry.substr(t).c_str());
+      if (n > max_n) max_n = n;
+    }
+  }
+  return max_n;
+}
+
+
 
 void SetBonuses::SetPartialAndUpdateCharacter(bool b, PriestCharacter *c)
 {

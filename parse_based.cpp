@@ -156,7 +156,7 @@ void ResolveHealIfTime(int64_t time, MyCast* my_cast, std::map<std::string, floa
 
 
 LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>& log, float time_step_s,
-                                         float oh_limit, float time_left_mul, float *mana)
+                                         float oh_limit, float time_left_mul, float *mana, Cooldowns* cds)
 {
   LogResult out;
   if (log.empty()) return out;
@@ -484,7 +484,8 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
   int64_t time = logs.front().front().time;
 
   int n_logs = static_cast<int>(logs.size());
-  // std::map<std::string, Cooldown> cds;
+  std::map<std::string, Cooldown> cds;
+
   for (const auto& log : logs) {
     if (log.empty()) continue;
 
@@ -496,8 +497,8 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
       mana += stats.getManaRegenPerSecondDrinking()*before_log_time_s;
       mana = std::min(mana, max_mana);
       float mana_at_start = mana;
-      // auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul, &mana, &cds);
-      auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul, &mana);
+      auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul, &mana, &cds);
+      // auto res = SimpleLogHealing(c, log, time_step, oh_limit, time_left_mul, &mana);
       time = log.back().time;
       if (res.in_combat_sum > time_min_s) {
         out.mana_at_start_sum += mana_at_start;

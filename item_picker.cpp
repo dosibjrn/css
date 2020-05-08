@@ -20,6 +20,33 @@
 namespace css
 {
 
+namespace 
+{
+Item ToStatDiffs(const Item& item_in, const PriestCharacter& c_no_item) 
+{
+  PriestCharacter c_tmp = c_no_item;
+  Item item = item_in;
+  AddItem(item, &c_tmp);
+
+  int t1_diff = c_tmp.set_bonuses.NumPieces("prophecy") - c_no_item.set_bonuses.NumPieces("prophecy");
+  if (c_no_item.set_bonuses.NumPieces("prophecy") >= 3) t1_diff = 0;
+
+  int t2_diff = c_tmp.set_bonuses.NumPieces("transcendence") - c_no_item.set_bonuses.NumPieces("transcendence");
+  if (c_no_item.set_bonuses.NumPieces("transcendence") >= 3) t2_diff = 0;
+
+  Item totalBonusWas = c_no_item.set_bonuses.getTotalBonus();
+  Item totalBonusIs = c_tmp.set_bonuses.getTotalBonus();
+  AddToItemWithMul(totalBonusIs, 1.0, &item);
+  AddToItemWithMul(totalBonusWas, -1.0, &item);
+
+  // let's take str as t1 and agi as t2
+  item.strength = t1_diff;
+  item.agility = t2_diff;
+
+  return item;
+}
+}  // namespace
+
 float ItemPicker::valuePvpShadow(const PriestCharacter& c) const
 {
   // Similar to what was done prev: dps*dps*ehp*emana
@@ -491,6 +518,8 @@ float ItemPicker::ValueIncreaseWeightsBased(const Item& item)
   increase += (item.sp + item.sp_healing)*m_weights[2];
   increase += item.mp5*m_weights[3]; 
   increase += item.spell_crit*m_weights[4]; 
+  increase += item.strength*m_weights[5];
+  increase += item.agility*m_weights[6];
   return increase;
 }
 
@@ -584,7 +613,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
     float start_diff = val_start - val_no_item;
     std::cout << "- . - ' - . - ' - . - ' - . - ' - . - ' - . -" << std::endl;
     std::cout << slot << ", " << start_item.name << " (" << start_diff << ")";
-    float val_alt_start = val_no_item + ValueIncreaseWeightsBased(start_item);
+    float val_alt_start = val_no_item + ValueIncreaseWeightsBased(ToStatDiffs(start_item, c_tmp));
     if (!m_weights.empty()) {
       std::cout << ", alt: " << val_alt_start - val_no_item;
     }
@@ -595,7 +624,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
       AddItem(item, &c_tmp);
       float val_candidate = value(c_tmp);
       RemoveItem(item, &c_tmp);
-      float val_candidate_alt = val_no_item + ValueIncreaseWeightsBased(item);
+      float val_candidate_alt = val_no_item + ValueIncreaseWeightsBased(ToStatDiffs(item, c_tmp));
 
       // if val > val_start -> add to list
       auto setNames = getSetNames(item.name);
@@ -611,7 +640,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
         std::stringstream ss;
         ss << "    " << item.name << " (" << cand_diff << ") : " << plusIfPos(cand_diff - start_diff) << (cand_diff - start_diff)/val_start*100.0f << " %";
         if (!m_weights.empty()) {
-          float alt_diff = ValueIncreaseWeightsBased(item);
+          float alt_diff = ValueIncreaseWeightsBased(ToStatDiffs(item, c_tmp));
           ss << ", alt : " << plusIfPos(alt_diff) << alt_diff;
           cand_diff = start_diff + alt_diff;  // To fix sorting below
         }
@@ -880,7 +909,6 @@ void ItemPicker::CoutCharacterStats() const
 }
 
 
-
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name, bool use_alt)
 {
   // bool verbose = current_item.slot == "shoulders";
@@ -906,15 +934,16 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     vals[i] = val;
   }
 
-  for (int i = 0; i < n_items; ++i) {
-    if (getSetNames(items_for_slot[i].name).empty()) {
-      m_stat_diffs_to_hps_diffs.push_back({items_for_slot[i], vals[i] - no_item_value}); 
-    }
-    if (!m_weights.empty() && use_alt) {
-      const Item& item = items_for_slot[i];
-      float val_alt = no_item_value + ValueIncreaseWeightsBased(item);;
-      if (val_alt > vals[i]) {
-        vals[i] = val_alt;
+  if (!m_weights.empty()) {
+    for (int i = 0; i < n_items; ++i) {
+      Item item = ToStatDiffs(items_for_slot[i], c_no_item);
+      m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value}); 
+      if (!m_weights.empty() && use_alt) {
+        const Item& item = items_for_slot[i];
+        float val_alt = no_item_value + ValueIncreaseWeightsBased(item);;
+        if (val_alt > vals[i]) {
+          vals[i] = val_alt;
+        }
       }
     }
   }
@@ -1037,7 +1066,7 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   // A should probably be the item stat weights
   const int n_entries = static_cast<int>(m_stat_diffs_to_hps_diffs.size());
   const int start = std::max(0, n_entries - global::assumptions.n_last_entries_for_alt_stats);
-  constexpr int n_stat_types = 6;
+  constexpr int n_stat_types = m_weights_size + 1;
 
   // TODO we do not random init
   
@@ -1060,6 +1089,11 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
     row[3] = item.sp_healing;
     row[4] = item.mp5;
     row[5] = item.spell_crit;
+
+    // T1 and T2 pieces
+    row[6] = item.strength;
+    row[7] = item.agility;
+ 
     // row[10] = item.spell_hit;
 
 
@@ -1082,12 +1116,14 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   std::cout << "Based on last: " << n_entries - start << " entries, out of total: " << n_entries << " entries, ";
   Eigen::VectorXf res = A.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b);
   std::cout << "The least-squares solution is:" << std::endl;
-  m_weights.resize(4);
+  m_weights.resize(m_weights_size);  // sp and sp_healing are bundled together
   m_weights[0] = res[0];
   m_weights[1] = res[1];
   m_weights[2] = 0.5f * (res[2] + res[3]);
   m_weights[3] = res[4];
   m_weights[4] = res[5];
+  m_weights[5] = res[6];
+  m_weights[6] = res[7];
   for (float &w : m_weights) {
     if (w < 0.0f) w = 0.0f;
   }
@@ -1096,6 +1132,10 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   std::cout << "Sp / Healing: " << m_weights[2]/m_weights[2]*100.0f << std::endl;
   std::cout << "Mp5: " << m_weights[3]/m_weights[2]*100.0f << std::endl;
   std::cout << "Crit: " << m_weights[4]/m_weights[2]*100.0f << std::endl;
+  std::cout << "T1 3p/piece: " << m_weights[5]/m_weights[2]*100.0f << std::endl;
+  std::cout << "T2 3p/piece: " << m_weights[6]/m_weights[2]*100.0f << std::endl;
+
+  std::cout << "100 points ==  " << m_weights[2] << " hps." << std::endl;
 
   // clear for next
   // m_stat_diffs_to_hps_diffs.clear();
@@ -1210,6 +1250,7 @@ void ItemPicker::AddLog(const std::string& log_fn)
   // no mana -> no heals
   auto res = HpsForLogs(c, 0.5, 0.5, m_logs); 
   m_baseline_deficit_time_sum = res.deficit_time_sum;
+  m_weights.resize(m_weights_size);
 }
 
 }  // namespace css

@@ -19,6 +19,9 @@ std::vector<std::string> getSetNames(const std::string& item_name);
 class SetBonuses {
  public:
   SetBonuses();
+  bool HasBonus(const std::string& bonus_name) const;
+  int NumPieces(const std::string& set_name) const;
+
   Item getTotalBonus() const { if (m_partial) { return m_total_bonus_partial; } else { return m_total_bonus; } } 
 
   bool getPartial() const { return m_partial; }

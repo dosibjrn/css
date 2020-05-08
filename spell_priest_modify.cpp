@@ -64,16 +64,6 @@ void ModifySpell(const PriestCharacter& c, Spell* s)
 
 }
 
-void ApplyCooldownEffects(const Cooldowns& cooldowns, Spell* s)
-{
-  // ZG trinket
-  bool hazz_active = cooldowns.find("hazz'rah's charm of healing") != cooldowns.end() && cooldowns.at("hazz'rah's charm of healing").active;
-  if (hazz_active) {
-    s->cost *= 0.85f;
-    if (s->name == "Greater Heal") {
-      s->cast_time *= 0.6f;
-    }
-  }
-}
+
 
 }  // namespace css

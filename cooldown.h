@@ -3,6 +3,13 @@
 #include <map>
 #include <string>
 
+#include "spell.h"
+
+namespace css
+{
+
+// So at start of combat we check which cooldowns we have due to gear
+
 struct Cooldown
 {
   std::string name = "";  // this is enough to describe the effect -> implementation elsewhere
@@ -12,4 +19,8 @@ struct Cooldown
 };
 
 typedef std::map<std::string, Cooldown> Cooldowns;
+
+void ApplyCooldownEffects(const Cooldowns& cooldowns, Spell* s);
+
+}  // namespace css
 

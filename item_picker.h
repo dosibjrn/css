@@ -137,6 +137,7 @@ private:
   // For item comparisons -> stat weights
   std::vector<std::pair<Item, float>> m_stat_diffs_to_hps_diffs;
   std::vector<float> m_weights;
+  static constexpr int m_weights_size = 7;
 
   float m_baseline_deficit_time_sum = 0.0f;
 };
