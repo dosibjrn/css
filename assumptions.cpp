@@ -136,6 +136,7 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("n_last_entries_for_alt_stats", assumptions_in, &global::assumptions.n_last_entries_for_alt_stats);
   SetIfGiven("use_deficit_time_sum", assumptions_in, &global::assumptions.use_deficit_time_sum);
   SetIfGiven("water_type", assumptions_in, &global::assumptions.water_type);
+  SetIfGiven("total_deficit_to_pop_trinkets", assumptions_in, &global::assumptions.total_deficit_to_pop_trinkets);
 }
 
 }  // namespace css

@@ -4,6 +4,7 @@ project(css LANGUAGES CXX)
 set(header_list
   assumptions.h
   combat.h
+  cooldown.h
   create_sample_outputs.sh
   csv.h
   dps.h
@@ -41,6 +42,7 @@ set(header_list
 set(source_list
   assumptions.cpp
   combat.cpp
+  cooldown.cpp
   csv.cpp
   dps.cpp
   fight_result.cpp

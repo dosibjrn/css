@@ -89,6 +89,9 @@ struct Assumptions
   bool use_deficit_time_sum = false;
 
   int water_type = 0;  // 0 = 4200/30s (dm water), 1 = 4410/30s (manna biscuits); 2 = 4%/s (festival dumplings)
+
+  // Pop +healing and e.g. zg priest trinket at this
+  float total_deficit_to_pop_trinkets = 10000.0f;
 };
 
 namespace global

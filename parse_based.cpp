@@ -202,29 +202,20 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   spells_hpm.push_back(GreaterHeal(c, 1));
   spells_hpm.push_back(GreaterHeal(c, 4));
 
-#if 0
   std::vector<Spell> spells_hazz;
-  if (c.set_bonuses.getTotalBonus().name.find("hazz'rah's") != std::string::npos) {
-    Cooldown cd;
-    cd.name = "hazz'rah's charm of healing";
-    cd.effect_end_ms = 0;
-    cd.off_cooldown_ms = 0;
+  bool have_hazz = cds->find("hazz'rah's") != cds->end();
+  if (have_hazz) {
+    auto& cd = cds->at("hazz'rah's");
     cd.active = true;
-    c.cooldowns[cd.name] = cd;
-    for (int i = 1 i <= 4; ++i) {
-      spells_hazz.push_back(GreaterHeal(c, i));
+    for (int i = 1; i <= 4; ++i) {
+      Spell spell = GreaterHeal(c, i);
+      ApplyCooldownEffects(*cds, &spell);
+      spells_hazz.push_back(spell);
     }
-    c.cooldowns[cd.name].active = false;
+    cd.active = false;
   }
-#endif
 
-  // So in order to get better score for the deficit time sum diff
-  // Pick highest val1 = (a*deficit + b*damage) -> heal/fh closest to val
-  // Pick highest val2 = (c*deficit + d*damage) with no renew -> renew closest to val 
-  // Pick highest val3 = (e*deficit + f*damage) with no shield debuff -> shield closest to val
-  // w1*val1, w2*val2, w3*val3 -> pick highest -> go with that
-
-  // These 9 params + the 2 existing will be optimized at start of each iteration. We can probably just go in order
+  std::vector<Spell>* spell_list = &spells_fast;
 
   for (const auto& spell : spells_fast) {
     std::string spell_id = spell.name + " " + std::to_string(spell.rank);
@@ -235,6 +226,12 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
     std::string spell_id = spell.name + " " + std::to_string(spell.rank);
     out.spell_id_to_spell[spell_id] = spell;
   }
+
+  for (const auto& spell : spells_hazz) {
+    std::string spell_id = spell.name + " " + std::to_string(spell.rank) + " hazz";
+    out.spell_id_to_spell[spell_id] = spell;
+  }
+
 
   Stats s(c);
   const float max_mana = s.getMaxMana();
@@ -285,6 +282,35 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
       const float relative_time_left = 1.0 - static_cast<double>(time - start_time)/(end_time - start_time);
       const float time_since_start_s = static_cast<float>(time - start_time)/1e3;
 
+      // picke spell list to use:
+      spell_list = &spells_hpm;
+      if ((*mana)/max_mana > time_left_mul * relative_time_left) {
+        spell_list = &spells_fast;
+      }
+
+      if (have_hazz) {
+        bool active = false;
+        auto& cd = cds->at("hazz'rah's");
+        if (cd.active && time < cd.effect_end_ms) active = true;
+        if (cd.active && time > cd.effect_end_ms) cd.active = false;
+        
+        if (!cd.active && time > cd.off_cooldown_ms) {
+          double total_deficit = 0.0;
+          for (auto& entry : deficits_delayed) {
+            total_deficit += entry.second;
+          }
+          if (total_deficit > global::assumptions.total_deficit_to_pop_trinkets) {
+            cd.active = true;
+            cd.off_cooldown_ms = time + 180*1e3; // 3 min cd this should be in cooldowns or sth TODO REFACTOR
+            cd.effect_end_ms = time + 15*1e3; // 15 s effect
+            active = true;
+          }
+        }
+        if (active) {
+          spell_list = &spells_hazz;
+        }
+      }
+
       // cancel oh
       if (!my_cast.done && my_cast.time > time) {
         if (deficits_delayed.find(my_cast.player) != deficits_delayed.end() && deficits_delayed[my_cast.player] < my_cast.hp_diff*(1.0f - oh_limit)) {
@@ -292,11 +318,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
 
           if (swap_cast) {
             MyCast better_cast;
-            if ((*mana)/max_mana > time_left_mul * relative_time_left) {
-              PickBestCastIfAny(c, *mana, time, deficits_delayed, spells_fast, &better_cast);
-            } else {
-              PickBestCastIfAny(c, *mana, time, deficits_delayed, spells_hpm, &better_cast);
-            }
+            PickBestCastIfAny(c, *mana, time, deficits_delayed, *spell_list, &better_cast);
 
             bool better_target_found = deficits_delayed[better_cast.player] > deficits_delayed[my_cast.player]*2.0f;
 
@@ -320,21 +342,10 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
 
       // if not casting, pick best target and start casting
       if (my_cast.done) {
-        // More mana than time left
-
-        // Low time_left_mul -> keep casting fast heals
-        if ((*mana)/max_mana > time_left_mul * relative_time_left) {
-          PickBestCastIfAny(c, *mana, time, deficits_delayed, spells_fast, &my_cast);
-          // If could not find target, pick precast target
-          if (my_cast.done && precast) {
-            PickBestPreCast(c, *mana, time, deficits_delayed, damage_taken, spells_fast, &my_cast);
-          }
-        } else {
-          // Same stuff for the hpm spells
-          PickBestCastIfAny(c, *mana, time, deficits_delayed, spells_hpm, &my_cast);
-          if (my_cast.done && precast) {
-            PickBestPreCast(c, *mana, time, deficits_delayed, damage_taken, spells_hpm, &my_cast);
-          }
+        PickBestCastIfAny(c, *mana, time, deficits_delayed, *spell_list, &my_cast);
+        // If could not find target, pick precast target
+        if (my_cast.done && precast) {
+          PickBestPreCast(c, *mana, time, deficits_delayed, damage_taken, *spell_list, &my_cast);
         }
       }
     } else { // not in combat
@@ -484,8 +495,7 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
   int64_t time = logs.front().front().time;
 
   int n_logs = static_cast<int>(logs.size());
-  std::map<std::string, Cooldown> cds;
-
+  auto cds = SetsToCooldowns(c.set_bonuses);
   for (const auto& log : logs) {
     if (log.empty()) continue;
 

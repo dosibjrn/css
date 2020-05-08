@@ -4,6 +4,7 @@
 #include <string>
 
 #include "spell.h"
+#include "set_bonuses.h"
 
 namespace css
 {
@@ -19,6 +20,9 @@ struct Cooldown
 };
 
 typedef std::map<std::string, Cooldown> Cooldowns;
+
+// Construct cooldowns from set bonuses
+Cooldowns SetsToCooldowns(const SetBonuses& sb);
 
 void ApplyCooldownEffects(const Cooldowns& cooldowns, Spell* s);
 
