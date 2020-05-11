@@ -561,47 +561,55 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
     }
   }
 
-  // If we have hazz, optimize that param as well going up and down as long as that seems to improve things
-  if (c.set_bonuses.HasBonus("hazza'rah's 1")) {
-    auto res = HpsForLogs(c, best_oh_limit, best_time_left_mul, logs);
-    float hps = res.heal_sum/res.in_combat_sum;
-    best_hps = hps;
-    float best_deficit_thr = global::assumptions.total_deficit_to_pop_trinkets;
-    float deficit_thr = best_deficit_thr;
-
-    while (1) {
-      deficit_thr *= 1.05;
-      global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
-      res = HpsForLogs(c, best_oh_limit, best_time_left_mul, logs);
-      hps = res.heal_sum/res.in_combat_sum;
-
-      if (hps >= best_hps) {
-        best_deficit_thr = deficit_thr;
-        best_hps = hps;
-      } else { 
-        break;
-      }
-    }
-    deficit_thr = best_deficit_thr;
-    global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
-    while (1) {
-      deficit_thr *= 0.95;
-      global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
-      res = HpsForLogs(c, best_oh_limit, best_time_left_mul, logs);
-      hps = res.heal_sum/res.in_combat_sum;
-
-      if (hps >= best_hps) {
-        best_deficit_thr = deficit_thr;
-        best_hps = hps;
-      } else { 
-        break;
-      }
-    }
-
-    global::assumptions.total_deficit_to_pop_trinkets = best_deficit_thr;
-    std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul //
-        << ", total_deficit_to_pop_trinkets: " << best_deficit_thr << std::endl;
+  PriestCharacter c_tmp = c;
+  if (!c_tmp.set_bonuses.HasBonus("hazza'rah's 1")) {
+      Item item;
+      item.name = "hazz'rah's charm of healing";
+      c_tmp.set_bonuses.AddItem(item);
   }
+
+  auto res = HpsForLogs(c_tmp, best_oh_limit, best_time_left_mul, logs);
+  float hps = res.heal_sum/res.in_combat_sum;
+  best_hps = hps;
+  float best_deficit_thr = global::assumptions.total_deficit_to_pop_trinkets;
+  float deficit_thr = best_deficit_thr;
+
+  float hi = deficit_thr;
+  float lo = deficit_thr;
+  while (1) {
+      deficit_thr *= 1.05f;
+      global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
+      res = HpsForLogs(c_tmp, best_oh_limit, best_time_left_mul, logs);
+      hps = res.heal_sum/res.in_combat_sum;
+
+      if (hps >= best_hps) {
+          best_deficit_thr = deficit_thr;
+          best_hps = hps;
+          hi = deficit_thr;
+      } else {
+          break;
+      }
+  }
+  deficit_thr = best_deficit_thr;
+  global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
+  while (1) {
+      deficit_thr *= 0.95f;
+      global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
+      res = HpsForLogs(c_tmp, best_oh_limit, best_time_left_mul, logs);
+      hps = res.heal_sum/res.in_combat_sum;
+
+      if (hps >= best_hps) {
+          best_deficit_thr = deficit_thr;
+          best_hps = hps;
+          lo = deficit_thr;
+      } else {
+          break;
+      }
+  }
+
+  global::assumptions.total_deficit_to_pop_trinkets = 0.5f * (hi + lo);
+  //  std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul //
+  //            << ", total_deficit_to_pop_trinkets: " << best_deficit_thr << std::endl;
   return {best_oh_limit, best_time_left_mul};
 }
 

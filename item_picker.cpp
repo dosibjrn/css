@@ -40,8 +40,8 @@ Item ToStatDiffs(const Item& item_in, const PriestCharacter& c_no_item)
   AddToItemWithMul(totalBonusWas, -1.0, &item);
 
   // let's take str as t1 and agi as t2
-  item.strength = t1_diff;
-  item.agility = t2_diff;
+  item.strength = static_cast<float>(t1_diff);
+  item.agility = static_cast<float>(t2_diff);
 
   return item;
 }
@@ -838,6 +838,7 @@ void ItemPicker::CoutBestCounts() const
       auto res = HpsForLogs(m_c_best, m_oh_limit, m_time_left_mul, m_logs); 
       std::cout << "oh_limit: " << m_oh_limit << std::endl;
       std::cout << "time_left_mul: " << m_time_left_mul << std::endl;
+      std::cout << "total_deficit_to_pop_trinkets: " << global::assumptions.total_deficit_to_pop_trinkets << std::endl;
       std::cout << "in combat total: " << res.in_combat_sum << std::endl;
 
       float cast_time_sum = 0.0f;
@@ -852,12 +853,12 @@ void ItemPicker::CoutBestCounts() const
         cast_time_sum += cast_time*entry.second;
         raw_heal_sum += entry.second*spell.healing;
         std::cout << spell_id << ", casts: " << entry.second << ", avg: " << heal_sum/entry.second << ", " 
-            << heal_sum/res.heal_sum*100.0f << "\%" << ", cast time " << (entry.second*cast_time)/res.in_combat_sum*100.0f
-            << "\% of in combat, overheal: " << (entry.second*spell.healing - heal_sum)/(entry.second*spell.healing)
+            << heal_sum/res.heal_sum*100.0f << "%" << ", cast time " << (entry.second*cast_time)/res.in_combat_sum*100.0f
+            << "% of in combat, overheal: " << (entry.second*spell.healing - heal_sum)/(entry.second*spell.healing)
             << std::endl;
         // TODO: overheal overall, overheal per spell, total time casting, total hpm,
       }
-      std::cout << "Total time casting: " << cast_time_sum << ", which is: " << cast_time_sum/res.in_combat_sum*100.0f << "\% of time in combat." << std::endl;
+      std::cout << "Total time casting: " << cast_time_sum << ", which is: " << cast_time_sum/res.in_combat_sum*100.0f << "% of time in combat." << std::endl;
       std::cout << "Total hps: " << res.heal_sum/res.in_combat_sum << ", raw hps: " << raw_heal_sum/res.in_combat_sum << ", oh: " << (raw_heal_sum - res.heal_sum)/(raw_heal_sum) << std::endl;
 
       std::cout << "Deficit time sum: " << res.deficit_time_sum << ", baseline: " << m_baseline_deficit_time_sum << std::endl;
@@ -909,6 +910,16 @@ void ItemPicker::CoutCharacterStats() const
 }
 
 
+namespace
+{
+
+bool TooSpecial(const Item& item) {
+  return item.name == "hazza'rah's charm of healing";
+}
+
+}  // namespace
+
+
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name, bool use_alt)
 {
   // bool verbose = current_item.slot == "shoulders";
@@ -937,12 +948,14 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   if (!m_weights.empty()) {
     for (int i = 0; i < n_items; ++i) {
       Item item = ToStatDiffs(items_for_slot[i], c_no_item);
-      m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value}); 
-      if (!m_weights.empty() && use_alt) {
-        const Item& item = items_for_slot[i];
-        float val_alt = no_item_value + ValueIncreaseWeightsBased(item);;
-        if (val_alt > vals[i]) {
-          vals[i] = val_alt;
+      if (!TooSpecial(item)) {
+        m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value});
+        if (!m_weights.empty() && use_alt) {
+          const Item& item = items_for_slot[i];
+          float val_alt = no_item_value + ValueIncreaseWeightsBased(item);;
+          if (val_alt > vals[i]) {
+            vals[i] = val_alt;
+          }
         }
       }
     }
@@ -1019,7 +1032,7 @@ void MatchValues(const PriestCharacter& c, float* int_val, float* mp5_val, float
   float one_mana_worth = mp5_val_in/average_mana_from_mp5;
   if (debug) std::cout << "average_len: " << average_len << ", average_mana_from_mp5: " << average_mana_from_mp5 << ", one_mana_worth: " << one_mana_worth << std::endl;
 
-  float int_to_mana = (15.0f * (1.0f + 0.02*c.talents.mental_strength));
+  float int_to_mana = (15.0f * (1.0f + 0.02f*c.talents.mental_strength));
   float int_to_crit = 1.0f/59.2f;
 
   float int_val_alt = one_mana_worth*int_to_mana + crit_val_in*int_to_crit;
@@ -1041,7 +1054,7 @@ void MatchValues(const PriestCharacter& c, float* int_val, float* mp5_val, float
   // we have a fraction of int_to_crit coming from the crit part and int_to_mana fraction coming from mana.
   // 2/3 weight on averaging for the alt value, 1 for int
   // with given split derive the respective crit and mp5 vals so that everything matches.
-  float int_val_weighted = 2.0/3.0f*int_val_alt + 1.0f/3.0f*int_val_in;
+  float int_val_weighted = 2.0f/3.0f*int_val_alt + 1.0f/3.0f*int_val_in;
   float crit_val_weighted = int_val_weighted*int_val_to_crit_val;
   float one_mana_worth_weighted = int_val_weighted*int_val_to_one_mana_worth;
   float mp5_val_weighted = one_mana_worth_weighted*average_mana_from_mp5;
@@ -1135,7 +1148,7 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   std::cout << "T1 3p/piece: " << m_weights[5]/m_weights[2]*100.0f << std::endl;
   std::cout << "T2 3p/piece: " << m_weights[6]/m_weights[2]*100.0f << std::endl;
 
-  std::cout << "100 points ==  " << m_weights[2] << " hps." << std::endl;
+  std::cout << "100 points == 1 sp == " << m_weights[2] << " hps." << std::endl;
 
   // clear for next
   // m_stat_diffs_to_hps_diffs.clear();
