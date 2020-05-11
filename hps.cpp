@@ -412,7 +412,7 @@ int SpellToIx(const Spell& spell)
                              + std::to_string(global::assumptions.spell_ranks.size()));
   }
   for (size_t i = 0; i < size; ++i) {
-    if (s == global::assumptions.spell_names[i] && r == global::assumptions.spell_ranks[i]) return i;
+    if (s == global::assumptions.spell_names[i] && r == global::assumptions.spell_ranks[i]) return static_cast<int>(i);
   }
   return 0;
 }
