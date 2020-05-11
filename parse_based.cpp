@@ -577,7 +577,7 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
 
   float &thr = global::assumptions.total_deficit_to_pop_trinkets;
   for (int i = 0; i < max_change; ++i) {
-      thr *= 1.05;
+      thr *= 1.05f;
       res = HpsForLogs(c_tmp, best_oh_limit, best_time_left_mul, logs);
       hps = res.heal_sum/res.in_combat_sum;
 
