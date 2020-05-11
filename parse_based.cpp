@@ -576,7 +576,8 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
 
   float hi = deficit_thr;
   float lo = deficit_thr;
-  while (1) {
+  constexpr int max_change = 20;  // Avoid being stuck in loop forever
+  for (int i = 0; i < max_change; ++i) {
       deficit_thr *= 1.05f;
       global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
       res = HpsForLogs(c_tmp, best_oh_limit, best_time_left_mul, logs);
@@ -592,7 +593,8 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
   }
   deficit_thr = best_deficit_thr;
   global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
-  while (1) {
+
+  for (int i = 0; i < max_change; ++i) {
       deficit_thr *= 0.95f;
       global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
       res = HpsForLogs(c_tmp, best_oh_limit, best_time_left_mul, logs);
