@@ -21,7 +21,7 @@ struct Assumptions
   std::vector<float> spell_max_freqs =         {1.0f, 1.0f, 1.0f, 0.2f, 1.0f, 1.0f, 1.0f, 0.2f, 0.1f, 0.3f};
   // std::vector<float> spell_max_freqs =      {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
   std::vector<int> spell_ranks =               {2,    4,    1,    4,    1,    4,    7,    9,    4,    10};
-  std::vector<float> spell_overheal =          {0.3,  0.4,  0.4,  0.5,  0.05, 0.1,  0.15, 0.3,  0.2,  0.0};
+  std::vector<float> spell_overheal =          {0.3f, 0.4f, 0.4f, 0.5f, 0.05f,0.1f, 0.15f,0.3f, 0.2f, 0.0f};
   std::vector<float> initial_spell_counts =    {1,    0,    0,    0,    0,    0,    0,    0,    0,    0};
   std::vector<float> fixed_spell_counts =      {1,    0,    0,    0,    0,    0,    0,    0,    0,    0};
   bool use_fixed_spell_counts = 0;

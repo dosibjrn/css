@@ -27,6 +27,7 @@ float Stats::getManaRegenPerSecondDrinking(bool under_fsr, bool spirit_tap)
       mana_per_s += 0.5f*getManaRegenTickOutOfFsr();
     }
   }
+  return mana_per_s;
 }
 
 float Stats::getEffectiveHp() const

@@ -1,5 +1,6 @@
 #include "parse_based.h"
 
+#include <algorithm>
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -24,7 +25,7 @@ void HandleLogEntry(const LogEntry& e, std::map<std::string, float>* d, //
   float overheal = 0.0f;
   (*d)[e.player] += -1.0f*e.hp_diff;
   if ((*d)[e.player] < 0.0f) {
-    overheal = -1.0*(*d)[e.player];
+    overheal = -1.0f*(*d)[e.player];
     (*d)[e.player] = 0.0f;
   }
 
@@ -63,7 +64,7 @@ MyCast SpellToMyCast(const Spell& s, const std::string& player, int64_t time)
   MyCast out;
   out.player = player;
   out.hp_diff = s.healing;
-  out.time = s.cast_time*1e3 + time;
+  out.time = static_cast<int64_t>(s.cast_time*1e3) + time;
   out.cost = s.cost;
   out.done = false;
   out.spell_name = s.name;
@@ -173,11 +174,10 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   std::map<std::string, float> deficits;
   std::map<std::string, float> deficits_delayed;
   std::map<std::string, float> damage_taken;
-  const int64_t time_step_ms = std::max<int64_t>(1, time_step_s * 1e3);
+  const int64_t time_step_ms = std::max<int64_t>(1, static_cast<int64_t>(time_step_s * 1e3f));
 
   // take first log entry -> combat start
   bool announce = false;
-  bool done = false;
   int64_t time = log[0].time;
   const int64_t start_time = time;
   const int64_t end_time = log.back().time;
@@ -246,13 +246,13 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   const float max_mana = s.getMaxMana();
   int64_t prev_cast = 0;
   int64_t prev_tick = start_time;
-  int64_t in_combat_thr_ms = global::assumptions.max_log_entry_diff_in_combat*1e3;
+  int64_t in_combat_thr_ms = static_cast<int64_t>(global::assumptions.max_log_entry_diff_in_combat*1e3);
   int64_t prev_damage_taken_ms = 0;
 
   const bool precast = global::assumptions.precast;
   const bool swap_cast = global::assumptions.swap_cast;
 
-  const int64_t reaction_time_ms = global::assumptions.reaction_time*1e3;
+  const int64_t reaction_time_ms = static_cast<int64_t>(global::assumptions.reaction_time*1e3);
 
   int64_t in_combat_sum_ms = 0;
   while (log_ix < log_s) {
@@ -288,8 +288,8 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
     }
 
     if (in_combat) {
-      const float relative_time_left = 1.0 - static_cast<double>(time - start_time)/(end_time - start_time);
-      const float time_since_start_s = static_cast<float>(time - start_time)/1e3;
+      const float relative_time_left = 1.0f - static_cast<float>(time - start_time)/(end_time - start_time);
+      const float time_since_start_s = static_cast<float>(time - start_time)/1e3f;
 
       // picke spell list to use:
       spell_list = &spells_hpm;
@@ -310,8 +310,8 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
           }
           if (total_deficit > global::assumptions.total_deficit_to_pop_trinkets) {
             cd.active = true;
-            cd.off_cooldown_ms = time + 180*1e3; // 3 min cd this should be in cooldowns or sth TODO REFACTOR
-            cd.effect_end_ms = time + 15*1e3; // 15 s effect
+            cd.off_cooldown_ms = time + static_cast<int64_t>(180*1e3); // 3 min cd this should be in cooldowns or sth TODO REFACTOR
+            cd.effect_end_ms = time + static_cast<int64_t>(15*1e3); // 15 s effect
             active = true;
           }
         }
@@ -373,7 +373,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
 
     if (!in_combat) {
       auto water = BestWater(c);
-      *mana += water.per_tick/3.0*time_step_s;
+      *mana += water.per_tick/3.0f*time_step_s;
     } else {
       for (const auto& deficit : deficits) {
         if (deficit.second > 0) {
@@ -391,7 +391,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
     // time goes on
     time += time_step_ms;
   }
-  out.in_combat_sum = static_cast<float>(in_combat_sum_ms)/1e3;
+  out.in_combat_sum = static_cast<float>(in_combat_sum_ms)/1e3f;
   if (announce) std::cout << "Total time in combat: " << out.in_combat_sum << " s." << std::endl;
   return out;
 }
@@ -400,8 +400,8 @@ LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_p
 {
   if (log.empty()) return std::vector<std::vector<LogEntry>>{};
 
-  int64_t max_diff_ms = global::assumptions.max_log_entry_diff_in_combat * 1e3;
-  int64_t min_combat_len_ms = global::assumptions.min_combat_length*1e3;
+  int64_t max_diff_ms = static_cast<int64_t>(global::assumptions.max_log_entry_diff_in_combat * 1e3);
+  int64_t min_combat_len_ms = static_cast<int64_t>(global::assumptions.min_combat_length*1e3);
   std::vector<std::vector<LogEntry>> out;
   int64_t prev_t_ms = log[0].time;
   std::vector<LogEntry> this_combat;
@@ -441,7 +441,7 @@ LogsType GetLogs(const std::string& log_fn)
   std::vector<LogEntry> log;
   int64_t lines = 0;
   int64_t time_prev_ms = 0;
-  constexpr int64_t hour_ms = 60*60*1e3;
+  constexpr int64_t hour_ms = static_cast<int64_t>(60*60*1e3);
   while (std::getline(is, line)) {
     LogEntry e;
     if (LineToLogEntryIfAny(line, &e)) {
@@ -482,7 +482,7 @@ LogsType GetLogs(const std::string& log_fn)
   auto logs = PrunedLog(log, remove_player);
   int total_size = 0;
   for (auto one_log : logs) {
-    total_size += one_log.size();
+      total_size += static_cast<int>(one_log.size());
   }
   std::cout << "Pruned to: " << total_size << " entries." << std::endl;
   return logs;
@@ -491,8 +491,6 @@ LogsType GetLogs(const std::string& log_fn)
 LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_mul, const LogsType& logs)
 {
   LogResult out;
-  float heal_sum = 0.0f;
-  float time_sum = 0.0f;
 
   const float time_step = global::assumptions.time_step;
   const float time_min_s = global::assumptions.min_combat_length;
@@ -503,16 +501,15 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
 
   int64_t time = logs.front().front().time;
 
-  int n_logs = static_cast<int>(logs.size());
   auto cds = SetsToCooldowns(c.set_bonuses);
   for (const auto& log : logs) {
     if (log.empty()) continue;
 
-    float log_time = (log.back().time - log.front().time) / 1e3;
+    float log_time = (log.back().time - log.front().time)/1e3f;
     if (log_time > time_min_s) {
 
       // drink before next combat
-      float before_log_time_s = (log.front().time - time)/1e3;
+      float before_log_time_s = (log.front().time - time)/1e3f;
       mana += stats.getManaRegenPerSecondDrinking()*before_log_time_s;
       mana = std::min(mana, max_mana);
       float mana_at_start = mana;
@@ -548,7 +545,6 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
 
 std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, const LogsType& logs)
 {
-  const float time_min_s = 30.0f;
   float best_hps = 0.0f;
   float best_oh_limit = 0.0f;
   float best_time_left_mul = 0.0f;
@@ -573,7 +569,6 @@ void ParseBased(const std::string& log_fn)
 {
   auto logs = GetLogs(log_fn);
 
-  float time_step = 0.2f;
   auto c = BaseLvl60HolyDiscHealing();
   c.sp = 700;
   c.intelligence = 400;

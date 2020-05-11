@@ -1,5 +1,8 @@
 #include "log_entry.h"
 
+#define _CRT_SECURE_NO_WARNINGS
+#include <time.h>
+
 #include <iostream>
 
 // 2/26 21:49:12.929  SWING_DAMAGE,Creature-0-4458-469-5988-12017-000056C441,"Broodlord Lashlayer",0xa48,0x0,Player-4476-013D02E7,"Rawrmew-Gehennas",0x10514,0x0,Creature-0-4458-469-5988-12017-000056C441,0000000000000000,84,100,0,0,0,-1,0,0,0,-7612.08,-1096.62,0,5.4551,63,1726,3226,-1,1,0,0,0,nil,nil,1
@@ -152,14 +155,14 @@ int64_t GetTime(int64_t month, int64_t day, int64_t hour, int64_t minute, int64_
   // First seconds since 1st jan
   struct tm  tm;
   time_t rawtime;
-  time ( &rawtime );
+  time(&rawtime);
   tm = *localtime ( &rawtime );
   tm.tm_year = 0;
-  tm.tm_mon = month - 1;
-  tm.tm_mday = day;
-  tm.tm_hour = hour;
-  tm.tm_min = minute;
-  tm.tm_sec = s;
+  tm.tm_mon = static_cast<int>(month - 1);
+  tm.tm_mday = static_cast<int>(day);
+  tm.tm_hour = static_cast<int>(hour);
+  tm.tm_min = static_cast<int>(minute);
+  tm.tm_sec = static_cast<int>(s);
   mktime(&tm);
   int64_t stamp = ((((tm.tm_yday*24) + hour)*60 + minute)*60 + s)*1000 + ms;
   return stamp;
