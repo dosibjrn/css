@@ -13,7 +13,7 @@ namespace css
 float Stats::getManaRegenPerSecondDrinking(bool under_fsr, bool spirit_tap)
 {
   Water w = BestWater(c_);
-  float mana_per_s = w.per_tick/3.0;
+  float mana_per_s = w.per_tick/3.0f;
   if (spirit_tap) {
     if (under_fsr) {
       mana_per_s += 0.5f*getManaRegenTickSpiritTapUnderFsr();
