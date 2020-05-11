@@ -561,6 +561,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
   } else {
     std::cout << "| Upgrades at best in slot level, from start item to candidate, partial bonuses: " << partial << ": |" << std::endl;
   }
+  if (!m_weights.empty()) std::cout << "  alt scores are from least squares fit, special score from e.g. set bonuses as s are part of em" << std::endl;
   std::cout << ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . " << std::endl;
   auto items_start = m_items_start;
   for (auto slot : order) {
@@ -619,8 +620,8 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
     float special_start = 0.0f;
     float val_alt_start = val_no_item + ValueIncreaseWeightsBased(ToStatDiffs(start_item, c_tmp), &special_start);
     if (!m_weights.empty()) {
-      std::cout << "  alt scores are from least squares fit, special score from e.g. set bonuses as s are part of em" << std::endl;
-      std::cout << ", alt: " << val_alt_start - val_no_item << " (s: " << special_start << ")";
+      std::cout << ", alt: " << val_alt_start - val_no_item;
+      if (special_start) std::cout << " (s: " << special_start << ")";
     }
     std::cout <<  " -> :" << std::endl;
 
@@ -647,7 +648,8 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
         if (!m_weights.empty()) {
           float special = 0.0f;
           float alt_diff = ValueIncreaseWeightsBased(ToStatDiffs(item, c_tmp), &special);
-          ss << ", alt : " << plusIfPos(alt_diff) << alt_diff << " (s: " << special << ")";
+          ss << ", alt : " << plusIfPos(alt_diff) << alt_diff;
+          if (special) ss << " (s: " << special << ")";
           cand_diff = start_diff + alt_diff;  // To fix sorting below
         }
         ss << ", from: " << item.source;

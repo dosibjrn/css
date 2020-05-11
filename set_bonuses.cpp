@@ -33,6 +33,14 @@ bool SuffixMatches(const std::string& suffix, const std::string& item_name) {
 
 }  // namespace
 
+
+std::pair<std::string, int> splitBonusName(const std::string& set_name)
+{
+    size_t space_pos = set_name.find(" ");
+    int n = atoi(set_name.substr(space_pos).c_str());
+    return {set_name.substr(0, space_pos), n};
+}
+
 // Some belong to two sets due to special effects modelled as set bonuses and being in a set
 // the all-seeing eye of zuldazar, I am looking at you and judging by your name, you're looking back
 std::vector<std::string> getSetNames(const std::string& item_name)

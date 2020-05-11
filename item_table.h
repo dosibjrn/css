@@ -12,6 +12,7 @@ namespace css
 class ItemTable {
  public:
   ItemTable(std::string csv_file_name);
+  std::vector<Item> getSetItems(const std::string& set_name) const;
   std::vector<Item> getItems(const std::string& slot) const;
   std::vector<Item> getItems(const std::vector<std::string>& slots) const;
   std::vector<std::string> getItemSlots() const;
@@ -22,6 +23,7 @@ class ItemTable {
   Item lineToItem(const std::string& line);
 
   std::vector<std::vector<Item>> m_items;
+  std::map<std::string, std::vector<Item>> m_set_items;
   std::map<std::string, int> m_slots;
   int m_slot_ix = -1;
   int m_name_ix = -1;

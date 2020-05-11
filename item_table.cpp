@@ -5,6 +5,7 @@
 #include <string>
 
 #include "csv.h"
+#include "set_bonuses.h"
 
 namespace css
 {
@@ -23,6 +24,10 @@ ItemTable::ItemTable(std::string csv_file_name)
     Item i = lineToItem(line);
     if (m_slots.find(i.slot) != m_slots.end()) {
       m_items[m_slots[i.slot]].push_back(i);
+      auto set_names = getSetNames(i.name);
+      for (auto set_name : set_names) {
+        m_set_items[set_name].push_back(i);
+      }
     }
   }
   m_items[m_slots["trinket 2"]] = m_items[m_slots["trinket"]];
@@ -59,6 +64,14 @@ std::vector<std::string> ItemTable::getItemSlots() const
   return slots;
 }
 
+std::vector<Item> ItemTable::getSetItems(const std::string& set_name) const
+{
+  if (m_set_items.find(set_name) != m_set_items.end()) {
+    return m_set_items.at(set_name);
+  } else {
+    return std::vector<Item>{};
+  }
+}
 
 void ItemTable::prepareSlotMap()
 {
