@@ -453,7 +453,7 @@ LogsType GetLogs(const std::string& log_fn)
       }
       if (e.hp_diff < 0) {
         damage_sum -= e.hp_diff;
-      } else {
+      } else if (e.source != "DEATH") {
         heal_sum += e.hp_diff;
       }
       ms_end = e.time;
@@ -573,45 +573,35 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
   best_hps = hps;
   float best_deficit_thr = global::assumptions.total_deficit_to_pop_trinkets;
   float deficit_thr = best_deficit_thr;
+  constexpr int max_change = 10;  // Avoid being stuck in loop forever
 
-  float hi = deficit_thr;
-  float lo = deficit_thr;
-  constexpr int max_change = 20;  // Avoid being stuck in loop forever
+  float &thr = global::assumptions.total_deficit_to_pop_trinkets;
   for (int i = 0; i < max_change; ++i) {
-      deficit_thr *= 1.05f;
-      global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
+      thr *= 1.05;
       res = HpsForLogs(c_tmp, best_oh_limit, best_time_left_mul, logs);
       hps = res.heal_sum/res.in_combat_sum;
 
-      if (hps >= best_hps) {
-          best_deficit_thr = deficit_thr;
+      if (hps > best_hps) {
+          best_deficit_thr = thr;
           best_hps = hps;
-          hi = deficit_thr;
-      } else {
-          break;
       }
   }
-  deficit_thr = best_deficit_thr;
-  global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
 
+  thr = deficit_thr;
   for (int i = 0; i < max_change; ++i) {
-      deficit_thr *= 0.95f;
-      global::assumptions.total_deficit_to_pop_trinkets = deficit_thr;
+      thr *= 0.95f;
       res = HpsForLogs(c_tmp, best_oh_limit, best_time_left_mul, logs);
       hps = res.heal_sum/res.in_combat_sum;
 
-      if (hps >= best_hps) {
-          best_deficit_thr = deficit_thr;
+      if (hps > best_hps) {
+          best_deficit_thr = thr;
           best_hps = hps;
-          lo = deficit_thr;
-      } else {
-          break;
       }
   }
 
-  global::assumptions.total_deficit_to_pop_trinkets = 0.5f * (hi + lo);
-  //  std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul //
-  //            << ", total_deficit_to_pop_trinkets: " << best_deficit_thr << std::endl;
+  thr = best_deficit_thr;
+  std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul //
+      << ", total_deficit_to_pop_trinkets: " << thr << std::endl;
   return {best_oh_limit, best_time_left_mul};
 }
 

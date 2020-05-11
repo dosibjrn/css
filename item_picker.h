@@ -74,7 +74,7 @@ private:
 
   void updateIfNewBest(float val, bool disable_bans, int iteration, int* iters_without_new_best);
 
-  float ValueIncreaseWeightsBased(const Item& item);
+  float ValueIncreaseWeightsBased(const Item& item, float* special = nullptr);
 
   template<typename T>
       void shuffle(std::vector<T>* v)

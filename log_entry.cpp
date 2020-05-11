@@ -315,6 +315,7 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
     // From healing point of view, dead is as good as healed to full, funnily enough
 
     // std::cout << "(unit died) line: " << line << std::endl;
+    e->source = "DEATH";
     e->hp_diff = 1e5f; // + 100 000 should do it in classic context
   } else {
     return false;

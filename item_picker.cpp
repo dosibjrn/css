@@ -508,7 +508,7 @@ void ItemPicker::CoutDiffsToStart()
   m_c_best = c_save;
 }
 
-float ItemPicker::ValueIncreaseWeightsBased(const Item& item)
+float ItemPicker::ValueIncreaseWeightsBased(const Item& item, float *special)
 {
   if (m_weights.empty()) return 0.0f;
 
@@ -520,6 +520,9 @@ float ItemPicker::ValueIncreaseWeightsBased(const Item& item)
   increase += item.spell_crit*m_weights[4]; 
   increase += item.strength*m_weights[5];
   increase += item.agility*m_weights[6];
+  if (special) {
+    *special = item.strength*m_weights[5] + item.agility*m_weights[6];
+  }
   return increase;
 }
 
@@ -613,9 +616,11 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
     float start_diff = val_start - val_no_item;
     std::cout << "- . - ' - . - ' - . - ' - . - ' - . - ' - . -" << std::endl;
     std::cout << slot << ", " << start_item.name << " (" << start_diff << ")";
-    float val_alt_start = val_no_item + ValueIncreaseWeightsBased(ToStatDiffs(start_item, c_tmp));
+    float special_start = 0.0f;
+    float val_alt_start = val_no_item + ValueIncreaseWeightsBased(ToStatDiffs(start_item, c_tmp), &special_start);
     if (!m_weights.empty()) {
-      std::cout << ", alt: " << val_alt_start - val_no_item;
+      std::cout << "  alt scores are from least squares fit, special score from e.g. set bonuses as s are part of em" << std::endl;
+      std::cout << ", alt: " << val_alt_start - val_no_item << " (s: " << special_start << ")";
     }
     std::cout <<  " -> :" << std::endl;
 
@@ -640,8 +645,9 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
         std::stringstream ss;
         ss << "    " << item.name << " (" << cand_diff << ") : " << plusIfPos(cand_diff - start_diff) << (cand_diff - start_diff)/val_start*100.0f << " %";
         if (!m_weights.empty()) {
-          float alt_diff = ValueIncreaseWeightsBased(ToStatDiffs(item, c_tmp));
-          ss << ", alt : " << plusIfPos(alt_diff) << alt_diff;
+          float special = 0.0f;
+          float alt_diff = ValueIncreaseWeightsBased(ToStatDiffs(item, c_tmp), &special);
+          ss << ", alt : " << plusIfPos(alt_diff) << alt_diff << " (s: " << special << ")";
           cand_diff = start_diff + alt_diff;  // To fix sorting below
         }
         ss << ", from: " << item.source;
@@ -872,7 +878,9 @@ void ItemPicker::CoutBestCounts() const
       for (const auto& entry : res.player_heal_sums) {
         float hps = entry.second / res.in_combat_sum;
         if (hps > hps_limit) {
-          std::cout << "  " << entry.first << " : " << hps << " hps" << std::endl;
+          if (entry.first != "DEATH") {
+            std::cout << "  " << entry.first << " : " << hps << " hps" << std::endl;
+          }
         }
       }
     }
