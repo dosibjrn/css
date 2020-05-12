@@ -1,5 +1,7 @@
 #include "set_bonus_calculus.h"
 
+#include <iostream>
+
 namespace css
 {
 
@@ -9,26 +11,38 @@ std::vector<std::vector<Item>> AllUniqueSetsOf(const std::vector<Item>& set_item
 {
   std::vector<std::vector<Item>> options_for_set;
   int set_size = static_cast<int>(set_items.size());
+  std::cout << "n: " << n << std::endl;
   std::vector<int> picks(n);
-  while (picks[0] < set_size) {
+  while (picks[0] < set_size && n > 1) {
     int prev = picks[0];
-    bool good_to_add = false;
+    std::cout << "prev: " << prev << std::endl;
+    bool good_to_add = true;
     for (int ix = 1; ix < n; ++ix) {
       auto& pick = picks[ix];
+      if (pick >= set_size) {
+        pick = 0;
+        picks[ix - 1]++;
+      }
+      std::cout << "ix: " << ix << ", pick: " << pick << std::endl;
       if (pick <= prev) {
-        if (pick == set_size) {
-          pick = 0;
-          picks[ix - 1]++;
-        }
+
         ++pick;
+        std::cout << "  ix: " << ix << ", pick: " << pick << std::endl;
         prev = pick;
         good_to_add = false;
       }
       if (good_to_add) {
-        options_for_set.push_back(std::vector<Item>);
+        options_for_set.push_back(std::vector<Item>{});
+        std::cout << "picks: ";
         for (auto pick : picks) {
-          options.for_set.back(push_back(set_items[pick]));
+          std::cout << pick << " ";
+          if (pick >= set_size) {
+            std::cout << std::endl << "WOOPS pick: " << pick << ", set size: " << set_size << std::endl;
+          } else {
+            options_for_set.back().push_back(set_items[pick]);
+          }
         }
+        std::cout << std::endl;
         picks[n - 1]++;
       }
     }
@@ -97,7 +111,7 @@ std::vector<std::vector<Item>> AllMatchingBonuses(const ItemTable& table, const 
 }  // namespace
 
 std::vector<Item> BestMatchingBonuses(const ItemTable& table, 
-                                      const std::function<float(const std::vector<Item>&)& val_func, 
+                                      const std::function<float(const std::vector<Item>&)>& val_func, 
                                       const SetBonuses& sb)
 {
   const auto options = AllMatchingBonuses(table, sb);
@@ -113,7 +127,7 @@ std::vector<Item> BestMatchingBonuses(const ItemTable& table,
     }
     i++;
   }
-  return options.emtpy() ? std::vector<Item>{} : options[best_ix];
+  return options.empty() ? std::vector<Item>{} : options[best_ix];
 }
 
 }  // namespace css

@@ -27,6 +27,7 @@ set(header_list
   raid.h
   regen.h
   school.h
+  set_bonus_calculus.h
   set_bonuses.h
   spell.h
   spell_priest_modify.h
@@ -58,6 +59,7 @@ set(source_list
   priest_character.cpp
   pve.cpp
   pvp.cpp
+  set_bonus_calculus.cpp
   set_bonuses.cpp
   spell_priest_modify.cpp
   spell_sequence_priest.cpp

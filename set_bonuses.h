@@ -30,7 +30,7 @@ class SetBonuses {
   void AddItem(const Item& item);
   void RemoveItem(const Item& item);
 
-  std::set<std::string> getBonusNames() {
+  std::set<std::string> getBonusNames() const {
     return m_partial ? m_bonus_names_partial : m_bonus_names;
   }
 
@@ -59,6 +59,6 @@ class SetBonuses {
   SetBonusListType m_bonus_list_partial;
 };
 
-std::pair<std::string, int> splitBonusName(std::string);
+std::pair<std::string, int> splitBonusName(const std::string& set_name);
 
 }  // namespace css

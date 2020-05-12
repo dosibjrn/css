@@ -15,6 +15,7 @@
 #include "hps.h"
 #include "item_table.h"
 #include "item_operations.h"
+#include "set_bonus_calculus.h"
 #include "stats.h"
 
 namespace css
@@ -279,13 +280,43 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
   }
 }
 
-void ItemPicker::PickBestForSlots(const ItemTable &item_table, bool disable_bans, int iteration, int max_iterations, //
+void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table)
+{
+  std::function<float(const std::vector<Item>&)> val_func = [this](const std::vector<Item>& items_in) {
+    PriestCharacter c_tmp = m_c_curr;
+    for (const Item& item : items_in) {
+      Item current = m_items[item.slot];
+      RemoveItem(current, &c_tmp);
+      AddItem(item, &c_tmp);
+    }
+    return value(c_tmp);
+  };
+  auto best_matching = BestMatchingBonuses(item_table, val_func, m_c_curr.set_bonuses);
+  if (best_matching.empty()) { 
+    std::cout << "No swappies for item bonuses found." << std::endl;
+    return;
+  }
+  float val_was = value(m_c_curr);
+  std::cout << "Swapping to best matching bonuses: " << std::endl;
+  for (const Item& item : best_matching) {
+    Item current = m_items[item.slot];
+    RemoveItem(current, &m_c_curr);
+    AddItem(item, &m_c_curr);
+    m_items[item.slot] = item;
+    std::cout << "    " << current.name << " -> " << item.name << std::endl;
+  }
+  float val_is = value(m_c_curr);
+  std::cout << "    value from: " << val_was << " -> " << val_is << std::endl;
+}
+
+void ItemPicker::PickBestForSlots(const ItemTable& item_table, bool disable_bans, int iteration, int max_iterations, //
                                   int* static_for_all_slots, int* iters_without_new_best)
 {
   {
     m_c_curr.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_curr);
     m_c_best.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_best);
   }
+  swapToBestMatchingBonuses(item_table);
   std::vector<std::string> slots = item_table.getItemSlots();
   if (m_items.empty()) {
     for (const auto& slot : slots) {
@@ -508,7 +539,7 @@ void ItemPicker::CoutDiffsToStart()
   m_c_best = c_save;
 }
 
-float ItemPicker::ValueIncreaseWeightsBased(const Item& item, float *special)
+float ItemPicker::valueIncreaseWeightsBased(const Item& item, float *special)
 {
   if (m_weights.empty()) return 0.0f;
 
@@ -618,7 +649,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
     std::cout << "- . - ' - . - ' - . - ' - . - ' - . - ' - . -" << std::endl;
     std::cout << slot << ", " << start_item.name << " (" << start_diff << ")";
     float special_start = 0.0f;
-    float val_alt_start = val_no_item + ValueIncreaseWeightsBased(ToStatDiffs(start_item, c_tmp), &special_start);
+    float val_alt_start = val_no_item + valueIncreaseWeightsBased(ToStatDiffs(start_item, c_tmp), &special_start);
     if (!m_weights.empty()) {
       std::cout << ", alt: " << val_alt_start - val_no_item;
       if (special_start) std::cout << " (s: " << special_start << ")";
@@ -630,7 +661,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
       AddItem(item, &c_tmp);
       float val_candidate = value(c_tmp);
       RemoveItem(item, &c_tmp);
-      float val_candidate_alt = val_no_item + ValueIncreaseWeightsBased(ToStatDiffs(item, c_tmp));
+      float val_candidate_alt = val_no_item + valueIncreaseWeightsBased(ToStatDiffs(item, c_tmp));
 
       // if val > val_start -> add to list
       auto setNames = getSetNames(item.name);
@@ -647,7 +678,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
         ss << "    " << item.name << " (" << cand_diff << ") : " << plusIfPos(cand_diff - start_diff) << (cand_diff - start_diff)/val_start*100.0f << " %";
         if (!m_weights.empty()) {
           float special = 0.0f;
-          float alt_diff = ValueIncreaseWeightsBased(ToStatDiffs(item, c_tmp), &special);
+          float alt_diff = valueIncreaseWeightsBased(ToStatDiffs(item, c_tmp), &special);
           ss << ", alt : " << plusIfPos(alt_diff) << alt_diff;
           if (special) ss << " (s: " << special << ")";
           cand_diff = start_diff + alt_diff;  // To fix sorting below
@@ -962,7 +993,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
         m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value});
         if (!m_weights.empty() && use_alt) {
           const Item& item = items_for_slot[i];
-          float val_alt = no_item_value + ValueIncreaseWeightsBased(item);;
+          float val_alt = no_item_value + valueIncreaseWeightsBased(item);;
           if (val_alt > vals[i]) {
             vals[i] = val_alt;
           }
