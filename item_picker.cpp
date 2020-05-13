@@ -316,7 +316,7 @@ void ItemPicker::PickBestForSlots(const ItemTable& item_table, bool disable_bans
     m_c_curr.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_curr);
     m_c_best.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_best);
   }
-  swapToBestMatchingBonuses(item_table);
+  // swapToBestMatchingBonuses(item_table);
   std::vector<std::string> slots = item_table.getItemSlots();
   if (m_items.empty()) {
     for (const auto& slot : slots) {
