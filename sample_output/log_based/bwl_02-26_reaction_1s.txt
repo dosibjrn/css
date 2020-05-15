@@ -37,7 +37,7 @@ Found: -l, val: bwl.txt
 Will read log from: bwl.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks 
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks 
-Shuffle seed: 415885080
+Shuffle seed: 2884205277
 Reading banned from: ../items/not_for_priests.txt
 Banning: neltharion's tear
 Banning: lok'amir il romathis
@@ -190,87 +190,73 @@ Locking: zandalarian hero charm
 Locking: zandalar confessor's mantle
 Locking: zandalar confessor's wraps 
 Locking: pure elementium band
+Locking: truefaith vestments
 Optimizing start items...
 
-*** NEW BEST (1): 130.59
+*** NEW BEST (1): 132.363
 
-*** NEW BEST (1): 149.578
+*** NEW BEST (1): 151.082
 
-*** NEW BEST (1): 158.545
+*** NEW BEST (1): 170.086
 
-*** NEW BEST (1): 164.254
+*** NEW BEST (1): 179.115
 
-*** NEW BEST (1): 181.829
+*** NEW BEST (1): 190.078
 
-*** NEW BEST (1): 198.922
+*** NEW BEST (1): 195.69
 
-*** NEW BEST (1): 213.097
+*** NEW BEST (1): 214.001
 
-*** NEW BEST (1): 215.114
+*** NEW BEST (1): 219.807
 
-*** NEW BEST (1): 226.275
+*** NEW BEST (1): 227.459
 
-*** NEW BEST (1): 238.927
+*** NEW BEST (1): 243.035
 
-*** NEW BEST (1): 247.211
+*** NEW BEST (1): 249.09
 
-*** NEW BEST (1): 261.679
+*** NEW BEST (1): 252.448
 
-*** NEW BEST (1): 262.872
+*** NEW BEST (1): 262.389
 
-*** NEW BEST (1): 271.497
+*** NEW BEST (1): 267.115
 
-*** NEW BEST (1): 280.606
+*** NEW BEST (1): 276.183
 
-*** NEW BEST (1): 282.843
-****
-*** NEW BEST (1): 283.019
-*******
-*** NEW BEST (0): 263.915
-Based on last: 3000 entries, out of total: 3229 entries, The least-squares solution is:
-Int: 146.827
-Spirit: 89.8522
+*** NEW BEST (1): 280.173
+**
+*** NEW BEST (1): 282.885
+
+*** NEW BEST (1): 284.298
+
+*** NEW BEST (1): 287.463
+********
+*** NEW BEST (1): 287.539
+*shoulders : pauldrons of transcendence -> zandalar confessor's mantle => val: 283.623 -> 287.207
+
+*** NEW BEST (0): 287.207
+Based on last: 3000 entries, out of total: 3228 entries, The least-squares solution is:
+Int: 153.175
+Spirit: 78.9824
 Sp / Healing: 100
-Mp5: 421.372
-Crit: 375.248
-T1 3p/piece: 3423.53
-T2 3p/piece: 4550.4
-100 points == 1 sp == 0.119398 hps.
-waist : belt of transcendence -> zandalar confessor's bindings => val: 263.915 -> 265.135
-
-*** NEW BEST (0): 265.135
-Based on last: 3000 entries, out of total: 3297 entries, The least-squares solution is:
-Int: 148.624
-Spirit: 92.8316
-Sp / Healing: 100
-Mp5: 427.508
-Crit: 366.461
-T1 3p/piece: 3538.27
-T2 3p/piece: 4466.16
-100 points == 1 sp == 0.119202 hps.
-feet : boots of the full moon -> shimmering geta => val: 265.135 -> 267.835
-
-*** NEW BEST (0): 267.835
-Based on last: 3000 entries, out of total: 3363 entries, The least-squares solution is:
-Int: 151.28
-Spirit: 91.4944
-Sp / Healing: 100
-Mp5: 431.136
-Crit: 375.086
-T1 3p/piece: 3521.66
-T2 3p/piece: 4371.82
-100 points == 1 sp == 0.11972 hps.
+Mp5: 399.338
+Crit: 496.871
+T1 3p/piece: 2555.24
+T2 3p/piece: 4984.21
+100 points == 1 sp == 0.11368 hps.
 *********
 Read starting items and cleared locks.
  ----------------------------
  --- head --- 
-name: zulian headdress
+name: halo of transcendence
 slot: head
-intelligence: 15
-stamina: 13
-spirit: 14
-sp_healing: 55
-armor: 78
+intelligence: 27
+stamina: 17
+spirit: 22
+sp_healing: 48
+fire_res: 10
+frost_res: 10
+armor: 94
  ----------------------------
  --- neck --- 
 name: jin'do's evil eye
@@ -358,32 +344,43 @@ fire_res: 7
 armor: 63
  ----------------------------
  --- waist --- 
-name: zandalar confessor's bindings
+name: belt of transcendence
 slot: waist
-intelligence: 20
-stamina: 12
-spirit: 12
+intelligence: 26
+stamina: 14
+spirit: 9
 sp_healing: 26
-armor: 53
+shadow_res: 10
+armor: 65
  ----------------------------
  --- legs --- 
-name: pants of prophecy
+name: leggings of transcendence
 slot: legs
-intelligence: 24
-stamina: 18
-spirit: 20
-sp_healing: 22
-mp5: 6
+intelligence: 21
+stamina: 16
+spirit: 21
+sp_healing: 46
+mp5: 7
+arcane_res: 10
 shadow_res: 10
-armor: 89
+armor: 101
  ----------------------------
  --- feet --- 
-name: shimmering geta
+name: boots of prophecy
 slot: feet
-intelligence: 17
-stamina: 13
-mp5: 12
-armor: 81
+intelligence: 18
+stamina: 17
+spirit: 15
+sp_healing: 18
+shadow_res: 7
+armor: 70
+ ----------------------------
+ --- finger --- 
+name: primalist's seal
+slot: finger
+intelligence: 12
+spirit: 8
+sp_healing: 29
  ----------------------------
  --- finger --- 
 name: pure elementium band
@@ -393,11 +390,10 @@ stamina: 9
 spirit: 10
 sp_healing: 53
  ----------------------------
- --- finger --- 
-name: rosewine circle
-slot: finger
-sp_healing: 29
-mp5: 5
+ --- trinket --- 
+name: mar'li's eye
+slot: trinket
+mp5: 10
  ----------------------------
  --- trinket --- 
 name: royal seal of eldre'thalas
@@ -405,112 +401,85 @@ slot: trinket
 sp_healing: 33
 mp5: 4
  ----------------------------
- --- trinket --- 
-name: mar'li's eye
-slot: trinket
-mp5: 10
- ----------------------------
  --- Set bonuses ---
-name: confessor's 2 prophecy 3 
+name: prophecy 3 transcendence 3 
 slot: Set bonuses
-sp: 23
  --- And counts for start items ---
 oh_limit: 0.9
 time_left_mul: 0.5
 total_deficit_to_pop_trinkets: 10000
 in combat total: 3329.3
-Flash Heal 1, casts: 92, avg: 348.123, 3.5917%, cast time 3.86868% of in combat, overheal: 0.303216
-Flash Heal 2, casts: 35, avg: 427.36, 1.67742%, cast time 1.47178% of in combat, overheal: 0.269277
-Flash Heal 3, casts: 18, avg: 459.551, 0.927652%, cast time 0.756916% of in combat, overheal: 0.307198
-Flash Heal 4, casts: 40, avg: 547.021, 2.45382%, cast time 1.68204% of in combat, overheal: 0.267703
-Flash Heal 5, casts: 33, avg: 772.843, 2.86012%, cast time 1.38768% of in combat, overheal: 0.124393
-Flash Heal 6, casts: 47, avg: 718.27, 3.78586%, cast time 1.97639% of in combat, overheal: 0.300691
-Flash Heal 7, casts: 365, avg: 889.489, 36.4093%, cast time 15.3486% of in combat, overheal: 0.266806
-Greater Heal 1, casts: 24, avg: 1232.15, 3.31629%, cast time 1.80218% of in combat, overheal: 0.211919
-Greater Heal 4, casts: 26, avg: 1437.25, 4.19067%, cast time 1.95236% of in combat, overheal: 0.431971
-Heal 2, casts: 474, avg: 647.562, 34.4222%, cast time 35.5931% of in combat, overheal: 0.381585
-Heal 4, casts: 52, avg: 1091.47, 6.36493%, cast time 3.90472% of in combat, overheal: 0.359287
-Total time casting: 2322, which is: 69.7444% of time in combat.
-Total hps: 267.835, raw hps: 395.487, oh: 0.322771
-Deficit time sum: 4.19228e+07, baseline: 5.74098e+07
-Deficit*time change / s: 4651.71 hp
+Flash Heal 1, casts: 106, avg: 340.507, 3.77472%, cast time 4.45739% of in combat, overheal: 0.326284
+Flash Heal 2, casts: 32, avg: 424.61, 1.42099%, cast time 1.34563% of in combat, overheal: 0.281207
+Flash Heal 3, casts: 25, avg: 507.785, 1.32762%, cast time 1.05127% of in combat, overheal: 0.241288
+Flash Heal 4, casts: 42, avg: 555.068, 2.43808%, cast time 1.76614% of in combat, overheal: 0.262879
+Flash Heal 5, casts: 37, avg: 790.984, 3.0607%, cast time 1.55588% of in combat, overheal: 0.110041
+Flash Heal 6, casts: 51, avg: 745.217, 3.97471%, cast time 2.14459% of in combat, overheal: 0.278866
+Flash Heal 7, casts: 408, avg: 904.458, 38.5923%, cast time 17.1568% of in combat, overheal: 0.25841
+Greater Heal 1, casts: 18, avg: 1049.83, 1.97625%, cast time 1.35164% of in combat, overheal: 0.333673
+Greater Heal 4, casts: 25, avg: 1915.06, 5.00697%, cast time 1.87727% of in combat, overheal: 0.246983
+Heal 2, casts: 478, avg: 654.77, 32.7317%, cast time 35.8934% of in combat, overheal: 0.381583
+Heal 4, casts: 50, avg: 1089.29, 5.69594%, cast time 3.75454% of in combat, overheal: 0.36513
+Total time casting: 2408.9, which is: 72.3545% of time in combat.
+Total hps: 287.207, raw hps: 416.861, oh: 0.311025
+Deficit time sum: 4.13366e+07, baseline: 5.74098e+07
+Deficit*time change / s: 4827.79 hp
 Number of combats: 30
-Average mana at start of combat: 6067.42
-Average mana at end of combat: 1840.92
+Average mana at start of combat: 6402.67
+Average mana at end of combat: 1995.59
 Other players with hps > 100:
-  Asoom-Gehennas : 151.809 hps
-  Flibberdigib-Gehennas : 145.725 hps
-  Lampztar-Gehennas : 138.193 hps
-  Merere-Gehennas : 120.04 hps
-  Ryttarbis-Gehennas : 114.732 hps
-  Stojadin-Gehennas : 105.444 hps
-  Wootqt-Gehennas : 101.65 hps
+  Asoom-Gehennas : 149.479 hps
+  Flibberdigib-Gehennas : 143.698 hps
+  Lampztar-Gehennas : 136.608 hps
+  Merere-Gehennas : 118.75 hps
+  Ryttarbis-Gehennas : 113.55 hps
+  Stojadin-Gehennas : 104.477 hps
+  Wootqt-Gehennas : 100.923 hps
 Reading locked from: no-locks
-best hps: 281.07, oh_limit: 0.1, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 10000
 .
-*** NEW BEST (1): 284.774
+*** NEW BEST (1): 293.712
 
-*** NEW BEST (1): 287.649
+*** NEW BEST (1): 295.948
 
-*** NEW BEST (1): 294.644
+*** NEW BEST (1): 296.499
 
-*** NEW BEST (1): 302.09
+*** NEW BEST (1): 304.237
 
-*** NEW BEST (1): 302.36
-
-*** NEW BEST (1): 304.102
-
-*** NEW BEST (1): 307.875
-best hps: 309.032, oh_limit: 0.1, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 9500
+*** NEW BEST (1): 305.644
 .
-*** NEW BEST (1): 307.996
+*** NEW BEST (1): 308.294
+.
+*** NEW BEST (1): 309.494
 
-*** NEW BEST (1): 312.413
+*** NEW BEST (1): 310.585
 
-*** NEW BEST (1): 312.852
+*** NEW BEST (1): 314.343
 
-*** NEW BEST (1): 313.604
-
-*** NEW BEST (1): 313.903
-best hps: 314.164, oh_limit: 0.1, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 9025
-.best hps: 311.11, oh_limit: 0.1, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 6983.37
-.best hps: 307.931, oh_limit: 0.1, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 9358.38
+*** NEW BEST (1): 315.189
+.
+*** NEW BEST (1): 319.309
 Temporary bans and partial set bonuses off.
-.trinket 2 : rejuvenating gem -> darkmoon card: blue dragon => val: 298.151 -> 302.625
+.wrists : bindings of transcendence -> vambraces of prophecy => val: 287.231 -> 290.402
 
-*** NEW BEST (0): 302.625
-head : the postmaster's band -> halo of transcendence => val: 302.625 -> 305.059
+*** NEW BEST (0): 290.402
+shoulders : zandalar confessor's mantle -> mantle of prophecy => val: 290.402 -> 307.469
 
-*** NEW BEST (0): 305.059
-finger 2 : primalist's seal -> pure elementium band => val: 305.059 -> 308.053
+*** NEW BEST (0): 307.469
+head : zulian headdress -> mish'undare circlet of mind flayer => val: 307.469 -> 307.693
 
-*** NEW BEST (0): 308.053
-back : hide of the wild -> shroud of pure thought => val: 308.053 -> 308.872
-
-*** NEW BEST (0): 308.872
-shoulders : pauldrons of transcendence -> zandalar confessor's mantle => val: 308.872 -> 310.278
-
-*** NEW BEST (0): 310.278
-neck : choker of enlightenment -> jin'do's evil eye => val: 310.278 -> 315.045
-
-*** NEW BEST (0): 315.045
-ranged : dragon's touch -> mar'li's touch => val: 315.045 -> 316.863
-
-*** NEW BEST (0): 316.863
-best hps: 316.863, oh_limit: 0.1, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 9358.38
+*** NEW BEST (0): 307.693
 ***** INTERMEDIATE RESULTS *****
 Iteration: 5
  ----------------------------
  --- head --- 
-name: halo of transcendence
+name: mish'undare circlet of mind flayer
 slot: head
-intelligence: 27
-stamina: 17
-spirit: 22
-sp_healing: 48
-fire_res: 10
-frost_res: 10
-armor: 94
+intelligence: 24
+stamina: 15
+spirit: 9
+sp: 35
+spell_crit: 2
+armor: 102
  ----------------------------
  --- neck --- 
 name: jin'do's evil eye
@@ -521,13 +490,14 @@ spirit: 6
 sp_healing: 44
  ----------------------------
  --- shoulders --- 
-name: zandalar confessor's mantle
+name: mantle of prophecy
 slot: shoulders
-intelligence: 24
-stamina: 11
-spirit: 15
-sp_healing: 22
-armor: 78
+intelligence: 23
+stamina: 13
+spirit: 10
+sp: 9
+shadow_res: 7
+armor: 76
  ----------------------------
  --- back --- 
 name: shroud of pure thought
@@ -582,10 +552,9 @@ name:
 slot: 
  ----------------------------
  --- ranged --- 
-name: mar'li's touch
+name: lunar wand of the owl
 slot: ranged
-intelligence: 11
-stamina: 5
+intelligence: 6
 spirit: 6
  ----------------------------
  --- hands --- 
@@ -600,34 +569,35 @@ fire_res: 7
 armor: 63
  ----------------------------
  --- waist --- 
-name: belt of transcendence
+name: zandalar confessor's bindings
 slot: waist
-intelligence: 26
-stamina: 14
-spirit: 9
+intelligence: 20
+stamina: 12
+spirit: 12
 sp_healing: 26
-shadow_res: 10
-armor: 65
+armor: 53
  ----------------------------
  --- legs --- 
-name: pants of prophecy
+name: leggings of transcendence
 slot: legs
-intelligence: 24
-stamina: 18
-spirit: 20
-sp_healing: 22
-mp5: 6
+intelligence: 21
+stamina: 16
+spirit: 21
+sp_healing: 46
+mp5: 7
+arcane_res: 10
 shadow_res: 10
-armor: 89
+armor: 101
  ----------------------------
  --- feet --- 
-name: boots of pure thought
+name: boots of transcendence
 slot: feet
-intelligence: 12
-stamina: 8
-spirit: 12
-sp_healing: 62
-armor: 74
+intelligence: 17
+stamina: 17
+spirit: 17
+sp_healing: 35
+fire_res: 10
+armor: 80
  ----------------------------
  --- finger --- 
 name: cauterizing band
@@ -645,120 +615,126 @@ spirit: 10
 sp_healing: 53
  ----------------------------
  --- trinket --- 
+name: rejuvenating gem
+slot: trinket
+sp_healing: 66
+mp5: 9
+ ----------------------------
+ --- trinket --- 
 name: hazza'rah's charm of healing
 slot: trinket
  ----------------------------
- --- trinket --- 
-name: darkmoon card: blue dragon
-slot: trinket
- ----------------------------
  --- Set bonuses ---
-name: confessor's 2 darkmoon 1 hazza'rah's 1 prophecy 3 transcendence 3 
+name: confessor's 2 hazza'rah's 1 prophecy 3 transcendence 3 
 slot: Set bonuses
 sp: 23
 ------------------
-Best value: 316.863
+Best value: 307.693
 ------------------
 Char stats: 
-Effective hp: 7271.4
-Effective mana: 12616.9
-Raw max mana: 8107.6
-Int: 435.2
+Effective hp: 7278.8
+Effective mana: 12562.9
+Raw max mana: 7912.6
+Int: 422.2
 Stam: 288.2
-Spirit: 339.2
+Spirit: 330.2
 Strength: 50.2
 Agility: 54.2
-Mp5: 98
-Sp: 39
+Mp5: 108
+Sp: 83
 Sp shadow: 0
-Sp healing: 640
-Spell crit: 9.8
+Sp healing: 633
+Spell crit: 11.8
 Spell hit: 0
-Arcane res: 27
+Arcane res: 37
 Nature res: 37
 Fire res: 54
-Frost res: 37
-Shadow res: 67
-Armor: 2878.75
+Frost res: 27
+Shadow res: 64
+Armor: 2890.75
 Defense: 300
 Dodge: 0
 Parry: 0
-HpsPvp: 919.477
-ShadowDps: 219.24
-Value pvp healing: 915.151
-Value pvp shadow: 52.0295
-Effective hp-pvp: 9262.53
-Effecctive mana for 100 s, 0.33 fsr: 13774.7
+HpsPvp: 933.883
+ShadowDps: 231.444
+Value pvp healing: 931.915
+Value pvp shadow: 57.238
+Effective hp-pvp: 9222.54
+Effecctive mana for 100 s, 0.33 fsr: 13694
 ------------------
 Best counts:
-oh_limit: 0.1
-time_left_mul: 0.9
-total_deficit_to_pop_trinkets: 9358.38
+oh_limit: 0.3
+time_left_mul: 1.1
+total_deficit_to_pop_trinkets: 9025
 in combat total: 3329.3
-Flash Heal 1, casts: 67, avg: 423.836, 2.69183%, cast time 2.81741% of in combat, overheal: 0.194714
-Flash Heal 2, casts: 29, avg: 447.198, 1.22934%, cast time 1.21948% of in combat, overheal: 0.268828
-Flash Heal 3, casts: 24, avg: 610.09, 1.38797%, cast time 1.00922% of in combat, overheal: 0.116014
-Flash Heal 4, casts: 43, avg: 603.785, 2.46108%, cast time 1.80819% of in combat, overheal: 0.219814
-Flash Heal 5, casts: 41, avg: 733.004, 2.84882%, cast time 1.72409% of in combat, overheal: 0.194192
-Flash Heal 6, casts: 53, avg: 868.573, 4.36372%, cast time 2.2287% of in combat, overheal: 0.17612
-Flash Heal 7, casts: 236, avg: 951.863, 21.2942%, cast time 9.92401% of in combat, overheal: 0.232648
-Greater Heal 1, casts: 17, avg: 1248.8, 2.01241%, cast time 1.27654% of in combat, overheal: 0.227732
-Greater Heal 1 hazz, casts: 94, avg: 854.102, 7.61049%, cast time 4.23512% of in combat, overheal: 0.471816
-Greater Heal 2 hazz, casts: 26, avg: 1055.2, 2.60065%, cast time 1.17142% of in combat, overheal: 0.442486
-Greater Heal 3 hazz, casts: 19, avg: 1877.25, 3.38104%, cast time 0.856036% of in combat, overheal: 0.151039
-Greater Heal 4, casts: 40, avg: 2223.84, 8.43216%, cast time 3.00363% of in combat, overheal: 0.13958
-Greater Heal 4 hazz, casts: 39, avg: 2006.54, 7.41802%, cast time 1.75713% of in combat, overheal: 0.223654
-Heal 2, casts: 398, avg: 702.735, 26.5124%, cast time 29.8862% of in combat, overheal: 0.361491
-Heal 4, casts: 51, avg: 1190.6, 5.75585%, cast time 3.82963% of in combat, overheal: 0.322565
-Total time casting: 2222.2, which is: 66.7467% of time in combat.
-Total hps: 316.863, raw hps: 447.94, oh: 0.29262
-Deficit time sum: 4.03533e+07, baseline: 5.74098e+07
-Deficit*time change / s: 5123.14 hp
+Flash Heal 1, casts: 67, avg: 437.98, 2.78806%, cast time 2.81741% of in combat, overheal: 0.195879
+Flash Heal 2, casts: 26, avg: 574.568, 1.41934%, cast time 1.09332% of in combat, overheal: 0.0883667
+Flash Heal 3, casts: 16, avg: 652.236, 0.991511%, cast time 0.672814% of in combat, overheal: 0.0801534
+Flash Heal 4, casts: 22, avg: 630.889, 1.31871%, cast time 0.925119% of in combat, overheal: 0.204525
+Flash Heal 5, casts: 31, avg: 799.365, 2.3544%, cast time 1.30358% of in combat, overheal: 0.139834
+Flash Heal 6, casts: 41, avg: 799.597, 3.11478%, cast time 1.72409% of in combat, overheal: 0.255778
+Flash Heal 7, casts: 146, avg: 894.762, 12.4118%, cast time 6.13943% of in combat, overheal: 0.290574
+Greater Heal 1, casts: 21, avg: 1309.19, 2.61213%, cast time 1.57691% of in combat, overheal: 0.209206
+Greater Heal 1 hazz, casts: 91, avg: 976.099, 8.43933%, cast time 4.09996% of in combat, overheal: 0.410404
+Greater Heal 2 hazz, casts: 32, avg: 1325.5, 4.02996%, cast time 1.44174% of in combat, overheal: 0.313967
+Greater Heal 3 hazz, casts: 16, avg: 1788.01, 2.71808%, cast time 0.720872% of in combat, overheal: 0.205953
+Greater Heal 4, casts: 65, avg: 1897.69, 11.7196%, cast time 4.88091% of in combat, overheal: 0.27746
+Greater Heal 4 hazz, casts: 38, avg: 2088.27, 7.5395%, cast time 1.71207% of in combat, overheal: 0.204898
+Heal 2, casts: 473, avg: 689.797, 30.9996%, cast time 35.518% of in combat, overheal: 0.393564
+Heal 4, casts: 72, avg: 1102.69, 7.54329%, cast time 5.40654% of in combat, overheal: 0.386243
+Total time casting: 2331.6, which is: 70.0327% of time in combat.
+Total hps: 316.136, raw hps: 468.521, oh: 0.325247
+Deficit time sum: 4.07122e+07, baseline: 5.74098e+07
+Deficit*time change / s: 5015.34 hp
 Number of combats: 30
-Average mana at start of combat: 6574.48
-Average mana at end of combat: 2668.07
+Average mana at start of combat: 6479.9
+Average mana at end of combat: 2637.76
 Other players with hps > 100:
-  Asoom-Gehennas : 145.177 hps
-  Flibberdigib-Gehennas : 144.417 hps
-  Lampztar-Gehennas : 134.117 hps
-  Merere-Gehennas : 117.801 hps
-  Ryttarbis-Gehennas : 113.455 hps
-  Stojadin-Gehennas : 104.916 hps
-  Wootqt-Gehennas : 100.75 hps
+  Asoom-Gehennas : 146.465 hps
+  Flibberdigib-Gehennas : 142.059 hps
+  Lampztar-Gehennas : 134.191 hps
+  Merere-Gehennas : 117.714 hps
+  Ryttarbis-Gehennas : 112.825 hps
+  Stojadin-Gehennas : 103.014 hps
+  Wootqt-Gehennas : 100.784 hps
 ------------------
 Upgrades: 
-royal seal of eldre'thalas(5.80423) -> hazza'rah's charm of healing(20.6958) : 14.8916 = +4.97964%
-zulian headdress(8.74481) -> halo of transcendence(18.4953) : 9.75046 = +3.20538%
-bindings of transcendence(-0.408783) -> vambraces of prophecy(8.87714) : 9.28592 = +3.04801%
-robes of prophecy(7.87723) -> robes of transcendence(16.7952) : 8.918 = +2.92372%
-shimmering geta(5.7023) -> boots of pure thought(14.1526) : 8.45035 = +2.76616%
-zandalar confessor's bindings(8.6666) -> belt of transcendence(13.7902) : 5.12357 = +1.65909%
-rosewine circle(4.44656) -> cauterizing band(8.3031) : 3.85654 = +1.24371%
-mar'li's eye(5.89264) -> darkmoon card: blue dragon(8.44736) : 2.55472 = +0.820435%
-jin'do's evil eye(6.84476) -> jin'do's evil eye(6.84476) : 0 = +0%
-zandalar confessor's mantle(9.93506) -> zandalar confessor's mantle(9.93506) : 0 = +0%
-shroud of pure thought(10.0579) -> shroud of pure thought(10.0579) : 0 = +0%
-benediction, , , (18.4099) -> benediction, , , (18.4099) : 0 = +0%
-gloves of prophecy(9.88416) -> gloves of prophecy(9.88416) : 0 = +0%
-pants of prophecy(11.1638) -> pants of prophecy(11.1638) : 0 = +0%
-pure elementium band(7.42645) -> pure elementium band(7.42645) : 0 = +0%
-dragon's touch(1.04648) -> mar'li's touch(-0.620789) : -1.66727 = +-0.528271%
+royal seal of eldre'thalas(4.56824) -> hazza'rah's charm of healing(22.626) : 18.0578 = +6.0635%
+mar'li's eye(3.94003) -> rejuvenating gem(15.8381) : 11.8981 = +3.91421%
+robes of prophecy(10.6857) -> robes of transcendence(22.0508) : 11.3651 = +3.73234%
+boots of prophecy(5.28275) -> boots of transcendence(16.3392) : 11.0565 = +3.6273%
+bindings of transcendence(6.45752) -> vambraces of prophecy(13.3342) : 6.87668 = +2.22552%
+zandalar confessor's mantle(6.1954) -> mantle of prophecy(11.9051) : 5.70969 = +1.84089%
+belt of transcendence(9.63266) -> zandalar confessor's bindings(14.7322) : 5.09958 = +1.64095%
+halo of transcendence(8.46445) -> mish'undare circlet of mind flayer(12.9158) : 4.45135 = +1.42938%
+dragon's touch(-0.387085) -> lunar wand of the owl(1.71219) : 2.09927 = +0.669049%
+primalist's seal(6.86996) -> cauterizing band(8.29086) : 1.4209 = +0.45187%
+jin'do's evil eye(9.68262) -> jin'do's evil eye(9.68262) : 0 = +0%
+shroud of pure thought(9.45169) -> shroud of pure thought(9.45169) : 0 = +0%
+benediction, , , (26.199) -> benediction, , , (26.199) : 0 = +0%
+gloves of prophecy(15.4781) -> gloves of prophecy(15.4781) : 0 = +0%
+leggings of transcendence(26.6339) -> leggings of transcendence(26.6339) : 0 = +0%
+pure elementium band(12.8433) -> pure elementium band(12.8433) : 0 = +0%
 ------------------
 ~~~~ end of intermediate results ~~~~
 Temporary bans and partial set bonuses on.
-.
-*** NEW BEST (1): 315.608
-best hps: 314.446, oh_limit: 0.5, time_left_mul: 0.7, total_deficit_to_pop_trinkets: 9358.38
-.best hps: 315.781, oh_limit: 0.2, time_left_mul: 0.5, total_deficit_to_pop_trinkets: 5898.12
-.best hps: 315.171, oh_limit: 0.4, time_left_mul: 0.5, total_deficit_to_pop_trinkets: 5898.12
-.best hps: 316.418, oh_limit: 0.3, time_left_mul: 0.7, total_deficit_to_pop_trinkets: 5603.21
-Temporary bans and partial set bonuses off.
-.back : cloak of consumption -> cloak of the brood lord => val: 286.39 -> 288.885
-wrists : bindings of transcendence -> vambraces of prophecy => val: 288.885 -> 288.967
-waist : firemaw's clutch -> girdle of prophecy => val: 288.967 -> 308.952
-feet : boots of pure thought -> betrayer's boots => val: 308.952 -> 309.325
-ranged : dragon's touch -> essence gatherer => val: 309.325 -> 310.651
-best hps: 314.086, oh_limit: 0.2, time_left_mul: 0.5, total_deficit_to_pop_trinkets: 7151.27
+....Temporary bans and partial set bonuses off.
+.feet : boots of prophecy -> boots of pure thought => val: 302.92 -> 303.357
+ranged : dragon's touch -> mana channeling wand => val: 303.357 -> 304.202
+wrists : vambraces of prophecy -> bindings of transcendence => val: 304.202 -> 304.553
+finger : primalist's seal -> cauterizing band => val: 304.553 -> 306.575
+waist : mana igniting cord -> zandalar confessor's bindings => val: 306.575 -> 311.2
+
+*** NEW BEST (0): 311.2
+Based on last: 3000 entries, out of total: 8687 entries, The least-squares solution is:
+Int: 151.851
+Spirit: 72.1645
+Sp / Healing: 100
+Mp5: 302.434
+Crit: 254.625
+T1 3p/piece: 3979.25
+T2 3p/piece: 5653.62
+100 points == 1 sp == 0.119067 hps.
 ***** INTERMEDIATE RESULTS *****
 Iteration: 10
  ----------------------------
@@ -782,13 +758,14 @@ spirit: 6
 sp_healing: 44
  ----------------------------
  --- shoulders --- 
-name: zandalar confessor's mantle
+name: pauldrons of transcendence
 slot: shoulders
-intelligence: 24
-stamina: 11
-spirit: 15
-sp_healing: 22
-armor: 78
+intelligence: 25
+stamina: 12
+spirit: 13
+sp_healing: 26
+fire_res: 10
+armor: 87
  ----------------------------
  --- back --- 
 name: shroud of pure thought
@@ -811,14 +788,13 @@ fire_res: 10
 armor: 116
  ----------------------------
  --- wrists --- 
-name: vambraces of prophecy
+name: bindings of transcendence
 slot: wrists
-intelligence: 14
-stamina: 8
-spirit: 10
-sp_healing: 24
-mp5: 2
-armor: 44
+intelligence: 13
+stamina: 9
+spirit: 16
+sp_healing: 33
+armor: 51
  ----------------------------
  --- two-hand --- 
 name: benediction
@@ -843,43 +819,40 @@ name:
 slot: 
  ----------------------------
  --- ranged --- 
-name: dragon's touch
+name: mana channeling wand
 slot: ranged
-intelligence: 12
-stamina: 7
-sp: 6
+mp5: 4
  ----------------------------
  --- hands --- 
-name: gloves of prophecy
+name: handguards of transcendence
 slot: hands
-intelligence: 15
-stamina: 10
-spirit: 15
-sp_healing: 18
-mp5: 6
-fire_res: 7
-armor: 63
+intelligence: 20
+stamina: 12
+spirit: 13
+sp_healing: 29
+spell_crit: 1
+armor: 72
  ----------------------------
  --- waist --- 
-name: belt of transcendence
+name: zandalar confessor's bindings
 slot: waist
-intelligence: 26
-stamina: 14
-spirit: 9
+intelligence: 20
+stamina: 12
+spirit: 12
 sp_healing: 26
-shadow_res: 10
-armor: 65
+armor: 53
  ----------------------------
  --- legs --- 
-name: pants of prophecy
+name: leggings of transcendence
 slot: legs
-intelligence: 24
-stamina: 18
-spirit: 20
-sp_healing: 22
-mp5: 6
+intelligence: 21
+stamina: 16
+spirit: 21
+sp_healing: 46
+mp5: 7
+arcane_res: 10
 shadow_res: 10
-armor: 89
+armor: 101
  ----------------------------
  --- feet --- 
 name: boots of pure thought
@@ -898,124 +871,118 @@ stamina: 9
 sp_healing: 46
  ----------------------------
  --- finger --- 
-name: pure elementium band
+name: band of sulfuras
 slot: finger
-intelligence: 10
-stamina: 9
+intelligence: 23
+stamina: 13
 spirit: 10
-sp_healing: 53
+ ----------------------------
+ --- trinket --- 
+name: rejuvenating gem
+slot: trinket
+sp_healing: 66
+mp5: 9
  ----------------------------
  --- trinket --- 
 name: hazza'rah's charm of healing
 slot: trinket
  ----------------------------
- --- trinket --- 
-name: darkmoon card: blue dragon
-slot: trinket
- ----------------------------
  --- Set bonuses ---
-name: confessor's 2 darkmoon 1 hazza'rah's 1 prophecy 3 transcendence 3 
+name: confessor's 2 hazza'rah's 1 transcendence 3 
 slot: Set bonuses
 sp: 23
 ------------------
-Best value: 316.863
+Best value: 311.2
 ------------------
 Char stats: 
-Effective hp: 7292.6
-Effective mana: 12592.6
-Raw max mana: 8122.6
-Int: 436.2
-Stam: 290.2
-Spirit: 333.2
+Effective hp: 7273.6
+Effective mana: 12706.9
+Raw max mana: 8077.6
+Int: 433.2
+Stam: 287.2
+Spirit: 339.2
 Strength: 50.2
 Agility: 54.2
-Mp5: 98
-Sp: 45
+Mp5: 104
+Sp: 39
 Sp shadow: 0
-Sp healing: 640
-Spell crit: 9.8
+Sp healing: 701
+Spell crit: 10.8
 Spell hit: 0
-Arcane res: 27
+Arcane res: 37
 Nature res: 37
-Fire res: 54
+Fire res: 57
 Frost res: 37
-Shadow res: 67
-Armor: 2878.75
+Shadow res: 57
+Armor: 2903.75
 Defense: 300
 Dodge: 0
 Parry: 0
-HpsPvp: 928.306
-ShadowDps: 235.88
-Value pvp healing: 927.006
-Value pvp shadow: 59.8527
-Effective hp-pvp: 9289.54
-Effecctive mana for 100 s, 0.33 fsr: 13732.6
+HpsPvp: 899.199
+ShadowDps: 221.768
+Value pvp healing: 881.061
+Value pvp shadow: 53.5912
+Effective hp-pvp: 9260.37
+Effecctive mana for 100 s, 0.33 fsr: 13864.7
 ------------------
 Best counts:
 oh_limit: 0.2
-time_left_mul: 0.5
-total_deficit_to_pop_trinkets: 7151.27
+time_left_mul: 1.1
+total_deficit_to_pop_trinkets: 9025
 in combat total: 3329.3
-Flash Heal 1, casts: 82, avg: 409.03, 3.21778%, cast time 3.44817% of in combat, overheal: 0.2268
-Flash Heal 2, casts: 28, avg: 495.413, 1.3308%, cast time 1.17742% of in combat, overheal: 0.193549
-Flash Heal 3, casts: 23, avg: 547.992, 1.20917%, cast time 0.96717% of in combat, overheal: 0.209081
-Flash Heal 4, casts: 44, avg: 563.294, 2.3778%, cast time 1.85024% of in combat, overheal: 0.274664
-Flash Heal 5, casts: 46, avg: 700.848, 3.09292%, cast time 1.93434% of in combat, overheal: 0.231825
-Flash Heal 6, casts: 59, avg: 832.684, 4.71323%, cast time 2.481% of in combat, overheal: 0.212186
-Flash Heal 7, casts: 319, avg: 978.16, 29.9356%, cast time 13.4142% of in combat, overheal: 0.213171
-Greater Heal 1, casts: 15, avg: 1092.97, 1.57285%, cast time 1.12636% of in combat, overheal: 0.326336
-Greater Heal 1 hazz, casts: 99, avg: 857.011, 8.13971%, cast time 4.4604% of in combat, overheal: 0.471772
-Greater Heal 2 hazz, casts: 25, avg: 1170.15, 2.80651%, cast time 1.12636% of in combat, overheal: 0.383506
-Greater Heal 3 hazz, casts: 20, avg: 1708.66, 3.27848%, cast time 0.90109% of in combat, overheal: 0.229161
-Greater Heal 4, casts: 19, avg: 2386.32, 4.3498%, cast time 1.42673% of in combat, overheal: 0.0786426
-Greater Heal 4 hazz, casts: 37, avg: 1938.43, 6.88081%, cast time 1.66702% of in combat, overheal: 0.251571
-Heal 2, casts: 373, avg: 669.555, 23.9598%, cast time 28.0089% of in combat, overheal: 0.394601
-Heal 4, casts: 26, avg: 1256.76, 3.13483%, cast time 1.95236% of in combat, overheal: 0.287111
-Total time casting: 2195.4, which is: 65.9418% of time in combat.
-Total hps: 313.083, raw hps: 448.061, oh: 0.301248
-Deficit time sum: 4.02472e+07, baseline: 5.74098e+07
-Deficit*time change / s: 5155.02 hp
+Flash Heal 1, casts: 107, avg: 236.942, 2.447%, cast time 4.82083% of in combat, overheal: 0.572721
+Flash Heal 2, casts: 31, avg: 410.127, 1.22712%, cast time 1.39669% of in combat, overheal: 0.359172
+Flash Heal 3, casts: 27, avg: 531.75, 1.38573%, cast time 1.21647% of in combat, overheal: 0.260103
+Flash Heal 4, casts: 27, avg: 579.882, 1.51116%, cast time 1.21647% of in combat, overheal: 0.277475
+Flash Heal 5, casts: 24, avg: 659.656, 1.52804%, cast time 1.08131% of in combat, overheal: 0.297179
+Flash Heal 6, casts: 35, avg: 754.502, 2.5488%, cast time 1.57691% of in combat, overheal: 0.303609
+Flash Heal 7, casts: 125, avg: 871.988, 10.5203%, cast time 5.63181% of in combat, overheal: 0.313394
+Greater Heal 1, casts: 27, avg: 1052.99, 2.74407%, cast time 2.02745% of in combat, overheal: 0.371071
+Greater Heal 1 hazz, casts: 92, avg: 917.533, 8.14737%, cast time 4.14502% of in combat, overheal: 0.451975
+Greater Heal 2 hazz, casts: 30, avg: 1323.33, 3.83175%, cast time 1.35164% of in combat, overheal: 0.321507
+Greater Heal 3 hazz, casts: 18, avg: 2009.88, 3.49181%, cast time 0.810981% of in combat, overheal: 0.114411
+Greater Heal 4, casts: 69, avg: 1790.58, 11.9248%, cast time 5.18127% of in combat, overheal: 0.322675
+Greater Heal 4 hazz, casts: 37, avg: 1942.91, 6.93843%, cast time 1.66702% of in combat, overheal: 0.265054
+Heal 2, casts: 491, avg: 699.416, 33.1455%, cast time 36.8696% of in combat, overheal: 0.395556
+Heal 4, casts: 84, avg: 1061.75, 8.60811%, cast time 6.30763% of in combat, overheal: 0.415101
+Total time casting: 2507, which is: 75.3011% of time in combat.
+Total hps: 311.2, raw hps: 492.265, oh: 0.36782
+Deficit time sum: 4.06004e+07, baseline: 5.74098e+07
+Deficit*time change / s: 5048.91 hp
 Number of combats: 30
-Average mana at start of combat: 6530.46
-Average mana at end of combat: 2313.95
+Average mana at start of combat: 6480.12
+Average mana at end of combat: 2322.41
 Other players with hps > 100:
-  Asoom-Gehennas : 144.235 hps
-  Flibberdigib-Gehennas : 141.743 hps
-  Lampztar-Gehennas : 134.514 hps
-  Merere-Gehennas : 117.347 hps
-  Ryttarbis-Gehennas : 112.94 hps
-  Stojadin-Gehennas : 103.899 hps
+  Asoom-Gehennas : 149.271 hps
+  Flibberdigib-Gehennas : 142.386 hps
+  Lampztar-Gehennas : 133.203 hps
+  Merere-Gehennas : 119.942 hps
+  Ryttarbis-Gehennas : 113.616 hps
+  Stojadin-Gehennas : 103.638 hps
 ------------------
 Upgrades: 
-royal seal of eldre'thalas(6.57578) -> hazza'rah's charm of healing(18.9424) : 12.3666 = +4.11412%
-robes of prophecy(7.2608) -> robes of transcendence(16.7285) : 9.46771 = +3.11963%
-zandalar confessor's bindings(9.11191) -> belt of transcendence(15.2491) : 6.13718 = +2.00026%
-rosewine circle(0.845398) -> cauterizing band(6.785) : 5.93961 = +1.93462%
-shimmering geta(5.81982) -> boots of pure thought(10.0529) : 4.23309 = +1.37116%
-zulian headdress(15.2816) -> halo of transcendence(17.3356) : 2.05396 = +0.660643%
-bindings of transcendence(10.6513) -> vambraces of prophecy(12.6419) : 1.9906 = +0.640135%
-mar'li's eye(6.81601) -> darkmoon card: blue dragon(8.55725) : 1.74124 = +0.559498%
-jin'do's evil eye(7.58716) -> jin'do's evil eye(7.58716) : 0 = +0%
-zandalar confessor's mantle(11.9791) -> zandalar confessor's mantle(11.9791) : 0 = +0%
-shroud of pure thought(9.25827) -> shroud of pure thought(9.25827) : 0 = +0%
-benediction, , , (20.9665) -> benediction, , , (20.9665) : 0 = +0%
-dragon's touch(-0.944733) -> dragon's touch(-0.944733) : 0 = +0%
-gloves of prophecy(13.1935) -> gloves of prophecy(13.1935) : 0 = +0%
-pants of prophecy(14.4963) -> pants of prophecy(14.4963) : 0 = +0%
-pure elementium band(9.32144) -> pure elementium band(9.32144) : 0 = +0%
+royal seal of eldre'thalas(9.13565) -> hazza'rah's charm of healing(22.498) : 13.3624 = +4.48647%
+mar'li's eye(6.5191) -> rejuvenating gem(13.0805) : 6.56137 = +2.15382%
+belt of transcendence(7.39975) -> zandalar confessor's bindings(12.4733) : 5.07358 = +1.65735%
+pure elementium band(8.15262) -> band of sulfuras(13.0312) : 4.87863 = +1.59265%
+primalist's seal(4.18057) -> cauterizing band(8.37247) : 4.19189 = +1.3654%
+zandalar confessor's mantle(10.1874) -> pauldrons of transcendence(13.6181) : 3.43066 = +1.11469%
+dragon's touch(5.27762) -> mana channeling wand(8.46783) : 3.19022 = +1.03575%
+boots of prophecy(9.7619) -> boots of pure thought(11.4964) : 1.7345 = +0.560482%
+robes of prophecy(11.8498) -> robes of transcendence(13.5125) : 1.66266 = +0.537143%
+halo of transcendence(17.319) -> halo of transcendence(17.319) : 0 = +0%
+jin'do's evil eye(11.841) -> jin'do's evil eye(11.841) : 0 = +0%
+shroud of pure thought(10.9393) -> shroud of pure thought(10.9393) : 0 = +0%
+bindings of transcendence(9.16534) -> bindings of transcendence(9.16534) : 0 = +0%
+benediction, , , (24.2994) -> benediction, , , (24.2994) : 0 = +0%
+leggings of transcendence(15.6834) -> leggings of transcendence(15.6834) : 0 = +0%
+gloves of prophecy(10.1816) -> handguards of transcendence(10.1811) : -0.000579834 = +-0.000186322%
 ------------------
 ~~~~ end of intermediate results ~~~~
 Temporary bans and partial set bonuses on.
-.best hps: 309.676, oh_limit: 0.1, time_left_mul: 0.5, total_deficit_to_pop_trinkets: 7151.27
-.best hps: 314.988, oh_limit: 0.1, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 7151.27
-.best hps: 311.597, oh_limit: 0.1, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 9583.38
-.best hps: 313.477, oh_limit: 0.2, time_left_mul: 0.9, total_deficit_to_pop_trinkets: 9583.38
-Temporary bans and partial set bonuses off.
-.two-hand : staff of the shadow flame    -> benediction    => val: 287.662 -> 287.821
-back : shroud of pure thought -> hide of the wild => val: 287.821 -> 289.36
-neck : jin'do's evil eye -> pendant of the fallen dragon => val: 289.36 -> 290.869
-wrists : bindings of transcendence -> zandalar confessor's wraps => val: 290.869 -> 291.296
-best hps: 305.34, oh_limit: 0.1, time_left_mul: 1.1, total_deficit_to_pop_trinkets: 10565.7
+....Temporary bans and partial set bonuses off.
+.back : shroud of the exile -> shroud of pure thought => val: 299.786 -> 308.984
+finger 2 : primalist's band -> dragonslayer's signet => val: 308.984 -> 309.046
 ***** INTERMEDIATE RESULTS *****
 Iteration: 15
  ----------------------------
@@ -1039,13 +1006,14 @@ spirit: 6
 sp_healing: 44
  ----------------------------
  --- shoulders --- 
-name: zandalar confessor's mantle
+name: pauldrons of transcendence
 slot: shoulders
-intelligence: 24
-stamina: 11
-spirit: 15
-sp_healing: 22
-armor: 78
+intelligence: 25
+stamina: 12
+spirit: 13
+sp_healing: 26
+fire_res: 10
+armor: 87
  ----------------------------
  --- back --- 
 name: shroud of pure thought
@@ -1068,14 +1036,13 @@ fire_res: 10
 armor: 116
  ----------------------------
  --- wrists --- 
-name: vambraces of prophecy
+name: bindings of transcendence
 slot: wrists
-intelligence: 14
-stamina: 8
-spirit: 10
-sp_healing: 24
-mp5: 2
-armor: 44
+intelligence: 13
+stamina: 9
+spirit: 16
+sp_healing: 33
+armor: 51
  ----------------------------
  --- two-hand --- 
 name: benediction
@@ -1100,43 +1067,40 @@ name:
 slot: 
  ----------------------------
  --- ranged --- 
-name: dragon's touch
+name: mana channeling wand
 slot: ranged
-intelligence: 12
-stamina: 7
-sp: 6
+mp5: 4
  ----------------------------
  --- hands --- 
-name: gloves of prophecy
+name: handguards of transcendence
 slot: hands
-intelligence: 15
-stamina: 10
-spirit: 15
-sp_healing: 18
-mp5: 6
-fire_res: 7
-armor: 63
+intelligence: 20
+stamina: 12
+spirit: 13
+sp_healing: 29
+spell_crit: 1
+armor: 72
  ----------------------------
  --- waist --- 
-name: belt of transcendence
+name: zandalar confessor's bindings
 slot: waist
-intelligence: 26
-stamina: 14
-spirit: 9
+intelligence: 20
+stamina: 12
+spirit: 12
 sp_healing: 26
-shadow_res: 10
-armor: 65
+armor: 53
  ----------------------------
  --- legs --- 
-name: pants of prophecy
+name: leggings of transcendence
 slot: legs
-intelligence: 24
-stamina: 18
-spirit: 20
-sp_healing: 22
-mp5: 6
+intelligence: 21
+stamina: 16
+spirit: 21
+sp_healing: 46
+mp5: 7
+arcane_res: 10
 shadow_res: 10
-armor: 89
+armor: 101
  ----------------------------
  --- feet --- 
 name: boots of pure thought
@@ -1155,112 +1119,113 @@ stamina: 9
 sp_healing: 46
  ----------------------------
  --- finger --- 
-name: pure elementium band
+name: band of sulfuras
 slot: finger
-intelligence: 10
-stamina: 9
+intelligence: 23
+stamina: 13
 spirit: 10
-sp_healing: 53
+ ----------------------------
+ --- trinket --- 
+name: rejuvenating gem
+slot: trinket
+sp_healing: 66
+mp5: 9
  ----------------------------
  --- trinket --- 
 name: hazza'rah's charm of healing
 slot: trinket
  ----------------------------
- --- trinket --- 
-name: darkmoon card: blue dragon
-slot: trinket
- ----------------------------
  --- Set bonuses ---
-name: confessor's 2 darkmoon 1 hazza'rah's 1 prophecy 3 transcendence 3 
+name: confessor's 2 hazza'rah's 1 transcendence 3 
 slot: Set bonuses
 sp: 23
 ------------------
-Best value: 316.863
+Best value: 311.2
 ------------------
 Char stats: 
-Effective hp: 7292.6
-Effective mana: 12592.6
-Raw max mana: 8122.6
-Int: 436.2
-Stam: 290.2
-Spirit: 333.2
+Effective hp: 7273.6
+Effective mana: 12706.9
+Raw max mana: 8077.6
+Int: 433.2
+Stam: 287.2
+Spirit: 339.2
 Strength: 50.2
 Agility: 54.2
-Mp5: 98
-Sp: 45
+Mp5: 104
+Sp: 39
 Sp shadow: 0
-Sp healing: 640
-Spell crit: 9.8
+Sp healing: 701
+Spell crit: 10.8
 Spell hit: 0
-Arcane res: 27
+Arcane res: 37
 Nature res: 37
-Fire res: 54
+Fire res: 57
 Frost res: 37
-Shadow res: 67
-Armor: 2878.75
+Shadow res: 57
+Armor: 2903.75
 Defense: 300
 Dodge: 0
 Parry: 0
-HpsPvp: 874.487
-ShadowDps: 221.768
-Value pvp healing: 844.191
-Value pvp shadow: 54.2917
-Effective hp-pvp: 9289.54
-Effecctive mana for 100 s, 0.33 fsr: 13732.6
+HpsPvp: 894.746
+ShadowDps: 225.672
+Value pvp healing: 841.633
+Value pvp shadow: 53.5403
+Effective hp-pvp: 9260.37
+Effecctive mana for 100 s, 0.33 fsr: 13864.7
 ------------------
 Best counts:
-oh_limit: 0.1
+oh_limit: 0.5
 time_left_mul: 1.1
-total_deficit_to_pop_trinkets: 10565.7
+total_deficit_to_pop_trinkets: 9025
 in combat total: 3329.3
-Flash Heal 1, casts: 53, avg: 427.309, 2.16104%, cast time 2.2287% of in combat, overheal: 0.192247
-Flash Heal 2, casts: 29, avg: 516.49, 1.42924%, cast time 1.21948% of in combat, overheal: 0.15924
-Flash Heal 3, casts: 26, avg: 654.646, 1.62415%, cast time 1.09332% of in combat, overheal: 0.0551463
-Flash Heal 4, casts: 31, avg: 662.334, 1.95922%, cast time 1.30358% of in combat, overheal: 0.147134
-Flash Heal 5, casts: 34, avg: 756.703, 2.45499%, cast time 1.42973% of in combat, overheal: 0.170605
-Flash Heal 6, casts: 47, avg: 788.802, 3.53762%, cast time 1.97639% of in combat, overheal: 0.253704
-Flash Heal 7, casts: 174, avg: 950.186, 15.7762%, cast time 7.31685% of in combat, overheal: 0.235673
-Greater Heal 1, casts: 29, avg: 1081.19, 2.99189%, cast time 2.17763% of in combat, overheal: 0.333596
-Greater Heal 1 hazz, casts: 83, avg: 942.006, 7.46066%, cast time 3.73952% of in combat, overheal: 0.419384
-Greater Heal 2 hazz, casts: 20, avg: 1247.08, 2.37996%, cast time 0.90109% of in combat, overheal: 0.342972
-Greater Heal 3 hazz, casts: 19, avg: 1839.79, 3.33555%, cast time 0.856036% of in combat, overheal: 0.170002
-Greater Heal 4, casts: 58, avg: 1821.96, 10.0835%, cast time 4.35527% of in combat, overheal: 0.296539
-Greater Heal 4 hazz, casts: 42, avg: 2093.43, 8.38983%, cast time 1.89229% of in combat, overheal: 0.191726
-Heal 2, casts: 446, avg: 684.828, 29.1448%, cast time 33.4905% of in combat, overheal: 0.380792
-Heal 4, casts: 70, avg: 1088.59, 7.27124%, cast time 5.25636% of in combat, overheal: 0.382504
-Total time casting: 2305.1, which is: 69.2368% of time in combat.
-Total hps: 314.776, raw hps: 457.275, oh: 0.311627
-Deficit time sum: 4.03545e+07, baseline: 5.74098e+07
-Deficit*time change / s: 5122.78 hp
+Flash Heal 1, casts: 101, avg: 221.417, 2.22734%, cast time 4.55051% of in combat, overheal: 0.600717
+Flash Heal 2, casts: 27, avg: 398.512, 1.07167%, cast time 1.21647% of in combat, overheal: 0.377321
+Flash Heal 3, casts: 24, avg: 508.384, 1.21523%, cast time 1.08131% of in combat, overheal: 0.292615
+Flash Heal 4, casts: 23, avg: 554.022, 1.26914%, cast time 1.03625% of in combat, overheal: 0.309696
+Flash Heal 5, casts: 24, avg: 698.763, 1.6703%, cast time 1.08131% of in combat, overheal: 0.255512
+Flash Heal 6, casts: 28, avg: 792.116, 2.20903%, cast time 1.26153% of in combat, overheal: 0.268892
+Flash Heal 7, casts: 110, avg: 867.727, 9.5067%, cast time 4.956% of in combat, overheal: 0.316749
+Greater Heal 1, casts: 25, avg: 993.042, 2.47265%, cast time 1.87727% of in combat, overheal: 0.406875
+Greater Heal 1 hazz, casts: 101, avg: 876.215, 8.81426%, cast time 4.55051% of in combat, overheal: 0.476654
+Greater Heal 2 hazz, casts: 28, avg: 1328.85, 3.70586%, cast time 1.26153% of in combat, overheal: 0.318675
+Greater Heal 3 hazz, casts: 17, avg: 1864.46, 3.15686%, cast time 0.765927% of in combat, overheal: 0.178487
+Greater Heal 4, casts: 73, avg: 1616.91, 11.7561%, cast time 5.48163% of in combat, overheal: 0.38837
+Greater Heal 4 hazz, casts: 38, avg: 1770.6, 6.7013%, cast time 1.71207% of in combat, overheal: 0.330232
+Heal 2, casts: 524, avg: 669.475, 34.9398%, cast time 39.3476% of in combat, overheal: 0.421432
+Heal 4, casts: 89, avg: 1047.33, 9.28382%, cast time 6.68309% of in combat, overheal: 0.423044
+Total time casting: 2559, which is: 76.863% of time in combat.
+Total hps: 301.573, raw hps: 500.718, oh: 0.397718
+Deficit time sum: 4.07986e+07, baseline: 5.74098e+07
+Deficit*time change / s: 4989.38 hp
 Number of combats: 30
-Average mana at start of combat: 6665.24
-Average mana at end of combat: 2809.02
+Average mana at start of combat: 6468.3
+Average mana at end of combat: 2297.21
 Other players with hps > 100:
-  Asoom-Gehennas : 146.233 hps
-  Flibberdigib-Gehennas : 141.788 hps
-  Lampztar-Gehennas : 134.215 hps
-  Merere-Gehennas : 118.534 hps
-  Ryttarbis-Gehennas : 113.818 hps
-  Stojadin-Gehennas : 103.631 hps
-  Wootqt-Gehennas : 101.573 hps
+  Asoom-Gehennas : 147.728 hps
+  Flibberdigib-Gehennas : 141.744 hps
+  Lampztar-Gehennas : 136.209 hps
+  Merere-Gehennas : 119.442 hps
+  Ryttarbis-Gehennas : 115.649 hps
+  Stojadin-Gehennas : 103.208 hps
+  Wootqt-Gehennas : 102.547 hps
 ------------------
 Upgrades: 
-royal seal of eldre'thalas(2.68826) -> hazza'rah's charm of healing(19.3714) : 16.6832 = +5.58465%
-shimmering geta(5.64786) -> boots of pure thought(15.8) : 10.1521 = +3.32568%
-robes of prophecy(12.6158) -> robes of transcendence(21.7951) : 9.17926 = +2.99744%
-zandalar confessor's bindings(7.48862) -> belt of transcendence(15.6309) : 8.14227 = +2.64984%
-mar'li's eye(1.74942) -> darkmoon card: blue dragon(8.98712) : 7.2377 = +2.34854%
-zulian headdress(12.3818) -> halo of transcendence(19.5407) : 7.15887 = +2.32237%
-rosewine circle(2.04947) -> cauterizing band(7.56885) : 5.51938 = +1.78104%
-bindings of transcendence(7.32407) -> vambraces of prophecy(12.4972) : 5.17316 = +1.66745%
-jin'do's evil eye(10.7091) -> jin'do's evil eye(10.7091) : 0 = +0%
-zandalar confessor's mantle(15.2344) -> zandalar confessor's mantle(15.2344) : 0 = +0%
-shroud of pure thought(11.3292) -> shroud of pure thought(11.3292) : 0 = +0%
-benediction, , , (27.1494) -> benediction, , , (27.1494) : 0 = +0%
-dragon's touch(7.37033) -> dragon's touch(7.37033) : 0 = +0%
-gloves of prophecy(19.2031) -> gloves of prophecy(19.2031) : 0 = +0%
-pants of prophecy(14.6597) -> pants of prophecy(14.6597) : 0 = +0%
-pure elementium band(11.0842) -> pure elementium band(11.0842) : 0 = +0%
+royal seal of eldre'thalas(3.0661) -> hazza'rah's charm of healing(16.0593) : 12.9932 = +4.50245%
+mar'li's eye(1.54459) -> rejuvenating gem(5.40063) : 3.85605 = +1.2952%
+zandalar confessor's mantle(4.14243) -> pauldrons of transcendence(4.46509) : 0.322662 = +0.107108%
+halo of transcendence(9.05209) -> halo of transcendence(9.05209) : 0 = +0%
+jin'do's evil eye(3.45801) -> jin'do's evil eye(3.45801) : 0 = +0%
+shroud of pure thought(1.92163) -> shroud of pure thought(1.92163) : 0 = +0%
+bindings of transcendence(-0.565735) -> bindings of transcendence(-0.565735) : 0 = +0%
+benediction, , , (18.2458) -> benediction, , , (18.2458) : 0 = +0%
+leggings of transcendence(5.53598) -> leggings of transcendence(5.53598) : 0 = +0%
+primalist's seal(3.90057) -> cauterizing band(1.86743) : -2.03314 = +-0.669664%
+dragon's touch(-0.193176) -> mana channeling wand(-2.48685) : -2.29367 = +-0.754827%
+belt of transcendence(9.38596) -> zandalar confessor's bindings(6.18668) : -3.19928 = +-1.04973%
+pure elementium band(1.17062) -> band of sulfuras(-2.14529) : -3.31592 = +-1.08758%
+gloves of prophecy(6.76221) -> handguards of transcendence(1.5676) : -5.19461 = +-1.69334%
+boots of prophecy(5.08194) -> boots of pure thought(-0.189758) : -5.2717 = +-1.71803%
+robes of prophecy(11.4841) -> robes of transcendence(4.3985) : -7.08557 = +-2.2956%
 ------------------
 ~~~~ end of intermediate results ~~~~
 Same items for intermediate results again, ending optimization. 
@@ -1285,13 +1250,14 @@ spirit: 6
 sp_healing: 44
  ----------------------------
  --- shoulders --- 
-name: zandalar confessor's mantle
+name: pauldrons of transcendence
 slot: shoulders
-intelligence: 24
-stamina: 11
-spirit: 15
-sp_healing: 22
-armor: 78
+intelligence: 25
+stamina: 12
+spirit: 13
+sp_healing: 26
+fire_res: 10
+armor: 87
  ----------------------------
  --- back --- 
 name: shroud of pure thought
@@ -1314,14 +1280,13 @@ fire_res: 10
 armor: 116
  ----------------------------
  --- wrists --- 
-name: vambraces of prophecy
+name: bindings of transcendence
 slot: wrists
-intelligence: 14
-stamina: 8
-spirit: 10
-sp_healing: 24
-mp5: 2
-armor: 44
+intelligence: 13
+stamina: 9
+spirit: 16
+sp_healing: 33
+armor: 51
  ----------------------------
  --- two-hand --- 
 name: benediction
@@ -1346,43 +1311,40 @@ name:
 slot: 
  ----------------------------
  --- ranged --- 
-name: dragon's touch
+name: mana channeling wand
 slot: ranged
-intelligence: 12
-stamina: 7
-sp: 6
+mp5: 4
  ----------------------------
  --- hands --- 
-name: gloves of prophecy
+name: handguards of transcendence
 slot: hands
-intelligence: 15
-stamina: 10
-spirit: 15
-sp_healing: 18
-mp5: 6
-fire_res: 7
-armor: 63
+intelligence: 20
+stamina: 12
+spirit: 13
+sp_healing: 29
+spell_crit: 1
+armor: 72
  ----------------------------
  --- waist --- 
-name: belt of transcendence
+name: zandalar confessor's bindings
 slot: waist
-intelligence: 26
-stamina: 14
-spirit: 9
+intelligence: 20
+stamina: 12
+spirit: 12
 sp_healing: 26
-shadow_res: 10
-armor: 65
+armor: 53
  ----------------------------
  --- legs --- 
-name: pants of prophecy
+name: leggings of transcendence
 slot: legs
-intelligence: 24
-stamina: 18
-spirit: 20
-sp_healing: 22
-mp5: 6
+intelligence: 21
+stamina: 16
+spirit: 21
+sp_healing: 46
+mp5: 7
+arcane_res: 10
 shadow_res: 10
-armor: 89
+armor: 101
  ----------------------------
  --- feet --- 
 name: boots of pure thought
@@ -1401,558 +1363,628 @@ stamina: 9
 sp_healing: 46
  ----------------------------
  --- finger --- 
-name: pure elementium band
+name: band of sulfuras
 slot: finger
-intelligence: 10
-stamina: 9
+intelligence: 23
+stamina: 13
 spirit: 10
-sp_healing: 53
+ ----------------------------
+ --- trinket --- 
+name: rejuvenating gem
+slot: trinket
+sp_healing: 66
+mp5: 9
  ----------------------------
  --- trinket --- 
 name: hazza'rah's charm of healing
 slot: trinket
  ----------------------------
- --- trinket --- 
-name: darkmoon card: blue dragon
-slot: trinket
- ----------------------------
  --- Set bonuses ---
-name: confessor's 2 darkmoon 1 hazza'rah's 1 prophecy 3 transcendence 3 
+name: confessor's 2 hazza'rah's 1 transcendence 3 
 slot: Set bonuses
 sp: 23
 ------------------
 Char stats: 
-Effective hp: 7292.6
-Effective mana: 12592.6
-Raw max mana: 8122.6
-Int: 436.2
-Stam: 290.2
-Spirit: 333.2
+Effective hp: 7273.6
+Effective mana: 12706.9
+Raw max mana: 8077.6
+Int: 433.2
+Stam: 287.2
+Spirit: 339.2
 Strength: 50.2
 Agility: 54.2
-Mp5: 98
-Sp: 45
+Mp5: 104
+Sp: 39
 Sp shadow: 0
-Sp healing: 640
-Spell crit: 9.8
+Sp healing: 701
+Spell crit: 10.8
 Spell hit: 0
-Arcane res: 27
+Arcane res: 37
 Nature res: 37
-Fire res: 54
+Fire res: 57
 Frost res: 37
-Shadow res: 67
-Armor: 2878.75
+Shadow res: 57
+Armor: 2903.75
 Defense: 300
 Dodge: 0
 Parry: 0
-HpsPvp: 921.507
+HpsPvp: 899.199
 ShadowDps: 221.768
-Value pvp healing: 922.784
-Value pvp shadow: 53.4443
-Effective hp-pvp: 9289.54
-Effecctive mana for 100 s, 0.33 fsr: 13732.6
+Value pvp healing: 881.061
+Value pvp shadow: 53.5912
+Effective hp-pvp: 9260.37
+Effecctive mana for 100 s, 0.33 fsr: 13864.7
 ------------------
 Best counts:
-oh_limit: 0.1
+oh_limit: 0.5
 time_left_mul: 1.1
-total_deficit_to_pop_trinkets: 10565.7
+total_deficit_to_pop_trinkets: 9025
 in combat total: 3329.3
-Flash Heal 1, casts: 53, avg: 427.309, 2.16104%, cast time 2.2287% of in combat, overheal: 0.192247
-Flash Heal 2, casts: 29, avg: 516.49, 1.42924%, cast time 1.21948% of in combat, overheal: 0.15924
-Flash Heal 3, casts: 26, avg: 654.646, 1.62415%, cast time 1.09332% of in combat, overheal: 0.0551463
-Flash Heal 4, casts: 31, avg: 662.334, 1.95922%, cast time 1.30358% of in combat, overheal: 0.147134
-Flash Heal 5, casts: 34, avg: 756.703, 2.45499%, cast time 1.42973% of in combat, overheal: 0.170605
-Flash Heal 6, casts: 47, avg: 788.802, 3.53762%, cast time 1.97639% of in combat, overheal: 0.253704
-Flash Heal 7, casts: 174, avg: 950.186, 15.7762%, cast time 7.31685% of in combat, overheal: 0.235673
-Greater Heal 1, casts: 29, avg: 1081.19, 2.99189%, cast time 2.17763% of in combat, overheal: 0.333596
-Greater Heal 1 hazz, casts: 83, avg: 942.006, 7.46066%, cast time 3.73952% of in combat, overheal: 0.419384
-Greater Heal 2 hazz, casts: 20, avg: 1247.08, 2.37996%, cast time 0.90109% of in combat, overheal: 0.342972
-Greater Heal 3 hazz, casts: 19, avg: 1839.79, 3.33555%, cast time 0.856036% of in combat, overheal: 0.170002
-Greater Heal 4, casts: 58, avg: 1821.96, 10.0835%, cast time 4.35527% of in combat, overheal: 0.296539
-Greater Heal 4 hazz, casts: 42, avg: 2093.43, 8.38983%, cast time 1.89229% of in combat, overheal: 0.191726
-Heal 2, casts: 446, avg: 684.828, 29.1448%, cast time 33.4905% of in combat, overheal: 0.380792
-Heal 4, casts: 70, avg: 1088.59, 7.27124%, cast time 5.25636% of in combat, overheal: 0.382504
-Total time casting: 2305.1, which is: 69.2368% of time in combat.
-Total hps: 314.776, raw hps: 457.275, oh: 0.311627
-Deficit time sum: 4.03545e+07, baseline: 5.74098e+07
-Deficit*time change / s: 5122.78 hp
+Flash Heal 1, casts: 101, avg: 221.417, 2.22734%, cast time 4.55051% of in combat, overheal: 0.600717
+Flash Heal 2, casts: 27, avg: 398.512, 1.07167%, cast time 1.21647% of in combat, overheal: 0.377321
+Flash Heal 3, casts: 24, avg: 508.384, 1.21523%, cast time 1.08131% of in combat, overheal: 0.292615
+Flash Heal 4, casts: 23, avg: 554.022, 1.26914%, cast time 1.03625% of in combat, overheal: 0.309696
+Flash Heal 5, casts: 24, avg: 698.763, 1.6703%, cast time 1.08131% of in combat, overheal: 0.255512
+Flash Heal 6, casts: 28, avg: 792.116, 2.20903%, cast time 1.26153% of in combat, overheal: 0.268892
+Flash Heal 7, casts: 110, avg: 867.727, 9.5067%, cast time 4.956% of in combat, overheal: 0.316749
+Greater Heal 1, casts: 25, avg: 993.042, 2.47265%, cast time 1.87727% of in combat, overheal: 0.406875
+Greater Heal 1 hazz, casts: 101, avg: 876.215, 8.81426%, cast time 4.55051% of in combat, overheal: 0.476654
+Greater Heal 2 hazz, casts: 28, avg: 1328.85, 3.70586%, cast time 1.26153% of in combat, overheal: 0.318675
+Greater Heal 3 hazz, casts: 17, avg: 1864.46, 3.15686%, cast time 0.765927% of in combat, overheal: 0.178487
+Greater Heal 4, casts: 73, avg: 1616.91, 11.7561%, cast time 5.48163% of in combat, overheal: 0.38837
+Greater Heal 4 hazz, casts: 38, avg: 1770.6, 6.7013%, cast time 1.71207% of in combat, overheal: 0.330232
+Heal 2, casts: 524, avg: 669.475, 34.9398%, cast time 39.3476% of in combat, overheal: 0.421432
+Heal 4, casts: 89, avg: 1047.33, 9.28382%, cast time 6.68309% of in combat, overheal: 0.423044
+Total time casting: 2559, which is: 76.863% of time in combat.
+Total hps: 301.573, raw hps: 500.718, oh: 0.397718
+Deficit time sum: 4.07986e+07, baseline: 5.74098e+07
+Deficit*time change / s: 4989.38 hp
 Number of combats: 30
-Average mana at start of combat: 6665.24
-Average mana at end of combat: 2809.02
+Average mana at start of combat: 6468.3
+Average mana at end of combat: 2297.21
 Other players with hps > 100:
-  Asoom-Gehennas : 146.233 hps
-  Flibberdigib-Gehennas : 141.788 hps
-  Lampztar-Gehennas : 134.215 hps
-  Merere-Gehennas : 118.534 hps
-  Ryttarbis-Gehennas : 113.818 hps
-  Stojadin-Gehennas : 103.631 hps
-  Wootqt-Gehennas : 101.573 hps
+  Asoom-Gehennas : 147.728 hps
+  Flibberdigib-Gehennas : 141.744 hps
+  Lampztar-Gehennas : 136.209 hps
+  Merere-Gehennas : 119.442 hps
+  Ryttarbis-Gehennas : 115.649 hps
+  Stojadin-Gehennas : 103.208 hps
+  Wootqt-Gehennas : 102.547 hps
 ------------------
 Based on last: 3000 entries, out of total: 10220 entries, The least-squares solution is:
-Int: 159.668
-Spirit: 80.4293
+Int: 166.029
+Spirit: 88.215
 Sp / Healing: 100
-Mp5: 286.74
-Crit: 123.755
-T1 3p/piece: 3925.55
-T2 3p/piece: 4766.03
-100 points == 1 sp == 0.120321 hps.
+Mp5: 343.071
+Crit: 562.067
+T1 3p/piece: 843.988
+T2 3p/piece: 5729.51
+100 points == 1 sp == 0.117844 hps.
 ------------------
 Diffs to start: 
 Upgrades: 
-royal seal of eldre'thalas(2.68826) -> hazza'rah's charm of healing(19.3714) : 16.6832 = +5.58465%
-shimmering geta(5.64786) -> boots of pure thought(15.8) : 10.1521 = +3.32568%
-robes of prophecy(12.6158) -> robes of transcendence(21.7951) : 9.17926 = +2.99744%
-zandalar confessor's bindings(7.48862) -> belt of transcendence(15.6309) : 8.14227 = +2.64984%
-mar'li's eye(1.74942) -> darkmoon card: blue dragon(8.98712) : 7.2377 = +2.34854%
-zulian headdress(12.3818) -> halo of transcendence(19.5407) : 7.15887 = +2.32237%
-rosewine circle(2.04947) -> cauterizing band(7.56885) : 5.51938 = +1.78104%
-bindings of transcendence(7.32407) -> vambraces of prophecy(12.4972) : 5.17316 = +1.66745%
-jin'do's evil eye(10.7091) -> jin'do's evil eye(10.7091) : 0 = +0%
-zandalar confessor's mantle(15.2344) -> zandalar confessor's mantle(15.2344) : 0 = +0%
-shroud of pure thought(11.3292) -> shroud of pure thought(11.3292) : 0 = +0%
-benediction, , , (27.1494) -> benediction, , , (27.1494) : 0 = +0%
-dragon's touch(7.37033) -> dragon's touch(7.37033) : 0 = +0%
-gloves of prophecy(19.2031) -> gloves of prophecy(19.2031) : 0 = +0%
-pants of prophecy(14.6597) -> pants of prophecy(14.6597) : 0 = +0%
-pure elementium band(11.0842) -> pure elementium band(11.0842) : 0 = +0%
+royal seal of eldre'thalas(3.0661) -> hazza'rah's charm of healing(16.0593) : 12.9932 = +4.50245%
+mar'li's eye(1.54459) -> rejuvenating gem(5.40063) : 3.85605 = +1.2952%
+zandalar confessor's mantle(4.14243) -> pauldrons of transcendence(4.46509) : 0.322662 = +0.107108%
+halo of transcendence(9.05209) -> halo of transcendence(9.05209) : 0 = +0%
+jin'do's evil eye(3.45801) -> jin'do's evil eye(3.45801) : 0 = +0%
+shroud of pure thought(1.92163) -> shroud of pure thought(1.92163) : 0 = +0%
+bindings of transcendence(-0.565735) -> bindings of transcendence(-0.565735) : 0 = +0%
+benediction, , , (18.2458) -> benediction, , , (18.2458) : 0 = +0%
+leggings of transcendence(5.53598) -> leggings of transcendence(5.53598) : 0 = +0%
+primalist's seal(3.90057) -> cauterizing band(1.86743) : -2.03314 = +-0.669664%
+dragon's touch(-0.193176) -> mana channeling wand(-2.48685) : -2.29367 = +-0.754827%
+belt of transcendence(9.38596) -> zandalar confessor's bindings(6.18668) : -3.19928 = +-1.04973%
+pure elementium band(1.17062) -> band of sulfuras(-2.14529) : -3.31592 = +-1.08758%
+gloves of prophecy(6.76221) -> handguards of transcendence(1.5676) : -5.19461 = +-1.69334%
+boots of prophecy(5.08194) -> boots of pure thought(-0.189758) : -5.2717 = +-1.71803%
+robes of prophecy(11.4841) -> robes of transcendence(4.3985) : -7.08557 = +-2.2956%
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at best in slot level, from start item to candidate, partial bonuses: 1: |
   alt scores are from least squares fit, special score from e.g. set bonuses as s are part of em
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, zulian headdress (12.3818), alt: 10.8542 -> :
-    halo of transcendence (19.5407) : +2.32237 %, alt : +18.826 (s: 5.73453), from: onyxia
-    mish'undare circlet of mind flayer (12.5748) : +0.062598 %, alt : +9.99072, from: bwl
-    circlet of prophecy (10.4915) : -0.613238 %, alt : +8.64579, from: mc
+head, halo of transcendence (9.05209), alt: 13.2263 -> :
+    halo of transcendence (9.05209) : +0 %, alt : +13.2263, from: onyxia
+    mish'undare circlet of mind flayer (10.7551) : +0.564716 %, alt : +11.0806, from: bwl
+    zulian headdress (11.2358) : +0.724108 %, alt : +10.8716, from: zg
+    circlet of prophecy (10.8705) : +0.602988 %, alt : +9.85886 (s: 0.99459), from: mc
+    papal fez (10.2115) : +0.384458 %, alt : +6.85432, from: pre-raid
+    crown of the ogre king (10.761) : +0.566679 %, alt : +5.32768, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (10.7091), alt: 7.98801 -> :
-    the all-seeing eye of zuldazar (3.31793) : -2.34332 %, alt : +4.96073, from: zg
+neck, jin'do's evil eye (3.45801), alt: 7.96109 -> :
+    choker of enlightenment (4.50186) : +0.346136 %, alt : +5.11731, from: mc
+    the all-seeing eye of zuldazar (4.38394) : +0.307034 %, alt : +5.03787, from: zg
+    animated chain necklace (8.95618) : +1.82316 %, alt : +4.51259, from: pre-raid
+    jeklik's opaline talisman (6.34784) : +0.958252 %, alt : +3.80544, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, zandalar confessor's mantle (15.2344), alt: 10.5543 -> :
-    zandalar confessor's mantle (15.2344) : +0 %, alt : +10.5543, from: zg
-    pauldrons of transcendence (11.4433) : -1.20194 %, alt : +9.18923, from: bwl
-    mantle of prophecy (7.69461) : -2.39044 %, alt : +6.54865, from: mc
+shoulders, zandalar confessor's mantle (4.14243), alt: 8.84766 -> :
+    pauldrons of transcendence (4.46509) : +0.107108 %, alt : +9.30677, from: bwl
+    zandalar confessor's mantle (4.14243) : +0 %, alt : +8.84765, from: zg
+    mantle of prophecy (10.8726) : +2.23407 %, alt : +7.68314 (s: 0.99459), from: mc
+    mantle of the blackwing cabal (6.0191) : +0.622962 %, alt : +7.13719, from: bwl
+    burial shawl (10.3561) : +2.06262 %, alt : +5.48737, from: pre-raid
+    sunderseer mantle (6.75845) : +0.868389 %, alt : +5.41242, from: pre-raid
+    devout mantle (7.43881) : +1.09423 %, alt : +5.31542, from: pre-raid
+    soulstealer mantle (7.13675) : +0.993964 %, alt : +5.24003, from: pre-raid
+    elder wizard's mantle (6.73352) : +0.860113 %, alt : +5.2094, from: pre-raid
+    magister's mantle (5.96255) : +0.604191 %, alt : +4.92816, from: pre-raid
+    shroud of the nathrezim (4.75839) : +0.20447 %, alt : +4.83242, from: pre-raid
+    kentic amice (7.51019) : +1.11793 %, alt : +4.81708, from: pre-raid
+    mooncloth shoulders (4.19855) : +0.0186296 %, alt : +4.46966, from: pre-raid
+    dreadmist mantle (4.83566) : +0.23012 %, alt : +4.14148, from: pre-raid
+    necropile mantle (6.88568) : +0.910622 %, alt : +3.43156, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (11.3292), alt: 8.15387 -> :
+back, shroud of pure thought (1.92163), alt: 8.4668 -> :
+    hide of the wild (2.87302) : +0.315474 %, alt : +6.90601, from: pre-raid
+    cloak of the brood lord (3.90704) : +0.658352 %, alt : +6.03881, from: bwl
+    hakkari loa cloak (5.36224) : +1.14089 %, alt : +5.89444, from: zg
+    archivist cape of healing (3.70206) : +0.590379 %, alt : +5.50601, from: pre-raid
+    cloak of the cosmos (4.91833) : +0.99369 %, alt : +5.21616, from: pre-raid
+    sapphiron drape (5.44434) : +1.16811 %, alt : +4.97596, from: onyxia
+    shroud of the exile (3.57919) : +0.549638 %, alt : +3.66253, from: pre-raid
+    frostweaver cape (2.11728) : +0.0648758 %, alt : +3.59534, from: pre-raid
+    raincaster drape (2.78903) : +0.287625 %, alt : +3.52818, from: pre-raid
+    royal tribunal cloak (3.02164) : +0.364756 %, alt : +3.13049, from: pre-raid
+    spritecaster cape (4.39215) : +0.81921 %, alt : +2.95222, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, robes of prophecy (12.6158), alt: 9.55869 -> :
-    robes of transcendence (21.7951) : +2.99744 %, alt : +19.3283 (s: 5.73453), from: bwl
-    truefaith vestments (9.41241) : -1.04606 %, alt : +10.8535, from: tailoring bop
-    robes of the exalted (10.4196) : -0.717187 %, alt : +10.2069, from: pre-raid
-    robes of prophecy (12.6158) : +0 %, alt : +9.55868, from: mc
+chest, robes of prophecy (11.4841), alt: 10.7254 (s: 0.99459) -> :
+    robes of transcendence (4.3985) : -2.2956 %, alt : +13.6631, from: bwl
+    truefaith vestments (6.91214) : -1.48122 %, alt : +11.0284, from: tailoring bop
+    robes of the exalted (5.70932) : -1.87092 %, alt : +10.1352, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (7.32407), alt: 8.01642 -> :
-    vambraces of prophecy (12.4972) : +1.66745 %, alt : +12.0178 (s: 4.72325), from: mc
-    bindings of transcendence (7.32407) : +0 %, alt : +8.01643, from: bwl
-    zandalar confessor's wraps (7.21149) : -0.0362875 %, alt : +6.16223, from: zg
+wrists, bindings of transcendence (-0.565735), alt: 8.09567 -> :
+    vambraces of prophecy (5.9942) : +2.17524 %, alt : +8.49848 (s: 0.99459), from: mc
+    bindings of transcendence (-0.565735) : +0 %, alt : +8.09568, from: bwl
+    zandalar confessor's wraps (0.512451) : +0.35752 %, alt : +6.22795, from: zg
+    flarecore wraps (3.18857) : +1.24491 %, alt : +5.20385, from: tailoring boe
+    bracers of arcane accuracy (0.740204) : +0.433042 %, alt : +4.82259, from: bwl
+    sublime wristguards (1.15289) : +0.569887 %, alt : +3.99442, from: pre-raid
+    flameweave cuffs of healing (2.4957) : +1.01515 %, alt : +3.88886, from: brd
+    magister's bindings (-0.553192) : +0.0041591 %, alt : +3.35066, from: pre-raid
+    wyrmthalak's shackles (-0.550171) : +0.00516092 %, alt : +3.32024, from: pre-raid
+    devout bracers (1.84955) : +0.800894 %, alt : +3.26716, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (27.1494), alt: 20.1686 -> :
-    lok'amir il romathis and lei of the lifegiver (24.3299) : -0.893915 %, alt : +21.7512, from: bwl, av rep
+two-hand, benediction (18.2458), alt: 21.129 -> :
+    lok'amir il romathis and lei of the lifegiver (23.965) : +1.89647 %, alt : +21.711, from: bwl, av rep
+    lok'amir il romathis and fire runed grimoire (23.7778) : +1.83438 %, alt : +19.6574, from: bwl, mc
+    lok'amir il romathis and thaurissan's royal scepter (19.7268) : +0.491117 %, alt : +18.8628, from: bwl, pre-raid
+    staff of the shadow flame (22.0082) : +1.24762 %, alt : +18.7689, from: bwl
+    lok'amir il romathis and brightly glowing stone (18.7448) : +0.165473 %, alt : +18.6126, from: bwl, pre-raid
+    lok'amir il romathis and jin'do's bag of whammies (19.5426) : +0.430016 %, alt : +18.5258, from: bwl, zg
+    lok'amir il romathis and milli's lexicon (18.8645) : +0.205172 %, alt : +18.0477, from: bwl, pre-raid
+    lok'amir il romathis and penelope's rose (19.9899) : +0.578337 %, alt : +17.5481, from: bwl, pre-raid (scholo quest)
+    lok'amir il romathis and arlokk's hoodoo stick (18.4813) : +0.0781121 %, alt : +17.5073, from: bwl, zg
+    jin'do's hexxer and lei of the lifegiver (19.0115) : +0.253928 %, alt : +15.8919, from: zg, av rep
+    lok'amir il romathis and orb of the forgotten seer (22.152) : +1.29529 %, alt : +15.6665, from: bwl, pre-raid
+    fang of venoxis and lei of the lifegiver (18.3135) : +0.0224753 %, alt : +14.9016, from: zg, av rep
+    aurastone hammer and lei of the lifegiver (22.1322) : +1.28873 %, alt : +14.3827, from: mc, av rep
+    zulian scepter of rites and lei of the lifegiver (19.0395) : +0.263207 %, alt : +13.705, from: zg, av rep
+    wushoolay's poker and lei of the lifegiver (20.371) : +0.704719 %, alt : +13.5375, from: zg, av rep
+    jin'do's hexxer and thaurissan's royal scepter (19.3088) : +0.352501 %, alt : +13.0437, from: zg, pre-raid
+    jin'do's hexxer and milli's lexicon (18.5757) : +0.109412 %, alt : +12.2286, from: zg, pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (7.37033), alt: 3.02728 -> :
-    essence gatherer (6.52731) : -0.267272 %, alt : +3.06983, from: bwl
+ranged, dragon's touch (-0.193176), alt: 3.05493 -> :
+    essence gatherer (-1.14304) : -0.312591 %, alt : +3.39103, from: bwl
+    oblivion's touch (0.908051) : +0.362404 %, alt : +2.15221, from: pre-raid
+    lunar wand of intellect (0.118286) : +0.1025 %, alt : +1.7609, from: random green
+    dragon finger of intellect (0.278015) : +0.155065 %, alt : +1.56524, from: pre-raid
+    skul's ghastly touch (0) : +0.0635726 %, alt : +0, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (19.2031), alt: 13.3519 (s: 4.72325) -> :
-    gloves of prophecy (19.2031) : +0 %, alt : +13.3519 (s: 4.72325), from: mc
-    handguards of transcendence (10.6657) : -2.70673 %, alt : +8.73853, from: bwl
+hands, gloves of prophecy (6.76221), alt: 10.124 (s: 0.99459) -> :
+    handguards of transcendence (1.5676) : -1.69334 %, alt : +9.34439, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, zandalar confessor's bindings (7.48862), alt: 8.1319 -> :
-    belt of transcendence (15.6309) : +2.64984 %, alt : +14.7288 (s: 5.73453), from: bwl
-    firemaw's clutch (7.86646) : +0.122965 %, alt : +8.24163, from: bwl
-    zandalar confessor's bindings (7.48862) : +0 %, alt : +8.13189, from: zg
-    girdle of prophecy (9.9841) : +0.812137 %, alt : +7.73656, from: mc
-    mana igniting cord (8.58841) : +0.35792 %, alt : +6.23074, from: mc
+waist, belt of transcendence (9.38596), alt: 9.08661 -> :
+    zandalar confessor's bindings (6.18668) : -1.04973 %, alt : +10.0315, from: zg
+    girdle of prophecy (13.512) : +1.35381 %, alt : +9.10464 (s: 0.99459), from: mc
+    belt of transcendence (9.38596) : +0 %, alt : +9.0866, from: bwl
+    whipvine cord (11.8708) : +0.815317 %, alt : +7.64415, from: pre-raid
+    mana igniting cord (9.40723) : +0.00697922 %, alt : +6.73896, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, pants of prophecy (14.6597), alt: 16.0461 (s: 4.72325) -> :
-    pants of prophecy (14.6597) : +0 %, alt : +16.0461 (s: 4.72325), from: mc
-    leggings of transcendence (8.13544) : -2.06847 %, alt : +14.0164, from: mc
+legs, leggings of transcendence (5.53598), alt: 14.5427 -> :
+    empowered leggings (11.4454) : +1.95953 %, alt : +14.5792, from: bwl
+    leggings of transcendence (5.53598) : +0 %, alt : +14.5427, from: mc
+    pants of prophecy (13.3018) : +2.57511 %, alt : +12.8761 (s: 0.99459), from: mc
+    padre's trousers (6.70447) : +0.387464 %, alt : +11.2883, from: pre-raid
+    senior designer's pantaloons (5.8172) : +0.0932508 %, alt : +7.95457, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, shimmering geta (5.64786), alt: 7.40601 -> :
-    boots of pure thought (15.8) : +3.32568 %, alt : +10.9265, from: bwl
-    boots of transcendence (9.48972) : +1.25854 %, alt : +9.1223, from: bwl
-    boots of prophecy (9.51474) : +1.26673 %, alt : +7.15483, from: mc
-    betrayer's boots (9.75397) : +1.3451 %, alt : +7.07626, from: zg
-    boots of the full moon (7.87851) : +0.730729 %, alt : +6.30466, from: pre-raid
-    wolfrunner shoes (7.29233) : +0.538705 %, alt : +4.74192, from: pre-raid
+feet, boots of prophecy (5.08194), alt: 8.28525 (s: 0.99459) -> :
+    boots of pure thought (-0.189758) : -1.71803 %, alt : +10.9017, from: bwl
+    boots of transcendence (3.39713) : -0.549077 %, alt : +9.21795, from: bwl
+    shimmering geta (-1.28653) : -2.07547 %, alt : +8.17761, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (6.77118), alt: 9.26587 -> :
-    primalist's seal (7.5983) : +0.262896 %, alt : +7.89238, from: zg
-    cauterizing band (7.56885) : +0.253535 %, alt : +7.84012, from: mc
+finger, primalist's seal (3.90057), alt: 7.89328 -> :
+    pure elementium band (1.2872) : -0.860776 %, alt : +9.24186, from: bwl
+    ring of blackrock (5.52701) : +0.535705 %, alt : +5.87764, from: bwl
+    rosewine circle (6.59012) : +0.885865 %, alt : +5.43892, from: pre-raid
+    fordring's seal (5.70837) : +0.595442 %, alt : +5.33851, from: pre-raid
+    band of servitude (6.88345) : +0.982482 %, alt : +4.47132, from: zg
+    maiden's circle (5.76813) : +0.615123 %, alt : +4.11452, from: pre-raid
+    seal of rivendare (5.44037) : +0.507168 %, alt : +4.05384, from: pre-raid
+    eye of orgrimmar (4.50217) : +0.198149 %, alt : +3.90661, from: pre-raid
+    ring of spellpower (4.71857) : +0.269426 %, alt : +3.88886, from: mc
+    cyclopean band (4.78732) : +0.292072 %, alt : +2.84601, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, rosewine circle (4.5961), alt: 5.21432 -> :
-    pure elementium band (11.0842) : +2.10021 %, alt : +9.26587, from: bwl
-    primalist's seal (6.83475) : +0.724651 %, alt : +7.89238, from: zg
-    cauterizing band (7.65277) : +0.989445 %, alt : +7.84012, from: mc
-    fordring's seal (4.60345) : +0.00238073 %, alt : +5.41244, from: pre-raid
-    ring of blackrock (3.82166) : -0.250688 %, alt : +5.39116, from: bwl
-    band of sulfuras (1.75589) : -0.919377 %, alt : +5.38634, from: mc
-    primalist's band (0.545593) : -1.31115 %, alt : +5.31471, from: zg
+finger 2, pure elementium band (1.17062), alt: 9.24185 -> :
+    ring of blackrock (1.35657) : +0.0609873 %, alt : +5.87764, from: bwl
+    band of forced concentration (1.689) : +0.17002 %, alt : +4.82259, from: bwl
+    band of servitude (1.59784) : +0.140122 %, alt : +4.47132, from: zg
+    maiden's circle (2.14789) : +0.320531 %, alt : +4.11452, from: pre-raid
+    eye of orgrimmar (1.6918) : +0.170941 %, alt : +3.90661, from: pre-raid
+    ring of spellpower (2.1832) : +0.332112 %, alt : +3.88886, from: mc
+    zanzil's seal (1.98712) : +0.267801 %, alt : +3.25284, from: zg
+    cyclopean band (3.67944) : +0.822863 %, alt : +2.84601, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (2.68826), alt: 5.35062 -> :
-    rejuvenating gem (-1.26367) : -1.3229 %, alt : +11.0462, from: bwl
-    shard of the scale (4.23239) : +0.516893 %, alt : +5.52012, from: onyxia
-    briarwood reed (3.16858) : +0.160785 %, alt : +3.4893, from: pre-raid
-    second wind (3.9827) : +0.433308 %, alt : +2.64706, from: pre-raid
-    hazza'rah's charm of healing (10.3843) : +2.57623 %, alt : +1.84492, from: zg
-    darkmoon card: blue dragon (0) : -0.899889 %, alt : +0, from: 
+trinket, mar'li's eye (1.54459), alt: 4.04288 -> :
+    rejuvenating gem (5.40063) : +1.2952 %, alt : +11.4163, from: bwl
+    shard of the scale (-0.165497) : -0.574398 %, alt : +6.46862, from: onyxia
+    royal seal of eldre'thalas (5.77155) : +1.41979 %, alt : +5.50601, from: pre-raid
+    zandalarian hero charm (-15.1351) : -5.60254 %, alt : +4.71377, from: zg
+    mindtap talisman (2.83765) : +0.434325 %, alt : +4.44718, from: pre-raid
+    briarwood reed (3.62283) : +0.698061 %, alt : +3.41748, from: pre-raid
+    hazza'rah's charm of healing (0) : -0.51881 %, alt : +1.80694, from: zg
+    darkmoon card: blue dragon (4.72076) : +1.06684 %, alt : +0, from: 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, mar'li's eye (1.74942), alt: 3.45007 -> :
-    rejuvenating gem (2.22775) : +0.155213 %, alt : +11.0462, from: bwl
-    shard of the scale (5.49515) : +1.21544 %, alt : +5.52012, from: onyxia
-    royal seal of eldre'thalas (4.72327) : +0.964976 %, alt : +5.35062, from: pre-raid
-    zandalarian hero charm (-14.1033) : -5.14402 %, alt : +4.81283, from: zg
-    mindtap talisman (2.69434) : +0.306613 %, alt : +3.79508, from: pre-raid
-    briarwood reed (0.894501) : -0.277411 %, alt : +3.4893, from: pre-raid
-    hazza'rah's charm of healing (0) : -0.567665 %, alt : +1.84492, from: zg
-    shard of afrasa (3.23312) : +0.481443 %, alt : +1.72504, from: pre-raid
-    darkmoon card: blue dragon (8.98712) : +2.34854 %, alt : +0, from: 
+trinket 2, royal seal of eldre'thalas (3.0661), alt: 5.50601 -> :
+    rejuvenating gem (2.59726) : -0.162465 %, alt : +11.4163, from: bwl
+    shard of the scale (5.4874) : +0.839037 %, alt : +6.46862, from: onyxia
+    zandalarian hero charm (3.77869) : +0.246928 %, alt : +4.71377, from: zg
+    hazza'rah's charm of healing (16.0593) : +4.50245 %, alt : +1.80694, from: zg
+    darkmoon card: blue dragon (8.88974) : +2.01803 %, alt : +0, from: 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at best in slot level, from start item to candidate, partial bonuses: 0: |
   alt scores are from least squares fit, special score from e.g. set bonuses as s are part of em
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, zulian headdress (10.0473), alt: 10.8542 -> :
-    halo of transcendence (29.9249) : +6.74051 %, alt : +30.2951 (s: 17.2036), from: onyxia
-    mish'undare circlet of mind flayer (13.2094) : +1.07229 %, alt : +9.99072, from: bwl
-    circlet of prophecy (9.87689) : -0.0577757 %, alt : +8.56638, from: mc
-    dreamweave circlet (11.2544) : +0.409345 %, alt : +5.60915, from: pre-raid
+head, halo of transcendence (9.05209), alt: 13.2263 -> :
+    halo of transcendence (9.05209) : +0 %, alt : +13.2263, from: onyxia
+    mish'undare circlet of mind flayer (10.7551) : +0.564716 %, alt : +11.0806, from: bwl
+    zulian headdress (11.2358) : +0.724108 %, alt : +10.8716, from: zg
+    circlet of prophecy (9.91946) : +0.287615 %, alt : +8.77596, from: mc
+    papal fez (10.2115) : +0.384458 %, alt : +6.85432, from: pre-raid
+    crown of the ogre king (10.761) : +0.566679 %, alt : +5.32768, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (11.0052), alt: 7.98801 -> :
-    the all-seeing eye of zuldazar (3.4072) : -2.41378 %, alt : +4.96073, from: zg
+neck, jin'do's evil eye (3.45801), alt: 7.96109 -> :
+    choker of enlightenment (4.50186) : +0.346136 %, alt : +5.11731, from: mc
+    the all-seeing eye of zuldazar (4.38394) : +0.307034 %, alt : +5.03787, from: zg
+    animated chain necklace (8.95618) : +1.82316 %, alt : +4.51259, from: pre-raid
+    jeklik's opaline talisman (6.34784) : +0.958252 %, alt : +3.80544, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, zandalar confessor's mantle (14.7151), alt: 11.4767 -> :
-    zandalar confessor's mantle (14.7151) : +0 %, alt : +11.4768, from: zg
-    pauldrons of transcendence (9.35413) : -1.70309 %, alt : +9.18923, from: bwl
-    mantle of prophecy (4.91977) : -3.11183 %, alt : +6.46923, from: mc
+shoulders, zandalar confessor's mantle (4.14243), alt: 8.84766 -> :
+    pauldrons of transcendence (4.46509) : +0.107108 %, alt : +9.30677, from: bwl
+    zandalar confessor's mantle (4.14243) : +0 %, alt : +8.84765, from: zg
+    mantle of the blackwing cabal (6.0191) : +0.622962 %, alt : +7.13719, from: bwl
+    mantle of prophecy (5.0538) : +0.302531 %, alt : +6.60024, from: mc
+    burial shawl (10.3561) : +2.06262 %, alt : +5.48737, from: pre-raid
+    sunderseer mantle (6.75845) : +0.868389 %, alt : +5.41242, from: pre-raid
+    soulstealer mantle (7.13675) : +0.993964 %, alt : +5.24003, from: pre-raid
+    elder wizard's mantle (6.73352) : +0.860113 %, alt : +5.2094, from: pre-raid
+    devout mantle (6.98706) : +0.944275 %, alt : +5.04437, from: pre-raid
+    magister's mantle (5.96255) : +0.604191 %, alt : +4.92816, from: pre-raid
+    shroud of the nathrezim (4.75839) : +0.20447 %, alt : +4.83242, from: pre-raid
+    kentic amice (7.51019) : +1.11793 %, alt : +4.81708, from: pre-raid
+    mooncloth shoulders (4.19855) : +0.0186296 %, alt : +4.46966, from: pre-raid
+    dreadmist mantle (4.15613) : +0.0045485 %, alt : +3.87044, from: pre-raid
+    necropile mantle (6.06259) : +0.637398 %, alt : +3.08782, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (10.776), alt: 8.15387 -> :
+back, shroud of pure thought (1.92163), alt: 8.4668 -> :
+    hide of the wild (2.87302) : +0.315474 %, alt : +6.90601, from: pre-raid
+    cloak of the brood lord (3.90704) : +0.658352 %, alt : +6.03881, from: bwl
+    hakkari loa cloak (5.36224) : +1.14089 %, alt : +5.89444, from: zg
+    archivist cape of healing (3.70206) : +0.590379 %, alt : +5.50601, from: pre-raid
+    cloak of the cosmos (4.91833) : +0.99369 %, alt : +5.21616, from: pre-raid
+    sapphiron drape (5.44434) : +1.16811 %, alt : +4.97596, from: onyxia
+    shroud of the exile (3.57919) : +0.549638 %, alt : +3.66253, from: pre-raid
+    frostweaver cape (2.11728) : +0.0648758 %, alt : +3.59534, from: pre-raid
+    raincaster drape (2.78903) : +0.287625 %, alt : +3.52818, from: pre-raid
+    royal tribunal cloak (3.02164) : +0.364756 %, alt : +3.13049, from: pre-raid
+    spritecaster cape (4.39215) : +0.81921 %, alt : +2.95222, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, robes of prophecy (7.87741), alt: 9.47928 -> :
-    robes of transcendence (27.3238) : +6.58462 %, alt : +30.7973 (s: 17.2036), from: bwl
-    truefaith vestments (5.92392) : -0.661461 %, alt : +10.8535, from: tailoring bop
-    robes of the exalted (8.83435) : +0.324024 %, alt : +10.2069, from: pre-raid
-    robes of prophecy (7.87741) : +0 %, alt : +9.47927, from: mc
+chest, robes of prophecy (3.84769), alt: 9.64252 -> :
+    robes of transcendence (4.3985) : +0.18298 %, alt : +13.6631, from: bwl
+    truefaith vestments (6.91214) : +1.01801 %, alt : +11.0284, from: tailoring bop
+    robes of the exalted (5.70932) : +0.618437 %, alt : +10.1352, from: pre-raid
+    robe of volatile power (7.00327) : +1.04829 %, alt : +8.00954, from: mc
+    mindsurge robe (4.66138) : +0.270309 %, alt : +6.58641, from: pre-raid
+    necropile robe (5.6662) : +0.604112 %, alt : +4.5381, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (5.19778), alt: 8.01642 -> :
-    vambraces of prophecy (14.6193) : +3.08542 %, alt : +21.4048 (s: 14.1698), from: mc
-    bindings of transcendence (5.19778) : +0 %, alt : +8.01643, from: bwl
-    zandalar confessor's wraps (6.73102) : +0.502116 %, alt : +6.16223, from: zg
+wrists, bindings of transcendence (-0.565735), alt: 8.09567 -> :
+    bindings of transcendence (-0.565735) : +0 %, alt : +8.09568, from: bwl
+    zandalar confessor's wraps (0.512451) : +0.35752 %, alt : +6.22795, from: zg
+    flarecore wraps (3.18857) : +1.24491 %, alt : +5.20385, from: tailoring boe
+    bracers of arcane accuracy (0.740204) : +0.433042 %, alt : +4.82259, from: bwl
+    sublime wristguards (1.15289) : +0.569887 %, alt : +3.99442, from: pre-raid
+    flameweave cuffs of healing (2.4957) : +1.01515 %, alt : +3.88886, from: brd
+    magister's bindings (-0.553192) : +0.0041591 %, alt : +3.35066, from: pre-raid
+    wyrmthalak's shackles (-0.550171) : +0.00516092 %, alt : +3.32024, from: pre-raid
+    devout bracers (2.49097) : +1.01358 %, alt : +2.99612, from: pre-raid
+    necropile cuffs (1.09512) : +0.550731 %, alt : +2.87991, from: pre-raid
+    dreadmist bracers (-0.291443) : +0.0909537 %, alt : +2.68425, from: pre-raid (boe scholo)
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (24.286), alt: 20.1686 -> :
-    lok'amir il romathis and lei of the lifegiver (20.7104) : -1.13591 %, alt : +21.7512, from: bwl, av rep
+two-hand, benediction (18.2458), alt: 21.129 -> :
+    lok'amir il romathis and lei of the lifegiver (23.965) : +1.89647 %, alt : +21.711, from: bwl, av rep
+    lok'amir il romathis and fire runed grimoire (23.7778) : +1.83438 %, alt : +19.6574, from: bwl, mc
+    lok'amir il romathis and thaurissan's royal scepter (19.7268) : +0.491117 %, alt : +18.8628, from: bwl, pre-raid
+    staff of the shadow flame (22.0082) : +1.24762 %, alt : +18.7689, from: bwl
+    lok'amir il romathis and brightly glowing stone (18.7448) : +0.165473 %, alt : +18.6126, from: bwl, pre-raid
+    lok'amir il romathis and jin'do's bag of whammies (19.5426) : +0.430016 %, alt : +18.5258, from: bwl, zg
+    lok'amir il romathis and milli's lexicon (18.8645) : +0.205172 %, alt : +18.0477, from: bwl, pre-raid
+    lok'amir il romathis and penelope's rose (19.9899) : +0.578337 %, alt : +17.5481, from: bwl, pre-raid (scholo quest)
+    lok'amir il romathis and arlokk's hoodoo stick (18.4813) : +0.0781121 %, alt : +17.5073, from: bwl, zg
+    jin'do's hexxer and lei of the lifegiver (19.0115) : +0.253928 %, alt : +15.8919, from: zg, av rep
+    lok'amir il romathis and orb of the forgotten seer (22.152) : +1.29529 %, alt : +15.6665, from: bwl, pre-raid
+    fang of venoxis and lei of the lifegiver (18.3135) : +0.0224753 %, alt : +14.9016, from: zg, av rep
+    aurastone hammer and lei of the lifegiver (22.1322) : +1.28873 %, alt : +14.3827, from: mc, av rep
+    zulian scepter of rites and lei of the lifegiver (19.0395) : +0.263207 %, alt : +13.705, from: zg, av rep
+    wushoolay's poker and lei of the lifegiver (20.371) : +0.704719 %, alt : +13.5375, from: zg, av rep
+    jin'do's hexxer and thaurissan's royal scepter (19.3088) : +0.352501 %, alt : +13.0437, from: zg, pre-raid
+    jin'do's hexxer and milli's lexicon (18.5757) : +0.109412 %, alt : +12.2286, from: zg, pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (5.46286), alt: 3.02728 -> :
-    essence gatherer (3.77359) : -0.536658 %, alt : +3.06983, from: bwl
+ranged, dragon's touch (-0.193176), alt: 3.05493 -> :
+    essence gatherer (-1.14304) : -0.312591 %, alt : +3.39103, from: bwl
+    oblivion's touch (0.908051) : +0.362404 %, alt : +2.15221, from: pre-raid
+    lunar wand of intellect (0.118286) : +0.1025 %, alt : +1.7609, from: random green
+    dragon finger of intellect (0.278015) : +0.155065 %, alt : +1.56524, from: pre-raid
+    skul's ghastly touch (0) : +0.0635726 %, alt : +0, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (19.1227), alt: 22.7389 (s: 14.1698) -> :
-    gloves of prophecy (19.1227) : +0 %, alt : +22.7389 (s: 14.1698), from: mc
-    handguards of transcendence (9.06616) : -3.19483 %, alt : +8.73853, from: bwl
+hands, gloves of prophecy (3.83908), alt: 9.04111 -> :
+    handguards of transcendence (1.5676) : -0.747581 %, alt : +9.34439, from: bwl
+    atal'ai hands of healing (3.88385) : +0.0147343 %, alt : +6.24574, from: sunken temple
+    dreamweave gloves (3.85019) : +0.00365594 %, alt : +3.63151, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, zandalar confessor's bindings (4.80997), alt: 8.1319 -> :
-    belt of transcendence (23.6639) : +6.37125 %, alt : +26.1978 (s: 17.2036), from: bwl
-    firemaw's clutch (2.86072) : -0.658703 %, alt : +8.24163, from: bwl
-    zandalar confessor's bindings (4.80997) : +0 %, alt : +8.13189, from: zg
-    girdle of prophecy (5.05432) : +0.0825738 %, alt : +7.65715, from: mc
-    whipvine cord (6.95364) : +0.724406 %, alt : +7.3369, from: pre-raid
-    mana igniting cord (5.23599) : +0.143965 %, alt : +6.23074, from: mc
-    belt of untapped power (4.90347) : +0.0315981 %, alt : +4.8341, from: zg
-    grimgore noose (5.95798) : +0.387943 %, alt : +4.23366, from: pre-raid
+waist, belt of transcendence (6.38046), alt: 9.08661 -> :
+    zandalar confessor's bindings (5.521) : -0.284184 %, alt : +10.9349, from: zg
+    belt of transcendence (6.38046) : +0 %, alt : +9.0866, from: bwl
+    girdle of prophecy (11.0218) : +1.53465 %, alt : +8.02174, from: mc
+    whipvine cord (11.3042) : +1.62803 %, alt : +7.64415, from: pre-raid
+    mana igniting cord (8.64389) : +0.748407 %, alt : +6.73896, from: mc
+    belt of untapped power (7.6395) : +0.416302 %, alt : +4.78707, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, pants of prophecy (19.757), alt: 25.433 (s: 14.1698) -> :
-    pants of prophecy (19.757) : +0 %, alt : +25.433 (s: 14.1698), from: mc
-    leggings of transcendence (10.2475) : -3.02104 %, alt : +14.0164, from: mc
+legs, leggings of transcendence (5.53598), alt: 14.5427 -> :
+    empowered leggings (11.4454) : +1.95953 %, alt : +14.5792, from: bwl
+    leggings of transcendence (5.53598) : +0 %, alt : +14.5427, from: mc
+    pants of prophecy (6.12006) : +0.193676 %, alt : +11.7932, from: mc
+    padre's trousers (6.70447) : +0.387464 %, alt : +11.2883, from: pre-raid
+    senior designer's pantaloons (5.8172) : +0.0932508 %, alt : +7.95457, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, shimmering geta (6.12936), alt: 7.40601 -> :
-    boots of pure thought (15.9896) : +3.23374 %, alt : +10.9265, from: bwl
-    boots of transcendence (11.8363) : +1.87164 %, alt : +9.1223, from: bwl
-    betrayer's boots (9.45605) : +1.09102 %, alt : +7.07626, from: zg
-    boots of prophecy (9.58875) : +1.13454 %, alt : +7.07542, from: mc
-    boots of the full moon (9.59421) : +1.13633 %, alt : +6.30466, from: pre-raid
-    dragonrider boots (7.56021) : +0.46926 %, alt : +5.23959, from: pre-raid
-    wolfrunner shoes (7.15982) : +0.337948 %, alt : +4.74192, from: pre-raid
-    omnicast boots (6.7645) : +0.208297 %, alt : +4.37608, from: pre-raid
-    necropile boots (6.81601) : +0.225192 %, alt : +4.11562, from: pre-raid
+feet, boots of prophecy (0.600891), alt: 7.20233 -> :
+    boots of pure thought (-0.189758) : -0.261489 %, alt : +10.9017, from: bwl
+    boots of transcendence (3.39713) : +0.924791 %, alt : +9.21795, from: bwl
+    shimmering geta (-1.28653) : -0.624221 %, alt : +8.17761, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (11.2149), alt: 9.26587 -> :
-    cauterizing band (12.0084) : +0.252698 %, alt : +7.84012, from: mc
+finger, primalist's seal (3.54202), alt: 6.59698 -> :
+    pure elementium band (1.2872) : -0.743557 %, alt : +9.24186, from: bwl
+    cauterizing band (1.86743) : -0.552219 %, alt : +7.7687, from: mc
+    ring of blackrock (5.52701) : +0.654575 %, alt : +5.87764, from: bwl
+    rosewine circle (6.59012) : +1.00515 %, alt : +5.43892, from: pre-raid
+    fordring's seal (5.70837) : +0.714383 %, alt : +5.33851, from: pre-raid
+    band of servitude (6.88345) : +1.10188 %, alt : +4.47132, from: zg
+    maiden's circle (5.76813) : +0.734087 %, alt : +4.11452, from: pre-raid
+    seal of rivendare (5.44037) : +0.626005 %, alt : +4.05384, from: pre-raid
+    eye of orgrimmar (4.50217) : +0.31662 %, alt : +3.90661, from: pre-raid
+    ring of spellpower (4.71857) : +0.387981 %, alt : +3.88886, from: mc
+    cyclopean band (4.78732) : +0.410654 %, alt : +2.84601, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, rosewine circle (4.17899), alt: 5.21436 -> :
-    pure elementium band (10.5335) : +2.06034 %, alt : +9.26587, from: bwl
-    cauterizing band (7.96454) : +1.2274 %, alt : +7.84012, from: mc
-    primalist's seal (4.49033) : +0.100946 %, alt : +6.56885, from: zg
-    fordring's seal (4.52753) : +0.113008 %, alt : +5.41244, from: pre-raid
-    ring of blackrock (2.29532) : -0.610744 %, alt : +5.39116, from: bwl
-    band of sulfuras (2.05481) : -0.688725 %, alt : +5.38634, from: mc
-    ring of spellpower (4.92422) : +0.24163 %, alt : +3.97059, from: mc
+finger 2, pure elementium band (1.17062), alt: 9.24185 -> :
+    ring of blackrock (1.35657) : +0.0609873 %, alt : +5.87764, from: bwl
+    band of forced concentration (1.689) : +0.17002 %, alt : +4.82259, from: bwl
+    band of servitude (1.59784) : +0.140122 %, alt : +4.47132, from: zg
+    maiden's circle (2.14789) : +0.320531 %, alt : +4.11452, from: pre-raid
+    eye of orgrimmar (1.6918) : +0.170941 %, alt : +3.90661, from: pre-raid
+    ring of spellpower (2.1832) : +0.332112 %, alt : +3.88886, from: mc
+    zanzil's seal (1.98712) : +0.267801 %, alt : +3.25284, from: zg
+    cyclopean band (3.67944) : +0.822863 %, alt : +2.84601, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (2.8053), alt: 5.35062 -> :
-    rejuvenating gem (3.27481) : +0.158063 %, alt : +11.0462, from: bwl
-    shard of the scale (2.74042) : -0.0218422 %, alt : +5.52012, from: onyxia
-    hazza'rah's charm of healing (11.2523) : +2.84372 %, alt : +2.76738, from: zg
-    second wind (4.00333) : +0.40332 %, alt : +2.64706, from: pre-raid
-    darkmoon card: blue dragon (0) : -0.944413 %, alt : +0, from: 
+trinket, mar'li's eye (1.54459), alt: 4.04288 -> :
+    rejuvenating gem (5.40063) : +1.2952 %, alt : +11.4163, from: bwl
+    shard of the scale (-0.165497) : -0.574398 %, alt : +6.46862, from: onyxia
+    royal seal of eldre'thalas (5.77155) : +1.41979 %, alt : +5.50601, from: pre-raid
+    zandalarian hero charm (-16.2552) : -5.97875 %, alt : +4.71377, from: zg
+    mindtap talisman (2.83765) : +0.434325 %, alt : +4.44718, from: pre-raid
+    briarwood reed (3.62283) : +0.698061 %, alt : +3.41748, from: pre-raid
+    hazza'rah's charm of healing (0) : -0.51881 %, alt : +2.71042, from: zg
+    darkmoon card: blue dragon (4.72076) : +1.06684 %, alt : +0, from: 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, mar'li's eye (1.599), alt: 3.45007 -> :
-    rejuvenating gem (2.05368) : +0.148063 %, alt : +11.0462, from: bwl
-    shard of the scale (9.32452) : +2.51574 %, alt : +5.52012, from: onyxia
-    royal seal of eldre'thalas (5.09848) : +1.13957 %, alt : +5.35062, from: pre-raid
-    zandalarian hero charm (-14.029) : -5.08911 %, alt : +4.81283, from: zg
-    mindtap talisman (2.66174) : +0.346072 %, alt : +3.79508, from: pre-raid
-    briarwood reed (1.85455) : +0.0832187 %, alt : +3.4893, from: pre-raid
-    hazza'rah's charm of healing (0) : -0.520698 %, alt : +2.76738, from: zg
-    shard of afrasa (5.41852) : +1.24379 %, alt : +1.72504, from: pre-raid
-    darkmoon card: blue dragon (9.28769) : +2.50375 %, alt : +0, from: 
+trinket 2, royal seal of eldre'thalas (1.90509), alt: 5.50601 -> :
+    rejuvenating gem (3.56534) : +0.577374 %, alt : +11.4163, from: bwl
+    shard of the scale (3.75079) : +0.641869 %, alt : +6.46862, from: onyxia
+    zandalarian hero charm (4.78986) : +1.00322 %, alt : +4.71377, from: zg
+    hazza'rah's charm of healing (15.927) : +4.8763 %, alt : +2.71042, from: zg
+    second wind (1.94061) : +0.0123534 %, alt : +2.59257, from: pre-raid
+    burst of knowledge (3.00543) : +0.382659 %, alt : +1.41413, from: pre-raid
+    darkmoon card: blue dragon (6.677) : +1.6595 %, alt : +0, from: 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at start level, from start item to candidate, partial bonuses: 1: |
   alt scores are from least squares fit, special score from e.g. set bonuses as s are part of em
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, zulian headdress (6.90109), alt: 10.8542 -> :
-    halo of transcendence (17.3988) : +3.73372 %, alt : +18.826 (s: 5.73453), from: onyxia
-    circlet of prophecy (3.13092) : -1.34094 %, alt : +8.64579, from: mc
+head, halo of transcendence (12.6664), alt: 13.2263 -> :
+    halo of transcendence (12.6664) : +0 %, alt : +13.2263, from: onyxia
+    zulian headdress (14.9265) : +0.775203 %, alt : +10.8716, from: zg
+    circlet of prophecy (9.38986) : -1.12383 %, alt : +9.12922, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (7.02771), alt: 7.98801 -> :
-    the all-seeing eye of zuldazar (4.27396) : -0.97943 %, alt : +4.96073, from: zg
+neck, jin'do's evil eye (7.4632), alt: 7.96109 -> :
+    the all-seeing eye of zuldazar (5.22546) : -0.767531 %, alt : +6.84481, from: zg
+    pendant of the fallen dragon (7.53809) : +0.0256869 %, alt : +5.98647, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, zandalar confessor's mantle (3.61179), alt: 10.5543 -> :
-    pauldrons of transcendence (6.51889) : +1.03397 %, alt : +14.9238 (s: 5.73453), from: bwl
-    zandalar confessor's mantle (3.61179) : +0 %, alt : +10.5543, from: zg
-    mantle of prophecy (1.97098) : -0.583588 %, alt : +6.54865, from: mc
+shoulders, zandalar confessor's mantle (6.00858), alt: 9.75113 -> :
+    zandalar confessor's mantle (6.00858) : +0 %, alt : +9.75112, from: zg
+    pauldrons of transcendence (6.45099) : +0.151746 %, alt : +9.30677, from: bwl
+    mantle of prophecy (1.11649) : -1.67796 %, alt : +6.9535, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (5.82944), alt: 8.15387 -> :
+back, shroud of pure thought (5.36636), alt: 8.4668 -> :
+    archivist cape of healing (7.4241) : +0.705794 %, alt : +5.50601, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, robes of prophecy (11.2758), alt: 14.2621 (s: 4.72325) -> :
-    robes of transcendence (12.8823) : +0.571377 %, alt : +19.3283 (s: 5.73453), from: bwl
-    robes of prophecy (11.2758) : +0 %, alt : +14.2621 (s: 4.72325), from: mc
-    truefaith vestments (14.0151) : +0.974296 %, alt : +10.8535, from: tailoring bop
+chest, robes of prophecy (7.00354), alt: 10.9021 (s: 0.99459) -> :
+    robes of transcendence (7.39249) : +0.133407 %, alt : +13.6631, from: bwl
+    truefaith vestments (10.0463) : +1.04364 %, alt : +11.0284, from: tailoring bop
+    robes of prophecy (7.00354) : +0 %, alt : +10.9021 (s: 0.99459), from: mc
+    robes of the exalted (11.5924) : +1.57396 %, alt : +10.1352, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (8.10306), alt: 13.751 (s: 5.73453) -> :
-    bindings of transcendence (8.10306) : +0 %, alt : +13.751 (s: 5.73453), from: bwl
-    vambraces of prophecy (2.97198) : -1.82497 %, alt : +7.31445, from: mc
-    zandalar confessor's wraps (1.74622) : -2.26094 %, alt : +6.16223, from: zg
+wrists, bindings of transcendence (3.15067), alt: 8.09567 -> :
+    bindings of transcendence (3.15067) : +0 %, alt : +8.09568, from: bwl
+    zandalar confessor's wraps (3.37384) : +0.0765479 %, alt : +8.03489, from: zg
+    vambraces of prophecy (3.19968) : +0.0168106 %, alt : +7.76884, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (14.4656), alt: 20.1686 -> :
-    lok'amir il romathis and lei of the lifegiver (17.0943) : +0.93495 %, alt : +21.7512, from: bwl, av rep
-    lok'amir il romathis and brightly glowing stone (14.7895) : +0.115185 %, alt : +18.791, from: bwl, pre-raid
+two-hand, benediction (23.125), alt: 21.129 -> :
+    lok'amir il romathis and lei of the lifegiver (29.5283) : +2.1963 %, alt : +21.711, from: bwl, av rep
+    lok'amir il romathis and fire runed grimoire (24.6781) : +0.532706 %, alt : +19.6574, from: bwl, mc
+    lok'amir il romathis and brightly glowing stone (26.9663) : +1.31755 %, alt : +18.6126, from: bwl, pre-raid
+    lok'amir il romathis and arlokk's hoodoo stick (25.3552) : +0.764956 %, alt : +17.5073, from: bwl, zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (6.32144), alt: 3.02728 -> :
-    essence gatherer (7.00537) : +0.243254 %, alt : +3.06983, from: bwl
-    lunar wand of healing (7.07208) : +0.266981 %, alt : +2.40642, from: random green
-    oblivion's touch (7.09756) : +0.276044 %, alt : +2.11325, from: pre-raid
-    bonecreeper stylus (6.99939) : +0.241126 %, alt : +2.09198, from: pre-raid
-    lunar wand of intellect (6.9473) : +0.222598 %, alt : +1.72902, from: random green
+ranged, dragon's touch (0.449951), alt: 3.05493 -> :
+    essence gatherer (0.871826) : +0.144701 %, alt : +3.39103, from: bwl
+    mar'li's touch (1.0896) : +0.219396 %, alt : +2.77595, from: zg
+    lunar wand of healing (5.90167) : +1.86991 %, alt : +2.35688, from: random green
+    oblivion's touch (1.35089) : +0.309018 %, alt : +2.15221, from: pre-raid
+    thoughtblighter (1.54678) : +0.376208 %, alt : +2.02144, from: zg
+    mana channeling wand (0.824493) : +0.128466 %, alt : +1.61716, from: pre-raid
+    dragon finger of intellect (0.537781) : +0.0301251 %, alt : +1.56524, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (7.93066), alt: 13.3519 (s: 4.72325) -> :
-    handguards of transcendence (10.8958) : +1.05462 %, alt : +14.4731 (s: 5.73453), from: bwl
-    gloves of prophecy (7.93066) : +0 %, alt : +13.3519 (s: 4.72325), from: mc
+hands, gloves of prophecy (7.66965), alt: 10.3006 (s: 0.99459) -> :
+    gloves of prophecy (7.66965) : +0 %, alt : +10.3006 (s: 0.99459), from: mc
+    handguards of transcendence (2.33304) : -1.83043 %, alt : +9.34439, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, zandalar confessor's bindings (4.32565), alt: 9.97681 -> :
-    belt of transcendence (7.61078) : +1.16842 %, alt : +14.7288 (s: 5.73453), from: bwl
-    zandalar confessor's bindings (4.32565) : +0 %, alt : +9.97681, from: zg
-    girdle of prophecy (0.596497) : -1.32635 %, alt : +7.73656, from: mc
+waist, belt of transcendence (2.55328), alt: 9.08661 -> :
+    zandalar confessor's bindings (3.05679) : +0.172701 %, alt : +10.0315, from: zg
+    belt of transcendence (2.55328) : +0 %, alt : +9.0866, from: bwl
+    firemaw's clutch (8.71838) : +2.1146 %, alt : +8.49386, from: bwl
+    girdle of prophecy (4.48779) : +0.663527 %, alt : +8.375, from: mc
+    whipvine cord (8.33115) : +1.98178 %, alt : +7.64415, from: pre-raid
+    mana igniting cord (2.88477) : +0.113697 %, alt : +6.73896, from: mc
+    thuzadin sash (2.82852) : +0.0944052 %, alt : +4.78767, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, pants of prophecy (14.1537), alt: 16.0461 (s: 4.72325) -> :
-    leggings of transcendence (17.4503) : +1.17252 %, alt : +19.751 (s: 5.73453), from: mc
-    pants of prophecy (14.1537) : +0 %, alt : +16.0461 (s: 4.72325), from: mc
+legs, leggings of transcendence (13.4701), alt: 14.5427 -> :
+    empowered leggings (15.3082) : +0.630471 %, alt : +14.5792, from: bwl
+    leggings of transcendence (13.4701) : +0 %, alt : +14.5427, from: mc
+    pants of prophecy (11.6757) : -0.615461 %, alt : +12.1464, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, shimmering geta (6.88873), alt: 7.40601 -> :
-    boots of transcendence (12.5458) : +2.01205 %, alt : +14.8568 (s: 5.73453), from: bwl
-    boots of pure thought (12.0019) : +1.8186 %, alt : +10.9265, from: bwl
-    boots of prophecy (5.14026) : -0.621881 %, alt : +7.15483, from: mc
+feet, boots of prophecy (4.3862), alt: 8.46188 (s: 0.99459) -> :
+    boots of pure thought (2.47534) : -0.655415 %, alt : +10.9017, from: bwl
+    boots of transcendence (2.40045) : -0.681102 %, alt : +9.21795, from: bwl
+    boots of prophecy (4.3862) : +0 %, alt : +8.46187 (s: 0.99459), from: mc
+    shimmering geta (6.26685) : +0.645052 %, alt : +8.17761, from: bwl
+    betrayer's boots (4.48633) : +0.0343435 %, alt : +7.13067, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (6.49927), alt: 9.26587 -> :
-    primalist's seal (9.28696) : +0.9915 %, alt : +7.89238, from: zg
+finger, primalist's seal (5.26193), alt: 7.89328 -> :
+    pure elementium band (7.366) : +0.721684 %, alt : +9.24186, from: bwl
+    primalist's seal (5.26193) : +0 %, alt : +7.89328, from: zg
+    primalist's band (3.42966) : -0.628461 %, alt : +5.67858, from: zg
+    rosewine circle (5.49237) : +0.0790391 %, alt : +5.43892, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, rosewine circle (6.31003), alt: 5.21436 -> :
-    pure elementium band (9.67816) : +1.19795 %, alt : +9.26587, from: bwl
-    primalist's seal (9.16428) : +1.01517 %, alt : +7.89238, from: zg
-    cauterizing band (8.42459) : +0.752089 %, alt : +7.84012, from: mc
-    fordring's seal (8.23685) : +0.685313 %, alt : +5.41244, from: pre-raid
-    ring of blackrock (9.9317) : +1.28812 %, alt : +5.39116, from: bwl
-    band of sulfuras (3.82632) : -0.883381 %, alt : +5.38634, from: mc
-    primalist's band (3.61813) : -0.957429 %, alt : +5.31471, from: zg
-    band of forced concentration (6.35632) : +0.0164658 %, alt : +4.8321, from: bwl
-    ring of spellpower (7.53271) : +0.434874 %, alt : +3.97059, from: mc
+finger 2, pure elementium band (7.90445), alt: 9.24185 -> :
+    primalist's seal (6.96368) : -0.322678 %, alt : +7.89328, from: zg
+    cauterizing band (7.96008) : +0.019082 %, alt : +7.7687, from: mc
+    primalist's band (7.27661) : -0.215345 %, alt : +5.67858, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (5.3931), alt: 5.35062 -> :
-    rejuvenating gem (13.1722) : +2.7668 %, alt : +11.0462, from: bwl
-    shard of the scale (5.87561) : +0.171616 %, alt : +5.52012, from: onyxia
-    zandalarian hero charm (8.46487) : +1.09254 %, alt : +4.81283, from: zg
-    darkmoon card: blue dragon (9.68701) : +1.52722 %, alt : +0, from: 
-    hazza'rah's charm of healing (10.9107) : +1.96246 %, alt : +0, from: zg
+trinket, mar'li's eye (4.67554), alt: 4.04288 -> :
+    rejuvenating gem (13.6783) : +3.0879 %, alt : +11.4163, from: bwl
+    shard of the scale (10.1923) : +1.89222 %, alt : +6.46862, from: onyxia
+    royal seal of eldre'thalas (5.84128) : +0.399843 %, alt : +5.50601, from: pre-raid
+    zandalarian hero charm (6.65622) : +0.679364 %, alt : +4.71377, from: zg
+    mindtap talisman (7.08972) : +0.828053 %, alt : +4.44718, from: pre-raid
+    briarwood reed (5.55649) : +0.302162 %, alt : +3.41748, from: pre-raid
+    hazza'rah's charm of healing (18.7716) : +4.83489 %, alt : +1.80694, from: zg
+    darkmoon card: blue dragon (7.52448) : +0.977171 %, alt : +0, from: 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, mar'li's eye (4.52625), alt: 3.45007 -> :
-    rejuvenating gem (12.5907) : +2.8683 %, alt : +11.0462, from: bwl
-    shard of the scale (8.93753) : +1.56897 %, alt : +5.52012, from: onyxia
-    royal seal of eldre'thalas (7.29987) : +0.986496 %, alt : +5.35062, from: pre-raid
-    zandalarian hero charm (6.07047) : +0.549234 %, alt : +4.81283, from: zg
-    mindtap talisman (4.02759) : -0.177358 %, alt : +3.79508, from: pre-raid
-    briarwood reed (4.01645) : -0.18132 %, alt : +3.4893, from: pre-raid
-    shard of afrasa (5.65176) : +0.400314 %, alt : +1.72504, from: pre-raid
-    darkmoon card: blue dragon (10.5891) : +2.15637 %, alt : +0, from: 
-    hazza'rah's charm of healing (12.6212) : +2.87912 %, alt : +0, from: zg
+trinket 2, royal seal of eldre'thalas (7.55002), alt: 5.50601 -> :
+    rejuvenating gem (15.563) : +2.74842 %, alt : +11.4163, from: bwl
+    shard of the scale (8.19009) : +0.219543 %, alt : +6.46862, from: onyxia
+    hazza'rah's charm of healing (15.0389) : +2.56865 %, alt : +1.80694, from: zg
+    darkmoon card: blue dragon (11.4586) : +1.34063 %, alt : +0, from: 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at start level, from start item to candidate, partial bonuses: 0: |
   alt scores are from least squares fit, special score from e.g. set bonuses as s are part of em
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, zulian headdress (5.22498), alt: 10.8542 -> :
-    halo of transcendence (9.9371) : +1.72215 %, alt : +13.0915, from: onyxia
-    circlet of prophecy (8.4631) : +1.18344 %, alt : +8.56638, from: mc
-    eternal crown of healing (6.9548) : +0.632203 %, alt : +7.70053, from: random green
-    the hexxer's cover (7.36172) : +0.780922 %, alt : +6.85429, from: zg
-    papal fez (5.39566) : +0.0623805 %, alt : +6.78395, from: pre-raid
-    green lens of healing (5.2955) : +0.0257753 %, alt : +6.49732, from: pre-raid
-    cassandra's grace (6.91159) : +0.61641 %, alt : +6.16507, from: pre-raid
-    cassandra's grace (6.91159) : +0.61641 %, alt : +6.16507, from: pre-raid
-    crimson felt hat (5.71826) : +0.180282 %, alt : +5.92072, from: pre-raid
+head, halo of transcendence (16.5481), alt: 13.2263 -> :
+    halo of transcendence (16.5481) : +0 %, alt : +13.2263, from: onyxia
+    zulian headdress (17.1194) : +0.19751 %, alt : +10.8716, from: zg
+    circlet of prophecy (14.2315) : -0.800842 %, alt : +8.77596, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (2.60928), alt: 7.98801 -> :
-    pendant of the fallen dragon (5.10641) : +0.912631 %, alt : +5.41043, from: bwl
-    the all-seeing eye of zuldazar (2.35062) : -0.0945355 %, alt : +4.96073, from: zg
-    animated chain necklace (3.06311) : +0.165861 %, alt : +4.55122, from: pre-raid
-    jeklik's opaline talisman (6.73779) : +1.50885 %, alt : +3.68208, from: zg
-    triune amulet (2.82013) : +0.0770582 %, alt : +2.02221, from: pre-raid
+neck, jin'do's evil eye (6.03497), alt: 7.96109 -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, zandalar confessor's mantle (5.53091), alt: 11.4767 -> :
-    zandalar confessor's mantle (5.53091) : +0 %, alt : +11.4768, from: zg
-    pauldrons of transcendence (5.7066) : +0.0642096 %, alt : +9.18923, from: bwl
-    mantle of the blackwing cabal (8.92746) : +1.24134 %, alt : +7.16472, from: bwl
-    mantle of prophecy (5.25385) : -0.101261 %, alt : +6.46923, from: mc
-    burial shawl (7.10086) : +0.573771 %, alt : +5.48023, from: pre-raid
-    dreadmist mantle (5.55099) : +0.00733888 %, alt : +3.75266, from: pre-raid
+shoulders, zandalar confessor's mantle (6.63147), alt: 8.84766 -> :
+    pauldrons of transcendence (7.37708) : +0.257762 %, alt : +9.30677, from: bwl
+    mantle of prophecy (2.28494) : -1.50263 %, alt : +6.60024, from: mc
+    kentic amice (7.63187) : +0.345845 %, alt : +4.81708, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (2.52737), alt: 8.15387 -> :
-    hide of the wild (5.73776) : +1.17331 %, alt : +6.97461, from: pre-raid
-    hakkari loa cloak (7.04202) : +1.64998 %, alt : +5.89745, from: zg
-    archivist cape of healing (3.82355) : +0.473715 %, alt : +5.35062, from: pre-raid
-    cloak of the cosmos (4.68973) : +0.790279 %, alt : +5.24159, from: pre-raid
-    sapphiron drape (4.33398) : +0.660265 %, alt : +4.95042, from: onyxia
-    cloak of the hakkari worshipers (3.23047) : +0.256961 %, alt : +3.92006, from: zg
-    deep woodlands cloak (2.93091) : +0.14748 %, alt : +3.17287, from: pre-raid
+back, shroud of pure thought (8.2641), alt: 8.4668 -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, robes of prophecy (10.5182), alt: 23.649 (s: 14.1698) -> :
-    robes of prophecy (10.5182) : +0 %, alt : +23.649 (s: 14.1698), from: mc
-    robes of transcendence (12.8637) : +0.85721 %, alt : +13.5937, from: bwl
-    truefaith vestments (11.152) : +0.231621 %, alt : +10.8535, from: tailoring bop
-    robes of the exalted (11.466) : +0.346377 %, alt : +10.2069, from: pre-raid
-    flowing ritual robes (11.7885) : +0.464245 %, alt : +9.38822, from: zg
+chest, robes of prophecy (15.0389), alt: 12.6263 (s: 2.98377) -> :
+    robes of transcendence (7.79419) : -2.50457 %, alt : +13.6631, from: bwl
+    robes of prophecy (15.0389) : +0 %, alt : +12.6263 (s: 2.98377), from: mc
+    truefaith vestments (12.0013) : -1.05015 %, alt : +11.0284, from: tailoring bop
+    robes of the exalted (5.94067) : -3.14534 %, alt : +10.1352, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (1.27841), alt: 8.01642 -> :
-    vambraces of prophecy (3.18747) : +0.697707 %, alt : +7.23503, from: mc
-    zandalar confessor's wraps (2.78421) : +0.550327 %, alt : +6.16223, from: zg
-    bracers of arcane accuracy (2.01804) : +0.270312 %, alt : +4.8321, from: bwl
-    flarecore wraps (2.76871) : +0.544661 %, alt : +4.64198, from: tailoring boe
-    flameweave cuffs of healing (6.94818) : +2.07214 %, alt : +3.97059, from: brd
-    magiskull cuffs (1.69089) : +0.150748 %, alt : +3.26593, from: pre-raid
-    wyrmthalak's shackles (1.3205) : +0.0153804 %, alt : +3.18062, from: pre-raid
+wrists, bindings of transcendence (5.77948), alt: 8.09567 -> :
+    zandalar confessor's wraps (8.23813) : +0.849974 %, alt : +8.93836, from: zg
+    bindings of transcendence (5.77948) : +0 %, alt : +8.09568, from: bwl
+    vambraces of prophecy (8.3699) : +0.895529 %, alt : +7.41558, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (19.1277), alt: 20.1686 -> :
-    lok'amir il romathis and lei of the lifegiver (23.359) : +1.54642 %, alt : +21.7512, from: bwl, av rep
-    lok'amir il romathis and fire runed grimoire (19.1279) : +6.69199e-05 %, alt : +19.6971, from: bwl, mc
-    lok'amir il romathis and thaurissan's royal scepter (23.1607) : +1.47394 %, alt : +18.9145, from: bwl, pre-raid
-    lok'amir il romathis and brightly glowing stone (21.0019) : +0.68497 %, alt : +18.791, from: bwl, pre-raid
-    lok'amir il romathis and jin'do's bag of whammies (21.1148) : +0.726237 %, alt : +18.6182, from: bwl, zg
-    lok'amir il romathis and spellbound tome (19.4945) : +0.134052 %, alt : +17.8954, from: bwl, pre-raid
-    lok'amir il romathis and arlokk's hoodoo stick (19.7808) : +0.238681 %, alt : +17.1351, from: bwl, zg
-    lok'amir il romathis and orb of the forgotten seer (19.8758) : +0.27339 %, alt : +15.783, from: bwl, pre-raid
-    jin'do's hexxer and lei of the lifegiver (19.6696) : +0.198049 %, alt : +15.4263, from: zg, av rep
-    fang of venoxis and lei of the lifegiver (22.8402) : +1.3568 %, alt : +14.4873, from: zg, av rep
-    aurastone hammer and lei of the lifegiver (21.0067) : +0.686698 %, alt : +14.0662, from: mc, av rep
-    zulian scepter of rites and lei of the lifegiver (20.8427) : +0.62676 %, alt : +13.4573, from: zg, av rep
-    wushoolay's poker and lei of the lifegiver (20.0215) : +0.326658 %, alt : +13.212, from: zg, av rep
-    jin'do's hexxer and thaurissan's royal scepter (20.56) : +0.523458 %, alt : +12.5896, from: zg, pre-raid
+two-hand, benediction (27.1559), alt: 21.129 -> :
+    lok'amir il romathis and lei of the lifegiver (30.7831) : +1.25396 %, alt : +21.711, from: bwl, av rep
+    lok'amir il romathis and brightly glowing stone (28.7673) : +0.55708 %, alt : +18.6126, from: bwl, pre-raid
+    lok'amir il romathis and arlokk's hoodoo stick (28.1086) : +0.329355 %, alt : +17.5073, from: bwl, zg
+    jin'do's hexxer and lei of the lifegiver (29.5524) : +0.828515 %, alt : +15.8919, from: zg, av rep
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (-0.958008), alt: 3.02728 -> :
-    essence gatherer (3.03275) : +1.45851 %, alt : +3.06983, from: bwl
-    mar'li's touch (1.07825) : +0.744194 %, alt : +2.69389, from: zg
-    lunar wand of healing (1.73068) : +0.98264 %, alt : +2.40642, from: random green
-    oblivion's touch (-0.108337) : +0.310531 %, alt : +2.11325, from: pre-raid
-    bonecreeper stylus (2.22418) : +1.163 %, alt : +2.09198, from: pre-raid
-    crimson shocker (2.80463) : +1.37514 %, alt : +1.92114, from: mc
-    lunar wand of the owl (1.49152) : +0.895232 %, alt : +1.73332, from: random green
-    lunar wand of intellect (0.479187) : +0.525254 %, alt : +1.72902, from: random green
-    thoughtblighter (2.56564) : +1.28779 %, alt : +1.72504, from: zg
-    dragon finger of intellect (3.28546) : +1.55087 %, alt : +1.53691, from: pre-raid
-    mana channeling wand (5.02139) : +2.1853 %, alt : +1.38003, from: pre-raid
-    nature's breath (2.4035) : +1.22854 %, alt : +1.15268, from: pre-raid
-    stormrager (1.27625) : +0.816556 %, alt : +0.960568, from: pre-raid (epl quest chain)
-    skul's ghastly touch (0) : +0.350125 %, alt : +0, from: pre-raid
+ranged, dragon's touch (-1.86984), alt: 3.05493 -> :
+    essence gatherer (0.151306) : +0.698726 %, alt : +3.39103, from: bwl
+    lunar wand of healing (1.88071) : +1.29659 %, alt : +2.35688, from: random green
+    oblivion's touch (-1.15756) : +0.246241 %, alt : +2.15221, from: pre-raid
+    bonecreeper stylus (1.08438) : +1.0213 %, alt : +2.07891, from: pre-raid
+    thoughtblighter (0.596069) : +0.852485 %, alt : +2.02144, from: zg
+    crimson shocker (-1.70102) : +0.0583635 %, alt : +1.95656, from: mc
+    lunar wand of intellect (-1.84521) : +0.00851398 %, alt : +1.7609, from: random green
+    mana channeling wand (1.00708) : +0.994574 %, alt : +1.61716, from: pre-raid
+    skul's ghastly touch (0) : +0.646419 %, alt : +0, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (7.70547), alt: 22.7389 (s: 14.1698) -> :
-    gloves of prophecy (7.70547) : +0 %, alt : +22.7389 (s: 14.1698), from: mc
-    atal'ai hands of healing (8.4791) : +0.282736 %, alt : +6.377, from: sunken temple
+hands, gloves of prophecy (14.4238), alt: 12.0249 (s: 2.98377) -> :
+    gloves of prophecy (14.4238) : +0 %, alt : +12.0249 (s: 2.98377), from: mc
+    handguards of transcendence (7.17758) : -2.50506 %, alt : +9.34439, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, zandalar confessor's bindings (3.93002), alt: 10.8993 -> :
-    zandalar confessor's bindings (3.93002) : +0 %, alt : +10.8993, from: zg
-    firemaw's clutch (5.1601) : +0.449557 %, alt : +8.24163, from: bwl
-    girdle of prophecy (4.46939) : +0.197124 %, alt : +7.65715, from: mc
-    whipvine cord (4.7847) : +0.31236 %, alt : +7.3369, from: pre-raid
-    mana igniting cord (4.75708) : +0.302266 %, alt : +6.23074, from: mc
+waist, belt of transcendence (8.15591), alt: 9.08661 -> :
+    zandalar confessor's bindings (10.3335) : +0.752796 %, alt : +10.9349, from: zg
+    belt of transcendence (8.15591) : +0 %, alt : +9.0866, from: bwl
+    firemaw's clutch (12.9438) : +1.65519 %, alt : +8.49386, from: bwl
+    girdle of prophecy (8.70554) : +0.190008 %, alt : +8.02174, from: mc
+    whipvine cord (12.6572) : +1.55612 %, alt : +7.64415, from: pre-raid
+    mana igniting cord (8.24194) : +0.0297409 %, alt : +6.73896, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, pants of prophecy (11.6207), alt: 25.433 (s: 14.1698) -> :
-    pants of prophecy (11.6207) : +0 %, alt : +25.433 (s: 14.1698), from: mc
-    empowered leggings (14.2453) : +0.959218 %, alt : +14.0415, from: bwl
+legs, leggings of transcendence (15.4771), alt: 14.5427 -> :
+    empowered leggings (16.0423) : +0.195378 %, alt : +14.5792, from: bwl
+    leggings of transcendence (15.4771) : +0 %, alt : +14.5427, from: mc
+    pants of prophecy (15.0539) : -0.14632 %, alt : +11.7932, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, shimmering geta (7.38159), alt: 7.40601 -> :
-    boots of pure thought (13.4705) : +2.22531 %, alt : +10.9265, from: bwl
-    boots of transcendence (12.6757) : +1.93483 %, alt : +9.1223, from: bwl
-    betrayer's boots (9.89639) : +0.919089 %, alt : +7.07626, from: zg
-    boots of prophecy (11.137) : +1.37248 %, alt : +7.07542, from: mc
-    boots of the full moon (7.87143) : +0.179022 %, alt : +6.30466, from: pre-raid
-    dragonrider boots (11.1307) : +1.3702 %, alt : +5.23959, from: pre-raid
-    necropile boots (9.09036) : +0.624507 %, alt : +4.11562, from: pre-raid
-    devout sandals (7.44254) : +0.0222732 %, alt : +3.56628, from: pre-raid
+feet, boots of prophecy (14.5616), alt: 10.1861 (s: 2.98377) -> :
+    boots of pure thought (13.3846) : -0.406899 %, alt : +10.9017, from: bwl
+    boots of prophecy (14.5616) : +0 %, alt : +10.1861 (s: 2.98377), from: mc
+    boots of transcendence (6.45297) : -2.80323 %, alt : +9.21795, from: bwl
+    shimmering geta (9.54648) : -1.73378 %, alt : +8.17761, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (6.78769), alt: 9.26587 -> :
-    cauterizing band (7.55392) : +0.280037 %, alt : +7.84012, from: mc
-    fordring's seal (7.90091) : +0.406851 %, alt : +5.41244, from: pre-raid
-    ring of blackrock (9.33966) : +0.932673 %, alt : +5.39116, from: bwl
-    band of sulfuras (7.27756) : +0.179033 %, alt : +5.38634, from: mc
-    seal of the archmagus (7.61301) : +0.30163 %, alt : +4.21278, from: mc
-    ring of demonic guile (8.59283) : +0.65973 %, alt : +3.99118, from: pre-raid
-    primalist's band (8.59283) : +0.65973 %, alt : +3.99118, from: zg
+finger, primalist's seal (6.22476), alt: 6.59698 -> :
+    pure elementium band (8.28641) : +0.712727 %, alt : +9.24186, from: bwl
+    cauterizing band (6.99258) : +0.265442 %, alt : +7.7687, from: mc
+    rosewine circle (6.38574) : +0.0556521 %, alt : +5.43892, from: pre-raid
+    ring of spellpower (6.39392) : +0.0584795 %, alt : +3.88886, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, rosewine circle (-0.381287), alt: 5.21436 -> :
-    pure elementium band (5.63516) : +2.19884 %, alt : +9.26587, from: bwl
-    cauterizing band (6.6868) : +2.58319 %, alt : +7.84012, from: mc
-    primalist's seal (0.203033) : +0.213552 %, alt : +6.56885, from: zg
-    fordring's seal (4.22385) : +1.68305 %, alt : +5.41244, from: pre-raid
-    ring of blackrock (2.31146) : +0.984124 %, alt : +5.39116, from: bwl
-    band of sulfuras (-0.522797) : -0.0517179 %, alt : +5.38634, from: mc
-    band of forced concentration (0.230957) : +0.223758 %, alt : +4.8321, from: bwl
-    seal of the archmagus (1.76157) : +0.783152 %, alt : +4.21278, from: mc
-    maiden's circle (2.13608) : +0.920026 %, alt : +4.09121, from: pre-raid
-    ring of demonic guile (3.15652) : +1.29297 %, alt : +3.99118, from: pre-raid
-    primalist's band (3.15652) : +1.29297 %, alt : +3.99118, from: zg
-    seal of rivendare (2.58759) : +1.08504 %, alt : +3.94334, from: pre-raid
-    eye of orgrimmar (0.89679) : +0.467101 %, alt : +3.89766, from: pre-raid
-    cyclopean band (0.328583) : +0.259437 %, alt : +2.81477, from: pre-raid
-    ring of binding (0) : +0.139349 %, alt : +0, from: onyxia
+finger 2, pure elementium band (4.33395), alt: 9.24185 -> :
+    cauterizing band (4.65982) : +0.112655 %, alt : +7.7687, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (1.94913), alt: 5.35062 -> :
-    rejuvenating gem (11.5075) : +3.49333 %, alt : +11.0462, from: bwl
-    shard of the scale (3.89221) : +0.710143 %, alt : +5.52012, from: onyxia
-    zandalarian hero charm (6.6861) : +1.73123 %, alt : +4.81283, from: zg
-    mindtap talisman (4.06888) : +0.774709 %, alt : +3.79508, from: pre-raid
-    mar'li's eye (4.51703) : +0.938496 %, alt : +3.45007, from: zg
-    second wind (2.94583) : +0.364267 %, alt : +2.64706, from: pre-raid
-    burst of knowledge (3.655) : +0.623448 %, alt : +1.44385, from: pre-raid
-    eye of the beast (2.77036) : +0.300136 %, alt : +0.297807, from: pre-raid
-    darkmoon card: blue dragon (4.33051) : +0.870326 %, alt : +0, from: 
-    hazza'rah's charm of healing (14.7315) : +4.67159 %, alt : +0, from: zg
+trinket, mar'li's eye (3.0567), alt: 4.04288 -> :
+    rejuvenating gem (10.4736) : +2.56408 %, alt : +11.4163, from: bwl
+    shard of the scale (6.69623) : +1.25821 %, alt : +6.46862, from: onyxia
+    royal seal of eldre'thalas (5.69016) : +0.910405 %, alt : +5.50601, from: pre-raid
+    zandalarian hero charm (4.0322) : +0.337236 %, alt : +4.71377, from: zg
+    mindtap talisman (3.45193) : +0.136635 %, alt : +4.44718, from: pre-raid
+    hazza'rah's charm of healing (17.577) : +5.01977 %, alt : +2.71042, from: zg
+    darkmoon card: blue dragon (8.65097) : +1.93398 %, alt : +0, from: 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, mar'li's eye (-0.767426), alt: 3.45007 -> :
-    rejuvenating gem (11.3231) : +4.41873 %, alt : +11.0462, from: bwl
-    shard of the scale (2.18802) : +1.08013 %, alt : +5.52012, from: onyxia
-    royal seal of eldre'thalas (6.32745) : +2.59298 %, alt : +5.35062, from: pre-raid
-    zandalarian hero charm (3.89594) : +1.70433 %, alt : +4.81283, from: zg
-    mindtap talisman (-1.05942) : -0.106715 %, alt : +3.79508, from: pre-raid
-    briarwood reed (3.67737) : +1.62445 %, alt : +3.4893, from: pre-raid
-    second wind (1.05219) : +0.665016 %, alt : +2.64706, from: pre-raid
-    eye of the beast (0.431213) : +0.438069 %, alt : +0.297807, from: pre-raid
-    darkmoon card: blue dragon (2.28177) : +1.11439 %, alt : +0, from: 
-    hazza'rah's charm of healing (9.17047) : +3.63202 %, alt : +0, from: zg
+trinket 2, royal seal of eldre'thalas (3.97742), alt: 5.50601 -> :
+    rejuvenating gem (9.79904) : +2.01258 %, alt : +11.4163, from: bwl
+    shard of the scale (8.39209) : +1.52619 %, alt : +6.46862, from: onyxia
+    briarwood reed (4.28583) : +0.10662 %, alt : +3.41748, from: pre-raid
+    hazza'rah's charm of healing (12.1169) : +2.81386 %, alt : +2.71042, from: zg
+    darkmoon card: blue dragon (6.71381) : +0.945991 %, alt : +0, from: 
 ------------------
-Best value: 316.863
+Best value: 311.2
