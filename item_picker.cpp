@@ -284,10 +284,12 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table)
 {
   std::function<float(const std::vector<Item>&)> val_func = [this](const std::vector<Item>& items_in) {
     PriestCharacter c_tmp = m_c_curr;
+    auto temp_items = m_items;
     for (const Item& item : items_in) {
-      Item current = m_items[item.slot];
+      Item current = temp_items[item.slot];
       RemoveItem(current, &c_tmp);
       AddItem(item, &c_tmp);
+      temp_items[item.slot] = item;
     }
     return value(c_tmp);
   };
@@ -297,16 +299,22 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table)
     return;
   }
   float val_was = value(m_c_curr);
-  std::cout << "Swapping to best matching bonuses: " << std::endl;
+  std::stringstream ss;
+  ss << "Swapping to best matching bonuses: " << std::endl;
   for (const Item& item : best_matching) {
     Item current = m_items[item.slot];
     RemoveItem(current, &m_c_curr);
     AddItem(item, &m_c_curr);
     m_items[item.slot] = item;
-    std::cout << "    " << current.name << " -> " << item.name << std::endl;
+    ss << "    " << current.name << " -> " << item.name << std::endl;
   }
   float val_is = value(m_c_curr);
-  std::cout << "    value from: " << val_was << " -> " << val_is << std::endl;
+  ss << "    value from: " << val_was << " -> " << val_is << std::endl;
+  if (val_is > val_was) {
+    std::cout << ss.str();
+  } else {
+    std::cout << "No set swaps found exceeding val: " << val_was << std::endl;
+  }
 }
 
 void ItemPicker::PickBestForSlots(const ItemTable& item_table, bool disable_bans, int iteration, int max_iterations, //
@@ -316,7 +324,10 @@ void ItemPicker::PickBestForSlots(const ItemTable& item_table, bool disable_bans
     m_c_curr.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_curr);
     m_c_best.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_best);
   }
-  // swapToBestMatchingBonuses(item_table);
+  // if (disable_bans) {
+  if (0) {
+    swapToBestMatchingBonuses(item_table);
+  }
   std::vector<std::string> slots = item_table.getItemSlots();
   if (m_items.empty()) {
     for (const auto& slot : slots) {
@@ -661,7 +672,8 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
       AddItem(item, &c_tmp);
       float val_candidate = value(c_tmp);
       RemoveItem(item, &c_tmp);
-      float val_candidate_alt = val_no_item + valueIncreaseWeightsBased(ToStatDiffs(item, c_tmp));
+      float special_candidate = 0.0f;
+      float val_candidate_alt = val_no_item + valueIncreaseWeightsBased(ToStatDiffs(item, c_tmp), &special_candidate);
 
       // if val > val_start -> add to list
       auto setNames = getSetNames(item.name);
@@ -672,7 +684,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
         }
       }
 
-      if ((val_candidate > val_start || val_candidate_alt > val_alt_start || (relevantSet && !m_weights.empty())) && !isBanned(item)) {
+      if ((val_candidate > val_start || val_candidate_alt - special_candidate > val_alt_start - special_start || (relevantSet && !m_weights.empty())) && !isBanned(item)) {
         float cand_diff = val_candidate - val_no_item;
         std::stringstream ss;
         ss << "    " << item.name << " (" << cand_diff << ") : " << plusIfPos(cand_diff - start_diff) << (cand_diff - start_diff)/val_start*100.0f << " %";

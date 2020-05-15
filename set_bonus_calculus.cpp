@@ -1,6 +1,8 @@
 #include "set_bonus_calculus.h"
 
+#include <exception>
 #include <iostream>
+#include <sstream>
 
 namespace css
 {
@@ -129,9 +131,9 @@ std::vector<std::vector<Item>> AllUniqueSetsOf(const std::vector<Item>& set_item
 }
 
 bool OverlappingSlots(const std::vector<Item>& a, const std::vector<Item>& b) {
-  for (const auto& a_entry : a) {
-    for (const auto& b_entry : b) {
-      if (a_entry.slot == b_entry.slot && a_entry.name != b_entry.name) {
+  for (const Item& a_item : a) {
+    for (const Item& b_item : b) {
+      if ((a_item.slot == b_item.slot) && (a_item.name != b_item.name)) {
         return true;
       }
     }
@@ -142,14 +144,15 @@ bool OverlappingSlots(const std::vector<Item>& a, const std::vector<Item>& b) {
 std::vector<std::vector<Item>> AllMatchingBonuses(const ItemTable& table, const SetBonuses& sb)
 {
   
-  constexpr bool debug = true;
+  std::stringstream ss;
+  constexpr bool debug = false;
   std::vector<std::vector<std::vector<Item>>> options_for_sets; // sets are indexed first, for each set, we have a number of options of size matching its num
   // pick a set bonus, get all for that, combine all of the
   auto bonus_names = sb.getBonusNames();
 
   int number_of_sets = static_cast<int>(bonus_names.size());
 
-  if (debug) std::cout << "number of sets: " << number_of_sets << std::endl;
+  ss << "initial number of sets: " << number_of_sets << std::endl;
 
   // populate the options_for_sets to contain all options for each individual set
   int set_ix = 0;
@@ -162,9 +165,11 @@ std::vector<std::vector<Item>> AllMatchingBonuses(const ItemTable& table, const 
 
   for (auto set_name : sets) {
     int n = sb.NumPieces(set_name);
-    auto set_items = table.getSetItems(set_name);
-    options_for_sets.push_back(AllUniqueSetsOf(set_items, n));
-    if (debug) std::cout << "  # options for set: " << set_name << ", n: " << n << " : " << options_for_sets.back().size() << std::endl;
+    if (n > 1) {
+      auto set_items = table.getSetItems(set_name);
+      options_for_sets.push_back(AllUniqueSetsOf(set_items, n));
+      ss << "  # options for set: " << set_name << ", n: " << n << " : " << options_for_sets.back().size() << std::endl;
+    }
   }
 
   // do all legal combinations from options_for_sets == no overlapping slots
@@ -173,12 +178,11 @@ std::vector<std::vector<Item>> AllMatchingBonuses(const ItemTable& table, const 
   std::vector<std::vector<Item>> legal_combos;
   std::vector<std::vector<Item>> legal_combos_next;
 
+  number_of_sets = static_cast<int>(options_for_sets.size());
+  ss << "non-duplicate number of sets: " << number_of_sets << std::endl;
   // add all with non overlapping slots to legal combos
   for (int set_number = 0; set_number < number_of_sets; ++set_number) {
     for (const auto& option : options_for_sets[set_number]) {
-      if (option.empty()) {
-        continue;
-      }
       if (set_number == 0) {
         legal_combos.push_back(option);
       } else {
@@ -193,13 +197,18 @@ std::vector<std::vector<Item>> AllMatchingBonuses(const ItemTable& table, const 
 
       }
     }
-    if (debug) std::cout << "set_number: " << set_number << "/" << number_of_sets << ", swapping " << legal_combos_next.size() << " legal combos from prev of: " << legal_combos.size() << std::endl;
-    if (legal_combos_next.empty()) break;
-
-    std::swap(legal_combos, legal_combos_next);
-    legal_combos_next.clear();
+    if (set_number != 0) {
+      ss << "set_number: " << set_number << "/" << number_of_sets << ", swapping " << legal_combos_next.size() << " legal combos from prev of: " << legal_combos.size() << std::endl;
+      if (legal_combos_next.empty()) {
+        std::cout << ss.str();
+        std::cout << "!!!!! NOTICED AN EMPTY SET; SHOULD NOT BE POSSIBLE !!!!" << std::endl;
+      }
+      std::swap(legal_combos, legal_combos_next);
+      legal_combos_next.clear();
+    }
   }
-  if (debug) std::cout << "Found total of: " << legal_combos.size() << " legal combos." << std::endl;
+  ss << "Found total of: " << legal_combos.size() << " legal combos." << std::endl;
+  if (debug) std::cout << ss.str();
   return legal_combos;
 }
 
@@ -214,7 +223,7 @@ std::vector<Item> BestMatchingBonuses(const ItemTable& table,
   int best_ix = 0;
 
   int i = 0;
-  constexpr bool debug = true;
+  constexpr bool debug = false;
   for (const auto& option : options) {
     float val = val_func(option);
     if (debug) {
