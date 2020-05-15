@@ -76,7 +76,7 @@ private:
 
   float valueIncreaseWeightsBased(const Item& item, float* special = nullptr);
 
-  void swapToBestMatchingBonuses(const ItemTable& item_table);
+  void swapToBestMatchingBonuses(const ItemTable& item_table, bool disable_bans, int iteration, int* iters_without_new_best);
 
   template<typename T>
       void shuffle(std::vector<T>* v)

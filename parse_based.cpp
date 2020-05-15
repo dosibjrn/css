@@ -600,8 +600,8 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
   }
 
   thr = best_deficit_thr;
-  std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul //
-      << ", total_deficit_to_pop_trinkets: " << thr << std::endl;
+  // std::cout << "best hps: " << best_hps << ", oh_limit: " << best_oh_limit << ", time_left_mul: " << best_time_left_mul //
+      // << ", total_deficit_to_pop_trinkets: " << thr << std::endl;
   return {best_oh_limit, best_time_left_mul};
 }
 

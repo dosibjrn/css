@@ -280,7 +280,7 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
   }
 }
 
-void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table)
+void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool disable_bans, int iteration, int* iters_without_new_best)
 {
   std::function<float(const std::vector<Item>&)> val_func = [this](const std::vector<Item>& items_in) {
     PriestCharacter c_tmp = m_c_curr;
@@ -312,6 +312,7 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table)
   ss << "    value from: " << val_was << " -> " << val_is << std::endl;
   if (val_is > val_was) {
     std::cout << ss.str();
+    updateIfNewBest(val_is, disable_bans, iteration, iters_without_new_best);
   } else {
     std::cout << "No set swaps found exceeding val: " << val_was << std::endl;
   }
@@ -323,10 +324,6 @@ void ItemPicker::PickBestForSlots(const ItemTable& item_table, bool disable_bans
   {
     m_c_curr.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_curr);
     m_c_best.set_bonuses.SetPartialAndUpdateCharacter(!disable_bans, &m_c_best);
-  }
-  // if (disable_bans) {
-  if (0) {
-    swapToBestMatchingBonuses(item_table);
   }
   std::vector<std::string> slots = item_table.getItemSlots();
   if (m_items.empty()) {
@@ -825,6 +822,10 @@ void ItemPicker::Calculate()
     iters_without_new_best++;
     PickBestForSlots(item_table, disable_bans, iteration, max_iterations, //
                      &static_for_all_slots, &iters_without_new_best);
+    if (disable_bans && (iteration % 5 == 0)) {
+      swapToBestMatchingBonuses(item_table, disable_bans, iteration, &iters_without_new_best);
+    }
+
     iteration++;
   }
   m_items = m_items_best;
