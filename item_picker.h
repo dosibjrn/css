@@ -26,7 +26,7 @@ class ItemPicker {
   };
   ItemPicker(const PriestCharacter& c, std::string item_table_name, ValueChoice value_choice = ValueChoice::pvp_shadow);
   void setTagName(const std::string& tag_name) { m_tag_name = tag_name; }
-  void AddLocked(std::string s) { m_locked[s] = true; }
+  void AddLocked(const std::string& name);
   void ClearLocked() { m_locked.clear(); }
   void AddBanned(std::string s) { m_banned[s] = true; }
   void AddWhitelisted(std::string s) { m_whitelist[s] = true; }
@@ -66,7 +66,8 @@ private:
                                             const std::vector<std::vector<float>>& init_counts,
                                             std::vector<Regen> *regens) const;
 
-  bool isLocked(std::string s) const { return m_locked.find(s) != m_locked.end(); }
+  bool isLocked(const Item& item) const { return m_locked.find(item.name) != m_locked.end(); }
+  bool lockedInSlot(const std::string& slot) { return m_locked_slots.find(slot) != m_locked_slots.end(); }
   bool isBanned(std::string s) const;
   bool isBanned(const Item& i) const { return isBanned(i.name) || isBanned(i.source); }
   bool isWhitelisted(std::string s) const { return m_whitelist.find(s) != m_whitelist.end(); }
@@ -93,15 +94,15 @@ private:
         }
       }
 
+  ItemTable m_item_table;
   std::map<std::string, bool> m_locked;
+  std::map<std::string, bool> m_locked_slots;
   std::map<std::string, bool> m_banned;
   std::map<std::string, bool> m_whitelist;  // to go around a ban of items one has
 
   PriestCharacter m_c_start;
   PriestCharacter m_c_curr;
   PriestCharacter m_c_best;
-
-  std::string m_item_table_name;
 
   std::vector<std::vector<float>> m_start_pve_healing_counts;
   std::vector<std::vector<float>> m_curr_pve_healing_counts;

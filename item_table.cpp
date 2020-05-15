@@ -10,6 +10,8 @@
 namespace css
 {
 
+
+
 ItemTable::ItemTable(std::string csv_file_name)
 {
   prepareSlotMap();
@@ -24,6 +26,7 @@ ItemTable::ItemTable(std::string csv_file_name)
     Item i = lineToItem(line);
     if (m_slots.find(i.slot) != m_slots.end()) {
       m_items[m_slots[i.slot]].push_back(i);
+      m_name_to_slot[i.name] = i.slot;
       auto set_names = getSetNames(i.name);
       for (auto set_name : set_names) {
         m_set_items[set_name].push_back(i);
@@ -70,6 +73,16 @@ std::vector<Item> ItemTable::getSetItems(const std::string& set_name) const
     return m_set_items.at(set_name);
   } else {
     return std::vector<Item>{};
+  }
+}
+
+
+std::string ItemTable::nameToSlot(const std::string& name) const
+{ 
+  if (m_name_to_slot.find(name) == m_name_to_slot.end()) {
+    return "";
+  } else {
+    return m_name_to_slot.at(name);
   }
 }
 

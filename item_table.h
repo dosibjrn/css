@@ -17,6 +17,8 @@ class ItemTable {
   std::vector<Item> getItems(const std::vector<std::string>& slots) const;
   std::vector<std::string> getItemSlots() const;
 
+  std::string nameToSlot(const std::string& name) const;
+
  private:
   void prepareSlotMap();
   void prepareColumnIndexes(const std::string& header_line);
@@ -25,6 +27,7 @@ class ItemTable {
   std::vector<std::vector<Item>> m_items;
   std::map<std::string, std::vector<Item>> m_set_items;
   std::map<std::string, int> m_slots;
+  std::map<std::string, std::string> m_name_to_slot;
   int m_slot_ix = -1;
   int m_name_ix = -1;
   int m_strength_ix = -1;
