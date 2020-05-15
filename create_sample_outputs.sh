@@ -15,6 +15,7 @@ cp ../items/have.txt start_with.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09_reaction_1s.csv -l bwl.txt | tee ../sample_output/log_based/bwl_02-26_reaction_1s.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l nefarian.txt | tee ../sample_output/log_based/nefarian_02-26.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26.txt
+./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/have.txt -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_current.txt
 
 ./css 4 ../items/more_raid.csv no-bans ../items/have.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
 ./css 4 ../items/more_raid.csv ../items/bwl.txt no-lock pve_healing_mc_ony -a ../confs/our_mc.csv | tee ../sample_output/our_raids_mc_ony.txt

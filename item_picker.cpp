@@ -293,7 +293,32 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool dis
     }
     return value(c_tmp);
   };
-  auto best_matching = BestMatchingBonuses(item_table, val_func, m_c_curr.set_bonuses);
+
+
+  std::function<float(const std::vector<Item>&)> val_func_alt = [this](const std::vector<Item>& items_in) {
+    PriestCharacter c_tmp = m_c_curr;
+    auto temp_items = m_items;
+
+    float diff_sum = 0.0;
+    for (const Item& item : items_in) {
+      Item current = temp_items[item.slot];
+
+      float s = 0.0;
+      float curr_val = valueIncreaseWeightsBased(current, &s);
+      curr_val -= s;
+
+      float item_val = valueIncreaseWeightsBased(item, &s);
+      item_val -= s;
+
+      diff_sum += (item_val - curr_val);
+    }
+
+    return diff_sum;
+  };
+
+  auto best_matching = m_weights.empty() 
+      ? BestMatchingBonuses(item_table, val_func, m_c_curr.set_bonuses) 
+      : BestMatchingBonuses(item_table, val_func_alt, m_c_curr.set_bonuses);
   if (best_matching.empty()) { 
     std::cout << "No swappies for item bonuses found." << std::endl;
     return;
@@ -310,7 +335,7 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool dis
   }
   float val_is = value(m_c_curr);
   ss << "    value from: " << val_was << " -> " << val_is << std::endl;
-  if (val_is > val_was) {
+  if (val_is > val_was || !m_weights.empty()) {
     std::cout << ss.str();
     updateIfNewBest(val_is, disable_bans, iteration, iters_without_new_best);
   } else {
