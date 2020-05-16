@@ -1032,7 +1032,8 @@ bool TooSpecial(const Item& item) {
 }  // namespace
 
 
-Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name, bool use_alt)
+Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, 
+                          std::string taken_name, bool no_special_alt)
 {
   // bool verbose = current_item.slot == "shoulders";
   bool verbose = false;
@@ -1042,9 +1043,11 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   // for each item
   Item no_item;
   Item best_item = no_item;
+  Item worst_item = no_item;
   float no_item_value = value(c_no_item);
   if (verbose) std::cout << "No item value: " << no_item_value << std::endl;
   float best_value = no_item_value;
+  float worst_value = no_item_value;
   bool locked_seen = false;
   int n_items = static_cast<int>(items_for_slot.size());
   std::vector<float> vals(n_items);
@@ -1064,10 +1067,12 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
         m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value});
         if (m_stat_diffs_to_hps_diffs.size() > global::assumptions.n_last_entries_for_alt_stats) {
           const Item& item = items_for_slot[i];
-          float val_alt = no_item_value + valueIncreaseWeightsBased(item);;
-          if (val_alt > vals[i]) {
-            vals[i] = val_alt;
+          float s = 0.0f;
+          float val_alt = no_item_value + valueIncreaseWeightsBased(item, &s);
+          if (no_special_alt) {
+            val_alt -= s;
           }
+          vals[i] = val_alt;
         }
       }
     }

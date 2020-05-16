@@ -92,6 +92,11 @@ struct Assumptions
 
   // Pop +healing and e.g. zg priest trinket at this
   float total_deficit_to_pop_trinkets = 10000.0f;
+
+
+  // Related to speedup by dropping bad items early
+  bool drop_bad_items_early = false;
+  int keep_best_per_slot = 4;
 };
 
 namespace global

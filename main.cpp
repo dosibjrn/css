@@ -74,3 +74,6 @@ int main(int argc, char** argv)
 // * carry out with the option of actually using that with the obj func as say 6/7 opt
 // * would probably be informative to get numbers like heal per mana, frac out of fsr in pve info?
 // * could try minimizing deficit*time instead of maximizing hps
+
+// Simple speedup: each pickbest disables worst from the item list up to n_best_to_keep
+// in global assumptions: drop_worst_item n_best_items_kept_per_slot

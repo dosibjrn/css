@@ -51,7 +51,8 @@ class ItemPicker {
   PriestCharacter getCharacter() { return m_c_best; }
 
 private:
-  Item pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, std::string taken_name = "", bool use_alt = false);
+  Item pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, 
+                std::string taken_name = "", bool no_special_alt = false);
   float value(const PriestCharacter& c) const;
   float valuePvpShadow(const PriestCharacter& c) const;
   float valuePvpHealing(const PriestCharacter& c) const;

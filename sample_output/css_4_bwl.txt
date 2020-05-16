@@ -3,7 +3,7 @@ Your call: ./css 4 ../items/more_raid.csv
 ./css 4 ../items/more_raid.csv 
 ./css 4 ../items/more_raid.csv 
 ./css 4 ../items/more_raid.csv 
-Shuffle seed: 474283558
+Shuffle seed: 2920784662
 Reading tmp locked from: start_with.txt
 Locking: anastari heirloom
 Locking: anathema
@@ -120,53 +120,70 @@ Optimizing start items...
 
 *** NEW BEST (1): 130.696
 
-*** NEW BEST (1): 154.845
+*** NEW BEST (1): 142.146
 
-*** NEW BEST (1): 165.465
+*** NEW BEST (1): 145.78
 
-*** NEW BEST (1): 191.099
+*** NEW BEST (1): 161.328
 
-*** NEW BEST (1): 195.72
+*** NEW BEST (1): 174.106
 
-*** NEW BEST (1): 213.346
+*** NEW BEST (1): 181.996
 
-*** NEW BEST (1): 230.432
+*** NEW BEST (1): 189.069
 
-*** NEW BEST (1): 239.68
+*** NEW BEST (1): 221.886
 
-*** NEW BEST (1): 252.504
+*** NEW BEST (1): 235.659
 
-*** NEW BEST (1): 266.351
+*** NEW BEST (1): 250.42
 
-*** NEW BEST (1): 277.916
+*** NEW BEST (1): 264.635
 
-*** NEW BEST (1): 294.748
+*** NEW BEST (1): 288.976
 
-*** NEW BEST (1): 308.667
+*** NEW BEST (1): 312.63
 
-*** NEW BEST (1): 331.399
+*** NEW BEST (1): 323.041
 
-*** NEW BEST (1): 340.881
+*** NEW BEST (1): 342.277
 
-*** NEW BEST (1): 362.388
-**
-*** NEW BEST (1): 363.105
-**
-*** NEW BEST (1): 366.673
-******
-*** NEW BEST (1): 368.428
-*
-*** NEW BEST (0): 366.917
+*** NEW BEST (1): 362.719
+***********
+*** NEW BEST (0): 357.908
 Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 56.3255
-Spirit: 52.4666
+Intellect: 56.0765
+Spirit: 54.936
 Stamina: 0
 Agility: 0
-Mp5: 134.991
+Mp5: 133.786
 SpellPower: 100
 ShadowSpellDamage: 0
 Healing: 100
-SpellCritRating: 260.823
+SpellCritRating: 273.525
+SpellHitRating: 0
+ArcaneResist: 0
+NatureResist: 0
+FireResist: 0
+FrostResist: 0
+ShadowResist: 0
+Armor: 0
+DefenseRating: 0
+DodgeRating: 0
+ParryRating: 0
+shoulders : zandalar confessor's mantle -> pauldrons of transcendence => val: 357.908 -> 358.702
+
+*** NEW BEST (0): 359.383
+Current relative stat values for matching or exceeding +50 pts of SpellPower
+Intellect: 56.4957
+Spirit: 55.2429
+Stamina: 0
+Agility: 0
+Mp5: 134.812
+SpellPower: 100
+ShadowSpellDamage: 0
+Healing: 100
+SpellCritRating: 274.981
 SpellHitRating: 0
 ArcaneResist: 0
 NatureResist: 0
@@ -200,13 +217,14 @@ spirit: 6
 sp_healing: 44
  ----------------------------
  --- shoulders --- 
-name: zandalar confessor's mantle
+name: pauldrons of transcendence
 slot: shoulders
-intelligence: 24
-stamina: 11
-spirit: 15
-sp_healing: 22
-armor: 78
+intelligence: 25
+stamina: 12
+spirit: 13
+sp_healing: 26
+fire_res: 10
+armor: 87
  ----------------------------
  --- back --- 
 name: shroud of pure thought
@@ -275,35 +293,40 @@ fire_res: 7
 armor: 63
  ----------------------------
  --- waist --- 
-name: zandalar confessor's bindings
+name: belt of transcendence
 slot: waist
-intelligence: 20
-stamina: 12
-spirit: 12
+intelligence: 26
+stamina: 14
+spirit: 9
 sp_healing: 26
-armor: 53
+shadow_res: 10
+armor: 65
  ----------------------------
  --- legs --- 
-name: leggings of transcendence
+name: empowered leggings
 slot: legs
-intelligence: 21
-stamina: 16
-spirit: 21
-sp_healing: 46
-mp5: 7
-arcane_res: 10
-shadow_res: 10
-armor: 101
+intelligence: 12
+stamina: 12
+spirit: 24
+sp_healing: 77
+spell_crit: 1
+armor: 103
  ----------------------------
  --- feet --- 
-name: boots of prophecy
+name: boots of the full moon
 slot: feet
-intelligence: 18
-stamina: 17
-spirit: 15
-sp_healing: 18
-shadow_res: 7
-armor: 70
+intelligence: 12
+stamina: 12
+spirit: 9
+sp_healing: 26
+armor: 60
+ ----------------------------
+ --- finger --- 
+name: primalist's seal
+slot: finger
+intelligence: 12
+spirit: 8
+sp_healing: 29
  ----------------------------
  --- finger --- 
 name: pure elementium band
@@ -312,13 +335,6 @@ intelligence: 10
 stamina: 9
 spirit: 10
 sp_healing: 53
- ----------------------------
- --- finger --- 
-name: primalist's seal
-slot: finger
-intelligence: 12
-spirit: 8
-sp_healing: 29
  ----------------------------
  --- trinket --- 
 name: royal seal of eldre'thalas
@@ -333,40 +349,39 @@ sp: 20
 sp_healing: 20
  ----------------------------
  --- Set bonuses ---
-name: confessor's 2 transcendence 3 
+name: transcendence 3 
 slot: Set bonuses
-sp: 23
  --- And counts for start items ---
 For 60 s fights:
-    casts: 15, ticks: 1, ticks_oom: 0
-    Heal, rank: 2, count: 10
-    Heal, rank: 4, count: 1
-    Greater Heal, rank: 1, count: 0
+    casts: 11, ticks: 4, ticks_oom: 0
+    Heal, rank: 2, count: 9
+    Heal, rank: 4, count: 5
+    Greater Heal, rank: 1, count: 2
     Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 2
-    Flash Heal, rank: 4, count: 3
-    Flash Heal, rank: 7, count: 5
-    Renew, rank: 9, count: 3
+    Flash Heal, rank: 1, count: 0
+    Flash Heal, rank: 4, count: 1
+    Flash Heal, rank: 7, count: 2
+    Renew, rank: 9, count: 1
     Prayer of Healing, rank: 4, count: 2
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 547.115
+    hps: 510.646
 For 120 s fights:
-    casts: 17, ticks: 2, ticks_oom: 0
-    Heal, rank: 2, count: 7
+    casts: 20, ticks: 3, ticks_oom: 0
+    Heal, rank: 2, count: 3
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 0
     Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
+    Flash Heal, rank: 1, count: 2
     Flash Heal, rank: 4, count: 2
     Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 1
+    Renew, rank: 9, count: 0
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 410.754
+    hps: 398.214
 For 180 s fights:
-    casts: 19, ticks: 10, ticks_oom: 0
+    casts: 20, ticks: 7, ticks_oom: 0
     Heal, rank: 2, count: 1
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 0
@@ -378,7 +393,7 @@ For 180 s fights:
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 339.718
+    hps: 343.861
 For 240 s fights:
     casts: 18, ticks: 10, ticks_oom: 0
     Heal, rank: 2, count: 1
@@ -392,9 +407,9 @@ For 240 s fights:
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 309.823
+    hps: 308.647
 For 300 s fights:
-    casts: 16, ticks: 7, ticks_oom: 0
+    casts: 19, ticks: 9, ticks_oom: 0
     Heal, rank: 2, count: 1
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 0
@@ -406,9 +421,9 @@ For 300 s fights:
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 294.394
+    hps: 293.201
 For 360 s fights:
-    casts: 18, ticks: 9, ticks_oom: 0
+    casts: 18, ticks: 10, ticks_oom: 0
     Heal, rank: 2, count: 1
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 0
@@ -420,38 +435,47 @@ For 360 s fights:
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 283.064
+    hps: 278.419
 .
-*** NEW BEST (1): 376.096
+*** NEW BEST (1): 378.238
 
-*** NEW BEST (1): 382.713
+*** NEW BEST (1): 378.579
 
-*** NEW BEST (1): 388.429
-..
-*** NEW BEST (1): 392.005
-..
-*** NEW BEST (1): 396.084
-....
-*** NEW BEST (1): 398.686
-..
-*** NEW BEST (1): 399.43
-......
-*** NEW BEST (1): 400.04
+*** NEW BEST (1): 381.447
 
-*** NEW BEST (1): 401.13
-..Temporary bans and partial set bonuses off.
+*** NEW BEST (1): 383.08
 .
-*** NEW BEST (0): 395.905
+*** NEW BEST (1): 385.928
+
+*** NEW BEST (1): 390.458
+...
+*** NEW BEST (1): 393.97
+
+*** NEW BEST (1): 394.575
+
+*** NEW BEST (1): 395.307
+
+*** NEW BEST (1): 397.314
+...
+*** NEW BEST (1): 399.697
+...
+*** NEW BEST (1): 402.429
+
+*** NEW BEST (1): 405.597
+.............................................Temporary bans and partial set bonuses off.
+.two-hand : benediction    ->   lok'amir il romathis lei of the lifegiver => val: 395.781 -> 396.258
+
+*** NEW BEST (0): 398.86
 Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 51.1148
-Spirit: 54.8773
+Intellect: 54.9565
+Spirit: 53.809
 Stamina: 0
 Agility: 0
-Mp5: 121.463
+Mp5: 131.153
 SpellPower: 100
 ShadowSpellDamage: 0
 Healing: 100
-SpellCritRating: 260.373
+SpellCritRating: 267.178
 SpellHitRating: 0
 ArcaneResist: 0
 NatureResist: 0
@@ -462,19 +486,19 @@ Armor: 0
 DefenseRating: 0
 DodgeRating: 0
 ParryRating: 0
-two-hand : benediction    ->   lok'amir il romathis lei of the lifegiver => val: 395.905 -> 396.475
+wrists : bindings of transcendence -> zandalar confessor's wraps => val: 398.86 -> 401.55
 
-*** NEW BEST (0): 400.512
+*** NEW BEST (0): 402.133
 Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 58.1569
-Spirit: 59.4502
+Intellect: 56.0718
+Spirit: 53.9817
 Stamina: 0
 Agility: 0
-Mp5: 139.339
+Mp5: 133.943
 SpellPower: 100
 ShadowSpellDamage: 0
 Healing: 100
-SpellCritRating: 270.252
+SpellCritRating: 269.665
 SpellHitRating: 0
 ArcaneResist: 0
 NatureResist: 0
@@ -485,19 +509,61 @@ Armor: 0
 DefenseRating: 0
 DodgeRating: 0
 ParryRating: 0
-.No set swaps found exceeding val: 400.512
-.trinket : hazza'rah's charm of healing -> rejuvenating gem => val: 370.498 -> 390.021
-ranged : dragon's touch -> lunar wand of healing => val: 390.021 -> 392.108
-waist : belt of transcendence -> firemaw's clutch => val: 392.108 -> 392.212
-neck : the all-seeing eye of zuldazar -> jin'do's evil eye => val: 392.212 -> 392.45
-.waist : firemaw's clutch -> zandalar confessor's bindings => val: 392.45 -> 397.394
-legs : leggings of transcendence -> empowered leggings => val: 397.394 -> 398.802
-ranged : lunar wand of healing -> dragon's touch => val: 398.802 -> 400.512
-...No set swaps found exceeding val: 400.512
+..two-hand : benediction    ->   lok'amir il romathis lei of the lifegiver => val: 397.773 -> 399.204
+..two-hand : benediction    ->   lok'amir il romathis lei of the lifegiver => val: 397.773 -> 399.204
+No set swaps found exceeding val: 399.204
 Copied previous best.
-.....No set swaps found exceeding val: 400.512
-***** INTERMEDIATE RESULTS *****
-Iteration: 31
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.No set swaps found exceeding val: 396.973
+Copied previous best.
+.Copied previous best.
+.Copied previous best.
+.Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.No set swaps found exceeding val: 396.973
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.No set swaps found exceeding val: 396.973
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.Copied previous best.
+.Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.No set swaps found exceeding val: 396.973
+Copied previous best.
+.Copied previous best.
+.Copied previous best.
+.Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+No set swaps found exceeding val: 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.ranged : dragon's touch -> lunar wand of healing => val: 396.973 -> 398.965
+Copied previous best.
+.***** INTERMEDIATE RESULTS *****
+Iteration: 90
  ----------------------------
  --- head --- 
 name: halo of transcendence
@@ -640,24 +706,26 @@ spirit: 10
 sp_healing: 53
  ----------------------------
  --- trinket --- 
+name: neltharion's tear
+slot: trinket
+sp: 44
+spell_hit: 2
+ ----------------------------
+ --- trinket --- 
 name: rejuvenating gem
 slot: trinket
 sp_healing: 66
 mp5: 9
  ----------------------------
- --- trinket --- 
-name: darkmoon card: blue dragon
-slot: trinket
- ----------------------------
  --- Set bonuses ---
-name: confessor's 2 darkmoon 1 transcendence 3 
+name: confessor's 2 transcendence 3 
 slot: Set bonuses
 sp: 23
 ------------------
-Best value: 400.512
+Best value: 402.133
 ------------------
 Char stats: 
-Effective hp: 7296
+Effective hp: 7304.8
 Effective mana: 10805.5
 Raw max mana: 7409
 Int: 398.2
@@ -666,11 +734,11 @@ Spirit: 334.2
 Strength: 50.2
 Agility: 54.2
 Mp5: 44
-Sp: 129
+Sp: 173
 Sp shadow: 0
 Sp healing: 723
 Spell crit: 4.6
-Spell hit: 0
+Spell hit: 2
 Arcane res: 27
 Nature res: 37
 Fire res: 57
@@ -680,44 +748,391 @@ Armor: 2476.75
 Defense: 300
 Dodge: 0
 Parry: 0
-HpsPvp: 991.658
-ShadowDps: 251.499
-Value pvp healing: 906.396
-Value pvp shadow: 58.2996
-Effective hp-pvp: 9003.96
+HpsPvp: 1043.16
+ShadowDps: 245.871
+Value pvp healing: 1032.61
+Value pvp shadow: 57.3651
+Effective hp-pvp: 9014.82
 Effecctive mana for 100 s, 0.33 fsr: 11948.5
 ------------------
 Best counts:
 For 60 s fights:
-    casts: 16, ticks: 2, ticks_oom: 0
-    Heal, rank: 2, count: 10
+    casts: 18, ticks: 1, ticks_oom: 0
+    Heal, rank: 2, count: 11
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 0
     Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 2
-    Flash Heal, rank: 4, count: 2
+    Flash Heal, rank: 1, count: 4
+    Flash Heal, rank: 4, count: 5
+    Flash Heal, rank: 7, count: 5
+    Renew, rank: 9, count: 6
+    Prayer of Healing, rank: 4, count: 2
+    Power Word: Shield, rank: 10, count: 0
+    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
+    hps: 596.345
+For 120 s fights:
+    casts: 17, ticks: 1, ticks_oom: 0
+    Heal, rank: 2, count: 11
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 1, count: 1
+    Flash Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 9, count: 2
+    Prayer of Healing, rank: 4, count: 0
+    Power Word: Shield, rank: 10, count: 0
+    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
+    hps: 454.023
+For 180 s fights:
+    casts: 20, ticks: 7, ticks_oom: 0
+    Heal, rank: 2, count: 1
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 1, count: 0
+    Flash Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 9, count: 0
+    Prayer of Healing, rank: 4, count: 0
+    Power Word: Shield, rank: 10, count: 0
+    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
+    hps: 376.048
+For 240 s fights:
+    casts: 18, ticks: 10, ticks_oom: 0
+    Heal, rank: 2, count: 1
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 1, count: 0
+    Flash Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 9, count: 0
+    Prayer of Healing, rank: 4, count: 0
+    Power Word: Shield, rank: 10, count: 0
+    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
+    hps: 337.088
+For 300 s fights:
+    casts: 19, ticks: 9, ticks_oom: 0
+    Heal, rank: 2, count: 1
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 1, count: 0
+    Flash Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 9, count: 0
+    Prayer of Healing, rank: 4, count: 0
+    Power Word: Shield, rank: 10, count: 0
+    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
+    hps: 319.915
+For 360 s fights:
+    casts: 18, ticks: 10, ticks_oom: 0
+    Heal, rank: 2, count: 1
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 1, count: 0
+    Flash Heal, rank: 4, count: 0
+    Flash Heal, rank: 7, count: 0
+    Renew, rank: 9, count: 0
+    Prayer of Healing, rank: 4, count: 0
+    Power Word: Shield, rank: 10, count: 0
+    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
+    hps: 303.57
+------------------
+Upgrades: 
+zandalarian hero charm(9.60483) -> rejuvenating gem(22.515) : 12.9101 = +3.34205%
+boots of the full moon(11.9452) -> boots of pure thought(21.1563) : 9.21118 = +2.36189%
+truefaith vestments(21.0924) -> robes of transcendence(27.8204) : 6.72797 = +1.71424%
+belt of transcendence(18.0384) -> zandalar confessor's bindings(21.4476) : 3.40924 = +0.861367%
+benediction, , , (43.2584) -> , lok'amir il romathis, , lei of the lifegiver(44.6887) : 1.4303 = +0.359576%
+royal seal of eldre'thalas(9.50089) -> neltharion's tear(10.7564) : 1.25552 = +0.315499%
+gloves of prophecy(18.4315) -> handguards of transcendence(19.3735) : 0.941986 = +0.236524%
+bindings of transcendence(14.7748) -> zandalar confessor's wraps(15.577) : 0.802155 = +0.201343%
+primalist's seal(14.6533) -> cauterizing band(15.0358) : 0.382507 = +0.0959095%
+halo of transcendence(27.6592) -> halo of transcendence(27.6592) : 0 = +0%
+jin'do's evil eye(15.6182) -> jin'do's evil eye(15.6182) : 0 = +0%
+pauldrons of transcendence(20.9279) -> pauldrons of transcendence(20.9279) : 0 = +0%
+shroud of pure thought(16.7296) -> shroud of pure thought(16.7296) : 0 = +0%
+dragon's touch(5.35867) -> dragon's touch(5.35867) : 0 = +0%
+empowered leggings(27.5181) -> empowered leggings(27.5181) : 0 = +0%
+pure elementium band(18.2548) -> pure elementium band(18.2548) : 0 = +0%
+------------------
+~~~~ end of intermediate results ~~~~
+Temporary bans and partial set bonuses on.
+............................................
+*** NEW BEST (1): 406.322
+Current relative stat values for matching or exceeding +50 pts of SpellPower
+Intellect: 44.949
+Spirit: 57.3814
+Stamina: 0
+Agility: 0
+Mp5: 105.56
+SpellPower: 100
+ShadowSpellDamage: 0
+Healing: 100
+SpellCritRating: 257.45
+SpellHitRating: 0
+ArcaneResist: 0
+NatureResist: 0
+FireResist: 0
+FrostResist: 0
+ShadowResist: 0
+Armor: 0
+DefenseRating: 0
+DodgeRating: 0
+ParryRating: 0
+......Temporary bans and partial set bonuses off.
+.two-hand : benediction    ->   lok'amir il romathis lei of the lifegiver => val: 399.335 -> 400.86
+ranged : dragon's touch -> essence gatherer => val: 400.86 -> 401.847
+No set swaps found exceeding val: 401.847
+.hands : gloves of prophecy -> handguards of transcendence => val: 385.552 -> 387.302
+neck : the all-seeing eye of zuldazar -> jin'do's evil eye => val: 387.302 -> 393.332
+trinket : hazza'rah's charm of healing -> neltharion's tear => val: 393.332 -> 398.621
+.wrists : bindings of transcendence -> zandalar confessor's wraps => val: 398.621 -> 401.342
+..Copied previous best.
+.
+*** NEW BEST (0): 406.322
+Current relative stat values for matching or exceeding +50 pts of SpellPower
+Intellect: 44.949
+Spirit: 57.3814
+Stamina: 0
+Agility: 0
+Mp5: 105.56
+SpellPower: 100
+ShadowSpellDamage: 0
+Healing: 100
+SpellCritRating: 257.45
+SpellHitRating: 0
+ArcaneResist: 0
+NatureResist: 0
+FireResist: 0
+FrostResist: 0
+ShadowResist: 0
+Armor: 0
+DefenseRating: 0
+DodgeRating: 0
+ParryRating: 0
+No set swaps found exceeding val: 406.322
+Copied previous best.
+.....No set swaps found exceeding val: 406.322
+Copied previous best.
+.. ----------------------------
+ --- head --- 
+name: halo of transcendence
+slot: head
+intelligence: 27
+stamina: 17
+spirit: 22
+sp_healing: 48
+fire_res: 10
+frost_res: 10
+armor: 94
+ ----------------------------
+ --- neck --- 
+name: jin'do's evil eye
+slot: neck
+intelligence: 11
+stamina: 5
+spirit: 6
+sp_healing: 44
+ ----------------------------
+ --- shoulders --- 
+name: zandalar confessor's mantle
+slot: shoulders
+intelligence: 24
+stamina: 11
+spirit: 15
+sp_healing: 22
+armor: 78
+ ----------------------------
+ --- back --- 
+name: shroud of pure thought
+slot: back
+intelligence: 11
+stamina: 10
+sp_healing: 33
+mp5: 6
+armor: 57
+ ----------------------------
+ --- chest --- 
+name: robes of transcendence
+slot: chest
+intelligence: 27
+stamina: 17
+spirit: 16
+sp_healing: 57
+nature_res: 10
+fire_res: 10
+armor: 116
+ ----------------------------
+ --- wrists --- 
+name: bindings of transcendence
+slot: wrists
+intelligence: 13
+stamina: 9
+spirit: 16
+sp_healing: 33
+armor: 51
+ ----------------------------
+ ---  --- 
+name: 
+slot: 
+ ----------------------------
+ --- main hand --- 
+name: lok'amir il romathis
+slot: main hand
+intelligence: 18
+stamina: 10
+spirit: 8
+sp: 84
+ ----------------------------
+ ---  --- 
+name: 
+slot: 
+ ----------------------------
+ --- off hand --- 
+name: lei of the lifegiver
+slot: off hand
+sp_healing: 53
+mp5: 3
+ ----------------------------
+ --- ranged --- 
+name: lunar wand of healing
+slot: ranged
+sp_healing: 20
+ ----------------------------
+ --- hands --- 
+name: handguards of transcendence
+slot: hands
+intelligence: 20
+stamina: 12
+spirit: 13
+sp_healing: 29
+spell_crit: 1
+armor: 72
+ ----------------------------
+ --- waist --- 
+name: zandalar confessor's bindings
+slot: waist
+intelligence: 20
+stamina: 12
+spirit: 12
+sp_healing: 26
+armor: 53
+ ----------------------------
+ --- legs --- 
+name: empowered leggings
+slot: legs
+intelligence: 12
+stamina: 12
+spirit: 24
+sp_healing: 77
+spell_crit: 1
+armor: 103
+ ----------------------------
+ --- feet --- 
+name: boots of pure thought
+slot: feet
+intelligence: 12
+stamina: 8
+spirit: 12
+sp_healing: 62
+armor: 74
+ ----------------------------
+ --- finger --- 
+name: cauterizing band
+slot: finger
+intelligence: 12
+stamina: 9
+sp_healing: 46
+ ----------------------------
+ --- finger --- 
+name: pure elementium band
+slot: finger
+intelligence: 10
+stamina: 9
+spirit: 10
+sp_healing: 53
+ ----------------------------
+ --- trinket --- 
+name: darkmoon card: blue dragon
+slot: trinket
+ ----------------------------
+ --- trinket --- 
+name: rejuvenating gem
+slot: trinket
+sp_healing: 66
+mp5: 9
+ ----------------------------
+ --- Set bonuses ---
+name: confessor's 2 darkmoon 1 transcendence 3 
+slot: Set bonuses
+sp: 23
+------------------
+Char stats: 
+Effective hp: 7209.8
+Effective mana: 10679.8
+Raw max mana: 7244
+Int: 387.2
+Stam: 278.2
+Spirit: 340.2
+Strength: 50.2
+Agility: 54.2
+Mp5: 44
+Sp: 123
+Sp shadow: 0
+Sp healing: 748
+Spell crit: 4.6
+Spell hit: 0
+Arcane res: 27
+Nature res: 37
+Fire res: 47
+Frost res: 37
+Shadow res: 27
+Armor: 2477.75
+Defense: 300
+Dodge: 0
+Parry: 0
+HpsPvp: 1042.35
+ShadowDps: 251.499
+Value pvp healing: 913.216
+Value pvp shadow: 53.1641
+Effective hp-pvp: 8871.39
+Effecctive mana for 100 s, 0.33 fsr: 11840.7
+------------------
+Best counts:
+For 60 s fights:
+    casts: 16, ticks: 1, ticks_oom: 0
+    Heal, rank: 2, count: 11
+    Heal, rank: 4, count: 0
+    Greater Heal, rank: 1, count: 0
+    Greater Heal, rank: 4, count: 0
+    Flash Heal, rank: 1, count: 0
+    Flash Heal, rank: 4, count: 10
     Flash Heal, rank: 7, count: 6
-    Renew, rank: 9, count: 4
-    Prayer of Healing, rank: 4, count: 2
+    Renew, rank: 9, count: 6
+    Prayer of Healing, rank: 4, count: 1
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 590.398
+    hps: 597.622
 For 120 s fights:
-    casts: 19, ticks: 1, ticks_oom: 0
-    Heal, rank: 2, count: 5
+    casts: 17, ticks: 1, ticks_oom: 0
+    Heal, rank: 2, count: 9
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 0
     Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 2
-    Flash Heal, rank: 4, count: 1
+    Flash Heal, rank: 1, count: 0
+    Flash Heal, rank: 4, count: 0
     Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 1
+    Renew, rank: 9, count: 2
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 453.898
+    hps: 459.447
 For 180 s fights:
-    casts: 19, ticks: 10, ticks_oom: 0
+    casts: 20, ticks: 7, ticks_oom: 0
     Heal, rank: 2, count: 1
     Heal, rank: 4, count: 0
     Greater Heal, rank: 1, count: 0
@@ -729,7 +1144,7 @@ For 180 s fights:
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 369.991
+    hps: 378.59
 For 240 s fights:
     casts: 18, ticks: 10, ticks_oom: 0
     Heal, rank: 2, count: 1
@@ -743,7 +1158,7 @@ For 240 s fights:
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 336.703
+    hps: 340.013
 For 300 s fights:
     casts: 19, ticks: 8, ticks_oom: 0
     Heal, rank: 2, count: 1
@@ -757,7 +1172,7 @@ For 300 s fights:
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 322.54
+    hps: 326.312
 For 360 s fights:
     casts: 18, ticks: 9, ticks_oom: 0
     Heal, rank: 2, count: 1
@@ -771,718 +1186,18 @@ For 360 s fights:
     Prayer of Healing, rank: 4, count: 0
     Power Word: Shield, rank: 10, count: 0
     pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 306.676
+    hps: 310.553
 ------------------
-Upgrades: 
-royal seal of eldre'thalas(12.3648) -> rejuvenating gem(25.6646) : 13.2998 = +3.43475%
-boots of prophecy(12.0786) -> boots of pure thought(25.0785) : 12.9998 = +3.3547%
-truefaith vestments(21.6808) -> robes of transcendence(32.0652) : 10.3845 = +2.66181%
-zandalarian hero charm(9.48322) -> darkmoon card: blue dragon(18.4408) : 8.95758 = +2.2877%
-gloves of prophecy(18.1472) -> handguards of transcendence(23.3238) : 5.17664 = +1.30943%
-leggings of transcendence(27.2262) -> empowered leggings(32.0693) : 4.84311 = +1.22403%
-benediction, , , (43.8736) -> , lok'amir il romathis, , lei of the lifegiver(48.6328) : 4.75912 = +1.20255%
-zandalar confessor's mantle(18.7277) -> pauldrons of transcendence(22.1727) : 3.44501 = +0.867614%
-bindings of transcendence(18.8157) -> zandalar confessor's wraps(19.3043) : 0.488647 = +0.122155%
-primalist's seal(16.2807) -> cauterizing band(16.4619) : 0.181122 = +0.0452431%
-halo of transcendence(32.7332) -> halo of transcendence(32.7332) : 0 = +0%
-jin'do's evil eye(16.9279) -> jin'do's evil eye(16.9279) : 0 = +0%
-shroud of pure thought(18.649) -> shroud of pure thought(18.649) : 0 = +0%
-dragon's touch(6.6268) -> dragon's touch(6.6268) : 0 = +0%
-zandalar confessor's bindings(25.4294) -> zandalar confessor's bindings(25.4294) : 0 = +0%
-pure elementium band(21.907) -> pure elementium band(21.907) : 0 = +0%
-------------------
-~~~~ end of intermediate results ~~~~
-Temporary bans and partial set bonuses on.
-....
-*** NEW BEST (1): 402.303
 Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 62.0141
-Spirit: 62.2884
+Intellect: 44.949
+Spirit: 57.3814
 Stamina: 0
 Agility: 0
-Mp5: 149.269
+Mp5: 105.56
 SpellPower: 100
 ShadowSpellDamage: 0
 Healing: 100
-SpellCritRating: 272.501
-SpellHitRating: 0
-ArcaneResist: 0
-NatureResist: 0
-FireResist: 0
-FrostResist: 0
-ShadowResist: 0
-Armor: 0
-DefenseRating: 0
-DodgeRating: 0
-ParryRating: 0
-.......................Temporary bans and partial set bonuses off.
-.two-hand : benediction    ->   lok'amir il romathis lei of the lifegiver => val: 387.981 -> 389.568
-neck : choker of enlightenment -> jin'do's evil eye => val: 389.568 -> 395.492
-ranged : bonecreeper stylus -> dragon's touch => val: 395.492 -> 398.911
-..No set swaps found exceeding val: 398.911
-.wrists : zandalar confessor's wraps -> bindings of transcendence => val: 380.786 -> 384.088
-trinket : hazza'rah's charm of healing -> neltharion's tear => val: 384.088 -> 389.255
-neck : the all-seeing eye of zuldazar -> jin'do's evil eye => val: 389.255 -> 395.142
-.Copied previous best.
-.
-*** NEW BEST (0): 402.303
-Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 62.0141
-Spirit: 62.2884
-Stamina: 0
-Agility: 0
-Mp5: 149.269
-SpellPower: 100
-ShadowSpellDamage: 0
-Healing: 100
-SpellCritRating: 272.501
-SpellHitRating: 0
-ArcaneResist: 0
-NatureResist: 0
-FireResist: 0
-FrostResist: 0
-ShadowResist: 0
-Armor: 0
-DefenseRating: 0
-DodgeRating: 0
-ParryRating: 0
-ranged : essence gatherer -> dragon's touch => val: 402.303 -> 402.811
-
-*** NEW BEST (0): 402.811
-Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 63.053
-Spirit: 62.328
-Stamina: 0
-Agility: 0
-Mp5: 151.876
-SpellPower: 100
-ShadowSpellDamage: 0
-Healing: 100
-SpellCritRating: 274.635
-SpellHitRating: 0
-ArcaneResist: 0
-NatureResist: 0
-FireResist: 0
-FrostResist: 0
-ShadowResist: 0
-Armor: 0
-DefenseRating: 0
-DodgeRating: 0
-ParryRating: 0
-..No set swaps found exceeding val: 402.811
-Copied previous best.
-...***** INTERMEDIATE RESULTS *****
-Iteration: 69
- ----------------------------
- --- head --- 
-name: halo of transcendence
-slot: head
-intelligence: 27
-stamina: 17
-spirit: 22
-sp_healing: 48
-fire_res: 10
-frost_res: 10
-armor: 94
- ----------------------------
- --- neck --- 
-name: jin'do's evil eye
-slot: neck
-intelligence: 11
-stamina: 5
-spirit: 6
-sp_healing: 44
- ----------------------------
- --- shoulders --- 
-name: zandalar confessor's mantle
-slot: shoulders
-intelligence: 24
-stamina: 11
-spirit: 15
-sp_healing: 22
-armor: 78
- ----------------------------
- --- back --- 
-name: shroud of pure thought
-slot: back
-intelligence: 11
-stamina: 10
-sp_healing: 33
-mp5: 6
-armor: 57
- ----------------------------
- --- chest --- 
-name: robes of transcendence
-slot: chest
-intelligence: 27
-stamina: 17
-spirit: 16
-sp_healing: 57
-nature_res: 10
-fire_res: 10
-armor: 116
- ----------------------------
- --- wrists --- 
-name: bindings of transcendence
-slot: wrists
-intelligence: 13
-stamina: 9
-spirit: 16
-sp_healing: 33
-armor: 51
- ----------------------------
- ---  --- 
-name: 
-slot: 
- ----------------------------
- --- main hand --- 
-name: lok'amir il romathis
-slot: main hand
-intelligence: 18
-stamina: 10
-spirit: 8
-sp: 84
- ----------------------------
- ---  --- 
-name: 
-slot: 
- ----------------------------
- --- off hand --- 
-name: lei of the lifegiver
-slot: off hand
-sp_healing: 53
-mp5: 3
- ----------------------------
- --- ranged --- 
-name: dragon's touch
-slot: ranged
-intelligence: 12
-stamina: 7
-sp: 6
- ----------------------------
- --- hands --- 
-name: handguards of transcendence
-slot: hands
-intelligence: 20
-stamina: 12
-spirit: 13
-sp_healing: 29
-spell_crit: 1
-armor: 72
- ----------------------------
- --- waist --- 
-name: zandalar confessor's bindings
-slot: waist
-intelligence: 20
-stamina: 12
-spirit: 12
-sp_healing: 26
-armor: 53
- ----------------------------
- --- legs --- 
-name: empowered leggings
-slot: legs
-intelligence: 12
-stamina: 12
-spirit: 24
-sp_healing: 77
-spell_crit: 1
-armor: 103
- ----------------------------
- --- feet --- 
-name: boots of pure thought
-slot: feet
-intelligence: 12
-stamina: 8
-spirit: 12
-sp_healing: 62
-armor: 74
- ----------------------------
- --- finger --- 
-name: cauterizing band
-slot: finger
-intelligence: 12
-stamina: 9
-sp_healing: 46
- ----------------------------
- --- finger --- 
-name: pure elementium band
-slot: finger
-intelligence: 10
-stamina: 9
-spirit: 10
-sp_healing: 53
- ----------------------------
- --- trinket --- 
-name: darkmoon card: blue dragon
-slot: trinket
- ----------------------------
- --- trinket --- 
-name: rejuvenating gem
-slot: trinket
-sp_healing: 66
-mp5: 9
- ----------------------------
- --- Set bonuses ---
-name: confessor's 2 darkmoon 1 transcendence 3 
-slot: Set bonuses
-sp: 23
-------------------
-Best value: 402.811
-------------------
-Char stats: 
-Effective hp: 7277
-Effective mana: 10859.8
-Raw max mana: 7424
-Int: 399.2
-Stam: 285.2
-Spirit: 340.2
-Strength: 50.2
-Agility: 54.2
-Mp5: 44
-Sp: 129
-Sp shadow: 0
-Sp healing: 728
-Spell crit: 4.6
-Spell hit: 0
-Arcane res: 27
-Nature res: 37
-Fire res: 47
-Frost res: 37
-Shadow res: 27
-Armor: 2477.75
-Defense: 300
-Dodge: 0
-Parry: 0
-HpsPvp: 1037.72
-ShadowDps: 251.91
-Value pvp healing: 937.623
-Value pvp shadow: 55.2531
-Effective hp-pvp: 8954.08
-Effecctive mana for 100 s, 0.33 fsr: 12020.7
-------------------
-Best counts:
-For 60 s fights:
-    casts: 16, ticks: 2, ticks_oom: 0
-    Heal, rank: 2, count: 10
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 2
-    Flash Heal, rank: 4, count: 1
-    Flash Heal, rank: 7, count: 7
-    Renew, rank: 9, count: 4
-    Prayer of Healing, rank: 4, count: 2
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 592.495
-For 120 s fights:
-    casts: 19, ticks: 1, ticks_oom: 0
-    Heal, rank: 2, count: 5
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 2
-    Flash Heal, rank: 4, count: 1
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 1
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 455.783
-For 180 s fights:
-    casts: 19, ticks: 10, ticks_oom: 0
-    Heal, rank: 2, count: 1
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
-    Flash Heal, rank: 4, count: 0
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 0
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 372.52
-For 240 s fights:
-    casts: 18, ticks: 10, ticks_oom: 0
-    Heal, rank: 2, count: 1
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
-    Flash Heal, rank: 4, count: 0
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 0
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 339.198
-For 300 s fights:
-    casts: 19, ticks: 8, ticks_oom: 0
-    Heal, rank: 2, count: 1
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
-    Flash Heal, rank: 4, count: 0
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 0
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 325.035
-For 360 s fights:
-    casts: 18, ticks: 9, ticks_oom: 0
-    Heal, rank: 2, count: 1
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
-    Flash Heal, rank: 4, count: 0
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 0
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 309.153
-------------------
-Upgrades: 
-zandalarian hero charm(9.77936) -> rejuvenating gem(23.3033) : 13.524 = +3.47404%
-boots of prophecy(11.3202) -> boots of pure thought(24.0905) : 12.7703 = +3.2741%
-truefaith vestments(22.2728) -> robes of transcendence(30.4762) : 8.20343 = +2.07888%
-royal seal of eldre'thalas(10.6656) -> darkmoon card: blue dragon(18.1137) : 7.44809 = +1.88386%
-gloves of prophecy(16.2545) -> handguards of transcendence(21.4674) : 5.21292 = +1.3111%
-benediction, , , (42.8527) -> , lok'amir il romathis, , lei of the lifegiver(47.1) : 4.24738 = +1.06567%
-leggings of transcendence(28.9457) -> empowered leggings(33.0611) : 4.11542 = +1.03222%
-primalist's seal(16.2858) -> cauterizing band(16.5184) : 0.232635 = +0.0577864%
-halo of transcendence(30.5365) -> halo of transcendence(30.5365) : 0 = +0%
-jin'do's evil eye(16.7581) -> jin'do's evil eye(16.7581) : 0 = +0%
-zandalar confessor's mantle(25.6122) -> zandalar confessor's mantle(25.6122) : 0 = +0%
-shroud of pure thought(19.9193) -> shroud of pure thought(19.9193) : 0 = +0%
-bindings of transcendence(20.3871) -> bindings of transcendence(20.3871) : 0 = +0%
-dragon's touch(6.68311) -> dragon's touch(6.68311) : 0 = +0%
-zandalar confessor's bindings(23.1993) -> zandalar confessor's bindings(23.1993) : 0 = +0%
-pure elementium band(19.4146) -> pure elementium band(19.4146) : 0 = +0%
-------------------
-~~~~ end of intermediate results ~~~~
-Temporary bans and partial set bonuses on.
-.
-*** NEW BEST (1): 402.811
-Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 63.053
-Spirit: 62.328
-Stamina: 0
-Agility: 0
-Mp5: 151.876
-SpellPower: 100
-ShadowSpellDamage: 0
-Healing: 100
-SpellCritRating: 274.635
-SpellHitRating: 0
-ArcaneResist: 0
-NatureResist: 0
-FireResist: 0
-FrostResist: 0
-ShadowResist: 0
-Armor: 0
-DefenseRating: 0
-DodgeRating: 0
-ParryRating: 0
-.........................Temporary bans and partial set bonuses off.
-.finger : primalist's seal -> cauterizing band => val: 399.454 -> 402.128
-No set swaps found exceeding val: 402.128
-.neck : the all-seeing eye of zuldazar -> jin'do's evil eye => val: 384.24 -> 389.921
-trinket : hazza'rah's charm of healing -> neltharion's tear => val: 389.921 -> 395.098
-shoulders : zandalar confessor's mantle -> pauldrons of transcendence => val: 395.098 -> 396.072
-legs : leggings of transcendence -> empowered leggings => val: 396.072 -> 397.023
-...Copied previous best.
-.No set swaps found exceeding val: 402.811
-Copied previous best.
-.....No set swaps found exceeding val: 402.811
-Copied previous best.
-. ----------------------------
- --- head --- 
-name: halo of transcendence
-slot: head
-intelligence: 27
-stamina: 17
-spirit: 22
-sp_healing: 48
-fire_res: 10
-frost_res: 10
-armor: 94
- ----------------------------
- --- neck --- 
-name: jin'do's evil eye
-slot: neck
-intelligence: 11
-stamina: 5
-spirit: 6
-sp_healing: 44
- ----------------------------
- --- shoulders --- 
-name: zandalar confessor's mantle
-slot: shoulders
-intelligence: 24
-stamina: 11
-spirit: 15
-sp_healing: 22
-armor: 78
- ----------------------------
- --- back --- 
-name: shroud of pure thought
-slot: back
-intelligence: 11
-stamina: 10
-sp_healing: 33
-mp5: 6
-armor: 57
- ----------------------------
- --- chest --- 
-name: robes of transcendence
-slot: chest
-intelligence: 27
-stamina: 17
-spirit: 16
-sp_healing: 57
-nature_res: 10
-fire_res: 10
-armor: 116
- ----------------------------
- --- wrists --- 
-name: bindings of transcendence
-slot: wrists
-intelligence: 13
-stamina: 9
-spirit: 16
-sp_healing: 33
-armor: 51
- ----------------------------
- ---  --- 
-name: 
-slot: 
- ----------------------------
- --- main hand --- 
-name: lok'amir il romathis
-slot: main hand
-intelligence: 18
-stamina: 10
-spirit: 8
-sp: 84
- ----------------------------
- ---  --- 
-name: 
-slot: 
- ----------------------------
- --- off hand --- 
-name: lei of the lifegiver
-slot: off hand
-sp_healing: 53
-mp5: 3
- ----------------------------
- --- ranged --- 
-name: dragon's touch
-slot: ranged
-intelligence: 12
-stamina: 7
-sp: 6
- ----------------------------
- --- hands --- 
-name: handguards of transcendence
-slot: hands
-intelligence: 20
-stamina: 12
-spirit: 13
-sp_healing: 29
-spell_crit: 1
-armor: 72
- ----------------------------
- --- waist --- 
-name: zandalar confessor's bindings
-slot: waist
-intelligence: 20
-stamina: 12
-spirit: 12
-sp_healing: 26
-armor: 53
- ----------------------------
- --- legs --- 
-name: empowered leggings
-slot: legs
-intelligence: 12
-stamina: 12
-spirit: 24
-sp_healing: 77
-spell_crit: 1
-armor: 103
- ----------------------------
- --- feet --- 
-name: boots of pure thought
-slot: feet
-intelligence: 12
-stamina: 8
-spirit: 12
-sp_healing: 62
-armor: 74
- ----------------------------
- --- finger --- 
-name: cauterizing band
-slot: finger
-intelligence: 12
-stamina: 9
-sp_healing: 46
- ----------------------------
- --- finger --- 
-name: pure elementium band
-slot: finger
-intelligence: 10
-stamina: 9
-spirit: 10
-sp_healing: 53
- ----------------------------
- --- trinket --- 
-name: darkmoon card: blue dragon
-slot: trinket
- ----------------------------
- --- trinket --- 
-name: rejuvenating gem
-slot: trinket
-sp_healing: 66
-mp5: 9
- ----------------------------
- --- Set bonuses ---
-name: confessor's 2 darkmoon 1 transcendence 3 
-slot: Set bonuses
-sp: 23
-------------------
-Char stats: 
-Effective hp: 7277
-Effective mana: 10859.8
-Raw max mana: 7424
-Int: 399.2
-Stam: 285.2
-Spirit: 340.2
-Strength: 50.2
-Agility: 54.2
-Mp5: 44
-Sp: 129
-Sp shadow: 0
-Sp healing: 728
-Spell crit: 4.6
-Spell hit: 0
-Arcane res: 27
-Nature res: 37
-Fire res: 47
-Frost res: 37
-Shadow res: 27
-Armor: 2477.75
-Defense: 300
-Dodge: 0
-Parry: 0
-HpsPvp: 1037.72
-ShadowDps: 251.91
-Value pvp healing: 937.623
-Value pvp shadow: 55.2531
-Effective hp-pvp: 8954.08
-Effecctive mana for 100 s, 0.33 fsr: 12020.7
-------------------
-Best counts:
-For 60 s fights:
-    casts: 16, ticks: 2, ticks_oom: 0
-    Heal, rank: 2, count: 10
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 2
-    Flash Heal, rank: 4, count: 1
-    Flash Heal, rank: 7, count: 7
-    Renew, rank: 9, count: 4
-    Prayer of Healing, rank: 4, count: 2
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 592.495
-For 120 s fights:
-    casts: 19, ticks: 1, ticks_oom: 0
-    Heal, rank: 2, count: 5
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 2
-    Flash Heal, rank: 4, count: 1
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 1
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 455.783
-For 180 s fights:
-    casts: 19, ticks: 10, ticks_oom: 0
-    Heal, rank: 2, count: 1
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
-    Flash Heal, rank: 4, count: 0
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 0
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 372.52
-For 240 s fights:
-    casts: 18, ticks: 10, ticks_oom: 0
-    Heal, rank: 2, count: 1
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
-    Flash Heal, rank: 4, count: 0
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 0
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 339.198
-For 300 s fights:
-    casts: 19, ticks: 8, ticks_oom: 0
-    Heal, rank: 2, count: 1
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
-    Flash Heal, rank: 4, count: 0
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 0
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 325.035
-For 360 s fights:
-    casts: 18, ticks: 9, ticks_oom: 0
-    Heal, rank: 2, count: 1
-    Heal, rank: 4, count: 0
-    Greater Heal, rank: 1, count: 0
-    Greater Heal, rank: 4, count: 0
-    Flash Heal, rank: 1, count: 0
-    Flash Heal, rank: 4, count: 0
-    Flash Heal, rank: 7, count: 0
-    Renew, rank: 9, count: 0
-    Prayer of Healing, rank: 4, count: 0
-    Power Word: Shield, rank: 10, count: 0
-    pve info: target_alive_mul: 1, oom_penalty_mul: 1, regen_penalty_mul: 1
-    hps: 309.153
-------------------
-Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 63.053
-Spirit: 62.328
-Stamina: 0
-Agility: 0
-Mp5: 151.876
-SpellPower: 100
-ShadowSpellDamage: 0
-Healing: 100
-SpellCritRating: 274.635
+SpellCritRating: 257.45
 SpellHitRating: 0
 ArcaneResist: 0
 NatureResist: 0
@@ -1496,218 +1211,226 @@ ParryRating: 0
 ------------------
 Diffs to start: 
 Upgrades: 
-zandalarian hero charm(9.77936) -> rejuvenating gem(23.3033) : 13.524 = +3.47404%
-boots of prophecy(11.3202) -> boots of pure thought(24.0905) : 12.7703 = +3.2741%
-truefaith vestments(22.2728) -> robes of transcendence(30.4762) : 8.20343 = +2.07888%
-royal seal of eldre'thalas(10.6656) -> darkmoon card: blue dragon(18.1137) : 7.44809 = +1.88386%
-gloves of prophecy(16.2545) -> handguards of transcendence(21.4674) : 5.21292 = +1.3111%
-benediction, , , (42.8527) -> , lok'amir il romathis, , lei of the lifegiver(47.1) : 4.24738 = +1.06567%
-leggings of transcendence(28.9457) -> empowered leggings(33.0611) : 4.11542 = +1.03222%
-primalist's seal(16.2858) -> cauterizing band(16.5184) : 0.232635 = +0.0577864%
-halo of transcendence(30.5365) -> halo of transcendence(30.5365) : 0 = +0%
-jin'do's evil eye(16.7581) -> jin'do's evil eye(16.7581) : 0 = +0%
-zandalar confessor's mantle(25.6122) -> zandalar confessor's mantle(25.6122) : 0 = +0%
-shroud of pure thought(19.9193) -> shroud of pure thought(19.9193) : 0 = +0%
-bindings of transcendence(20.3871) -> bindings of transcendence(20.3871) : 0 = +0%
-dragon's touch(6.68311) -> dragon's touch(6.68311) : 0 = +0%
-zandalar confessor's bindings(23.1993) -> zandalar confessor's bindings(23.1993) : 0 = +0%
-pure elementium band(19.4146) -> pure elementium band(19.4146) : 0 = +0%
+zandalarian hero charm(9.8483) -> rejuvenating gem(24.8726) : 15.0243 = +3.83962%
+truefaith vestments(21.3744) -> robes of transcendence(31.7567) : 10.3823 = +2.6222%
+boots of the full moon(17.6339) -> boots of pure thought(27.1226) : 9.48868 = +2.3911%
+royal seal of eldre'thalas(12.1034) -> darkmoon card: blue dragon(19.1746) : 7.07117 = +1.77111%
+benediction, , , (42.9049) -> , lok'amir il romathis, , lei of the lifegiver(48.1669) : 5.26199 = +1.31202%
+gloves of prophecy(19.3633) -> handguards of transcendence(23.2095) : 3.84619 = +0.955634%
+belt of transcendence(21.8513) -> zandalar confessor's bindings(25.4169) : 3.56555 = +0.885288%
+pauldrons of transcendence(23.3311) -> zandalar confessor's mantle(26.305) : 2.97397 = +0.737321%
+dragon's touch(3.03427) -> lunar wand of healing(5.03711) : 2.00284 = +0.495361%
+primalist's seal(20.5008) -> cauterizing band(20.813) : 0.312134 = +0.0768784%
+halo of transcendence(31.3238) -> halo of transcendence(31.3238) : 0 = +0%
+jin'do's evil eye(21.2662) -> jin'do's evil eye(21.2662) : 0 = +0%
+shroud of pure thought(22.5126) -> shroud of pure thought(22.5126) : 0 = +0%
+bindings of transcendence(23.0907) -> bindings of transcendence(23.0907) : 0 = +0%
+empowered leggings(35.7395) -> empowered leggings(35.7395) : 0 = +0%
+pure elementium band(24.407) -> pure elementium band(24.407) : 0 = +0%
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at best in slot level, from start item to candidate, partial bonuses: 1: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, halo of transcendence (30.5365) -> :
+head, halo of transcendence (31.3238) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (16.7581) -> :
+neck, jin'do's evil eye (21.2662) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, zandalar confessor's mantle (25.6122) -> :
+shoulders, pauldrons of transcendence (23.3311) -> :
+    zandalar confessor's mantle (26.305) : +0.737321 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (19.9193) -> :
+back, shroud of pure thought (22.5126) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, truefaith vestments (22.2728) -> :
-    robes of transcendence (30.4762) : +2.07888 %, from: bwl
+chest, truefaith vestments (21.3744) -> :
+    robes of transcendence (31.7567) : +2.6222 %, from: bwl
+    flowing ritual robes (23.6356) : +0.571097 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (20.3871) -> :
+wrists, bindings of transcendence (23.0907) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (35.1061) -> :
-    lok'amir il romathis and lei of the lifegiver (40.1938) : +1.1618 %, from: bwl, av rep
+two-hand, benediction (34.2694) -> :
+    lok'amir il romathis and lei of the lifegiver (39.4653) : +1.17929 %, from: bwl, av rep
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (6.68311) -> :
+ranged, dragon's touch (3.03427) -> :
+    lunar wand of healing (5.03711) : +0.495361 %, from: random green
+    bonecreeper stylus (3.31042) : +0.0683009 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (16.2545) -> :
-    handguards of transcendence (21.4674) : +1.3111 %, from: bwl
-    hands of the exalted herald (17.4132) : +0.291415 %, from: pre-raid
+hands, gloves of prophecy (19.3633) -> :
+    handguards of transcendence (23.2095) : +0.955634 %, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, zandalar confessor's bindings (23.1993) -> :
+waist, belt of transcendence (21.8513) -> :
+    zandalar confessor's bindings (25.4169) : +0.885288 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, leggings of transcendence (28.9457) -> :
-    empowered leggings (33.0611) : +1.03222 %, from: bwl
+legs, empowered leggings (35.7395) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, boots of prophecy (11.3202) -> :
-    boots of pure thought (24.0905) : +3.2741 %, from: bwl
-    boots of transcendence (19.2131) : +2.02362 %, from: bwl
-    betrayer's boots (16.1288) : +1.23285 %, from: zg
-    boots of the full moon (14.7257) : +0.873127 %, from: pre-raid
-    shimmering geta (12.7669) : +0.370914 %, from: bwl
-    dragonrider boots (12.0594) : +0.189526 %, from: pre-raid
-    wolfrunner shoes (11.5427) : +0.0570463 %, from: pre-raid
+feet, boots of the full moon (17.6339) -> :
+    boots of pure thought (27.1226) : +2.3911 %, from: bwl
+    boots of transcendence (21.6854) : +1.02095 %, from: bwl
+    betrayer's boots (19.0634) : +0.360213 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (19.4319) -> :
+finger, primalist's seal (20.5008) -> :
+    pure elementium band (23.84) : +0.822429 %, from: bwl
+    cauterizing band (20.813) : +0.0768784 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, primalist's seal (16.2513) -> :
-    pure elementium band (19.4146) : +0.79153 %, from: bwl
-    cauterizing band (16.487) : +0.0589738 %, from: mc
+finger 2, pure elementium band (24.407) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (10.6656) -> :
-    rejuvenating gem (25.2162) : +3.68031 %, from: bwl
-    darkmoon card: blue dragon (18.1137) : +1.88386 %, from: 
-    shard of the scale (14.4828) : +0.965493 %, from: onyxia
+trinket, royal seal of eldre'thalas (12.1034) -> :
+    rejuvenating gem (21.7543) : +2.41725 %, from: bwl
+    darkmoon card: blue dragon (19.1746) : +1.77111 %, from: 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, zandalarian hero charm (9.77936) -> :
-    royal seal of eldre'thalas (10.3524) : +0.1472 %, from: pre-raid
-    shard of the scale (9.79395) : +0.00374721 %, from: onyxia
+trinket 2, zandalarian hero charm (9.8483) -> :
+    shard of the scale (10.6708) : +0.210208 %, from: onyxia
+    royal seal of eldre'thalas (10.0161) : +0.0428949 %, from: pre-raid
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at best in slot level, from start item to candidate, partial bonuses: 0: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, halo of transcendence (30.5365) -> :
+head, halo of transcendence (31.3238) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (16.7581) -> :
+neck, jin'do's evil eye (21.2662) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, zandalar confessor's mantle (27.4499) -> :
+shoulders, pauldrons of transcendence (23.2566) -> :
+    zandalar confessor's mantle (28.1613) : +1.22184 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (19.9193) -> :
+back, shroud of pure thought (22.5126) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, truefaith vestments (22.2728) -> :
-    robes of transcendence (30.4762) : +2.07888 %, from: bwl
+chest, truefaith vestments (21.3744) -> :
+    robes of transcendence (31.7567) : +2.6222 %, from: bwl
+    flowing ritual robes (23.6356) : +0.571097 %, from: zg
+    robes of prophecy (23.1122) : +0.438896 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (20.3871) -> :
+wrists, bindings of transcendence (23.0907) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (35.1061) -> :
-    lok'amir il romathis and lei of the lifegiver (40.1938) : +1.1618 %, from: bwl, av rep
+two-hand, benediction (34.2694) -> :
+    lok'amir il romathis and lei of the lifegiver (39.4653) : +1.17929 %, from: bwl, av rep
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (6.68311) -> :
+ranged, dragon's touch (3.03427) -> :
+    lunar wand of healing (5.03711) : +0.495361 %, from: random green
+    bonecreeper stylus (3.31042) : +0.0683009 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (19.802) -> :
-    handguards of transcendence (21.4674) : +0.415178 %, from: bwl
+hands, gloves of prophecy (21.55) -> :
+    handguards of transcendence (23.2095) : +0.410091 %, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, zandalar confessor's bindings (25.0537) -> :
+waist, belt of transcendence (21.7833) -> :
+    zandalar confessor's bindings (27.2822) : +1.3719 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, leggings of transcendence (28.9457) -> :
-    empowered leggings (33.0611) : +1.03222 %, from: bwl
+legs, empowered leggings (35.7395) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, boots of prophecy (14.8291) -> :
-    boots of pure thought (24.0905) : +2.35331 %, from: bwl
-    boots of transcendence (19.2131) : +1.11398 %, from: bwl
-    betrayer's boots (16.1288) : +0.330262 %, from: zg
+feet, boots of the full moon (17.6339) -> :
+    boots of pure thought (27.1226) : +2.3911 %, from: bwl
+    boots of transcendence (21.6854) : +1.02095 %, from: bwl
+    betrayer's boots (19.0634) : +0.360213 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (19.4319) -> :
+finger, primalist's seal (17.7254) -> :
+    pure elementium band (23.84) : +1.51639 %, from: bwl
+    cauterizing band (20.813) : +0.765705 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, primalist's seal (13.5133) -> :
-    pure elementium band (19.4146) : +1.48682 %, from: bwl
-    cauterizing band (16.487) : +0.749212 %, from: mc
+finger 2, pure elementium band (24.407) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (10.6656) -> :
-    rejuvenating gem (25.2162) : +3.68031 %, from: bwl
-    darkmoon card: blue dragon (18.1137) : +1.88386 %, from: 
-    shard of the scale (14.4828) : +0.965493 %, from: onyxia
+trinket, royal seal of eldre'thalas (12.1034) -> :
+    rejuvenating gem (21.7543) : +2.41725 %, from: bwl
+    darkmoon card: blue dragon (19.1746) : +1.77111 %, from: 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, zandalarian hero charm (9.77936) -> :
-    royal seal of eldre'thalas (10.3524) : +0.1472 %, from: pre-raid
-    shard of the scale (9.79395) : +0.00374721 %, from: onyxia
+trinket 2, zandalarian hero charm (9.8483) -> :
+    shard of the scale (10.6708) : +0.210208 %, from: onyxia
+    royal seal of eldre'thalas (10.0161) : +0.0428949 %, from: pre-raid
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at start level, from start item to candidate, partial bonuses: 1: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, halo of transcendence (34.7829) -> :
+head, halo of transcendence (24.0995) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (14.5062) -> :
+neck, jin'do's evil eye (14.4454) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, zandalar confessor's mantle (22.3014) -> :
+shoulders, pauldrons of transcendence (16.7804) -> :
+    zandalar confessor's mantle (17.6992) : +0.255196 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (18.1913) -> :
+back, shroud of pure thought (14.5955) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, truefaith vestments (20.8935) -> :
-    robes of transcendence (22.1247) : +0.335498 %, from: bwl
+chest, truefaith vestments (20.5983) -> :
+    robes of transcendence (21.2173) : +0.17195 %, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (25.1955) -> :
+wrists, bindings of transcendence (14.6058) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (40.8086) -> :
-    lok'amir il romathis and lei of the lifegiver (44.8612) : +1.10439 %, from: bwl, av rep
+two-hand, benediction (37.94) -> :
+    lok'amir il romathis and lei of the lifegiver (41.2288) : +0.913465 %, from: bwl, av rep
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (4.54593) -> :
-    lunar wand of healing (4.78708) : +0.0657158 %, from: random green
+ranged, dragon's touch (4.48541) -> :
+    lunar wand of healing (4.6517) : +0.0461873 %, from: random green
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (20.3604) -> :
-    handguards of transcendence (24.7018) : +1.1831 %, from: bwl
+hands, gloves of prophecy (13.4425) -> :
+    handguards of transcendence (15.9514) : +0.696853 %, from: bwl
+    hands of the exalted herald (13.9258) : +0.134239 %, from: pre-raid
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, zandalar confessor's bindings (20.9876) -> :
+waist, belt of transcendence (16.4529) -> :
+    zandalar confessor's bindings (17.2474) : +0.220672 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, leggings of transcendence (38.2645) -> :
+legs, empowered leggings (26.5401) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, boots of prophecy (16.33) -> :
-    boots of pure thought (25.6424) : +2.53772 %, from: bwl
-    boots of transcendence (21.3279) : +1.36199 %, from: bwl
-    betrayer's boots (17.9375) : +0.438055 %, from: zg
-    shimmering geta (17.8068) : +0.402445 %, from: bwl
-    boots of the full moon (16.5089) : +0.0487671 %, from: pre-raid
+feet, boots of the full moon (11.3265) -> :
+    boots of pure thought (20.1468) : +2.44985 %, from: bwl
+    boots of transcendence (15.5793) : +1.18122 %, from: bwl
+    boots of prophecy (12.6534) : +0.368549 %, from: mc
+    betrayer's boots (12.6362) : +0.363786 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (17.0822) -> :
+finger, primalist's seal (14.3961) -> :
+    pure elementium band (17.2441) : +0.79105 %, from: bwl
+    cauterizing band (14.4392) : +0.011977 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, primalist's seal (14.9318) -> :
-    pure elementium band (17.9125) : +0.812283 %, from: bwl
+finger 2, pure elementium band (17.1646) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (10.3469) -> :
-    rejuvenating gem (20.4495) : +2.75304 %, from: bwl
-    neltharion's tear (10.5509) : +0.0555948 %, from: bwl
+trinket, royal seal of eldre'thalas (9.99765) -> :
+    rejuvenating gem (20.0467) : +2.79114 %, from: bwl
+    neltharion's tear (10.2499) : +0.0700735 %, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, zandalarian hero charm (9.66196) -> :
-    rejuvenating gem (19.3751) : +2.64692 %, from: bwl
-    neltharion's tear (10.6284) : +0.263379 %, from: bwl
-    royal seal of eldre'thalas (9.75104) : +0.0242754 %, from: pre-raid
+trinket 2, zandalarian hero charm (9.38254) -> :
+    rejuvenating gem (19.7026) : +2.86642 %, from: bwl
+    neltharion's tear (10.3208) : +0.260612 %, from: bwl
+    royal seal of eldre'thalas (9.51227) : +0.0360327 %, from: pre-raid
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at start level, from start item to candidate, partial bonuses: 0: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, halo of transcendence (55.8341) -> :
+head, halo of transcendence (23.1681) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (16.7279) -> :
+neck, jin'do's evil eye (14.3905) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, zandalar confessor's mantle (28.0419) -> :
+shoulders, pauldrons of transcendence (15.8156) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (20.2642) -> :
+back, shroud of pure thought (14.6056) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, truefaith vestments (23.4402) -> :
+chest, truefaith vestments (20.5315) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (44.294) -> :
+wrists, bindings of transcendence (14.5355) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (44.3453) -> :
-    lok'amir il romathis and lei of the lifegiver (45.8647) : +0.414109 %, from: bwl, av rep
+two-hand, benediction (37.0975) -> :
+    lok'amir il romathis and lei of the lifegiver (40.4955) : +0.945496 %, from: bwl, av rep
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (6.75531) -> :
+ranged, dragon's touch (4.49179) -> :
+    lunar wand of healing (4.66751) : +0.048895 %, from: random green
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (23.5456) -> :
-    handguards of transcendence (24.4271) : +0.240228 %, from: bwl
+hands, gloves of prophecy (15.3039) -> :
+    handguards of transcendence (15.8905) : +0.163235 %, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, zandalar confessor's bindings (26.5025) -> :
+waist, belt of transcendence (15.4912) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, leggings of transcendence (57.2449) -> :
+legs, empowered leggings (26.5014) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, boots of prophecy (19.2894) -> :
-    boots of pure thought (25.2072) : +1.61284 %, from: bwl
-    boots of transcendence (20.8863) : +0.435235 %, from: bwl
+feet, boots of the full moon (11.2541) -> :
+    boots of pure thought (20.1931) : +2.48734 %, from: bwl
+    boots of transcendence (15.236) : +1.108 %, from: bwl
+    betrayer's boots (12.6554) : +0.389929 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (19.3062) -> :
+finger, primalist's seal (11.7804) -> :
+    pure elementium band (17.3179) : +1.54084 %, from: bwl
+    cauterizing band (14.5046) : +0.758025 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, primalist's seal (14.5339) -> :
-    pure elementium band (17.6168) : +0.840221 %, from: bwl
+finger 2, pure elementium band (17.2003) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (12.8933) -> :
-    rejuvenating gem (23.0272) : +2.7619 %, from: bwl
+trinket, royal seal of eldre'thalas (10.008) -> :
+    rejuvenating gem (19.7042) : +2.69801 %, from: bwl
+    neltharion's tear (10.2849) : +0.0770534 %, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, zandalarian hero charm (9.71933) -> :
-    rejuvenating gem (19.4424) : +2.64993 %, from: bwl
-    neltharion's tear (10.6912) : +0.264872 %, from: bwl
-    royal seal of eldre'thalas (9.78516) : +0.0179404 %, from: pre-raid
+trinket 2, zandalarian hero charm (9.41403) -> :
+    rejuvenating gem (18.8206) : +2.61743 %, from: bwl
+    neltharion's tear (10.3556) : +0.261993 %, from: bwl
 ------------------
-Best value: 402.811
+Best value: 406.322
