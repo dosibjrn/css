@@ -1024,7 +1024,9 @@ namespace
 {
 
 bool TooSpecial(const Item& item) {
-  return item.name == "hazza'rah's charm of healing";
+  if (item.name == "hazza'rah's charm of healing") return true;
+  if (item.name == "darkmoon card: blue dragon") return true;
+  return false;
 }
 
 }  // namespace
@@ -1060,7 +1062,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
       Item item = ToStatDiffs(items_for_slot[i], c_no_item);
       if (!TooSpecial(item)) {
         m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value});
-        if (!m_weights.empty() && use_alt) {
+        if (m_stat_diffs_to_hps_diffs.size() > global::assumptions.n_last_entries_for_alt_stats) {
           const Item& item = items_for_slot[i];
           float val_alt = no_item_value + valueIncreaseWeightsBased(item);;
           if (val_alt > vals[i]) {
