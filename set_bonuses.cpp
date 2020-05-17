@@ -218,7 +218,9 @@ SetBonusListType SetBonuses::toPartial(SetBonusListType& bonus_list)
     }
     for (int i = 1; i <= n; ++i) {
       Item partial_item;
-      AddToItemWithMul(to_split, (i)/w_sum, &partial_item);
+      // float mul = std::max<float>(static_cast<float>(i)/n, i/w_sum);
+      float mul = static_cast<float>(i)/n;
+      AddToItemWithMul(to_split, mul, &partial_item);
       std::stringstream ss;
       ss << set_name << " " << i;
       std::string splitted_name = ss.str();

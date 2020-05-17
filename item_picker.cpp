@@ -559,6 +559,12 @@ void ItemPicker::CoutDiffsToStart()
   SwapIfSame(m_items_best.at("finger"), &items_start["finger 2"], &items_start["finger"]);
   SwapIfSame(m_items_best.at("trinket 2"), &items_start["trinket"], &items_start["trinket 2"]);
   SwapIfSame(m_items_best.at("trinket"), &items_start["trinket 2"], &items_start["trinket"]);
+
+  bool use_alt = !m_weights.empty();
+  if (use_alt) {
+    std::cout << "( following sorted by alt scores )" << std::endl;
+
+  }
  
   for (auto slot : order) {
     PriestCharacter c_tmp = m_c_best;
@@ -585,6 +591,13 @@ void ItemPicker::CoutDiffsToStart()
       float val_no_item = value(c_tmp);
       AddItem(start_item, &c_tmp);
       float val_start = value(c_tmp);
+      if (use_alt) {
+        float val_best_item = valueIncreaseWeightsBased(best_item);
+        float val_start_item = valueIncreaseWeightsBased(best_item);
+
+        val_start = val - val_best_item + val_start_item;
+        val_no_item = val - val_best_item;
+      }
       // std::cout << start_item.name << "(" << val_start - val_no_item << ") -> " << best_item.name << "(" << val - val_no_item << ") : " << val - val_start << std::endl;
       if (best_item.name != "" || start_item.name != "") {
         std::stringstream ss;
@@ -1035,8 +1048,8 @@ bool TooSpecial(const Item& item) {
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, 
                           std::string taken_name, bool no_special_alt)
 {
-  // bool verbose = current_item.slot == "shoulders";
-  bool verbose = false;
+  bool verbose = current_item.slot == "shoulders";
+  // bool verbose = false;
   // create char without item
   PriestCharacter c_no_item = c;
   RemoveItem(current_item, &c_no_item);
