@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <deque>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -195,10 +196,20 @@ void AddHotsIfAny(const PriestCharacter& c, int64_t time, const MyCast& my_cast,
   hot.per_tick = renew.healing*c.set_bonuses.NumPieces("transcendence")/8.0f;
   hot.spell_name = "8p T2 renew";
   hot.target = my_cast.player;
-  Hots->push_back(hot);
+  bool found = false;
+
+  for (auto& old_hot : hots->hots) {
+    if (old_hot.target == hot.target) {
+      found = true;
+      old_hot = hot;
+    }
+  }
+
   if (hot.tick_times.front() < hots->next_tick || hots->hots.empty() ) {
     hots->next_tick = hot.tick_times.front();
   }
+
+  if (!found) hots->hots.push_back(hot);
 }
 
 // This implementation might actually be more or less there now?
@@ -255,7 +266,7 @@ MyCast PopNextTickToCast(Hots* hots)
   // update next_tick
   next->tick_times.pop_front();
   if (next->tick_times.empty()) {
-    hots->erase(hots->begin() + next_ix);
+    hots->hots.erase(hots->hots.begin() + next_ix);
   }
 
   for (auto& hot : hots->hots) {
@@ -265,15 +276,15 @@ MyCast PopNextTickToCast(Hots* hots)
   }
 }
 
-ResolveHotsIfTime(int64_t time, Hots* hots, std::map<std::string, float>* deficits, //
+void ResolveHotsIfTime(int64_t time, Hots* hots, std::map<std::string, float>* deficits, //
                        std::map<std::string, float>* deficits_delayed,
                        LogResult* out) 
 {
   int64_t prev_cast_dummy = 0;
   float mana_dummy = 0.0f;
-  while (!hots.hots.empty() && hots->next_tick <= time) {
+  while (!hots->hots.empty() && hots->next_tick <= time) {
     auto hot_as_cast = PopNextTickToCast(hots);
-    ResolveHealIfTime(time, hot_as_cast, deficits, deficits_delayed, &mana_dummy, &prev_cast_dummy, out);
+    ResolveHealIfTime(time, &hot_as_cast, deficits, deficits_delayed, &mana_dummy, &prev_cast_dummy, out);
   }
 }
 
@@ -284,10 +295,10 @@ void ResolveHealsIfTime(const PriestCharacter& c, int64_t time, MyCast* my_cast,
                        std::map<std::string, float>* deficits_delayed, float* mana, int64_t* prev_cast, 
                        LogResult* out, Hots *hots) 
 {
-  if (ResolveHealIfTime(time, my_cast, deficits, deficits_delayed, mana, rev_cast, out)) { 
-    AddHotsIfAny(c, time, *my_cast, &hots);
+  if (ResolveHealIfTime(time, my_cast, deficits, deficits_delayed, mana, prev_cast, out)) { 
+    AddHotsIfAny(c, time, *my_cast, hots);
   }
-  ResolveHotsIfTime(time, &hots, &deficits, &deficits_delayed, &out);
+  ResolveHotsIfTime(time, hots, deficits, deficits_delayed, out);
 }
 
 

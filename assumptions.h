@@ -98,8 +98,8 @@ struct Assumptions
   int keep_best_per_slot = 4;
 
   // No renew / T2 8p HoT wanted on these on log based. Essentially, list warriors here / in your conf
-  std::vector<std::string>> no_renew_on = {"Rawrmew-Gehennas", "Canoe-Gehennas", "Scottw-Gehennas", "Ripu-Gehennas",
-    "Cadeyrn-Gehennas", "Kozue-Gehennas", "Cylian-Gehennas", "Gazghul-Gehennas", "Furygor-Gehennas", "Deviyo-Gehennas"};
+  // std::vector<std::string>> no_renew_on = {"Rawrmew-Gehennas", "Canoe-Gehennas", "Scottw-Gehennas", "Ripu-Gehennas",
+    // "Cadeyrn-Gehennas", "Kozue-Gehennas", "Cylian-Gehennas", "Gazghul-Gehennas", "Furygor-Gehennas", "Deviyo-Gehennas"};
 };
 
 namespace global
