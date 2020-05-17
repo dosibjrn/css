@@ -93,10 +93,13 @@ struct Assumptions
   // Pop +healing and e.g. zg priest trinket at this
   float total_deficit_to_pop_trinkets = 10000.0f;
 
-
-  // Related to speedup by dropping bad items early
+  // WIP Related to speedup by dropping bad items early
   bool drop_bad_items_early = false;
   int keep_best_per_slot = 4;
+
+  // No renew / T2 8p HoT wanted on these on log based. Essentially, list warriors here / in your conf
+  std::vector<std::string>> no_renew_on = {"Rawrmew-Gehennas", "Canoe-Gehennas", "Scottw-Gehennas", "Ripu-Gehennas",
+    "Cadeyrn-Gehennas", "Kozue-Gehennas", "Cylian-Gehennas", "Gazghul-Gehennas", "Furygor-Gehennas", "Deviyo-Gehennas"};
 };
 
 namespace global

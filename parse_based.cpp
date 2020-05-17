@@ -57,7 +57,21 @@ struct MyCast : public LogEntry {
   std::string spell_id;
 };
 
+struct Hot {
+  std::deque<int64_t> tick_times;
+  float per_tick;
+  std::string target;
+  std::string spell_name;
+};
+
+struct Hots {
+  int64_t next_tick;
+  std::vector<Hot> hots;
+};
+
 namespace {
+
+
 
 MyCast SpellToMyCast(const Spell& s, const std::string& player, int64_t time)
 {
@@ -118,6 +132,8 @@ void PickBestPreCast(const PriestCharacter &c, float mana, int64_t time, const s
   }
 }
 
+
+
 // TODO: should keep track of the biggest deficit target i guess or sth, for perf
 void PickBestCastIfAny(const PriestCharacter& c, float mana, int64_t time, const std::map<std::string, float>& deficits, //
                        const std::vector<Spell>& spells, MyCast* my_cast)
@@ -141,9 +157,56 @@ void PickBestCastIfAny(const PriestCharacter& c, float mana, int64_t time, const
   }
 }
 
+bool GreaterHealHasHot(const PriestCharacter& c) {
+  if (!global::assumptions.transc8_exists) {
+    return false;
+  }
 
-void ResolveHealIfTime(int64_t time, MyCast* my_cast, std::map<std::string, float>* deficits, //
-                       std::map<std::string, float>* deficits_delayed, float* mana, int64_t* prev_cast, LogResult* out) 
+  if (c.set_bonuses.HasBonus("transcendence 8")) {
+    return true;
+  }
+  if (c.set_bonuses.getPartial()) {
+    if (c.set_bonuses.NumPieces("transcendence") > 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void AddHotsIfAny(const PriestCharacter& c, int64_t time, const MyCast& my_cast, Hots *hots) {
+  if (!(my_cast.spell_name == "Greater Heal")) {
+    return;
+  }
+
+  if (!GreaterHealHasHot(c)) {
+    return;
+  }
+
+  if (!(my_cast.done)) {
+    return;
+  }
+
+  Spell renew = Renew(c, 5);
+  Hot hot;
+  int n = std::round(renew.num_ticks);
+  for (int i = 0; i < n; ++i) {
+    hot.tick_times.push_back(i*3e3 + time);
+  }
+  hot.per_tick = renew.healing*c.set_bonuses.NumPieces("transcendence")/8.0f;
+  hot.spell_name = "8p T2 renew";
+  hot.target = my_cast.player;
+  Hots->push_back(hot);
+  if (hot.tick_times.front() < hots->next_tick || hots->hots.empty() ) {
+    hots->next_tick = hot.tick_times.front();
+  }
+}
+
+// This implementation might actually be more or less there now?
+
+
+bool ResolveHealIfTime(int64_t time, MyCast* my_cast, std::map<std::string, float>* deficits, //
+                       std::map<std::string, float>* deficits_delayed, float* mana, int64_t* prev_cast, 
+                       LogResult* out) 
 {
   // if cast is finished, resolve and collect healing that was not overhealing
   if (!my_cast->done && my_cast->time <= time) {
@@ -159,8 +222,72 @@ void ResolveHealIfTime(int64_t time, MyCast* my_cast, std::map<std::string, floa
       *mana -= my_cast->cost;
       my_cast->done = true;
       *prev_cast = time;
+      return true;
     }
   }
+  return false;
+}
+
+MyCast PopNextTickToCast(Hots* hots)
+{
+  int next_ix = 0;
+  Hot* next = &hots->hots[0];
+  // Find the one with next timestamp
+  int ix = 0;
+  for (auto& hot : hots->hots) {
+    if (next->tick_times[0] > hot.tick_times[0]) {
+      next = &hot;
+      next_ix = ix;
+    }
+    ix++;
+  }
+
+  // Copy properties to my cast, no mana costs at this stage
+  MyCast out;
+  out.time = next->tick_times[0];
+  out.spell_name = next->spell_name;
+  out.spell_id = next->spell_name;
+  out.player = next->target;
+  out.hp_diff = next->per_tick;
+  out.done = false;
+  out.cost = 0.0f;
+
+  // update next_tick
+  next->tick_times.pop_front();
+  if (next->tick_times.empty()) {
+    hots->erase(hots->begin() + next_ix);
+  }
+
+  for (auto& hot : hots->hots) {
+    if (hots->next_tick > hot.tick_times[0]) {
+      hots->next_tick = hot.tick_times[0];
+    }
+  }
+}
+
+ResolveHotsIfTime(int64_t time, Hots* hots, std::map<std::string, float>* deficits, //
+                       std::map<std::string, float>* deficits_delayed,
+                       LogResult* out) 
+{
+  int64_t prev_cast_dummy = 0;
+  float mana_dummy = 0.0f;
+  while (!hots.hots.empty() && hots->next_tick <= time) {
+    auto hot_as_cast = PopNextTickToCast(hots);
+    ResolveHealIfTime(time, hot_as_cast, deficits, deficits_delayed, &mana_dummy, &prev_cast_dummy, out);
+  }
+}
+
+
+// If it was 8p t2, add hot here to hots, this same func is used for resolving
+// TODO: Hots -> MyCast, call ResolveHealIfTime, repeat while done
+void ResolveHealsIfTime(const PriestCharacter& c, int64_t time, MyCast* my_cast, std::map<std::string, float>* deficits, //
+                       std::map<std::string, float>* deficits_delayed, float* mana, int64_t* prev_cast, 
+                       LogResult* out, Hots *hots) 
+{
+  if (ResolveHealIfTime(time, my_cast, deficits, deficits_delayed, mana, rev_cast, out)) { 
+    AddHotsIfAny(c, time, *my_cast, &hots);
+  }
+  ResolveHotsIfTime(time, &hots, &deficits, &deficits_delayed, &out);
 }
 
 
@@ -206,10 +333,14 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
 
   // cheaper / longer spells that will more likely get cancelled and thus conserve mana
   std::vector<Spell> spells_hpm;
-  spells_hpm.push_back(Heal(c, 2));
-  spells_hpm.push_back(Heal(c, 4));
-  spells_hpm.push_back(GreaterHeal(c, 1));
-  spells_hpm.push_back(GreaterHeal(c, 4));
+  if (GreaterHealHasHot(c)) {
+    for (int i = 1; i <= 4; ++i) spells_hpm.push_back(GreaterHeal(c, 1));
+  } else {
+    spells_hpm.push_back(Heal(c, 2));
+    spells_hpm.push_back(Heal(c, 4));
+    spells_hpm.push_back(GreaterHeal(c, 1));
+    spells_hpm.push_back(GreaterHeal(c, 4));
+  }
 
   std::vector<Spell> spells_hazz;
   bool have_hazz = cds->find("hazza'rah's") != cds->end();
@@ -242,6 +373,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   }
 
 
+  Hots hots;
   Stats s(c);
   const float max_mana = s.getMaxMana();
   int64_t prev_cast = 0;
@@ -270,7 +402,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
 
       HandleLogEntry(log[log_ix], &deficits, nullptr, &out.player_heal_sums);
       if (in_combat) {
-        ResolveHealIfTime(log[log_ix].time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &out); 
+        ResolveHealsIfTime(c, log[log_ix].time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &out, &hots);
       } else {
         my_cast.done = true;
       }
@@ -347,7 +479,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
       }
 
       // if cast is finished, resolve and collect healing that was not overhealing
-      ResolveHealIfTime(time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &out); 
+      ResolveHealsIfTime(c, time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &out, &hots); 
 
       // if not casting, pick best target and start casting
       if (my_cast.done) {
