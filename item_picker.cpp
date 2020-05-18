@@ -32,6 +32,7 @@ Item ToStatDiffs(const Item& item_in, const PriestCharacter& c_no_item)
   int t1_diff = c_tmp.set_bonuses.NumPieces("prophecy") - c_no_item.set_bonuses.NumPieces("prophecy");
   if (c_no_item.set_bonuses.NumPieces("prophecy") >= 3) t1_diff = 0;
 
+
   int t2_diff = c_tmp.set_bonuses.NumPieces("transcendence") - c_no_item.set_bonuses.NumPieces("transcendence");
   if (c_no_item.set_bonuses.NumPieces("transcendence") >= 3) t2_diff = 0;
 
@@ -120,7 +121,7 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
       // regen = FindBestRegen(c, counts[i], m_pve_healing_combat_lengths[i], regen); 
       auto res = HpsWithRegen(c, PveHealingSequence(c, counts[i]), m_pve_healing_combat_lengths[i], regen);
       float w = 1.0f;
-      if (i < global::assumptions.pve_combat_weights.size()) {
+      if (i < static_cast<int>(global::assumptions.pve_combat_weights.size())) {
         w = global::assumptions.pve_combat_weights[i];
       }
       hps_sum += w*res.first;
@@ -325,11 +326,15 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool dis
     for (const Item& item : items_in) {
       Item current = temp_items[item.slot];
 
+      c_tmp = m_c_curr;
+
+      RemoveItem(current, &c_tmp);
+
       float s = 0.0;
-      float curr_val = valueIncreaseWeightsBased(current, &s);
+      float curr_val = valueIncreaseWeightsBased(ToStatDiffs(current, c_tmp), &s);
       curr_val -= s;
 
-      float item_val = valueIncreaseWeightsBased(item, &s);
+      float item_val = valueIncreaseWeightsBased(ToStatDiffs(item, c_tmp), &s);
       item_val -= s;
 
       diff_sum += (item_val - curr_val);
@@ -588,12 +593,13 @@ void ItemPicker::CoutDiffsToStart()
       }
 
       RemoveItem(best_item, &c_tmp);
+      PriestCharacter c_no_item = c_tmp;
       float val_no_item = value(c_tmp);
       AddItem(start_item, &c_tmp);
       float val_start = value(c_tmp);
       if (use_alt) {
-        float val_best_item = valueIncreaseWeightsBased(best_item);
-        float val_start_item = valueIncreaseWeightsBased(best_item);
+        float val_best_item = valueIncreaseWeightsBased(ToStatDiffs(best_item, c_no_item));
+        float val_start_item = valueIncreaseWeightsBased(ToStatDiffs(start_item, c_no_item));
 
         val_start = val - val_best_item + val_start_item;
         val_no_item = val - val_best_item;
@@ -1048,19 +1054,19 @@ bool TooSpecial(const Item& item) {
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, 
                           std::string taken_name, bool no_special_alt)
 {
-  bool verbose = current_item.slot == "shoulders";
-  // bool verbose = false;
+  // bool verbose = current_item.slot == "shoulders";
+  constexpr bool verbose = false;
   // create char without item
   PriestCharacter c_no_item = c;
   RemoveItem(current_item, &c_no_item);
   // for each item
   Item no_item;
   Item best_item = no_item;
-  Item worst_item = no_item;
+  // Item worst_item = no_item;
   float no_item_value = value(c_no_item);
   if (verbose) std::cout << "No item value: " << no_item_value << std::endl;
   float best_value = no_item_value;
-  float worst_value = no_item_value;
+  // float worst_value = no_item_value;
   bool locked_seen = false;
   int n_items = static_cast<int>(items_for_slot.size());
   std::vector<float> vals(n_items);
@@ -1078,10 +1084,11 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
       Item item = ToStatDiffs(items_for_slot[i], c_no_item);
       if (!TooSpecial(item)) {
         m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value});
-        if (m_stat_diffs_to_hps_diffs.size() > global::assumptions.n_last_entries_for_alt_stats) {
+        // if (static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats) {
+        if (0) {
           const Item& item = items_for_slot[i];
           float s = 0.0f;
-          float val_alt = no_item_value + valueIncreaseWeightsBased(item, &s);
+          float val_alt = no_item_value + valueIncreaseWeightsBased(ToStatDiffs(item, c_no_item), &s);
           if (no_special_alt) {
             val_alt -= s;
           }
@@ -1317,7 +1324,7 @@ void ItemPicker::CoutCurrentValues(std::string tag_name)
     c = m_c_best;
     float diff_required = 0.0f;
     int max_tries = 200;
-    float obtained_val_diff = 0.0f;
+    // float obtained_val_diff = 0.0f;
 
     float diff_required_sum = 0.0f;
     float obtained_val_diff_sum = 0.0f;
@@ -1332,17 +1339,17 @@ void ItemPicker::CoutCurrentValues(std::string tag_name)
       }
 
       if (val - val_start >= ref_val_diff) {
-        obtained_val_diff = val - val_start;
+        // obtained_val_diff = val - val_start;
         break;
       }
       if (diff_required/steps[i] > diff/steps[ref_ix] && val <= val_start) {
-        obtained_val_diff = val - val_start;
+        // obtained_val_diff = val - val_start;
         diff_required = 1e20f;
         diff_required_sum += 1e20f;
         break;
       }
       if (diff_required/steps[i] > max_tries) {
-        obtained_val_diff = val - val_start;
+        // obtained_val_diff = val - val_start;
         break;
       }
     }

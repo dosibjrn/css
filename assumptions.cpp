@@ -61,7 +61,7 @@ std::map<std::string, std::vector<float>> AssumptionsToMap(const std::string &fn
       if (entries.size() > 1) {
         std::string key = entries[0];
         assumptions_in[key] = std::vector<float>();
-        for (int i = 1; i < entries.size(); ++i) {
+        for (size_t i = 1; i < entries.size(); ++i) {
           assumptions_in[key].push_back(static_cast<float>(atof(entries[i].c_str())));
         }
       }
@@ -83,7 +83,7 @@ std::map<std::string, std::vector<std::string>> AssumptionsToStringMap(const std
       if (entries.size() > 1) {
         std::string key = entries[0];
         assumptions_in[key] = std::vector<std::string>();
-        for (int i = 1; i < entries.size(); ++i) {
+        for (size_t i = 1; i < entries.size(); ++i) {
           assumptions_in[key].push_back(entries[i]);
         }
       }
@@ -137,6 +137,8 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("use_deficit_time_sum", assumptions_in, &global::assumptions.use_deficit_time_sum);
   SetIfGiven("water_type", assumptions_in, &global::assumptions.water_type);
   SetIfGiven("total_deficit_to_pop_trinkets", assumptions_in, &global::assumptions.total_deficit_to_pop_trinkets);
+
+  SetIfGiven("no_renew_on", assumptions_in_string, &global::assumptions.no_renew_on);
 }
 
 }  // namespace css

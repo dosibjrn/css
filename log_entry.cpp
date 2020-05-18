@@ -278,23 +278,23 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
     int mitigated = atoi(line.substr(start + 1, start - end - 2).c_str());
 
     // 26  rawAmount  Raw damage amount (pre-armor, etc.)
-    IncrementCell(1, line, &start, &end);
-    int raw_amount = atoi(line.substr(start + 1, start - end - 2).c_str());
+    // IncrementCell(1, line, &start, &end);
+    // int raw_amount = atoi(line.substr(start + 1, start - end - 2).c_str());
 
     // 27  overkill  Overkill amount
     // 28  school  Spell school
 
     // 29  resisted  Resisted amount
-    IncrementCell(3, line, &start, &end);
-    int resisted = atoi(line.substr(start + 1, start - end - 2).c_str());
+    // IncrementCell(3, line, &start, &end);
+    // int resisted = atoi(line.substr(start + 1, start - end - 2).c_str());
 
     // 30  blocked  Blocked amount
-    IncrementCell(1, line, &start, &end);
-    int blocked = atoi(line.substr(start + 1, start - end - 2).c_str());
+    // IncrementCell(1, line, &start, &end);
+    // int blocked = atoi(line.substr(start + 1, start - end - 2).c_str());
 
     // 31  absorbed  Absorbed amount
-    IncrementCell(1, line, &start, &end);
-    int absorbed = atoi(line.substr(start + 1, start - end - 2).c_str());
+    // IncrementCell(1, line, &start, &end);
+    // int absorbed = atoi(line.substr(start + 1, start - end - 2).c_str());
 
     // e->hp_diff = -1.0f * (raw_amount - mitigated - resisted - blocked - absorbed);
     // int total_damage = mitigated;

@@ -24,7 +24,6 @@ set(header_list
   priest_talents.h
   pve.h
   pvp.h
-  raid.h
   regen.h
   school.h
   set_bonus_calculus.h
@@ -68,6 +67,10 @@ set(source_list
   spells_priest_shadow.cpp
   stats.cpp
   )
+
+if (UNIX)
+  add_compile_options(-Wall)
+endif()
 
 # message(STATUS "headers: ${header_list}, sources: ${source_list}")
 find_package(OpenMP REQUIRED)

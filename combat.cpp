@@ -57,7 +57,7 @@ FightResult FightMob(const PriestCharacter& c, const std::vector<Spell>& spells,
       weave = 0;
     }
     bool spell_cast = false;
-    if (spell_ix < spells.size()) {
+    if (spell_ix < static_cast<int>(spells.size())) {
       Spell s = spells[spell_ix];
       if (!s.cd || s.cd + cooldown_start < time) {
         if (s.cd) {

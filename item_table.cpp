@@ -158,7 +158,7 @@ int IxFrom(const std::vector<std::string>& splitted, const std::string& name)
 
 float FloatWithCheck(const std::vector<std::string>& splitted, int ix)
 {
-  if (ix < 0 || ix >= splitted.size()) {
+  if (ix < 0 || ix >= static_cast<int>(splitted.size())) {
     return 0.0f;
   } else {
     return static_cast<float>(atof(splitted[ix].c_str()));
@@ -167,7 +167,7 @@ float FloatWithCheck(const std::vector<std::string>& splitted, int ix)
 
 std::string StringWithCheck(const std::vector<std::string>& splitted, int ix)
 {
-  if (ix < 0 || ix >= splitted.size()) {
+  if (ix < 0 || ix >= static_cast<int>(splitted.size())) {
     return "N/A";
   } else {
     return splitted[ix];

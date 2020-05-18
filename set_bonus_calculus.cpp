@@ -155,7 +155,6 @@ std::vector<std::vector<Item>> AllMatchingBonuses(const ItemTable& table, const 
   ss << "initial number of sets: " << number_of_sets << std::endl;
 
   // populate the options_for_sets to contain all options for each individual set
-  int set_ix = 0;
   std::set<std::string> sets;
   for (auto name : bonus_names) {
     auto res = splitBonusName(name);

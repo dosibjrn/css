@@ -73,8 +73,9 @@ float RemainingManaAsHealing(const PriestCharacter& c, float in_full_regen, floa
 float Dps(float end_at_s)
 {
   float eps = 1.0f;
-  for (int i = 0; i < global::assumptions.pve_combat_lengths.size(); ++i) {
-    if (fabs(global::assumptions.pve_combat_lengths[i] - end_at_s) < eps && i < global::assumptions.target_dps_in.size()) {
+  for (int i = 0; i < static_cast<int>(global::assumptions.pve_combat_lengths.size()); ++i) {
+    if (fabs(global::assumptions.pve_combat_lengths[i] - end_at_s) < eps 
+        && i < static_cast<int>(global::assumptions.target_dps_in.size())) {
       return global::assumptions.target_dps_in[i];
     }
   }

@@ -19,6 +19,22 @@
 namespace css
 {
 
+bool GreaterHealHasHot(const PriestCharacter& c) {
+  if (!global::assumptions.transc8_exists) {
+    return false;
+  }
+
+  if (c.set_bonuses.HasBonus("transcendence 8")) {
+    return true;
+  }
+  if (c.set_bonuses.getPartial()) {
+    if (c.set_bonuses.NumPieces("transcendence") > 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
 void HandleLogEntry(const LogEntry& e, std::map<std::string, float>* d, //
                     std::map<std::string, float>* damage_taken = nullptr,
                     std::map<std::string, float>* healing_done = nullptr)
@@ -117,11 +133,24 @@ void PickBestPreCast(const PriestCharacter &c, float mana, int64_t time, const s
     }
   }
   
+  float add_to_gh = 0.0f;
+  const bool gh_has_hot = GreaterHealHasHot(c);
+  if (gh_has_hot) {
+    Spell renew = Renew(c, 5);
+    add_to_gh = 2.5f*renew.healing;
+  }
+
   // Pick spell with healing closest to max_val
   const Spell* best_spell = &spells.front();
   float min_d = fabs(best_spell->healing - max_val);
   for (const auto& spell : spells) {
-    float d = fabs(spell.healing - max_val);
+    float d = 0.0f;
+    if (gh_has_hot && spell.name == "Greater Heal") {
+      d = fabs(spell.healing + add_to_gh - max_val);
+    } else {
+      d = fabs(spell.healing - max_val);
+    }
+
     if (d < min_d && spell.cost < mana) {
       best_spell = &spell;
       min_d = d;
@@ -150,29 +179,26 @@ void PickBestCastIfAny(const PriestCharacter& c, float mana, int64_t time, const
     }
   }
 
+  float add_to_gh = 0.0f;
+  const bool gh_has_hot = GreaterHealHasHot(c);
+  if (gh_has_hot) {
+    Spell renew = Renew(c, 5);
+    add_to_gh = 2.5f*renew.healing;
+  }
+
   my_cast->hp_diff = 0;
   for (const Spell& spell : spells) {
-    if (deficit > spell.healing && spell.healing > my_cast->hp_diff && mana > spell.cost) {
+    if (gh_has_hot && spell.name == "Greater Heal") {
+      if (deficit > spell.healing + add_to_gh && spell.healing > my_cast->hp_diff && mana > spell.cost) {
+        *my_cast = SpellToMyCast(spell, player, time);
+      }
+    } else if (deficit > spell.healing && spell.healing > my_cast->hp_diff && mana > spell.cost) {
       *my_cast = SpellToMyCast(spell, player, time);
     }
   }
 }
 
-bool GreaterHealHasHot(const PriestCharacter& c) {
-  if (!global::assumptions.transc8_exists) {
-    return false;
-  }
 
-  if (c.set_bonuses.HasBonus("transcendence 8")) {
-    return true;
-  }
-  if (c.set_bonuses.getPartial()) {
-    if (c.set_bonuses.NumPieces("transcendence") > 0) {
-      return true;
-    }
-  }
-  return false;
-}
 
 void AddHotsIfAny(const PriestCharacter& c, int64_t time, const MyCast& my_cast, Hots *hots) {
   if (!(my_cast.spell_name == "Greater Heal")) {
@@ -190,11 +216,11 @@ void AddHotsIfAny(const PriestCharacter& c, int64_t time, const MyCast& my_cast,
   Spell renew = Renew(c, 5);
   Hot hot;
   int n = std::round(renew.num_ticks);
-  for (int i = 0; i < n; ++i) {
+  for (int i = 1; i <= n; ++i) {
     hot.tick_times.push_back(i*3e3 + time);
   }
   hot.per_tick = renew.healing*c.set_bonuses.NumPieces("transcendence")/8.0f;
-  hot.spell_name = "8p T2 renew";
+  hot.spell_name = "8pT2";
   hot.target = my_cast.player;
   bool found = false;
 
@@ -233,6 +259,9 @@ bool ResolveHealIfTime(int64_t time, MyCast* my_cast, std::map<std::string, floa
       *mana -= my_cast->cost;
       my_cast->done = true;
       *prev_cast = time;
+      if (my_cast->spell_id == "8pT2") {
+        // std::cout << "    8pT2 to: " << my_cast->player << ", h: " << healing << ", oh: " << my_cast->hp_diff - healing << std::endl;
+      }
       return true;
     }
   }
@@ -274,6 +303,7 @@ MyCast PopNextTickToCast(Hots* hots)
       hots->next_tick = hot.tick_times[0];
     }
   }
+  return out;
 }
 
 void ResolveHotsIfTime(int64_t time, Hots* hots, std::map<std::string, float>* deficits, //
@@ -282,9 +312,14 @@ void ResolveHotsIfTime(int64_t time, Hots* hots, std::map<std::string, float>* d
 {
   int64_t prev_cast_dummy = 0;
   float mana_dummy = 0.0f;
+  float heal_sum_was = out->heal_sum;
   while (!hots->hots.empty() && hots->next_tick <= time) {
     auto hot_as_cast = PopNextTickToCast(hots);
     ResolveHealIfTime(time, &hot_as_cast, deficits, deficits_delayed, &mana_dummy, &prev_cast_dummy, out);
+  }
+  if (out->heal_sum > heal_sum_was) {
+    // std::cout << "time: " << time << ", heal sum increase: " << out->heal_sum - heal_sum_was << std::endl;
+    // std::cout << "    8pT2 heal_sum: " << out->spell_heal_sums["8pT2"] << std::endl;
   }
 }
 
@@ -553,7 +588,7 @@ LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_p
     if (e.player.find(" ") == std::string::npos && e.source != remove_player) {
       this_combat.push_back(e);
     }
-    if (e.time - prev_t_ms > max_diff_ms) {
+    if (e.time - prev_t_ms > max_diff_ms || &e == &log.back()) {
       if (this_combat.back().time - this_combat.front().time > min_combat_len_ms) {
         out.push_back(std::vector<LogEntry>{});
         std::cout << "Combat from " << (this_combat.front().time - start_time)/1e3 << " to " << (this_combat.back().time - start_time)/1e3 << " s" << std::endl;
@@ -682,6 +717,10 @@ LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_m
       }
     }
   }
+  const float sum = out.spell_heal_sums["8pT2"];
+  if (sum) {
+    // std::cout << "8pT2 sum: " << out.spell_heal_sums["8pT2"] << ", total sum: " << out.heal_sum << std::endl;
+  }
   // std::cout << "oh_limit: " << oh_limit << ", time_left_mul: " << time_left_mul << " -> total hps: " << heal_sum/time_sum << std::endl;
   return out;
 }
@@ -750,6 +789,7 @@ std::pair<float, float> FindBestOhLimitAndTimeLeftMul(const PriestCharacter& c, 
 
 void ParseBased(const std::string& log_fn)
 {
+  global::assumptions.log_in = log_fn;
   auto logs = GetLogs(log_fn);
 
   auto c = BaseLvl60HolyDiscHealing();

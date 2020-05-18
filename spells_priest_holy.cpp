@@ -134,7 +134,7 @@ Spell GreaterHeal(const PriestCharacter& c, int rank) {
   s.can_crit = true;
   ModifySpell(c, &s);
 
-  bool transc8_exists = global::assumptions.transc8_exists;
+  bool transc8_exists = global::assumptions.transc8_exists && global::assumptions.log_in == "";
   if (transc8_exists) {
     if (c.set_bonuses.getTotalBonus().name.find("transcendence 8") != std::string::npos) {
       Spell extra_renew = Renew(c, 5);
