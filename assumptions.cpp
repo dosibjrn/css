@@ -139,6 +139,7 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("total_deficit_to_pop_trinkets", assumptions_in, &global::assumptions.total_deficit_to_pop_trinkets);
 
   SetIfGiven("no_renew_on", assumptions_in_string, &global::assumptions.no_renew_on);
+  SetIfGiven("use_alt_for_log_based_picks", assumptions_in, &global::assumptions.use_alt_for_log_based_picks);
 }
 
 }  // namespace css

@@ -1084,8 +1084,8 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
       Item item = ToStatDiffs(items_for_slot[i], c_no_item);
       if (!TooSpecial(item)) {
         m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value});
-        // if (static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats) {
-        if (0) {
+        if (static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats
+            && global::assumptions.use_alt_for_log_based_picks) {
           const Item& item = items_for_slot[i];
           float s = 0.0f;
           float val_alt = no_item_value + valueIncreaseWeightsBased(ToStatDiffs(item, c_no_item), &s);

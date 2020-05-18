@@ -100,6 +100,8 @@ struct Assumptions
   // No renew / T2 8p HoT wanted on these on log based. Essentially, list warriors here / in your conf
   std::vector<std::string> no_renew_on = {"Rawrmew-Gehennas", "Canoe-Gehennas", "Scottw-Gehennas", "Ripu-Gehennas",
     "Cadeyrn-Gehennas", "Kozue-Gehennas", "Cylian-Gehennas", "Gazghul-Gehennas", "Furygor-Gehennas", "Deviyo-Gehennas"};
+
+  bool use_alt_for_log_based_picks = true;
 };
 
 namespace global
