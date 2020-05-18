@@ -94,7 +94,7 @@ struct Assumptions
   float total_deficit_to_pop_trinkets = 10000.0f;
 
   // WIP Related to speedup by dropping bad items early
-  bool drop_bad_items_early = false;
+  bool drop_bad_items_early = true;
   int keep_best_per_slot = 4;
 
   // No renew / T2 8p HoT wanted on these on log based. Essentially, list warriors here / in your conf

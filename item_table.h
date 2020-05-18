@@ -19,6 +19,8 @@ class ItemTable {
 
   std::string nameToSlot(const std::string& name) const;
 
+  void removeItem(const std::string& name);
+
  private:
   void prepareSlotMap();
   void prepareColumnIndexes(const std::string& header_line);

@@ -86,6 +86,25 @@ std::string ItemTable::nameToSlot(const std::string& name) const
   }
 }
 
+
+void ItemTable::removeItem(const std::string& name)
+{
+  auto slot = nameToSlot(name);
+  if (slot == "") return;
+
+  if (m_slots.find(slot) == m_slots.end()) return;
+
+  int slot_ix = m_slots[slot];
+  auto& items_for_slot = m_items[slot_ix];
+  int n = static_cast<int>(items_for_slot.size());
+  for (int i = 0; i < n; ++i) {
+    if (items_for_slot[i].name == name) {
+      items_for_slot.erase(items_for_slot.begin() + i);
+      return;
+    }
+  }
+}
+
 void ItemTable::prepareSlotMap()
 {
   int i = 0;

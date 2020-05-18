@@ -140,6 +140,9 @@ void ReadAssumptions(const std::string& fn)
 
   SetIfGiven("no_renew_on", assumptions_in_string, &global::assumptions.no_renew_on);
   SetIfGiven("use_alt_for_log_based_picks", assumptions_in, &global::assumptions.use_alt_for_log_based_picks);
+
+  SetIfGiven("drop_bad_items_early", assumptions_in, &global::assumptions.drop_bad_items_early);
+  SetIfGiven("keep_best_per_slot", assumptions_in, &global::assumptions.keep_best_per_slot);
 }
 
 }  // namespace css

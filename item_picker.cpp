@@ -553,7 +553,7 @@ void SwapIfSame(Item best, Item* start_a, Item* start_b) {
 void ItemPicker::CoutDiffsToStart()
 {
   auto c_save = m_c_best;
-  m_c_best.set_bonuses.SetPartialAndUpdateCharacter(true, &m_c_best);
+  m_c_best.set_bonuses.SetPartialAndUpdateCharacter(false, &m_c_best);
   float val = value(m_c_best);
   std::vector<std::string> order = {"head", "neck", "shoulders", "back", "chest", "wrists", "two-hand", "ranged",
     "hands", "waist", "legs", "feet", "finger", "finger 2", "trinket", "trinket 2"};
@@ -567,8 +567,7 @@ void ItemPicker::CoutDiffsToStart()
 
   bool use_alt = !m_weights.empty();
   if (use_alt) {
-    std::cout << "( following sorted by alt scores )" << std::endl;
-
+    std::cout << "( following sorted by alt scores, no specials )" << std::endl;
   }
  
   for (auto slot : order) {
@@ -598,8 +597,11 @@ void ItemPicker::CoutDiffsToStart()
       AddItem(start_item, &c_tmp);
       float val_start = value(c_tmp);
       if (use_alt) {
-        float val_best_item = valueIncreaseWeightsBased(ToStatDiffs(best_item, c_no_item));
-        float val_start_item = valueIncreaseWeightsBased(ToStatDiffs(start_item, c_no_item));
+        float s = 0.0f;
+        float val_best_item = valueIncreaseWeightsBased(ToStatDiffs(best_item, c_no_item), &s);
+        val_best_item -= s;
+        float val_start_item = valueIncreaseWeightsBased(ToStatDiffs(start_item, c_no_item), &s);
+        val_start_item -= s;
 
         val_start = val - val_best_item + val_start_item;
         val_no_item = val - val_best_item;
@@ -1061,12 +1063,10 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   RemoveItem(current_item, &c_no_item);
   // for each item
   Item no_item;
-  Item best_item = no_item;
-  // Item worst_item = no_item;
   float no_item_value = value(c_no_item);
   if (verbose) std::cout << "No item value: " << no_item_value << std::endl;
   float best_value = no_item_value;
-  // float worst_value = no_item_value;
+  Item best_item = no_item;
   bool locked_seen = false;
   int n_items = static_cast<int>(items_for_slot.size());
   std::vector<float> vals(n_items);
@@ -1079,6 +1079,8 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     vals[i] = val;
   }
 
+
+  bool too_soon = false;
   if (!m_weights.empty()) {
     for (int i = 0; i < n_items; ++i) {
       Item item = ToStatDiffs(items_for_slot[i], c_no_item);
@@ -1093,6 +1095,8 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
             val_alt -= s;
           }
           vals[i] = val_alt;
+        } else {
+          too_soon = true;  // not stable enough yet for any removes
         }
       }
     }
@@ -1122,7 +1126,8 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     float val = vals[i];
 
     if (verbose) std::cout << item.name << " val: " << val << " , best so far: " << best_item.name << " with val: " << best_value  << std::endl;
-    if ((isBanned(item.name) || isBanned(item.source)) && !isWhitelisted(item.name) ) {
+    if (((isBanned(item.name) || isBanned(item.source)) && !isWhitelisted(item.name))
+        || (locked_seen && !isLocked(item))) {
       val = 0.0f;
     }
     if (val > best_value 
@@ -1131,9 +1136,38 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
       if (verbose) std::cout << item.name << " val: " << val << " is new best, old was: " << best_item.name << " with val: " << best_value  << std::endl;
       best_value = val;
       best_item = item;
-
+      if (isLocked(item)) {
+        locked_seen = true;
+      }
     } else {
       if (verbose) std::cout << item.name << " val: " << val << " is not new best, best is: " << best_item.name << " with val: " << best_value  << std::endl;
+    }
+  }
+
+  if (global::assumptions.drop_bad_items_early 
+      && static_cast<int>(items_for_slot.size()) > global::assumptions.keep_best_per_slot
+      && !too_soon) {
+
+
+    float worst_value = best_value;
+    Item worst_item;
+    for (int i = 0; i < n_items; ++i) {
+      const Item& item = items_for_slot[i];
+      float val = vals[i];
+      if (val < worst_value && !isLocked(item) && !TooSpecial(item)) {
+        worst_value = val;
+        worst_item = item;
+      }
+    }
+
+    if (worst_item.name != "") {
+      int size_was = m_item_table.getItems(worst_item.slot).size();
+      if (static_cast<int>(items_for_slot.size()) == size_was) {
+        m_item_table.removeItem(worst_item.name);
+        // int size_is = m_item_table.getItems(worst_item.slot).size();
+        // std::cout << "Removed item: " << worst_item.name << " with value: " << worst_value << " from item table."
+            // << " Size: " << size_was << " --> " << size_is << std::endl;
+      }
     }
   }
   return best_item;
