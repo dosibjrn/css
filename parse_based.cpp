@@ -298,7 +298,13 @@ MyCast PopNextTickToCast(Hots* hots)
     hots->hots.erase(hots->hots.begin() + next_ix);
   }
 
+
+  bool set = false;
   for (auto& hot : hots->hots) {
+    if (!set) {
+      hots->next_tick = hot.tick_times[0];
+      set = true;
+    }
     if (hots->next_tick > hot.tick_times[0]) {
       hots->next_tick = hot.tick_times[0];
     }

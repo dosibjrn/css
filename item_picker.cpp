@@ -1056,6 +1056,17 @@ bool TooSpecial(const Item& item) {
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, 
                           std::string taken_name, bool no_special_alt)
 {
+  if (isLocked(current_item)) {
+    int n_locked_seen = 0;
+    for (const Item& item : items_for_slot) {
+      if (isLocked(item)) {
+        n_locked_seen++;
+      }
+    }
+    if (n_locked_seen == 1) {
+      return current_item;
+    }
+  }
   // bool verbose = current_item.slot == "shoulders";
   constexpr bool verbose = false;
   // create char without item
