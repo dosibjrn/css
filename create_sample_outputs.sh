@@ -1,7 +1,7 @@
 # Run from e.g. css/build
 # cp ../items/have_atiy.txt start_with.txt
-
-cp ../items/have.txt start_with.txt
+#cp ../items/have.txt start_with.txt
+cp ../items/have_mod_locked.txt start_with.txt
 
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_04-12.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy_holy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_holy_04-12.txt
@@ -18,7 +18,7 @@ cp ../items/have.txt start_with.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09_reaction_1s.csv -l bwl.txt | tee ../sample_output/log_based/bwl_02-26_reaction_1s.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l nefarian.txt | tee ../sample_output/log_based/nefarian_02-26.txt
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/have.txt -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_current.txt
+./css 4 ../items/more_raid.csv ../items/not_for_priests.txt start_with.txt -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_current.txt
 
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09_deficit_change.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_deficit_change.txt
 
@@ -26,11 +26,14 @@ cp ../items/8pt2.txt start_with.txt
 
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/8pt2.txt -a ../confs/bwl_2020-04-09_transc8.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_transc8.txt
 
-cp ../items/have.txt start_with.txt
+./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/have_mod_locked.txt -a ../confs/bwl_2020-04-09.csv -l bwl.txt | tee ../sample_output/log_based/bwl_current_02-26.txt
+Your call: ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/have_mod_locked.txt -a ../confs/bwl_2020-04-09.csv -l bwl.txt
 
-./css 4 ../items/more_raid.csv no-bans ../items/have.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
+# cp ../items/have.txt start_with.txt
+
+./css 4 ../items/more_raid.csv no-bans start_with.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
 ./css 4 ../items/more_raid.csv ../items/bwl.txt no-lock pve_healing_mc_ony -a ../confs/our_mc.csv | tee ../sample_output/our_raids_mc_ony.txt
-./css 4 ../items/more_raid.csv no-bans ../items/have.txt pve_healing_current -a ../confs/our_mc.csv | tee ../sample_output/our_raids_current.txt
+./css 4 ../items/more_raid.csv no-bans start_with.txt pve_healing_current -a ../confs/our_mc.csv | tee ../sample_output/our_raids_current.txt
 ./css 4 ../items/more_raid.csv no-bans no-lock pve_healing_bwl -a ../confs/bwl_0401.csv | tee ../sample_output/our_raids_bwl.txt
 ./css 3 ../items/more_raid.csv no-bans ../items_have.txt pvp_heal_current
 ./css 3 ../items/more_raid.csv ../items/bwl.txt no-lock pvp_heal_mc_ony
