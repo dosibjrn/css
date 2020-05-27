@@ -591,9 +591,7 @@ LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_p
   std::vector<LogEntry> this_combat;
   int64_t start_time = prev_t_ms;
   for (const auto& e : log) {
-    if (e.player.find(" ") == std::string::npos && e.source != remove_player) {
-      this_combat.push_back(e);
-    }
+
     if (e.time - prev_t_ms > max_diff_ms || &e == &log.back()) {
       if (this_combat.back().time - this_combat.front().time > min_combat_len_ms) {
         out.push_back(std::vector<LogEntry>{});
@@ -603,6 +601,9 @@ LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_p
         }
       }
       this_combat.clear();
+    }
+    if (e.player.find(" ") == std::string::npos && e.source != remove_player) {
+      this_combat.push_back(e);
     }
     if (e.hp_diff < 0) {
       prev_t_ms = e.time;
@@ -645,6 +646,7 @@ LogsType GetLogs(const std::string& log_fn)
         std::cout << "Pretty strange time increment of : " << static_cast<float>(e.time - time_prev_ms)/hour_ms 
             << " hours. Let's say we skip this line:" << std::endl;
         std::cout << line << std::endl;
+        time_prev_ms = e.time;
       } else {
         log.push_back(e);
         time_prev_ms = e.time;
