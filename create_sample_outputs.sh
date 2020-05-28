@@ -45,7 +45,7 @@ Your call: ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/
 
 mkdir ../sample_output/tags/
 cp *.pawn_tag.txt ../sample_output/tags/. 
-tail -n 1 *.pawn_tag.txt > ../sample_output/tags/all_latest_tags.txt
+tail -n 1 ../sample_output/tags/*.pawn_tag.txt > ../sample_output/tags/all_latest_tags.txt
 
 for mode in 2 3 4 5; do
   ./css $mode ../items/more_raid.csv | tee ../sample_output/css_${mode}_bwl.txt
