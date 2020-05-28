@@ -1172,7 +1172,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     }
 
     if (worst_item.name != "") {
-      int size_was = m_item_table.getItems(worst_item.slot).size();
+      int size_was = static_cast<int>(m_item_table.getItems(worst_item.slot).size());
       if (static_cast<int>(items_for_slot.size()) == size_was) {
         m_item_table.removeItem(worst_item.name);
         // int size_is = m_item_table.getItems(worst_item.slot).size();
@@ -1322,18 +1322,33 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   for (float &w : m_weights) {
     if (w < 0.0f) w = 0.0f;
   }
-  std::cout << "Int: " << m_weights[0]/m_weights[2]*100.0f << std::endl;
-  std::cout << "Spirit: " << m_weights[1]/m_weights[2]*100.0f << std::endl;
-  std::cout << "Sp / Healing: " << m_weights[2]/m_weights[2]*100.0f << std::endl;
-  std::cout << "Mp5: " << m_weights[3]/m_weights[2]*100.0f << std::endl;
-  std::cout << "Crit: " << m_weights[4]/m_weights[2]*100.0f << std::endl;
+  std::stringstream ss;
+  float val = 0.0f;
+  std::cout << "Int: " << (val = m_weights[0]/m_weights[2]*100.0f) << std::endl;
+  ss << "Intellect=" << val << ", ";
+  std::cout << "Spirit: " << (val = m_weights[1]/m_weights[2]*100.0f) << std::endl;
+  ss << "Intellect=" << val << ", ";
+  std::cout << "Sp / Healing: " << (val = m_weights[2]/m_weights[2]*100.0f) << std::endl;
+  ss << "Intellect=" << val << ", ";
+  std::cout << "Mp5: " << (val = m_weights[3]/m_weights[2]*100.0f) << std::endl;
+  ss << "Intellect=" << val << ", ";
+  std::cout << "Crit: " << (val = m_weights[4]/m_weights[2]*100.0f) << std::endl;
+  ss << "Intellect=" << val << ", ";
   std::cout << "T1 3p/piece: " << m_weights[5]/m_weights[2]*100.0f << std::endl;
   std::cout << "T2 3p/piece: " << m_weights[6]/m_weights[2]*100.0f << std::endl;
 
   std::cout << "100 points == 1 sp == " << m_weights[2] << " hps." << std::endl;
 
-  // clear for next
-  // m_stat_diffs_to_hps_diffs.clear();
+  ss << "IsFist=X, Is2HMace=X, IsCrossbow=X, IsGun=X, IsShield=X, IsPolearm=X, Is2HAxe=X, IsBow=X, IsMail=X, IsPlate=X, IsLeather=X, IsAxe=X, Is2HAxe=X, IsSword=X, Is2HSword=X)";
+  if (!tag_name.empty()) {
+      std::string fn = tag_name + ".pawn_tag.txt";
+      std::ofstream os(fn, std::ofstream::app);
+      os << ss.str() << std::endl;
+      os.close();
+      std::cout << "Appended tag:" << std::endl;
+      std::cout << ss.str() << std::endl;
+      std::cout << "To file: " << fn << std::endl;
+  }
 }
 
 void ItemPicker::CoutCurrentValues(std::string tag_name)
