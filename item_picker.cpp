@@ -1323,6 +1323,7 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
     if (w < 0.0f) w = 0.0f;
   }
   std::stringstream ss;
+  ss << "( Pawn: v1: \"" << tag_name << "\": ";
   float val = 0.0f;
   std::cout << "Int: " << (val = m_weights[0]/m_weights[2]*100.0f) << std::endl;
   ss << "Intellect=" << val << ", ";
