@@ -1327,13 +1327,13 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   std::cout << "Int: " << (val = m_weights[0]/m_weights[2]*100.0f) << std::endl;
   ss << "Intellect=" << val << ", ";
   std::cout << "Spirit: " << (val = m_weights[1]/m_weights[2]*100.0f) << std::endl;
-  ss << "Intellect=" << val << ", ";
+  ss << "Spirit=" << val << ", ";
   std::cout << "Sp / Healing: " << (val = m_weights[2]/m_weights[2]*100.0f) << std::endl;
-  ss << "Intellect=" << val << ", ";
+  ss << "Healing=" << val << ", ";
   std::cout << "Mp5: " << (val = m_weights[3]/m_weights[2]*100.0f) << std::endl;
-  ss << "Intellect=" << val << ", ";
+  ss << "Mp5=" << val << ", ";
   std::cout << "Crit: " << (val = m_weights[4]/m_weights[2]*100.0f) << std::endl;
-  ss << "Intellect=" << val << ", ";
+  ss << "SpellCritRating=" << val << ", ";
   std::cout << "T1 3p/piece: " << m_weights[5]/m_weights[2]*100.0f << std::endl;
   std::cout << "T2 3p/piece: " << m_weights[6]/m_weights[2]*100.0f << std::endl;
 
