@@ -22,14 +22,12 @@ cp ../items/have_mod_locked.txt start_with.txt
 
 ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09_deficit_change.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_deficit_change.txt
 
+cp start_with.txt bkb.txt
 cp ../items/8pt2.txt start_with.txt
 
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/8pt2.txt -a ../confs/bwl_2020-04-09_transc8.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_transc8.txt
+./css 4 ../items/more_raid.csv ../items/not_for_priests.txt start_with.txt -a ../confs/bwl_2020-04-09_transc8.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_transc8.txt
 
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/have_mod_locked.txt -a ../confs/bwl_2020-04-09.csv -l bwl.txt | tee ../sample_output/log_based/bwl_current_02-26.txt
-Your call: ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/have_mod_locked.txt -a ../confs/bwl_2020-04-09.csv -l bwl.txt
-
-# cp ../items/have.txt start_with.txt
+cp bkb.txt start_with.txt
 
 ./css 4 ../items/more_raid.csv no-bans start_with.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
 ./css 4 ../items/more_raid.csv ../items/bwl.txt no-lock pve_healing_mc_ony -a ../confs/our_mc.csv | tee ../sample_output/our_raids_mc_ony.txt
@@ -42,10 +40,6 @@ Your call: ./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/
 ./css 5 ../items/more_raid.csv ../items/bwl.txt no-lock pve_heal_mc_ony_full_buff
 ./css 4 ../items/more_raid.csv ../items/bwl.txt no-locks pve_average_raiding -a ../confs/average_raiding.csv | tee ../sample_output/average_raiding.txt
 ./css 4 ../items/more_raid.csv ../items/bwl.txt no-locks pve_avg_split_onyxia -a ../confs/avg_split_onyxia.csv | tee ../sample_output/average_split_onyxia.txt
-
-mkdir ../sample_output/tags/
-cp *.pawn_tag.txt ../sample_output/tags/. 
-tail -n 1 ../sample_output/tags/*.pawn_tag.txt > ../sample_output/tags/all_latest_tags.txt
 
 for mode in 2 3 4 5; do
   ./css $mode ../items/more_raid.csv | tee ../sample_output/css_${mode}_bwl.txt
@@ -65,4 +59,6 @@ for snipe in 0.0 0.2 0.4 0.6 0.8 1.0; do
   ./css 4 ../items/more_raid.csv no-bans no-locks bwl_snipe${snipe} -a ../confs/bwl_snipe${snipe}f | tee ../sample_output/snipe_bwl/css_4_snipe${snipe}.txt
 done
 
-
+mkdir ../sample_output/tags/
+cp *.pawn_tag.txt ../sample_output/tags/. 
+tail -n 1 ../sample_output/tags/*.pawn_tag.txt > ../sample_output/tags/all_latest_tags.txt
