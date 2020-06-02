@@ -1,12 +1,16 @@
 # Classic Simple Stats
 
 ## Using Warcraft Logs data (Windows cmd example)
+(updated 2020-06-02)
 
 This repo now contains a modified version of https://github.com/Saintis/Overheal
 
-There is a new python script, read_health_change_from_api.py that is able to obtain a log file from warcraft logs, which is accepted as input to the simulator. To use this, just add key "wcl_log, 1" to your conf file and pass the downloade log file as normal with -l.
+There is a new python script, `read_health_change_from_api.py` that is able to obtain a log file from warcraft logs, which is accepted as input to the simulator. To use this, just add key "wcl_log, 1" to your conf file and pass the downloade log file as normal with -l.
 
-For the script to work, as mentioned in Overheal repo, you need to go to warcraftlogs, your account and copy the API key to apikey.txt in the folder you are running the abovementioned script. In addition, you need to give a name to your application using the API. This name does not matter.
+For the script to work, as mentioned in Overheal repo, you need to go to https://classic.warcraftlogs.com/profile and copy the API key to apikey.txt in the folder you are running the abovementioned script, e.g. the bin folder. 
+
+In addition, you need to give a name to your application using the API. This name does not matter.
+
 
 
 In the following example, we load the current top bwl speedrun from WCL and run the simulator on that
@@ -19,12 +23,14 @@ and then run
 
 The python script accepts both the url or just the code, which is the suffix of the URL.
 
-You may be requested to install python3 and may miss "requests". First can be solved by installing python3, latter can be solved by running
 
-`pip install requests`
+You may be requested to install python3 and may miss "requests". First can be solved by installing python3 (e.g. just type python3 in cmd), latter can be solved by running
+
+`python3 -m pip install requests`
 
 
 ## Log Based PvE Healing
+(not )
 
 The `./css 4` and `./css 5` (more about other options below) can be combined with `-l mylogfile.txt`
 where mylogfile.txt should be a proper wow classic combat log.
