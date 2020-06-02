@@ -215,9 +215,9 @@ void AddHotsIfAny(const PriestCharacter& c, int64_t time, const MyCast& my_cast,
 
   Spell renew = Renew(c, 5);
   Hot hot;
-  int n = std::round(renew.num_ticks);
+  int n = static_cast<int>(std::round(renew.num_ticks));
   for (int i = 1; i <= n; ++i) {
-    hot.tick_times.push_back(i*3e3 + time);
+    hot.tick_times.push_back(static_cast<int64_t>(i*3e3 + time));
   }
   hot.per_tick = renew.healing*c.set_bonuses.NumPieces("transcendence")/8.0f;
   hot.spell_name = "8pT2";

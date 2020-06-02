@@ -387,7 +387,7 @@ bool WclParsedLineToLogEntryIfAny(const std::string &line, LogEntry* e)
     e->time = GetTime(month, day, hour, minute, s, ms);
     e->source = trim(entries[1]);
     e->player = trim(entries[2]);
-    e->hp_diff = atof(entries[3].c_str());
+    e->hp_diff = static_cast<float>(atof(entries[3].c_str()));
     if (debug) {
       std::cout << "ts: " << e->time << ", s: " << e->source << ", p: " << e->player << ", hpd: " << e->hp_diff << std::endl;
     }
