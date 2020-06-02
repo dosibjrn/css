@@ -376,12 +376,10 @@ bool WclParsedLineToLogEntryIfAny(const std::string &line, LogEntry* e)
     int64_t minute = atoi(cell.substr(start, end - start).c_str());
 
     start = end + 1;
-    end = cell.find('.', start);
-    int64_t s = atoi(cell.substr(start, end - start).c_str());
+    double s_frac = atof(cell.substr(start).c_str());
+    int64_t s = static_cast<int>(s_frac);
+    int64_t ms = static_cast<int64_t>((s_frac - s) * 1000.0);
 
-    start = end + 1;
-    end = cell.find(' ', start);
-    int64_t ms = atoi(cell.substr(start, end - start).c_str());
     int64_t month = 0;
     int64_t day = 0;
     e->time = GetTime(month, day, hour, minute, s, ms);
