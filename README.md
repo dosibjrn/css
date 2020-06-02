@@ -30,7 +30,7 @@ You may be requested to install python3 and may miss "requests". First can be so
 
 
 ## Log Based PvE Healing
-(not )
+(not fully up to date)
 
 The `./css 4` and `./css 5` (more about other options below) can be combined with `-l mylogfile.txt`
 where mylogfile.txt should be a proper wow classic combat log.
@@ -52,6 +52,7 @@ Please note that for now this functionality is not available in the windows exe,
 
 
 ## Building and running (In Ubuntu context)
+(not fully up to date)
 
 To build in e.g. Ubuntu terminal:
 
