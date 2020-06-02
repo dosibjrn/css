@@ -1,4 +1,51 @@
-Classic Simple Stats
+#Classic Simple Stats
+
+##Using Warcraft Logs data (Windows cmd example)
+
+This repo now contains a modified version of https://github.com/Saintis/Overheal
+
+There is a new python script, read_health_change_from_api.py that is able to obtain a log file from warcraft logs, which is accepted as input to the simulator. To use this, just add key "wcl_log, 1" to your conf file and pass the downloade log file as normal with -l.
+
+For the script to work, as mentioned in Overheal repo, you need to go to warcraftlogs, your account and copy the API key to apikey.txt in the folder you are running the abovementioned script. In addition, you need to give a name to your application using the API. This name does not matter.
+
+
+In the following example, we load the current top bwl speedrun from WCL and run the simulator on that
+
+`python3 ../Overheal/readers/read_health_changes_from_api.py ytL9VY8DXfWdGRmJ progress_speed.txt`
+
+and then run
+
+`css.exe 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/wcl_bwl_log.csv -l progress_speed.txt`
+
+The python script accepts both the url or just the code, which is the suffix of the URL.
+
+You may be requested to install python3 and may miss "requests". First can be solved by installing python3, latter can be solved by running
+
+`pip install requests`
+
+
+##Log Based PvE Healing
+
+The `./css 4` and `./css 5` (more about other options below) can be combined with `-l mylogfile.txt`
+where mylogfile.txt should be a proper wow classic combat log.
+The log will be parsed to form heal deficits and their changes during combat. Spells used will be picked from flash heal ranks and heal and greater heal ranks, depending on current mana, relative time left of current combat, and optimized parameters. That is, the tool tries to find an optimal strategy
+for maximizing hps. Output will show chosen spells, chosen parameter values controlling overheal and flash/slow heal tradeoff, as well as the usual output for 
+a pve healing run. The optimization is a bit more prone to fit to local minimas, so the actual values for items seem to be a bit more noisy.
+Due to this, we use Eigen to do a least squares fit to last 3000 "stat change -> hps change" data points, to obtain weights for stats
+with currently optimized gear.
+These alternative values are shown in the gear scores output at end as "Alt:". This alternative scoring does not take special effects, such as set bonuses into
+account, so for set items, the original scores may be more telling.
+
+The log based healing is still pretty experimental and some issues remain, e.g.:
+* Spirit value resulting from least squares fit seems surprisingly low
+* Hps seems a bit high / combat time a bit low: there have been cases when casting time sum was over 100% of combat time.
+
+So all log based results should be taken with a pinch of salt for now.
+
+Please note that for now this functionality is not available in the windows exe, just if you compile it yourself.
+
+
+##Building and running (In Ubuntu context)
 
 To build in e.g. Ubuntu terminal:
 
@@ -17,24 +64,24 @@ For running the precompiled binary, you will need Microsoft Visual C++ Redistrib
 
 To run:
 
-./css 4 ../items/more_raid.csv ../items/banned.txt
+`./css 4 ../items/more_raid.csv ../items/banned.txt`
 
 Ban mc and onyxia items from list:
 
-./css 4 ../items/more_raid.csv ../items/banned_and_onyxia_mc.txt
+`./css 4 ../items/more_raid.csv ../items/banned_and_onyxia_mc.txt`
 
 The "4" is for item picking for pve healing, for disc priest.
 
-For pvp healing, disc priest, use "./css 3" instead
+For pvp healing, disc priest, use `./css 3` instead
 
-For pvp shadow priest, use "./css 2".
+For pvp shadow priest, use `./css 2`.
 
 
 This is developed and tested under Ubuntu 18.04, and Windows 10.
 
 There's an example of run query for windows under /bin folder, which should be run in that folder, or another folder under css.
 
-css.exe 4 ../items/more_raid.csv ../items/bwl.txt no-locks my_tag_name -a ../confs/our_mc.csv
+`css.exe 4 ../items/more_raid.csv ../items/bwl.txt no-locks my_tag_name -a ../confs/our_mc.csv`
 
 Here:
  * 1st argument "4" selects pve healing without full buffs
@@ -100,7 +147,7 @@ The pvp options for shadow and disc have fixed spell sequences.
 The focus of this tool is mostly in PvP and PvE healing gear calculations.
 
 
-./css can be called with "0" and "1" as well. These are some early implementations for leveling and really rough
+`./css` can be called with "0" and "1" as well. These are some early implementations for leveling and really rough
 stat weights which can be more or less disregarded.
 
 
@@ -146,41 +193,3 @@ for default values. The order here is: 2 heals, 2 greater heals, 3 flash heals, 
 
 
 
-Log Based PvE Healing
-
-The ./css 4 and ./css 5 can be combined with -l mylogfile.txt
-where mylogfile.txt should be a proper wow classic combat log.
-The log will be parsed to form heal deficits and their changes during combat. Spells used will be picked from flash heal ranks and heal and greater heal ranks, depending on current mana, relative time left of current combat, and optimized parameters. That is, the tool tries to find an optimal strategy
-for maximizing hps. Output will show chosen spells, chosen parameter values controlling overheal and flash/slow heal tradeoff, as well as the usual output for 
-a pve healing run. The optimization is a bit more prone to fit to local minimas, so the actual values for items seem to be a bit more noisy.
-Due to this, we use Eigen to do a least squares fit to last 3000 "stat change -> hps change" data points, to obtain weights for stats
-with currently optimized gear.
-These alternative values are shown in the gear scores output at end as "Alt:". This alternative scoring does not take special effects, such as set bonuses into
-account, so for set items, the original scores may be more telling.
-
-The log based healing is still pretty experimental and some issues remain, e.g.:
-* Spirit value resulting from least squares fit seems surprisingly low
-* Hps seems a bit high / combat time a bit low: there have been cases when casting time sum was over 100% of combat time.
-
-So all log based results should be taken with a pinch of salt for now.
-
-Please note that for now this functionality is not available in the windows exe, just if you compile it yourself.
-
-
-Using Warcraft Logs data
-
-This repo now contains a modified version of https://github.com/Saintis/Overheal
-
-There is a new python script, read_health_change_from_api.py that is able to obtain a log file from warcraft logs, which is accepted as input to the simulator. To use this, just add key "wcl_log, 1" to your conf file and pass the downloade log file as normal with -l.
-
-For the script to work, as mentioned in Overheal repo, you need to go to warcraftlogs, your account and copy the API key to apikey.txt in the folder you are running the abovementioned script. In addition, you need to give a name to your application using the API. This name does not matter.
-
-In the bin folder, you can run e.g.
-
-../Overheal/readers/read_health_changes_from_api.py https://classic.warcraftlogs.com/reports/3pXd6VAG92TLcbCH wcl_bwl_speed_run_log.txt
-
-and then run
-
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt start_with.txt -a ../confs/wcl_bwl_log.csv -l wcl_bwl_speed_run_log.txt
-
-The python script accepts both the url or just the code, which is the suffix of the URL.
