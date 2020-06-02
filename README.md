@@ -1,6 +1,8 @@
-#Classic Simple Stats
+# Classic Simple Stats
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-##Using Warcraft Logs data (Windows cmd example)
+
+## Using Warcraft Logs data (Windows cmd example)
 
 This repo now contains a modified version of https://github.com/Saintis/Overheal
 
@@ -15,7 +17,7 @@ In the following example, we load the current top bwl speedrun from WCL and run 
 
 and then run
 
-`css.exe 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/wcl_bwl_log.csv -l progress_speed.txt`
+`css.exe 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/wcl_bwl_speed_log.csv -l progress_speed.txt`
 
 The python script accepts both the url or just the code, which is the suffix of the URL.
 
@@ -24,7 +26,7 @@ You may be requested to install python3 and may miss "requests". First can be so
 `pip install requests`
 
 
-##Log Based PvE Healing
+## Log Based PvE Healing
 
 The `./css 4` and `./css 5` (more about other options below) can be combined with `-l mylogfile.txt`
 where mylogfile.txt should be a proper wow classic combat log.
@@ -45,7 +47,7 @@ So all log based results should be taken with a pinch of salt for now.
 Please note that for now this functionality is not available in the windows exe, just if you compile it yourself.
 
 
-##Building and running (In Ubuntu context)
+## Building and running (In Ubuntu context)
 
 To build in e.g. Ubuntu terminal:
 
@@ -190,6 +192,3 @@ Spell ranks are also controllable, by setting e.g.
 spell_ranks, 2, 4, 1, 4, 1, 4, 7, 9, 4, 10
 
 for default values. The order here is: 2 heals, 2 greater heals, 3 flash heals, renew, poh, shield.
-
-
-
