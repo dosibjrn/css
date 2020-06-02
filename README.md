@@ -165,3 +165,22 @@ The log based healing is still pretty experimental and some issues remain, e.g.:
 So all log based results should be taken with a pinch of salt for now.
 
 Please note that for now this functionality is not available in the windows exe, just if you compile it yourself.
+
+
+Using Warcraft Logs data
+
+This repo now contains a modified version of https://github.com/Saintis/Overheal
+
+There is a new python script, read_health_change_from_api.py that is able to obtain a log file from warcraft logs, which is accepted as input to the simulator. To use this, just add key "wcl_log, 1" to your conf file and pass the downloade log file as normal with -l.
+
+For the script to work, as mentioned in Overheal repo, you need to go to warcraftlogs, your account and copy the API key to apikey.txt in the folder you are running the abovementioned script. In addition, you need to give a name to your application using the API. This name does not matter.
+
+In the bin folder, you can run e.g.
+
+../Overheal/readers/read_health_changes_from_api.py https://classic.warcraftlogs.com/reports/3pXd6VAG92TLcbCH wcl_bwl_speed_run_log.txt
+
+and then run
+
+./css 4 ../items/more_raid.csv ../items/not_for_priests.txt start_with.txt -a ../confs/wcl_bwl_log.csv -l wcl_bwl_speed_run_log.txt
+
+The python script accepts both the url or just the code, which is the suffix of the URL.
