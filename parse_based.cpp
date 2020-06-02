@@ -322,7 +322,7 @@ void ResolveHotsIfTime(int64_t time, Hots* hots, std::map<std::string, float>* d
   float heal_sum_was = out->heal_sum;
   while (!hots->hots.empty() && hots->next_tick <= time) {
     auto hot_as_cast = PopNextTickToCast(hots);
-    ResolveHealIfTime(time, &hot_as_cast, deficits, deficits_delayed, &mana_dummy, &prev_cast_dummy, &prev_cast_dummy, out);
+    ResolveHealIfTime(time, &hot_as_cast, deficits, deficits_delayed, &mana_dummy, &prev_cast_dummy, &prev_cast_start_dummy, out);
   }
   if (out->heal_sum > heal_sum_was) {
     // std::cout << "time: " << time << ", heal sum increase: " << out->heal_sum - heal_sum_was << std::endl;
