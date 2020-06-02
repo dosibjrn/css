@@ -3,7 +3,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <time.h>
 
+#include <algorithm>
+#include <cctype>
+#include <functional>
 #include <iostream>
+#include <locale>
 
 #include "csv.h"
 
@@ -327,10 +331,29 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
   return true;  // Should not really get here
 }
 
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+    return ltrim(rtrim(s));
+}
+
 
 bool WclParsedLineToLogEntryIfAny(const std::string &line, LogEntry* e)
 {
-  constexpr bool debug = true;
+  constexpr bool debug = false;
   auto entries = SplitCsvLine(line);
   if (debug) {
     std::cout << "entries: " << entries.size();
@@ -362,8 +385,8 @@ bool WclParsedLineToLogEntryIfAny(const std::string &line, LogEntry* e)
     int64_t month = 0;
     int64_t day = 0;
     e->time = GetTime(month, day, hour, minute, s, ms);
-    e->source = entries[1];
-    e->player = entries[2];
+    e->source = trim(entries[1]);
+    e->player = trim(entries[2]);
     e->hp_diff = atof(entries[3].c_str());
     if (debug) {
       std::cout << "ts: " << e->time << ", s: " << e->source << ", p: " << e->player << ", hpd: " << e->hp_diff << std::endl;

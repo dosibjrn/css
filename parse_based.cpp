@@ -591,9 +591,8 @@ LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_p
   std::vector<LogEntry> this_combat;
   int64_t start_time = prev_t_ms;
   for (const auto& e : log) {
-
     if (e.time - prev_t_ms > max_diff_ms || &e == &log.back()) {
-      if (this_combat.back().time - this_combat.front().time > min_combat_len_ms) {
+      if (!this_combat.empty() && this_combat.back().time - this_combat.front().time > min_combat_len_ms) {
         out.push_back(std::vector<LogEntry>{});
         std::cout << "Combat from " << (this_combat.front().time - start_time)/1e3 << " to " << (this_combat.back().time - start_time)/1e3 << " s" << std::endl;
         for (auto& e : this_combat) {
