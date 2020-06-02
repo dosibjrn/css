@@ -1,6 +1,4 @@
 # Classic Simple Stats
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
 
 ## Using Warcraft Logs data (Windows cmd example)
 
@@ -185,7 +183,7 @@ You can additionally control the lengths of the encounters that are calculated, 
 pve_combat_lengths, 60, 120, 180 # lengths in seconds
 pve_combat_weights, 1.5, 2, 1 # relative weights
 
-or some other suitable valuesi.
+or some other suitable values.
 
 Spell ranks are also controllable, by setting e.g.
 
