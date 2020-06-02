@@ -612,9 +612,9 @@ LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_p
   return out;
 }
 
-
-LogsType GetLogs(const std::string& log_fn)
+std::vector<LogEntry> ReadBlizzardLog(const std::string& log_fn)
 {
+  std::cout << "Reading Blizzard log: " << log_fn << std::endl;
   std::ifstream is(log_fn.c_str());
   std::string line;
   float diff_sum = 0.0f;
@@ -662,7 +662,48 @@ LogsType GetLogs(const std::string& log_fn)
   std::cout << "heal_sum: " << heal_sum << " -> hps: " << heal_sum/time_s << std::endl;
   std::cout << "damage_sum: " << damage_sum << " -> dtps: " << damage_sum/time_s << std::endl;
   std::cout << "time_s: " << time_s << std::endl;
+  return log;
+}
 
+std::vector<LogEntry> ReadWclParsedLog(const std::string& log_fn)
+{
+  std::cout << "Reading WCL parsed log: " << log_fn << std::endl;
+  std::ifstream is(log_fn.c_str());
+  std::string line;
+  std::vector<LogEntry> log;
+  int64_t lines = 0;
+  int64_t valid = 0;
+  while (std::getline(is, line)) {
+    LogEntry e;
+    if (WclParsedLineToLogEntryIfAny(line, &e)) {
+      log.push_back(e);
+      valid++;
+    }
+    lines++;
+  }
+  is.close();
+  std::cout << "Saw " << lines << " lines of log, with " << valid << " log lines" << std::endl;
+  std::cout << "Sorting by timestamp..." << std::endl;
+
+  auto sortRuleLambda = [] (LogEntry const& e1, LogEntry const& e2) -> bool
+  {
+    return e1.time < e2.time;
+  };
+
+  std::sort(log.begin(), log.end(), sortRuleLambda);
+  std::cout << "Sorted." << std::endl;
+  return log;
+}
+
+
+LogsType GetLogs(const std::string& log_fn)
+{
+  std::vector<LogEntry> log;
+  if (global::assumptions.wcl_log) {
+    log = ReadWclParsedLog(log_fn);
+  } else {
+    log = ReadBlizzardLog(log_fn);
+  }
   std::cout << "Pruning log from: " << log.size() << " entries." << std::endl;
   std::string remove_player = global::assumptions.skip_player;
   auto logs = PrunedLog(log, remove_player);

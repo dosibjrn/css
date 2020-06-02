@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include "csv.h"
+
 // 2/26 21:49:12.929  SWING_DAMAGE,Creature-0-4458-469-5988-12017-000056C441,"Broodlord Lashlayer",0xa48,0x0,Player-4476-013D02E7,"Rawrmew-Gehennas",0x10514,0x0,Creature-0-4458-469-5988-12017-000056C441,0000000000000000,84,100,0,0,0,-1,0,0,0,-7612.08,-1096.62,0,5.4551,63,1726,3226,-1,1,0,0,0,nil,nil,1
 // Based on github JanKoppe/wow-log-parser: parse.js
 // 2/26 21:49:12.929 : month, day, h, min, s, ms
@@ -323,6 +325,51 @@ bool LineToLogEntryIfAny(const std::string& line, LogEntry* e) {
   // std::cout << "line: " << line << std::endl;
   // std::cout << "time: " << e->time << ", player: " << e->player << ", hp_diff: " << e->hp_diff << std::endl;
   return true;  // Should not really get here
+}
+
+
+bool WclParsedLineToLogEntryIfAny(const std::string &line, LogEntry* e)
+{
+  constexpr bool debug = true;
+  auto entries = SplitCsvLine(line);
+  if (debug) {
+    std::cout << "entries: " << entries.size();
+    for (auto entry : entries) {
+      std::cout << " " << entry;
+    }
+    std::cout << std::endl;
+  }
+  if (entries.size() < 4) {
+    return false;
+  } else {
+    // time without month and day, source, target, hp diff
+    std::string cell = entries[0];
+    size_t start = 0;
+    size_t end = cell.find(':', start);
+    int64_t hour = atoi(cell.substr(start, end - start).c_str());
+
+    start = end + 1;
+    end = cell.find(':', start);
+    int64_t minute = atoi(cell.substr(start, end - start).c_str());
+
+    start = end + 1;
+    end = cell.find('.', start);
+    int64_t s = atoi(cell.substr(start, end - start).c_str());
+
+    start = end + 1;
+    end = cell.find(' ', start);
+    int64_t ms = atoi(cell.substr(start, end - start).c_str());
+    int64_t month = 0;
+    int64_t day = 0;
+    e->time = GetTime(month, day, hour, minute, s, ms);
+    e->source = entries[1];
+    e->player = entries[2];
+    e->hp_diff = atof(entries[3].c_str());
+    if (debug) {
+      std::cout << "ts: " << e->time << ", s: " << e->source << ", p: " << e->player << ", hpd: " << e->hp_diff << std::endl;
+    }
+    return true;
+  }
 }
 
 // Stuff to (maybe) add:

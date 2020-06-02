@@ -102,6 +102,9 @@ struct Assumptions
     "Cadeyrn-Gehennas", "Kozue-Gehennas", "Cylian-Gehennas", "Gazghul-Gehennas", "Furygor-Gehennas", "Deviyo-Gehennas"};
 
   bool use_alt_for_log_based_picks = true;
+
+  bool wcl_log = false;
+  bool blizzard_log = false;  // dummy really atm
 };
 
 namespace global

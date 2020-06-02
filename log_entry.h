@@ -13,6 +13,10 @@ struct LogEntry {
   std::string source;  // caster in case of heals
 };
 
+// simple csv: time,source,player,hp_diff
+// That would be enough for input as well
+
 bool LineToLogEntryIfAny(const std::string &line, LogEntry* e);
+bool WclParsedLineToLogEntryIfAny(const std::string &line, LogEntry* e);
 
 }  // namespace css

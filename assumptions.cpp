@@ -143,6 +143,9 @@ void ReadAssumptions(const std::string& fn)
 
   SetIfGiven("drop_bad_items_early", assumptions_in, &global::assumptions.drop_bad_items_early);
   SetIfGiven("keep_best_per_slot", assumptions_in, &global::assumptions.keep_best_per_slot);
+
+  SetIfGiven("blizzard_log", assumptions_in, &global::assumptions.blizzard_log);
+  SetIfGiven("wcl_log", assumptions_in, &global::assumptions.wcl_log);
 }
 
 }  // namespace css
