@@ -68,6 +68,7 @@ void DamageTakenDecay(const float time_step, std::map<std::string, float>* damag
 
 struct MyCast : public LogEntry {
   float cost;
+  float cast_time;
   bool done;
   std::string spell_name;
   int spell_rank;
@@ -95,8 +96,9 @@ MyCast SpellToMyCast(const Spell& s, const std::string& player, int64_t time)
   MyCast out;
   out.player = player;
   out.hp_diff = s.healing;
-  out.time = static_cast<int64_t>(s.cast_time*1e3) + time;
+  out.time = static_cast<int64_t>(s.cast_time*1e3 + time + global::assumptions.cast_delay*1e3);
   out.cost = s.cost;
+  out.cast_time = s.cast_time;
   out.done = false;
   out.spell_name = s.name;
   out.spell_rank = s.rank;
@@ -242,8 +244,8 @@ void AddHotsIfAny(const PriestCharacter& c, int64_t time, const MyCast& my_cast,
 
 
 bool ResolveHealIfTime(int64_t time, MyCast* my_cast, std::map<std::string, float>* deficits, //
-                       std::map<std::string, float>* deficits_delayed, float* mana, int64_t* prev_cast, 
-                       LogResult* out) 
+                       std::map<std::string, float>* deficits_delayed, float* mana, int64_t* prev_cast,
+                       int64_t* prev_cast_start, LogResult* out) 
 {
   // if cast is finished, resolve and collect healing that was not overhealing
   if (!my_cast->done && my_cast->time <= time) {
@@ -259,9 +261,7 @@ bool ResolveHealIfTime(int64_t time, MyCast* my_cast, std::map<std::string, floa
       *mana -= my_cast->cost;
       my_cast->done = true;
       *prev_cast = time;
-      if (my_cast->spell_id == "8pT2") {
-        // std::cout << "    8pT2 to: " << my_cast->player << ", h: " << healing << ", oh: " << my_cast->hp_diff - healing << std::endl;
-      }
+      *prev_cast_start = time - static_cast<int64_t>(my_cast->cast_time*1e3);
       return true;
     }
   }
@@ -317,11 +317,12 @@ void ResolveHotsIfTime(int64_t time, Hots* hots, std::map<std::string, float>* d
                        LogResult* out) 
 {
   int64_t prev_cast_dummy = 0;
+  int64_t prev_cast_start_dummy = 0;
   float mana_dummy = 0.0f;
   float heal_sum_was = out->heal_sum;
   while (!hots->hots.empty() && hots->next_tick <= time) {
     auto hot_as_cast = PopNextTickToCast(hots);
-    ResolveHealIfTime(time, &hot_as_cast, deficits, deficits_delayed, &mana_dummy, &prev_cast_dummy, out);
+    ResolveHealIfTime(time, &hot_as_cast, deficits, deficits_delayed, &mana_dummy, &prev_cast_dummy, &prev_cast_dummy, out);
   }
   if (out->heal_sum > heal_sum_was) {
     // std::cout << "time: " << time << ", heal sum increase: " << out->heal_sum - heal_sum_was << std::endl;
@@ -333,10 +334,10 @@ void ResolveHotsIfTime(int64_t time, Hots* hots, std::map<std::string, float>* d
 // If it was 8p t2, add hot here to hots, this same func is used for resolving
 // TODO: Hots -> MyCast, call ResolveHealIfTime, repeat while done
 void ResolveHealsIfTime(const PriestCharacter& c, int64_t time, MyCast* my_cast, std::map<std::string, float>* deficits, //
-                       std::map<std::string, float>* deficits_delayed, float* mana, int64_t* prev_cast, 
+                       std::map<std::string, float>* deficits_delayed, float* mana, int64_t* prev_cast, int64_t* prev_cast_start,
                        LogResult* out, Hots *hots) 
 {
-  if (ResolveHealIfTime(time, my_cast, deficits, deficits_delayed, mana, prev_cast, out)) { 
+  if (ResolveHealIfTime(time, my_cast, deficits, deficits_delayed, mana, prev_cast, prev_cast_start, out)) { 
     AddHotsIfAny(c, time, *my_cast, hots);
   }
   ResolveHotsIfTime(time, hots, deficits, deficits_delayed, out);
@@ -429,6 +430,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   Stats s(c);
   const float max_mana = s.getMaxMana();
   int64_t prev_cast = 0;
+  int64_t prev_cast_start = 0;
   int64_t prev_tick = start_time;
   int64_t in_combat_thr_ms = static_cast<int64_t>(global::assumptions.max_log_entry_diff_in_combat*1e3);
   int64_t prev_damage_taken_ms = 0;
@@ -454,7 +456,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
 
       HandleLogEntry(log[log_ix], &deficits, nullptr, &out.player_heal_sums);
       if (in_combat) {
-        ResolveHealsIfTime(c, log[log_ix].time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &out, &hots);
+        ResolveHealsIfTime(c, log[log_ix].time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &prev_cast_start, &out, &hots);
       } else {
         my_cast.done = true;
       }
@@ -531,10 +533,10 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
       }
 
       // if cast is finished, resolve and collect healing that was not overhealing
-      ResolveHealsIfTime(c, time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &out, &hots); 
+      ResolveHealsIfTime(c, time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &prev_cast_start, &out, &hots); 
 
       // if not casting, pick best target and start casting
-      if (my_cast.done) {
+      if (my_cast.done && time > prev_cast_start + 1.5e3) {
         PickBestCastIfAny(c, *mana, time, deficits_delayed, *spell_list, &my_cast);
         // If could not find target, pick precast target
         if (my_cast.done && precast) {

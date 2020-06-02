@@ -79,8 +79,8 @@ struct Assumptions
   float max_log_entry_diff_in_combat = 10.0f; //600.0f; // 2.0f
   bool precast = true;
   bool swap_cast = true;
-  float time_step = 0.1f;
-  float reaction_time = 0.2f;
+  float time_step = 0.1f;  // s
+  float reaction_time = 0.5f;  // s
 
   std::string skip_player = "Paisti-Gehennas";
 
@@ -105,6 +105,8 @@ struct Assumptions
 
   bool wcl_log = false;
   bool blizzard_log = false;  // dummy really atm
+
+  float cast_delay = 0.15f;  // s
 };
 
 namespace global
