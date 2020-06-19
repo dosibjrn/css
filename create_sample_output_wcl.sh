@@ -12,8 +12,8 @@ cat ../items/not_for_priests.txt >> ban_tmp_phase4.txt
 mkdir ../sample_output
 mkdir ../sample_output/log_based
 
-./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks progress_speed_phase4 -a ../confs/wcl_speed_log.csv -l progress_speed.txt | tee ../5ample_output/log_based/progress_speed_phase4.txt
-./css 4 ../items/phase5.csv ../items_not_for_priests.txt no-locks progress_speed_phase5 -a ../confs/wcl_speed_log.csv -l progress_speed.txt | tee ../sample_output/log_based/progress_speed_phase5.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks progress_speed_phase4 -a ../confs/wcl_bwl_speed_log.csv -l progress_speed.txt | tee ../5ample_output/log_based/progress_speed_phase4.txt
+./css 4 ../items/phase5.csv ../items/not_for_priests.txt no-locks progress_speed_phase5 -a ../confs/wcl_bwl_speed_log.csv -l progress_speed.txt | tee ../sample_output/log_based/progress_speed_phase5.txt
 
-./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks infamous_speed_phase4 -a ../confs/wcl_speed_log.csv -l infamous_speed.txt | tee ../5ample_output/log_based/infamous_speed_phase4.txt
-./css 4 ../items/phase5.csv ../items_not_for_priests.txt no-locks infamous_speed_phase5 -a ../confs/wcl_speed_log.csv -l infamous_speed.txt | tee ../sample_output/log_based/infamous_speed_phase5.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks infamous_speed_phase4 -a ../confs/wcl_bwl_speed_log.csv -l infamous_speed.txt | tee ../5ample_output/log_based/infamous_speed_phase4.txt
+./css 4 ../items/phase5.csv ../items/not_for_priests.txt no-locks infamous_speed_phase5 -a ../confs/wcl_bwl_speed_log.csv -l infamous_speed.txt | tee ../sample_output/log_based/infamous_speed_phase5.txt
