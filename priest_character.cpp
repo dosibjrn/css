@@ -255,7 +255,20 @@ void ApplyBuffs(PriestCharacter *c) {
   c->mp5 += 10.0f*frac;  // wcb
   c->spell_crit += 10.0f*frac;  // ony
   c->spell_crit += 3.0f*frac;  // tribute
-  c->intelligence += 25.0f*frac; // cerebral cortex compound
+
+  c->spirit += 50; // spirit of zanza
+  c->stamina += 50;  // spirit of zanza
+
+  // Songflower
+  c->strength += 15.0f*frac;
+  c->agility += 15.0f*frac;
+  c->intelligence += 15.0f*frac;
+  c->spirit += 15.0f*frac;
+  c->stamina += 15.0f*frac;
+  c->spell_crit += 5.0f*frac;
+
+  // ZG Heart...
+  // float mul = 
 
   global::assumptions.flask = false;
   if (frac >= 1.0f) {
@@ -293,10 +306,19 @@ void ApplyBuffs(PriestCharacter *c) {
 }
 
 void AddEnchants(PriestCharacter* c) {
+  // weapon
   c->sp_healing += 55;
+
+  // bracers
   c->sp_healing += 24;
-  c->sp += 8;
-  c->sp += 8;
+
+  // head
+  c->sp_healing += 24;
+  c->mp5 += 4;
+
+  // legs
+  c->sp_healing += 24;
+  c->mp5 += 4
 }
 
 }  // namespace css
