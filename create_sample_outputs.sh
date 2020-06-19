@@ -1,62 +1,62 @@
 # Run from e.g. css/build
-# cp ../items/have_atiy.txt start_with.txt
-#cp ../items/have.txt start_with.txt
 cp ../items/have_mod_locked.txt start_with.txt
 
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_04-12.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy_holy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_holy_04-12.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy_deficit_change.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_deficit_change_04-12.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy_festival_dumplings.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_festival_dumplings_04-12.txt
+cat ../items/ban_after_p4.txt > ban_tmp_phase4.txt
+cat ../items/not_for_priests.txt >> ban_tmp_phase4.txt
 
-# cp ../items/have.txt start_with.txt
+mkdir ../sample_output
+mkdir ../sample_output/log_based
+
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_04-12_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_log_based_atiy_holy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_holy_04-12_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_log_based_atiy_deficit_change.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_deficit_change_04-12_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_log_based_atiy_festival_dumplings.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_festival_dumplings_04-12_phase4.txt
+
+./css 4 ../items/phase5.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_04-12_phase5.txt
 
 
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt ../items/hazz.txt -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_log_my_start_gear_hazz_locked.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_log_my_start_gear.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt start_with.txt -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_log_my_current_gear.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l bwl.txt | tee ../sample_output/log_based/bwl_02-26.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09_reaction_1s.csv -l bwl.txt | tee ../sample_output/log_based/bwl_02-26_reaction_1s.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l nefarian.txt | tee ../sample_output/log_based/nefarian_02-26.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26.txt
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt start_with.txt -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_current.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt ../items/hazz.txt -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_log_hazz_locked_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt start_with.txt -a ../confs/bwl_log_based_atiy.csv -l bwl_atiy_04-12.txt | tee ../sample_output/log_based/bwl_atiy_log_my_current_gear.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_2020-04-09.csv -l bwl.txt | tee ../sample_output/log_based/bwl_02-26_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_2020-04-09_reaction_1s.csv -l bwl.txt | tee ../sample_output/log_based/bwl_02-26_reaction_1s_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_2020-04-09.csv -l nefarian.txt | tee ../sample_output/log_based/nefarian_02-26_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt start_with.txt -a ../confs/bwl_2020-04-09.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_current.txt
 
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt no-locks -a ../confs/bwl_2020-04-09_deficit_change.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_deficit_change.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks -a ../confs/bwl_2020-04-09_deficit_change.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_deficit_change_phase4.txt
 
 cp start_with.txt bkb.txt
 cp ../items/8pt2.txt start_with.txt
 
-./css 4 ../items/more_raid.csv ../items/not_for_priests.txt start_with.txt -a ../confs/bwl_2020-04-09_transc8.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_transc8.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt start_with.txt -a ../confs/bwl_2020-04-09_transc8.csv -l WoWCombatLog_infamous_mc_and_bwl-archive-2020-02-27T05-49-49.582Z.txt | tee ../sample_output/log_based/mc_and_bwl_02-26_transc8_phase4.txt
 
 cp bkb.txt start_with.txt
 
-./css 4 ../items/more_raid.csv no-bans start_with.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
-./css 4 ../items/more_raid.csv ../items/bwl.txt no-lock pve_healing_mc_ony -a ../confs/our_mc.csv | tee ../sample_output/our_raids_mc_ony.txt
-./css 4 ../items/more_raid.csv no-bans start_with.txt pve_healing_current -a ../confs/our_mc.csv | tee ../sample_output/our_raids_current.txt
-./css 4 ../items/more_raid.csv no-bans no-lock pve_healing_bwl -a ../confs/bwl_0401.csv | tee ../sample_output/our_raids_bwl.txt
-./css 3 ../items/more_raid.csv no-bans ../items_have.txt pvp_heal_current
-./css 3 ../items/more_raid.csv ../items/bwl.txt no-lock pvp_heal_mc_ony
-./css 2 ../items/more_raid.csv ../items/banned_and_onyxia_mc.txt no-lock shadow_pvp_pre-raid
-./css 2 ../items/more_raid.csv ../items/bwl.txt no-lock shadow_pvp_mc_ony
-./css 5 ../items/more_raid.csv ../items/bwl.txt no-lock pve_heal_mc_ony_full_buff
-./css 4 ../items/more_raid.csv ../items/bwl.txt no-locks pve_average_raiding -a ../confs/average_raiding.csv | tee ../sample_output/average_raiding.txt
-./css 4 ../items/more_raid.csv ../items/bwl.txt no-locks pve_avg_split_onyxia -a ../confs/avg_split_onyxia.csv | tee ../sample_output/average_split_onyxia.txt
+./css 4 ../items/phase5.csv no-bans start_with.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
+
+./css 3 ../items/phase5.csv no-bans ../items_have.txt pvp_heal_current | tee ../sample_output/pvp_heal_current.txt
+./css 3 ../items/phase5.csv ban_tmp_phase4.txt no-lock pvp_heal_phase4 | tee ../sample_output/pvp_heal_phase4.txt
+./css 3 ../items/phase5.csv ../items/not_for_priests.txt no-lock pvp_heal_phase5 | tee ../sample_output/pvp_heal_phase5.txt
+
+./css 2 ../items/phase5.csv ../items/bwl.txt no-lock shadow_pvp_phase4 | ../sample_output/shadow_pvp_phase4.txt
+./css 2 ../items/phase5.csv ../items/not_for_priests.txt no-lock shadow_pvp_phase5 | ../sample_output/shadow_pvp_phase5.txt
+
+./css 5 ../items/phase5.csv ban_tmp_phase4.txt no-locks pve_heal_full_buff_phase4 | tee ../sample_output/pve_heal_full_buff_phase4.txt
+./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks pve_heal_normal_buff_phase4 -a ../confs/average_raiding.csv | tee ../sample_output/pve_heal_normal_buff_phase4.txt
 
 for mode in 2 3 4 5; do
-  ./css $mode ../items/more_raid.csv | tee ../sample_output/css_${mode}_bwl.txt
-  ./css $mode ../items/more_raid.csv ../items/banned_and_onyxia_mc.txt | tee ../sample_output/css_${mode}_pre-raid.txt
-  ./css $mode ../items/more_raid.csv ../items/bwl.txt | tee ../sample_output/css_${mode}_mc_ony.txt
+  ./css $mode ../items/phase5.csv ../items/not_for_priests.txt | tee ../sample_output/css_${mode}_bwl_phase5.txt
+  ./css $mode ../items/phase5.csv ban_tmp_phase4.txt | tee ../sample_output/css_${mode}_phase4.txt
 done
 
 mkdir ../sample_output/css5_buffs
 for buffs in 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0; do
-  ./css 5 ../items/more_raid.csv -b $buffs -r 0.3 | tee ../sample_output/css5_buffs/css5_b_${buffs}_r_0.3.txt;
+  ./css 5 ../items/phase5.csv -b $buffs -r 0.3 | tee ../sample_output/css5_buffs_phase5/css5_b_${buffs}_r_0.3.txt;
 done
-
-#./css 5 ../items/more_raid.csv ../items/bwl.txt -b 0.2 -r 0.3 | tee ../sample_output/css_5_b_0.2_r_0.3_mc_ony.txt
 
 mkdir ../sample_output/snipe_bwl
 for snipe in 0.0 0.2 0.4 0.6 0.8 1.0; do
-  ./css 4 ../items/more_raid.csv no-bans no-locks bwl_snipe${snipe} -a ../confs/bwl_snipe${snipe}f | tee ../sample_output/snipe_bwl/css_4_snipe${snipe}.txt
+  ./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks bwl_snipe${snipe} -a ../confs/bwl_snipe${snipe}f | tee ../sample_output/snipe_bwl_phase4/css_4_snipe${snipe}.txt
 done
 
 mkdir ../sample_output/tags/
