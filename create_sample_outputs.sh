@@ -49,12 +49,12 @@ for mode in 2 3 4 5; do
   ./css $mode ../items/phase5.csv ban_tmp_phase4.txt | tee ../sample_output/css_${mode}_phase4.txt
 done
 
-mkdir ../sample_output/css5_buffs
+mkdir ../sample_output/css5_buffs_phase5
 for buffs in 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0; do
   ./css 5 ../items/phase5.csv -b $buffs -r 0.3 | tee ../sample_output/css5_buffs_phase5/css5_b_${buffs}_r_0.3.txt;
 done
 
-mkdir ../sample_output/snipe_bwl
+mkdir ../sample_output/snipe_bwl_phase4
 for snipe in 0.0 0.2 0.4 0.6 0.8 1.0; do
   ./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks bwl_snipe${snipe} -a ../confs/bwl_snipe${snipe}f | tee ../sample_output/snipe_bwl_phase4/css_4_snipe${snipe}.txt
 done
