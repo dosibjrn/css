@@ -318,7 +318,7 @@ void AddEnchants(PriestCharacter* c) {
 
   // legs
   c->sp_healing += 24;
-  c->mp5 += 4
+  c->mp5 += 4;
 }
 
 }  // namespace css
