@@ -107,6 +107,9 @@ struct Assumptions
   bool blizzard_log = false;  // dummy really atm
 
   float cast_delay = 0.15f;  // s
+
+  // E.g. zg buff -> 1.25
+  float all_stats_mul = 1.0f;
 };
 
 namespace global
