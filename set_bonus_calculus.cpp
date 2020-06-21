@@ -219,7 +219,6 @@ std::vector<Item> BestMatchingBonuses(const ItemTable& table,
 {
   const auto options = AllMatchingBonuses(table, sb);
   float best_val = 0.0f;
-  int best_ix = 0;
   std::vector<Item> best_items;
 
   int i = 0;
@@ -237,10 +236,9 @@ std::vector<Item> BestMatchingBonuses(const ItemTable& table,
     }
     if (val > best_val) {
       best_items.clear();
-      best_items.append(options[best_ix].begin(), opstions[best_ix].end());
-      best_items.append(more_new_items.begin(), more_new_items.end();
+      best_items.insert(best_items.end(), option.begin(), option.end());
+      best_items.insert(best_items.end(), more_new_items.begin(), more_new_items.end());
       best_val = val;
-      best_ix = i;
     }
     i++;
   }

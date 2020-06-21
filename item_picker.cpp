@@ -345,7 +345,7 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool dis
 
     std::set<std::string> set_slots;
     for (const auto& set_name : item_sets) {
-      auto slots = item_table.getSetSlots(set_name);
+      auto slots = item_table.getSetItemSlots(set_name);
       for (const auto& slot : slots) {
         set_slots.insert(slot);
       }
@@ -389,8 +389,8 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool dis
       Item current = temp_items[slot];
 
       c_tmp = m_c_curr;
-
-      Item item = pickBest(c_tmp, current, item_table.getItems(slot), /*taken_name=*/ "", /*no_special_alt=*/ true);
+      auto items_for_slot = item_table.getItems(slot);
+      Item item = pickBest(c_tmp, current, items_for_slot, /*taken_name=*/ "", /*no_special_alt=*/ true);
 
       if (item.name != current.name) {
         RemoveItem(current, &c_tmp);

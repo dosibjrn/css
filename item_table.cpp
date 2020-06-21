@@ -77,12 +77,12 @@ std::vector<Item> ItemTable::getSetItems(const std::string& set_name) const
 }
 
 
-std::vector<std::string> getSetItemSlots(const std::string& set_name) const
+std::set<std::string> ItemTable::getSetItemSlots(const std::string& set_name) const
 {
-  std::vector<std::string> slots;
+  std::set<std::string> slots;
   auto items = getSetItems(set_name);
   for (auto& item : items) {
-    slots.push_back(item.slot);
+    slots.insert(item.slot);
   }
   return slots;
 }
