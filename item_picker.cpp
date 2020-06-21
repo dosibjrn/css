@@ -172,6 +172,7 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   , m_value_choice(value_choice)
 {
   unsigned my_seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
+  my_seed = 2416673600;
   std::cout << "Shuffle seed: " << my_seed << std::endl;
   m_generator.seed(my_seed);
 
@@ -383,8 +384,15 @@ void ItemPicker::SwapToBestMatchingBonuses(const ItemTable& item_table, bool dis
     // Pick remaining slots where we actually have a set item
     std::vector<std::string> slots_vec;
     for (const auto& slot : set_slots) {
-      if (!getSetNames(temp_items[slot].name).empty()) {
-        slots_vec.push_back(slot);
+      // check that this set has currently more than one item == part of the optimization
+      auto set_names = getSetNames(temp_items[slot].name);
+      if (!set_names.empty()) {
+        for (const auto& set_name : set_names) {
+          if (m_c_curr.set_bonuses.NumPieces(set_name) > 1) {
+            slots_vec.push_back(slot);
+            break;
+          }
+        }
       }
     }
     // Then remaining slots, pick best with just the weights based.

@@ -104,12 +104,13 @@ void Stats::CoutStats() const
   std::cout << "Effective hp: " << getEffectiveHp() << std::endl;
   std::cout << "Effective mana: " << getEffectiveMana(100.0f, 2.0f/3.0f) << std::endl;
   std::cout << "Raw max mana: " << getMaxMana() << std::endl;
-  std::cout << "Int: " << c_.intelligence << std::endl;
-  std::cout << "Stam: " << c_.stamina << std::endl;
-  std::cout << "Spirit: " << c_.spirit << std::endl;
-  std::cout << "Strength: " << c_.strength << std::endl;
-  std::cout << "Agility: " << c_.agility << std::endl;
-  std::cout << "All stats multiplier (not taken into account above): " << global::assumptions.all_stats_mul << std::endl;
+  const float mul = global::assumptions.all_stats_mul;
+  std::cout << "Int: " << c_.intelligence*mul << std::endl;
+  std::cout << "Stam: " << c_.stamina*mul << std::endl;
+  std::cout << "Spirit: " << c_.spirit*mul << std::endl;
+  std::cout << "Strength: " << c_.strength*mul << std::endl;
+  std::cout << "Agility: " << c_.agility*mul << std::endl;
+  std::cout << "All stats multiplier (taken into account above): " << mul << std::endl;
 
   std::cout << "Bonus mana: " << c_.bonus_mana << std::endl;
   std::cout << "Bonus hp: " << c_.bonus_hp << std::endl;

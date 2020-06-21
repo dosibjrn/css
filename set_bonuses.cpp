@@ -7,6 +7,8 @@
 #include "item_operations.h"
 #include "priest_character.h"
 
+#define DBG_SET_BONUSES
+
 namespace css
 {
 
@@ -247,6 +249,9 @@ void SetBonuses::addItem(const Item& item, const SetBonusListType& bonus_list, I
 {
   for (auto set_name : getSetNames(item.name)) {
     bool verbose = false;
+#ifdef DBG_SET_BONUSES
+    verbose = true;
+#endif
     if (verbose) std::cout << "adding " << item.name << " with set name: " << set_name << std::endl;
     if (sets->find(set_name) == sets->end()) {
       std::set<std::string> s;
