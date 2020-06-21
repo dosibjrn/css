@@ -27,7 +27,7 @@ class ItemPicker {
   ItemPicker(const PriestCharacter& c, std::string item_table_name, ValueChoice value_choice = ValueChoice::pvp_shadow);
   void setTagName(const std::string& tag_name) { m_tag_name = tag_name; }
   void AddLocked(const std::string& name);
-  void ClearLocked() { m_locked.clear(); }
+  void ClearLocked() { m_locked.clear(); m_locked_slots.clear(); }
   void AddBanned(std::string s) { m_banned[s] = true; }
   void AddWhitelisted(std::string s) { m_whitelist[s] = true; }
 

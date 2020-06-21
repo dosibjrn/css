@@ -334,6 +334,7 @@ void ItemPicker::SwapToBestMatchingBonuses(const ItemTable& item_table, bool dis
     PriestCharacter c_tmp = m_c_curr;
     auto temp_items = m_items;
 
+    constexpr bool debug = false;
     bool nope = false;
     float diff_sum = 0.0;
     std::set<std::string> item_sets;
@@ -370,6 +371,7 @@ void ItemPicker::SwapToBestMatchingBonuses(const ItemTable& item_table, bool dis
       diff_sum += (item_val - curr_val);
 
       if (lockedInSlot(item.slot) && !isLocked(item)) {
+        if (debug) std::cout << "locked in slot: " << item.slot << ", not locked: " << item.name << std::endl;
         nope = true;
         break;
       }

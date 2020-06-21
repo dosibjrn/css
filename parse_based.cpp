@@ -536,7 +536,11 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
       ResolveHealsIfTime(c, time, &my_cast, &deficits, &deficits_delayed, mana, &prev_cast, &prev_cast_start, &out, &hots); 
 
       // if not casting, pick best target and start casting
-      if (my_cast.done && time > prev_cast_start + 1.5e3) {
+      float gcd = 1.5e3;
+      if (my_cast.cast_time < 1.5 && my_cast.spell_name == "Flash Heal") {
+        gcd = my_cast.cast_time*1e3;
+      }
+      if (my_cast.done && time > prev_cast_start + gcd) {
         PickBestCastIfAny(c, *mana, time, deficits_delayed, *spell_list, &my_cast);
         // If could not find target, pick precast target
         if (my_cast.done && precast) {
