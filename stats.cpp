@@ -65,7 +65,7 @@ float Stats::getEffectiveHp(float attacker_level, float attacker_attack, float p
   float shadow_reduction = std::max(0.0f, std::min(1.0f, (c_.shadow_res / (attacker_level * 5)) * 0.75f));
 
   Spell shield = Shield(c_, 10); 
-  float ehp = c_.base_hp + (c_.stamina + 70)*global::assumptions.all_stats_mul*10.0f + 2.0f*shield.shield;
+  float ehp = c_.base_hp + (c_.stamina + 70)*global::assumptions.all_stats_mul*10.0f + 2.0f*shield.shield + c_.bonus_hp;
   float ehp_was = ehp;
   ehp /= (phys*phys_through + arcane*(1.0f - arcane_reduction) + nature*(1.0f - nature_reduction) + fire*(1.0f - fire_reduction)
           + frost*(1.0f - frost_reduction) + shadow*(1.0f - shadow_reduction) + holy);
@@ -110,6 +110,9 @@ void Stats::CoutStats() const
   std::cout << "Strength: " << c_.strength << std::endl;
   std::cout << "Agility: " << c_.agility << std::endl;
   std::cout << "All stats multiplier (not taken into account above): " << global::assumptions.all_stats_mul << std::endl;
+
+  std::cout << "Bonus mana: " << c_.bonus_mana << std::endl;
+  std::cout << "Bonus hp: " << c_.bonus_hp << std::endl;
 
   std::cout << "Mp5: " << c_.mp5 << std::endl;
   std::cout << "Sp: " << c_.sp << std::endl;

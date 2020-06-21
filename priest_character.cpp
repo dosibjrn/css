@@ -276,8 +276,7 @@ void ApplyBuffs(PriestCharacter *c) {
   }
   if (global::assumptions.flask) {
     // Flask of distilled wisdom: -crit to affect only mana.
-    c->intelligence += 133.333333f;
-    c->spell_crit += -2.244668911f;
+    c->bonus_mana += 2000.0f;
   }
 
   if (global::assumptions.fort) {
@@ -315,10 +314,19 @@ void AddEnchants(PriestCharacter* c) {
   // head
   c->sp_healing += 24;
   c->mp5 += 4;
+  c->stamina += 10;
 
   // legs
   c->sp_healing += 24;
   c->mp5 += 4;
+  c->stamina += 10;
+
+  // chest, +4 all
+  c->intelligence += 4;
+  c->spirit += 4;
+  c->strength += 4;
+  c->agility += 4;
+  c->stamina += 4;
 }
 
 }  // namespace css

@@ -12,7 +12,7 @@ class Stats {
   void CoutStats() const;
   float getMaxMana() const
   {
-    return (15.0f*c_.intelligence*global::assumptions.all_stats_mul + c_.base_mana)*(1.0f + c_.talents.mental_strength*0.02f);
+    return (15.0f*c_.intelligence*global::assumptions.all_stats_mul + c_.base_mana)*(1.0f + c_.talents.mental_strength*0.02f) + c_.bonus_mana;
   }
 
   float getManaRegenTickOutOfFsr() const

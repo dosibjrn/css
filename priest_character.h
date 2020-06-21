@@ -30,6 +30,8 @@ struct PriestCharacter {
   float mp5 = 0.0f;
   float spell_crit = 0.0f;
   float spell_hit = 0.0f;
+  float bonus_mana = 0.0f;
+  float bonus_hp = 0.0f;
 
   // resistances
   // average_resistance = (target_resistance / (caster_level * 5)) * 0.75
