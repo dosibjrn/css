@@ -19,9 +19,10 @@ class ItemTable {
   std::vector<Item> getItems(const std::vector<std::string>& slots) const;
   std::vector<std::string> getItemSlots() const;
 
-  std::string nameToSlot(const std::string& name) const;
+  std::string NameToSlot(const std::string& name) const;
 
-  void removeItem(const std::string& name);
+  void AddItem(const Item& item);
+  void RemoveItem(const std::string& name);
 
  private:
   void prepareSlotMap();

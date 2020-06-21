@@ -53,7 +53,6 @@ set(source_list
   item_table.cpp
   leveling.cpp
   log_entry.cpp
-  main.cpp
   parse_based.cpp
   priest_character.cpp
   pve.cpp
@@ -75,6 +74,16 @@ endif()
 # message(STATUS "headers: ${header_list}, sources: ${source_list}")
 find_package(OpenMP REQUIRED)
 # find_package(Eigen REQUIRED)
-add_executable(css ${header_list} ${source_list})
-target_link_libraries(css PRIVATE OpenMP::OpenMP_CXX)
-target_include_directories(css PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/eigen3)
+
+
+
+add_library(cssLib ${header_list} ${source_list})
+target_link_libraries(cssLib PUBLIC OpenMP::OpenMP_CXX)
+# TODO: an actual include dir
+target_include_directories(cssLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(cssLib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/eigen3)
+
+add_subdirectory(tests)
+
+add_executable(css main.cpp)
+target_link_libraries(css PRIVATE cssLib)

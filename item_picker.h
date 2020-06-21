@@ -46,6 +46,9 @@ class ItemPicker {
   void CoutDiffsToStart();
   void CoutAllUpgrades(bool partial, bool from_start);
 
+
+  void SwapToBestMatchingBonuses(const ItemTable& item_table, bool disable_bans, int iteration, int* iters_without_new_best);
+
   std::vector<Item> getBestItems() const;
   float getBestValue() const { return m_val_best; }
   PriestCharacter getCharacter() { return m_c_best; }
@@ -78,7 +81,6 @@ private:
 
   float valueIncreaseWeightsBased(const Item& item, float* special = nullptr);
 
-  void swapToBestMatchingBonuses(const ItemTable& item_table, bool disable_bans, int iteration, int* iters_without_new_best);
 
   template<typename T>
       void shuffle(std::vector<T>* v)

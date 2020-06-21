@@ -54,7 +54,13 @@ std::vector<std::vector<int>> UniqueNumberSets(int max_num, int num_nums)
     out.push_back(current);
   }
 
+#ifdef DBG_SETS
+  constexpr bool debug = true;
+#else
   constexpr bool debug = false;
+#endif
+
+
   if (debug) {
     std::cout << "with max_num: " << max_num << ", num_nums: " << num_nums << " got index sets:" << std::endl;
     for (const auto& index_set : out) {
@@ -145,7 +151,11 @@ std::vector<std::vector<Item>> AllMatchingBonuses(const ItemTable& table, const 
 {
   
   std::stringstream ss;
+#ifdef DBG_SETS
+  constexpr bool debug = true;
+#else
   constexpr bool debug = false;
+#endif
   std::vector<std::vector<std::vector<Item>>> options_for_sets; // sets are indexed first, for each set, we have a number of options of size matching its num
   // pick a set bonus, get all for that, combine all of the
   auto bonus_names = sb.getBonusNames();
@@ -222,7 +232,12 @@ std::vector<Item> BestMatchingBonuses(const ItemTable& table,
   std::vector<Item> best_items;
 
   int i = 0;
+#ifdef DBG_SETS
+  constexpr bool debug = true;
+#else
   constexpr bool debug = false;
+#endif
+
   for (const auto& option : options) {
 
     std::vector<Item> more_new_items;

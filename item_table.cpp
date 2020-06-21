@@ -23,19 +23,11 @@ ItemTable::ItemTable(std::string csv_file_name)
   std::string line;
   m_items.resize(m_slots.size() + 2);
   while (std::getline(is, line)) {
-    Item i = lineToItem(line);
-    if (m_slots.find(i.slot) != m_slots.end()) {
-      m_items[m_slots[i.slot]].push_back(i);
-      m_name_to_slot[i.name] = i.slot;
-      auto set_names = getSetNames(i.name);
-      for (auto set_name : set_names) {
-        m_set_items[set_name].push_back(i);
-      }
-    }
+    AddItem(lineToItem(line));
   }
-  m_items[m_slots["trinket 2"]] = m_items[m_slots["trinket"]];
-  m_items[m_slots["finger 2"]] = m_items[m_slots["finger"]];
 }
+
+
 
 std::vector<Item> ItemTable::getItems(const std::string& slot) const
 {
@@ -88,7 +80,7 @@ std::set<std::string> ItemTable::getSetItemSlots(const std::string& set_name) co
 }
 
 
-std::string ItemTable::nameToSlot(const std::string& name) const
+std::string ItemTable::NameToSlot(const std::string& name) const
 { 
   if (m_name_to_slot.find(name) == m_name_to_slot.end()) {
     return "";
@@ -97,10 +89,27 @@ std::string ItemTable::nameToSlot(const std::string& name) const
   }
 }
 
-
-void ItemTable::removeItem(const std::string& name)
+void ItemTable::AddItem(const Item& i)
 {
-  auto slot = nameToSlot(name);
+  if (m_slots.find(i.slot) != m_slots.end()) {
+    m_items[m_slots[i.slot]].push_back(i);
+    if (i.slot == "trinket") {
+      m_items[m_slots["trinket 2"]].push_back(i);
+    }
+    if (i.slot == "finger") {
+      m_items[m_slots["finger 2"]].push_back(i);
+    }
+    m_name_to_slot[i.name] = i.slot;
+    auto set_names = getSetNames(i.name);
+    for (auto set_name : set_names) {
+      m_set_items[set_name].push_back(i);
+    }
+  }
+}
+
+void ItemTable::RemoveItem(const std::string& name)
+{
+  auto slot = NameToSlot(name);
   if (slot == "") return;
 
   if (m_slots.find(slot) == m_slots.end()) return;
@@ -114,6 +123,7 @@ void ItemTable::removeItem(const std::string& name)
       return;
     }
   }
+  // TODO: this still leaves trinket 2, finger 2 and set items
 }
 
 void ItemTable::prepareSlotMap()

@@ -52,7 +52,7 @@ Item ToStatDiffs(const Item& item_in, const PriestCharacter& c_no_item)
 
 void ItemPicker::AddLocked(const std::string& name)
 {
-  auto slot = m_item_table.nameToSlot(name);
+  auto slot = m_item_table.NameToSlot(name);
   m_locked[name] = true;
   m_locked_slots[slot] = true;
 }
@@ -289,7 +289,8 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
   }
 }
 
-void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool disable_bans, int iteration, int* iters_without_new_best)
+// TODO: this needs to go to the set_bonus_calculus and unit tested, pretty tedious otherwise
+void ItemPicker::SwapToBestMatchingBonuses(const ItemTable& item_table, bool disable_bans, int iteration, int* iters_without_new_best)
 {
   std::function<float(const std::vector<Item>&, std::vector<Item>*)> val_func = //
       [this](const std::vector<Item>& items_in, std::vector<Item>* more_new_items) {
@@ -411,7 +412,7 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool dis
       ? BestMatchingBonuses(item_table, val_func, m_c_curr.set_bonuses) 
       : BestMatchingBonuses(item_table, val_func_alt, m_c_curr.set_bonuses);
   if (best_matching.empty()) { 
-    std::cout << "No swappies for item bonuses found." << std::endl;
+    std::cout << "No swappies for item bonuses found. (best matching was empty)" << std::endl;
     return;
   }
   float val_was = value(m_c_curr);
@@ -955,7 +956,7 @@ void ItemPicker::Calculate()
     PickBestForSlots(item_table, disable_bans, iteration, max_iterations, //
                      &static_for_all_slots, &iters_without_new_best);
     if (disable_bans && (iteration % 5 == 0)) {
-      swapToBestMatchingBonuses(item_table, disable_bans, iteration, &iters_without_new_best);
+      SwapToBestMatchingBonuses(item_table, disable_bans, iteration, &iters_without_new_best);
     }
 
     iteration++;
@@ -1229,7 +1230,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     if (worst_item.name != "") {
       int size_was = static_cast<int>(m_item_table.getItems(worst_item.slot).size());
       if (static_cast<int>(items_for_slot.size()) == size_was) {
-        m_item_table.removeItem(worst_item.name);
+        m_item_table.RemoveItem(worst_item.name);
         // int size_is = m_item_table.getItems(worst_item.slot).size();
         // std::cout << "Removed item: " << worst_item.name << " with value: " << worst_value << " from item table."
             // << " Size: " << size_was << " --> " << size_is << std::endl;
