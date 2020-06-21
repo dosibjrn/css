@@ -1,5 +1,6 @@
 #pragma once
 
+#include "assumptions.h"
 #include "priest_character.h"
 
 namespace css
@@ -11,12 +12,12 @@ class Stats {
   void CoutStats() const;
   float getMaxMana() const
   {
-    return 15.0f*c_.intelligence+c_.base_mana*(1.0f + c_.talents.mental_strength*0.02f);
+    return (15.0f*c_.intelligence*global::assumptions.all_stats_mul + c_.base_mana)*(1.0f + c_.talents.mental_strength*0.02f);
   }
 
   float getManaRegenTickOutOfFsr() const
   {
-    return 12.5f + c_.spirit*0.25f + mp5Tick();
+    return 12.5f + c_.spirit*global::assumptions.all_stats_mul*0.25f + mp5Tick();
   }
 
   float getManaRegenTickUnderFsr() const
@@ -41,18 +42,19 @@ class Stats {
     } else if (c_.set_bonuses.getPartial() && c_.set_bonuses.getTotalBonus().name.find("transcendence 1") != std::string::npos) {
       meditation += 1;
     }
-    return meditation*0.05f*(12.5f+c_.spirit*0.25f*2.0f)  // double spirit == double meditation
-        + 12.5f*0.5f + c_.spirit*0.25f // half of double spirit normal regen == normal regen
+    const float spirit = c_.spirit*global::assumptions.all_stats_mul;
+    return meditation*0.05f*(12.5f+spirit*0.25f*2.0f)  // double spirit == double meditation
+        + 12.5f*0.5f + spirit*0.25f // half of double spirit normal regen == normal regen
         + mp5Tick();
   }
   float getManaRegenTickSpiritTapOutOfFsr() const
   {
-    return 12.5f + c_.spirit*0.25f*2.0f
+    return 12.5f + c_.spirit*global::assumptions.all_stats_mul*0.25f*2.0f
         + mp5Tick();
   }
   float spellCritMul() const
   {
-    return 1.0f + 0.01f*(c_.intelligence/59.5f);
+    return 1.0f + 0.01f*(c_.intelligence*global::assumptions.all_stats_mul/59.5f);
   }
 
   float getEffectiveMana(float duration, float fsr_frac) const 

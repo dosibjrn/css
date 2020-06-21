@@ -267,8 +267,8 @@ void ApplyBuffs(PriestCharacter *c) {
   c->stamina += 15.0f*frac;
   c->spell_crit += 5.0f*frac;
 
-  // ZG Heart...
-  // float mul = 
+  // ZG Heart / Spirit of Zandalar
+  global::assumptions.all_stats_mul = 1.0f + 0.15f*frac;
 
   global::assumptions.flask = false;
   if (frac >= 1.0f) {

@@ -33,7 +33,7 @@ float Stats::getManaRegenPerSecondDrinking(bool under_fsr, bool spirit_tap)
 float Stats::getEffectiveHp() const
 {
   Spell shield = Shield(c_, 10); 
-  float ehp = c_.base_hp + (c_.stamina + 70)*10.0f + 2.0f*shield.shield;
+  float ehp = c_.base_hp + (c_.stamina + 70)*global::assumptions.all_stats_mul*10.0f + 2.0f*shield.shield;
   return ehp;
 }
 
@@ -50,9 +50,10 @@ float Stats::getEffectiveHp(float attacker_level, float attacker_attack, float p
   nature /= school_sum;
 
   const float agi_to_dodge_ratio = 20;  // TODO check
-  float phys_reduction = (c_.armor + c_.agility*2) / (c_.armor + c_.agility*2 + 400.0f + 85.0f * (attacker_level + 4.5f * (attacker_level - 59.0f)));
+  const float agi = c_.agility*global::assumptions.all_stats_mul;
+  float phys_reduction = (c_.armor + agi*2) / (c_.armor + agi*2 + 400.0f + 85.0f * (attacker_level + 4.5f * (attacker_level - 59.0f)));
   float phys_through = std::max(0.0f, std::min(1.0f - phys_reduction, 1.0f));
-  phys_through *= std::max(0.0f, std::min(1.0f, (100.0f - (c_.dodge + (c_.agility/agi_to_dodge_ratio) + (c_.defense - attacker_attack) * 0.04f))/100.0f));
+  phys_through *= std::max(0.0f, std::min(1.0f, (100.0f - (c_.dodge + (agi/agi_to_dodge_ratio) + (c_.defense - attacker_attack) * 0.04f))/100.0f));
   if (c_.talents.shadowform) {
     phys_through *= 0.85f;
   }
@@ -64,7 +65,7 @@ float Stats::getEffectiveHp(float attacker_level, float attacker_attack, float p
   float shadow_reduction = std::max(0.0f, std::min(1.0f, (c_.shadow_res / (attacker_level * 5)) * 0.75f));
 
   Spell shield = Shield(c_, 10); 
-  float ehp = c_.base_hp + (c_.stamina + 70)*10.0f + 2.0f*shield.shield;
+  float ehp = c_.base_hp + (c_.stamina + 70)*global::assumptions.all_stats_mul*10.0f + 2.0f*shield.shield;
   float ehp_was = ehp;
   ehp /= (phys*phys_through + arcane*(1.0f - arcane_reduction) + nature*(1.0f - nature_reduction) + fire*(1.0f - fire_reduction)
           + frost*(1.0f - frost_reduction) + shadow*(1.0f - shadow_reduction) + holy);
@@ -108,6 +109,7 @@ void Stats::CoutStats() const
   std::cout << "Spirit: " << c_.spirit << std::endl;
   std::cout << "Strength: " << c_.strength << std::endl;
   std::cout << "Agility: " << c_.agility << std::endl;
+  std::cout << "All stats multiplier (not taken into account above): " << global::assumptions.all_stats_mul << std::endl;
 
   std::cout << "Mp5: " << c_.mp5 << std::endl;
   std::cout << "Sp: " << c_.sp << std::endl;
