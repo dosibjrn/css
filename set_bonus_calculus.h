@@ -10,7 +10,7 @@ namespace css
 {
 
 std::vector<Item> BestMatchingBonuses(const ItemTable& table, 
-                                      const std::function<float(const std::vector<Item>&)>& val_func, 
+                                      const std::function<float(const std::vector<Item>&, std::vector<Item>*)>& val_func, 
                                       const SetBonuses& sb);
 
 }  // namespace css

@@ -77,6 +77,17 @@ std::vector<Item> ItemTable::getSetItems(const std::string& set_name) const
 }
 
 
+std::vector<std::string> getSetItemSlots(const std::string& set_name) const
+{
+  std::vector<std::string> slots;
+  auto items = getSetItems(set_name);
+  for (auto& item : items) {
+    slots.push_back(item.slot);
+  }
+  return slots;
+}
+
+
 std::string ItemTable::nameToSlot(const std::string& name) const
 { 
   if (m_name_to_slot.find(name) == m_name_to_slot.end()) {

@@ -214,17 +214,20 @@ std::vector<std::vector<Item>> AllMatchingBonuses(const ItemTable& table, const 
 }  // namespace
 
 std::vector<Item> BestMatchingBonuses(const ItemTable& table, 
-                                      const std::function<float(const std::vector<Item>&)>& val_func, 
+                                      const std::function<float(const std::vector<Item>&, std::vector<Item>*)>& val_func, 
                                       const SetBonuses& sb)
 {
   const auto options = AllMatchingBonuses(table, sb);
   float best_val = 0.0f;
   int best_ix = 0;
+  std::vector<Item> best_items;
 
   int i = 0;
   constexpr bool debug = false;
   for (const auto& option : options) {
-    float val = val_func(option);
+
+    std::vector<Item> more_new_items;
+    float val = val_func(option, &more_new_items);
     if (debug) {
       std::cout << "With items: ";
       for (const Item& item : option) {
@@ -233,12 +236,15 @@ std::vector<Item> BestMatchingBonuses(const ItemTable& table,
       std::cout << " got val: " << val << std::endl;
     }
     if (val > best_val) {
+      best_items.clear();
+      best_items.append(options[best_ix].begin(), opstions[best_ix].end());
+      best_items.append(more_new_items.begin(), more_new_items.end();
       best_val = val;
       best_ix = i;
     }
     i++;
   }
-  return options.empty() ? std::vector<Item>{} : options[best_ix];
+  return best_items;
 }
 
 }  // namespace css

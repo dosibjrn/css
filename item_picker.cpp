@@ -291,7 +291,8 @@ void ItemPicker::updateIfNewBest(float val, bool disable_bans, int iteration, in
 
 void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool disable_bans, int iteration, int* iters_without_new_best)
 {
-  std::function<float(const std::vector<Item>&)> val_func = [this](const std::vector<Item>& items_in) {
+  std::function<float(const std::vector<Item>&, std::vector<Item>*)> val_func = //
+      [this](const std::vector<Item>& items_in, std::vector<Item>* more_new_items) {
     PriestCharacter c_tmp = m_c_curr;
     auto temp_items = m_items;
 
@@ -316,15 +317,43 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool dis
     return value(c_tmp);
   };
 
+  // So currently these add the specified new items, but we are missing removal of the other items and swapping those to possibly better best in slot
+  // items
 
-  std::function<float(const std::vector<Item>&)> val_func_alt = [this](const std::vector<Item>& items_in) {
+  // Find out slots relevant to sets
+  // Remove slots from list which are already decided
+  // Remove slots where we do not have a set item right now
+  // Pick best for the reamaining slots
+  // Check the resulting value
+  // Do same stuff in the above function and refactor
+
+
+  std::function<float(const std::vector<Item>&, std::vector<Item>*)> val_func_alt = //
+      [&item_table, this](const std::vector<Item>& items_in, std::vector<Item>* more_new_items) {
     PriestCharacter c_tmp = m_c_curr;
     auto temp_items = m_items;
 
     bool nope = false;
     float diff_sum = 0.0;
+    std::set<std::string> item_sets;
+    for (const Item& item : items_in) {
+      auto set_names = getSetNames(item.name);
+      for (const auto& set_name : set_names) {
+        item_sets.insert(set_name);
+      }
+    }
+
+    std::set<std::string> set_slots;
+    for (const auto& set_name : item_sets) {
+      auto slots = item_table.getSetSlots(set_name);
+      for (const auto& slot : slots) {
+        set_slots.insert(slot);
+      }
+    }
+
     for (const Item& item : items_in) {
       Item current = temp_items[item.slot];
+      set_slots.erase(item.slot);
 
       c_tmp = m_c_curr;
 
@@ -347,6 +376,32 @@ void ItemPicker::swapToBestMatchingBonuses(const ItemTable& item_table, bool dis
 
     if (nope) {
       return 0.0f;
+    }
+    // Pick remaining slots where we actually have a set item
+    std::vector<std::string> slots_vec;
+    for (const auto& slot : set_slots) {
+      if (!getSetNames(temp_items[slot].name).empty()) {
+        slots_vec.push_back(slot);
+      }
+    }
+    // Then remaining slots, pick best with just the weights based.
+    for (const auto& slot : slots_vec) {
+      Item current = temp_items[slot];
+
+      c_tmp = m_c_curr;
+
+      Item item = pickBest(c_tmp, current, item_table.getItems(slot), /*taken_name=*/ "", /*no_special_alt=*/ true);
+
+      if (item.name != current.name) {
+        RemoveItem(current, &c_tmp);
+        float s = 0.0;
+        float curr_val = valueIncreaseWeightsBased(ToStatDiffs(current, c_tmp), &s);
+        curr_val -= s;
+        float item_val = valueIncreaseWeightsBased(ToStatDiffs(item, c_tmp), &s);
+        item_val -= s;
+        diff_sum += (item_val - curr_val);
+        more_new_items->push_back(item);
+      }
     }
 
     return diff_sum;
