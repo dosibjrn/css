@@ -321,6 +321,9 @@ void AddEnchants(PriestCharacter* c) {
   c->mp5 += 4;
   c->stamina += 10;
 
+  // shoulder
+  c->sp_healing += 33;
+
   // chest, +4 all
   c->intelligence += 4;
   c->spirit += 4;
