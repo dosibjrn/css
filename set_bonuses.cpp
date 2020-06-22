@@ -7,7 +7,7 @@
 #include "item_operations.h"
 #include "priest_character.h"
 
-#define DBG_SET_BONUSES
+// #define DBG_SET_BONUSES
 
 namespace css
 {
@@ -262,7 +262,13 @@ void SetBonuses::addItem(const Item& item, const SetBonusListType& bonus_list, I
     std::stringstream ss;
     ss << set_name << " " << items_of_set;
     std::string bonus_name = ss.str();
-    if (verbose) std::cout << "items_of_set: " << items_of_set << ", bonus_name: " << bonus_name << std::endl;
+    if (verbose) {
+      std::cout << "items_of_set: " << items_of_set << ", bonus_name: " << bonus_name << std::endl;
+      std::cout << "  items in set: " << std::endl;
+      for (const auto& item : (*sets)[set_name]) {
+        std::cout << "    " << item << std::endl;
+      }
+    }
     if (bonus_list.find(bonus_name) != bonus_list.end()) {
       Item bonus = bonus_list.at(bonus_name);
       bonus_names->insert(bonus_name);
@@ -298,6 +304,10 @@ void SetBonuses::removeItem(const Item& item, const SetBonusListType& bonus_list
     auto item_it = (*sets)[set_name].find(item.name);
     if (item_it == (*sets)[set_name].end()) {
       std::cout << "!!!! Trying to remove non existing item: " << item.name << " from set: " << set_name << "??? come on." << std::endl;
+      std::cout << "     this set has items:" << std::endl;
+      for (auto& item : (*sets)[set_name]) {
+        std::cout << "      " << item << std::endl;
+      }
       return;
     }
     int items_of_set = static_cast<int>((*sets)[set_name].size());

@@ -102,7 +102,7 @@ float Stats::getEffectiveHpPvp() const
 void Stats::CoutStats() const
 {
   std::cout << "Effective hp: " << getEffectiveHp() << std::endl;
-  std::cout << "Effective mana: " << getEffectiveMana(100.0f, 2.0f/3.0f) << std::endl;
+  std::cout << "Effective mana (100 s, 33 % out of fsr): " << getEffectiveMana(100.0f, 2.0f/3.0f) << std::endl;
   std::cout << "Raw max mana: " << getMaxMana() << std::endl;
   const float mul = global::assumptions.all_stats_mul;
   std::cout << "Int: " << c_.intelligence*mul << std::endl;

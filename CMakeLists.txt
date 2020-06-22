@@ -85,5 +85,6 @@ target_include_directories(cssLib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/eig
 
 add_subdirectory(tests)
 
-add_executable(css main.cpp)
-target_link_libraries(css PRIVATE cssLib)
+set(exec_name css)
+add_executable(${exec_name} main.cpp)
+target_link_libraries(${exec_name} PRIVATE cssLib)

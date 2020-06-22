@@ -171,8 +171,8 @@ ItemPicker::ItemPicker(const PriestCharacter& c, std::string item_table_name, Va
   , m_c_curr(c)
   , m_value_choice(value_choice)
 {
-  unsigned my_seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
-  my_seed = 2416673600;
+  // unsigned my_seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
+  unsigned my_seed = 2416673600;
   std::cout << "Shuffle seed: " << my_seed << std::endl;
   m_generator.seed(my_seed);
 
