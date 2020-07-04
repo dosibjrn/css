@@ -47,6 +47,13 @@ Item ToStatDiffs(const Item& item_in, const PriestCharacter& c_no_item)
 
   return item;
 }
+
+bool TooSpecial(const Item& item) {
+  if (item.name == "hazza'rah's charm of healing") return true;
+  if (item.name == "darkmoon card: blue dragon") return true;
+  return false;
+}
+
 }  // namespace
 
 
@@ -824,7 +831,8 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
         }
       }
 
-      if ((val_candidate > val_start || val_candidate_alt - special_candidate > val_alt_start - special_start || (relevantSet && !m_weights.empty())) && !isBanned(item)) {
+      if ((val_candidate > val_start || val_candidate_alt - special_candidate > val_alt_start - special_start 
+           || (relevantSet && !m_weights.empty()) || TooSpecial(item)) && !isBanned(item)) {
         float cand_diff = val_candidate - val_no_item;
         std::stringstream ss;
         ss << "    " << item.name << " (" << cand_diff << ") : " << plusIfPos(cand_diff - start_diff) << (cand_diff - start_diff)/val_start*100.0f << " %";
@@ -1106,17 +1114,6 @@ void ItemPicker::CoutCharacterStats() const
   std::cout << "Effecctive mana for 100 s, 0.33 fsr: " << s.getEffectiveMana(100.f, 0.33f) << std::endl;
 }
 
-
-namespace
-{
-
-bool TooSpecial(const Item& item) {
-  if (item.name == "hazza'rah's charm of healing") return true;
-  if (item.name == "darkmoon card: blue dragon") return true;
-  return false;
-}
-
-}  // namespace
 
 
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, 
