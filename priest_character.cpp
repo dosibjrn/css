@@ -250,7 +250,7 @@ void ApplyBuffs(PriestCharacter *c) {
   c->mp5 += 60.0f*frac;  // major mana potion
   c->mp5 += 50.0f*frac;  // runes
   // c->mp5 += 12.0f*frac;  // brilliant mana oil
-  // c->mp5 += 12.0f*frac;  // mageblood potion
+  c->mp5 += 12.0f*frac;  // mageblood potion
   c->mp5 += 10.0f*frac;  // nightfin soup
   c->mp5 += 10.0f*frac;  // wcb
   c->spell_crit += 10.0f*frac;  // ony
