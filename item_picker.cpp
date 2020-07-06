@@ -36,6 +36,10 @@ Item ToStatDiffs(const Item& item_in, const PriestCharacter& c_no_item)
   int t2_diff = c_tmp.set_bonuses.NumPieces("transcendence") - c_no_item.set_bonuses.NumPieces("transcendence");
   if (c_no_item.set_bonuses.NumPieces("transcendence") >= 3) t2_diff = 0;
 
+  int hazz_diff = c_tmp.set_bonuses.NumPieces("hazza'rah's") - c_no_item.set_bonuses.NumPieces("hazza'rah's");
+
+  int darkmoon_diff = c_tmp.set_bonuses.NumPieces("darkmoon") - c_no_item.set_bonuses.NumPieces("darkmoon");
+
   Item totalBonusWas = c_no_item.set_bonuses.getTotalBonus();
   Item totalBonusIs = c_tmp.set_bonuses.getTotalBonus();
   AddToItemWithMul(totalBonusIs, 1.0, &item);
@@ -45,10 +49,15 @@ Item ToStatDiffs(const Item& item_in, const PriestCharacter& c_no_item)
   item.strength = static_cast<float>(t1_diff);
   item.agility = static_cast<float>(t2_diff);
 
+  // TODO this stuff needs its own type
+  // let's take dodge and parry as hazz and darkmoon
+  item.dodge = static_cast<float>(hazz_diff);
+  item.parry = static_cast<float>(darkmoon_diff);
+
   return item;
 }
 
-bool TooSpecial(const Item& item) {
+bool VerySpecial(const Item& item) {
   if (item.name == "hazza'rah's charm of healing") return true;
   if (item.name == "darkmoon card: blue dragon") return true;
   return false;
@@ -709,6 +718,8 @@ float ItemPicker::valueIncreaseWeightsBased(const Item& item, float *special)
   increase += item.spell_crit*m_weights[4]; 
   increase += item.strength*m_weights[5];
   increase += item.agility*m_weights[6];
+  increase += item.dodge*m_weights[7];
+  increase += item.parry*m_weights[8];
   if (special) {
     *special = item.strength*m_weights[5] + item.agility*m_weights[6];
   }
@@ -832,7 +843,7 @@ void ItemPicker::CoutAllUpgrades(bool partial, bool from_start)
       }
 
       if ((val_candidate > val_start || val_candidate_alt - special_candidate > val_alt_start - special_start 
-           || (relevantSet && !m_weights.empty()) || TooSpecial(item)) && !isBanned(item)) {
+           || (relevantSet && !m_weights.empty()) || VerySpecial(item)) && !isBanned(item)) {
         float cand_diff = val_candidate - val_no_item;
         std::stringstream ss;
         ss << "    " << item.name << " (" << cand_diff << ") : " << plusIfPos(cand_diff - start_diff) << (cand_diff - start_diff)/val_start*100.0f << " %";
@@ -1119,6 +1130,7 @@ void ItemPicker::CoutCharacterStats() const
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, 
                           std::string taken_name, bool no_special_alt)
 {
+  pick_best_calls++;
   if (isLocked(current_item)) {
     int n_locked_seen = 0;
     for (const Item& item : items_for_slot) {
@@ -1144,34 +1156,41 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   bool locked_seen = false;
   int n_items = static_cast<int>(items_for_slot.size());
   std::vector<float> vals(n_items);
-#pragma omp parallel for
-  for (int i = 0; i < n_items; ++i) {
-    const Item& item = items_for_slot[i];
-    PriestCharacter c_tmp = c_no_item;
-    AddItem(item, &c_tmp);
-    float val = value(c_tmp);
-    vals[i] = val;
-  }
 
+  bool skip_actual_calculation = (pick_best_calls % global::assumptions.log_based_calc_stride != 0) //
+      && global::assumptions.use_alt_for_log_based_picks //
+      && static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats //
+      && !m_weights.empty();
+
+  if (!skip_actual_calculation) {
+#pragma omp parallel for
+    for (int i = 0; i < n_items; ++i) {
+      const Item& item = items_for_slot[i];
+      PriestCharacter c_tmp = c_no_item;
+      AddItem(item, &c_tmp);
+      float val = value(c_tmp);
+      vals[i] = val;
+    }
+  }
 
   bool too_soon = false;
   if (!m_weights.empty()) {
     for (int i = 0; i < n_items; ++i) {
       Item item = ToStatDiffs(items_for_slot[i], c_no_item);
-      if (!TooSpecial(item)) {
+      if (!skip_actual_calculation) {
         m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value});
-        if (static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats
-            && global::assumptions.use_alt_for_log_based_picks) {
-          const Item& item = items_for_slot[i];
-          float s = 0.0f;
-          float val_alt = no_item_value + valueIncreaseWeightsBased(ToStatDiffs(item, c_no_item), &s);
-          if (no_special_alt) {
-            val_alt -= s;
-          }
-          vals[i] = val_alt;
-        } else {
-          too_soon = true;  // not stable enough yet for any removes
+      }
+      if (static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats
+          && global::assumptions.use_alt_for_log_based_picks) {
+        const Item& item = items_for_slot[i];
+        float s = 0.0f;
+        float val_alt = no_item_value + valueIncreaseWeightsBased(ToStatDiffs(item, c_no_item), &s);
+        if (no_special_alt) {
+          val_alt -= s;
         }
+        vals[i] = val_alt;
+      } else {
+        too_soon = true;  // not stable enough yet for any removes
       }
     }
   }
@@ -1228,7 +1247,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     for (int i = 0; i < n_items; ++i) {
       const Item& item = items_for_slot[i];
       float val = vals[i];
-      if (val < worst_value && !isLocked(item) && !TooSpecial(item)) {
+      if (val < worst_value && !isLocked(item) && !VerySpecial(item)) {
         worst_value = val;
         worst_item = item;
       }
@@ -1351,6 +1370,10 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
     // T1 and T2 pieces
     row[6] = item.strength;
     row[7] = item.agility;
+
+    // hazz and darkmoon == dodge and parry
+    row[8] = item.dodge;
+    row[9] = item.parry;
  
     // row[10] = item.spell_hit;
 
@@ -1382,6 +1405,8 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   m_weights[4] = res[5];
   m_weights[5] = res[6];
   m_weights[6] = res[7];
+  m_weights[7] = res[8];
+  m_weights[8] = res[9];
   for (float &w : m_weights) {
     if (w < 0.0f) w = 0.0f;
   }
@@ -1400,6 +1425,8 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
   ss << "SpellCritRating=" << val << ", ";
   std::cout << "T1 3p/piece: " << m_weights[5]/m_weights[2]*100.0f << std::endl;
   std::cout << "T2 3p/piece: " << m_weights[6]/m_weights[2]*100.0f << std::endl;
+  std::cout << "Hazza'rah's: " << m_weights[7]/m_weights[2]*100.0f << std::endl;
+  std::cout << "Darkmoon: " << m_weights[8]/m_weights[2]*100.0f << std::endl;
 
   std::cout << "100 points == 1 sp == " << m_weights[2] << " hps." << std::endl;
 

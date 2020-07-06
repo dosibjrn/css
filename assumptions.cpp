@@ -147,6 +147,10 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("blizzard_log", assumptions_in, &global::assumptions.blizzard_log);
   SetIfGiven("wcl_log", assumptions_in, &global::assumptions.wcl_log);
   SetIfGiven("cast_delay", assumptions_in, &global::assumptions.cast_delay);
+  SetIfGiven("log_based_calc_stride", assumptions_in, &global::assumptions.log_based_calc_stride);
+
+  // post process
+  global::assumptions.n_last_entries_for_alt_stats /= global::assumptions.log_based_calc_stride;
 }
 
 }  // namespace css

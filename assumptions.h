@@ -110,6 +110,8 @@ struct Assumptions
 
   // E.g. zg buff -> 1.15
   float all_stats_mul = 1.0f;
+
+  int log_based_calc_stride = 1;
 };
 
 namespace global
