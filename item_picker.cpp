@@ -1564,6 +1564,13 @@ void ItemPicker::AddLog(const std::string& log_fn)
   PriestCharacter c;
   // no mana -> no heals
   auto res = HpsForLogs(c, 0.5, 0.5, m_logs); 
+  auto saved = m_c_best;
+  m_c_best = c;
+  std::cout << "----------------------------------------------------------" << std::endl;
+  std::cout << "---- Baseline results without simulated player input: ----" << std::endl;
+  std::cout << "----------------------------------------------------------" << std::endl;
+  CoutBestCounts();
+  m_c_best = saved;
   m_baseline_deficit_time_sum = res.deficit_time_sum;
   m_weights.resize(m_weights_size);
 }
