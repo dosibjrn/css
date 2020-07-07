@@ -77,3 +77,12 @@ int main(int argc, char** argv)
 
 // Simple speedup: each pickbest disables worst from the item list up to n_best_to_keep
 // in global assumptions: drop_worst_item n_best_items_kept_per_slot
+
+// 2020-07-07
+// Should probably do 
+// 1) log & current gear -> casts & overheal
+// 2) casts & overheal -> hps
+// separately, where 1) is triggered more rarely than 2
+
+// when adding new stuff to list of items and vals, we could compare it to the alt val and see if it is in line or an outlier
+// we can additionally check that the actual values are positive

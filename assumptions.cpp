@@ -148,6 +148,7 @@ void ReadAssumptions(const std::string& fn)
   SetIfGiven("wcl_log", assumptions_in, &global::assumptions.wcl_log);
   SetIfGiven("cast_delay", assumptions_in, &global::assumptions.cast_delay);
   SetIfGiven("log_based_calc_stride", assumptions_in, &global::assumptions.log_based_calc_stride);
+  SetIfGiven("log_based_outlier_frac", assumptions_in, &global::assumptions.log_based_outlier_frac);
 
   // post process
   global::assumptions.n_last_entries_for_alt_stats /= global::assumptions.log_based_calc_stride;

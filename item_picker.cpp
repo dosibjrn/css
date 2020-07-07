@@ -1157,10 +1157,12 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
   int n_items = static_cast<int>(items_for_slot.size());
   std::vector<float> vals(n_items);
 
-  bool skip_actual_calculation = (pick_best_calls % global::assumptions.log_based_calc_stride != 0) //
-      && global::assumptions.use_alt_for_log_based_picks //
-      && static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats //
-      && !m_weights.empty();
+  const bool log_based = !m_weights.empty();
+  const bool enough_samples = static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats;
+  const bool skip_calc_stride_based = (pick_best_calls % global::assumptions.log_based_calc_stride) != 0;
+
+  const bool skip_actual_calculation = skip_calc_stride_based && global::assumptions.use_alt_for_log_based_picks //
+      && enough_samples && log_based;
 
   if (!skip_actual_calculation) {
 #pragma omp parallel for
@@ -1173,24 +1175,36 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
     }
   }
 
-  bool too_soon = false;
-  if (!m_weights.empty()) {
+  bool too_soon_for_removes = false;
+  if (log_based) {
     for (int i = 0; i < n_items; ++i) {
-      Item item = ToStatDiffs(items_for_slot[i], c_no_item);
+      Item item_stat_diffs = ToStatDiffs(items_for_slot[i], c_no_item);
+      float s = 0.0f;
+      float val_increase_weights_based = valueIncreaseWeightsBased(item_stat_diffs, &s);
       if (!skip_actual_calculation) {
-        m_stat_diffs_to_hps_diffs.push_back({item, vals[i] - no_item_value});
+        float val_increase_calculated = vals[i] - no_item_value;
+        if (val_increase_calculated > 0.0f
+            && (!enough_samples
+            || (val_increase_weights_based <= 0.0f && val_increase_calculated > 0.0f)
+            // is in agreement with current weights == not an outlier
+            || (val_increase_calculated > val_increase_weights_based*(1.0f - global::assumptions.log_based_outlier_frac)
+            && val_increase_calculated < val_increase_weights_based/(1.0f - global::assumptions.log_based_outlier_frac)))) {
+          if (val_increase_calculated > 0.0f)
+          m_stat_diffs_to_hps_diffs.push_back({item_stat_diffs, val_increase_calculated});
+        } else {
+          // std::cout << "outlier: " << items_for_slot[i].name << ": " << val_increase_calculated << " not in range: ("
+              // << val_increase_weights_based*(1.0f - global::assumptions.log_based_outlier_frac) << ", "
+              // << val_increase_weights_based*(1.0f + global::assumptions.log_based_outlier_frac) << ")" << std::endl;
+        }
       }
-      if (static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats
-          && global::assumptions.use_alt_for_log_based_picks) {
-        const Item& item = items_for_slot[i];
-        float s = 0.0f;
-        float val_alt = no_item_value + valueIncreaseWeightsBased(ToStatDiffs(item, c_no_item), &s);
+      if (enough_samples && global::assumptions.use_alt_for_log_based_picks) {
+        float val_alt = no_item_value + val_increase_weights_based;
         if (no_special_alt) {
           val_alt -= s;
         }
         vals[i] = val_alt;
       } else {
-        too_soon = true;  // not stable enough yet for any removes
+        too_soon_for_removes = true;  // not stable enough yet for any removes
       }
     }
   }
@@ -1239,7 +1253,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
 
   if (global::assumptions.drop_bad_items_early 
       && static_cast<int>(items_for_slot.size()) > global::assumptions.keep_best_per_slot
-      && !too_soon) {
+      && !too_soon_for_removes) {
 
 
     float worst_value = best_value;
