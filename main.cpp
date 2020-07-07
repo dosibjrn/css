@@ -86,3 +86,4 @@ int main(int argc, char** argv)
 
 // when adding new stuff to list of items and vals, we could compare it to the alt val and see if it is in line or an outlier
 // we can additionally check that the actual values are positive
+// ! add raw hps of other players
