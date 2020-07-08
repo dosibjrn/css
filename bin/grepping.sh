@@ -1,4 +1,4 @@
-for stat in Int Spirit Healing Mp5 T1 T2 Darkmoon Hazza; do
+for stat in Int Spirit Healing Mp5 Crit T1 T2 Darkmoon Hazza; do
   val=$(grep "| Upgrades at best in slot level, from start item to candidate, partial bonuses: 1: |" -B 40 "$@" | grep "Based on last: " -A 9 | grep $stat | awk -F: '{ total += $2 } END { print total/NR }')
   echo $stat: $val
 done
