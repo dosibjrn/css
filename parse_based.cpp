@@ -567,7 +567,7 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
     } else {
       for (const auto& deficit : deficits) {
         if (deficit.second > 0) {
-          out.deficit_time_sum += deficit.second*time_step_s;
+          out.deficit_time_sum += (deficit.second*deficit.second)*time_step_s;
         }
       }
     }
@@ -586,8 +586,12 @@ LogResult SimpleLogHealing(const PriestCharacter& c, const std::vector<LogEntry>
   return out;
 }
 
-LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_player)
+LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_player, int64_t* skipped_player_entries)
 {
+
+  if (skipped_player_entries != nullptr) {
+    *skipped_player_entries = 0;
+  }
   if (log.empty()) return std::vector<std::vector<LogEntry>>{};
 
   int64_t max_diff_ms = static_cast<int64_t>(global::assumptions.max_log_entry_diff_in_combat * 1e3);
@@ -606,6 +610,9 @@ LogsType PrunedLog(const std::vector<LogEntry>& log, const std::string& remove_p
         }
       }
       this_combat.clear();
+    }
+    if (e.source == remove_player && skipped_player_entries != nullptr) {
+      (*skipped_player_entries)++;
     }
     if (e.player.find(" ") == std::string::npos && e.source != remove_player) {
       this_combat.push_back(e);
@@ -701,7 +708,7 @@ std::vector<LogEntry> ReadWclParsedLog(const std::string& log_fn)
 }
 
 
-LogsType GetLogs(const std::string& log_fn)
+LogsType GetLogs(const std::string& log_fn, int64_t* skipped_player_entries)
 {
   std::vector<LogEntry> log;
   if (global::assumptions.wcl_log) {
@@ -711,7 +718,7 @@ LogsType GetLogs(const std::string& log_fn)
   }
   std::cout << "Pruning log from: " << log.size() << " entries." << std::endl;
   std::string remove_player = global::assumptions.skip_player;
-  auto logs = PrunedLog(log, remove_player);
+  auto logs = PrunedLog(log, remove_player, skipped_player_entries);
   int total_size = 0;
   for (auto one_log : logs) {
       total_size += static_cast<int>(one_log.size());

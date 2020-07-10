@@ -42,7 +42,7 @@ class ItemPicker {
   void CoutCharacterStats() const;
   void CoutCurrentValues(std::string tag_name = "");
   void CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name);
-  void CoutBestCounts() const;
+  void CoutBestCounts();
   void CoutDiffsToStart();
   void CoutAllUpgrades(bool partial, bool from_start);
 
@@ -146,7 +146,12 @@ private:
   static constexpr int m_weights_size = 9;
 
   float m_baseline_deficit_time_sum = 0.0f;
-  int64_t pick_best_calls = 0;
+  int64_t m_pick_best_calls = 0;
+
+  // this is just to get this guy out of the logs to create more room
+  std::string m_highest_hps_player_in_logs = "";
+
+  int64_t m_num_dropped_samples = 0;
 };
 
 }  // namespace css

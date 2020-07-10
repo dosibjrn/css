@@ -57,7 +57,7 @@ struct LogResult
 
 void ParseBased(const std::string& log_fn);
 
-LogsType GetLogs(const std::string& log_fn);
+LogsType GetLogs(const std::string& log_fn, int64_t* skipped_player_entries = nullptr);
 
 LogResult HpsForLogs(const PriestCharacter& c, float oh_limit, float time_left_mul, const LogsType& logs);
 

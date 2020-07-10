@@ -117,7 +117,7 @@ float ItemPicker::valuePveHealing(const PriestCharacter& c) const
   if (!m_logs.empty()) {
     auto res = HpsForLogs(c, m_oh_limit, m_time_left_mul, m_logs); 
     if (global::assumptions.use_deficit_time_sum) {
-      return (m_baseline_deficit_time_sum - res.deficit_time_sum)/res.in_combat_sum;
+      return sqrt((m_baseline_deficit_time_sum - res.deficit_time_sum)/res.in_combat_sum);
     } else {
       return res.heal_sum/res.in_combat_sum;
     }
@@ -1020,7 +1020,7 @@ std::vector<std::vector<float>> ItemPicker::bestCounts(const PriestCharacter& c,
   return counts_out;
 }
 
-void ItemPicker::CoutBestCounts() const
+void ItemPicker::CoutBestCounts()
 {
   if (m_value_choice == ValueChoice::pve_healing) {
     if (m_logs.empty()) {
@@ -1083,11 +1083,16 @@ void ItemPicker::CoutBestCounts() const
       std::cout << "Average mana at end of combat: " << res.mana_at_end_sum/res.n_combats << std::endl;
       constexpr float hps_limit = 100.0f;
       std::cout << "Other players with hps > " << hps_limit << ":" << std::endl;
+      float highest_hps = 0.0f;
       for (const auto& entry : res.player_heal_sums) {
         float hps = entry.second / res.in_combat_sum;
         if (hps > hps_limit) {
           if (entry.first != "DEATH") {
             std::cout << "  " << entry.first << " : " << hps << " hps" << std::endl;
+            if (hps > highest_hps) {
+              highest_hps = hps;
+              m_highest_hps_player_in_logs = entry.first;
+            }
           }
         }
       }
@@ -1130,7 +1135,7 @@ void ItemPicker::CoutCharacterStats() const
 Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, std::vector<Item>& items_for_slot, 
                           std::string taken_name, bool no_special_alt)
 {
-  pick_best_calls++;
+  m_pick_best_calls++;
   if (isLocked(current_item)) {
     int n_locked_seen = 0;
     for (const Item& item : items_for_slot) {
@@ -1159,7 +1164,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
 
   const bool log_based = !m_weights.empty();
   const bool enough_samples = static_cast<int>(m_stat_diffs_to_hps_diffs.size()) > global::assumptions.n_last_entries_for_alt_stats;
-  const bool skip_calc_stride_based = (pick_best_calls % global::assumptions.log_based_calc_stride) != 0;
+  const bool skip_calc_stride_based = (m_pick_best_calls % global::assumptions.log_based_calc_stride) != 0;
 
   const bool skip_actual_calculation = skip_calc_stride_based && global::assumptions.use_alt_for_log_based_picks //
       && enough_samples && log_based;
@@ -1192,6 +1197,7 @@ Item ItemPicker::pickBest(const PriestCharacter& c, const Item& current_item, st
           if (val_increase_calculated > 0.0f)
           m_stat_diffs_to_hps_diffs.push_back({item_stat_diffs, val_increase_calculated});
         } else {
+          m_num_dropped_samples++;
           // std::cout << "outlier: " << items_for_slot[i].name << ": " << val_increase_calculated << " not in range: ("
               // << val_increase_weights_based*(1.0f - global::assumptions.log_based_outlier_frac) << ", "
               // << val_increase_weights_based*(1.0f + global::assumptions.log_based_outlier_frac) << ")" << std::endl;
@@ -1409,6 +1415,7 @@ void ItemPicker::CoutCurrentValuesBasedOnRecordedDiffs(std::string tag_name)
 
   // And this should be the weights
   std::cout << "Based on last: " << n_entries - start << " entries, out of total: " << n_entries << " entries, ";
+  std::cout << "(" << m_num_dropped_samples << " dropped), ";
   Eigen::VectorXf res = A.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b);
   std::cout << "The least-squares solution is:" << std::endl;
   m_weights.resize(m_weights_size);  // sp and sp_healing are bundled together
@@ -1560,7 +1567,8 @@ void ItemPicker::CoutCurrentValues(std::string tag_name)
 
 void ItemPicker::AddLog(const std::string& log_fn)
 {
-  m_logs = GetLogs(log_fn);
+  int64_t skipped_player_entries;
+  m_logs = GetLogs(log_fn, &skipped_player_entries);
   PriestCharacter c;
   // no mana -> no heals
   auto res = HpsForLogs(c, 0.5, 0.5, m_logs); 
@@ -1570,6 +1578,15 @@ void ItemPicker::AddLog(const std::string& log_fn)
   std::cout << "---- Baseline results without simulated player input: ----" << std::endl;
   std::cout << "----------------------------------------------------------" << std::endl;
   CoutBestCounts();
+  if (skipped_player_entries <= 10) {
+    std::cout << "Skip player from: " << global::assumptions.skip_player << " to: " << m_highest_hps_player_in_logs << std::endl;
+    global::assumptions.skip_player = m_highest_hps_player_in_logs;
+    m_logs = GetLogs(log_fn, &skipped_player_entries);
+    std::cout << "Skipped player entries: " << skipped_player_entries << std::endl;
+    res = HpsForLogs(c, 0.5, 0.5, m_logs);
+    std::cout << "Baseline results again due to changed skipped player" << std::endl;
+    CoutBestCounts();
+  }
   m_c_best = saved;
   m_baseline_deficit_time_sum = res.deficit_time_sum;
   m_weights.resize(m_weights_size);

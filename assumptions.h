@@ -114,10 +114,10 @@ struct Assumptions
 
   int log_based_calc_stride = 1;
 
-  // will be added to stat weight calc if agrees within this limit, e.g. +- 50%
+  // will be added to stat weight calc if agrees within this limit, e.g. between *= 0.2 and /= 0.2
   // i.e., if item would be valued to 10 based on current stat weights, it's stat,val -pair will be added
-  // to further calculations if it's in range [5,20]
-  float log_based_outlier_frac = 0.5f;
+  // to further calculations if it's in range [2,50]
+  float log_based_outlier_frac = 0.2f;
 };
 
 namespace global
