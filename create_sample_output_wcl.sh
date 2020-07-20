@@ -4,6 +4,8 @@ cat ../items/not_for_priests.txt >> ban_tmp_phase4.txt
 mkdir ../sample_output
 mkdir ../sample_output/log_based
 
+cp ../items/have.txt start_with.txt
+
 # Top world bwl speedrun on 2020-06-02
 python3 ../Overheal/readers/read_health_changes_from_api.py ytL9VY8DXfWdGRmJ progress_speed.txt
 

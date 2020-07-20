@@ -1,6 +1,9 @@
 mkdir ../sample_output
 mkdir ../sample_output/log_based
 mkdir ../sample_output/log_based/top20_bwl_horde_speed
+
+cp ../items/have.txt start_with.txt
+
 python3 ../Overheal/readers/read_health_changes_from_api.py Qy7wN89qG2ZFtdzf onslaught_speed.txt; ./css 4 ../items/phase5.csv ../items/not_for_priests.txt no-locks  onslaught_bwl_speed_phase5 -a ../confs/wcl_bwl_speed_log.csv -l onslaught_speed.txt | tee ../sample_output/log_based/top20_bwl_horde_speed/onslaught_bwl_speed_phase5.log
 python3 ../Overheal/readers/read_health_changes_from_api.py 4cJ18djtXyTVnGQP resist_speed.txt; ./css 4 ../items/phase5.csv ../items/not_for_priests.txt no-locks  resist_bwl_speed_phase5 -a ../confs/wcl_bwl_speed_log.csv -l resist_speed.txt | tee ../sample_output/log_based/top20_bwl_horde_speed/resist_bwl_speed_phase5.log
 python3 ../Overheal/readers/read_health_changes_from_api.py LdVQ1z46BbJkKfG9 senseless_speed.txt; ./css 4 ../items/phase5.csv ../items/not_for_priests.txt no-locks  senseless_bwl_speed_phase5 -a ../confs/wcl_bwl_speed_log.csv -l senseless_speed.txt | tee ../sample_output/log_based/top20_bwl_horde_speed/senseless_bwl_speed_phase5.log

@@ -1,5 +1,5 @@
 # Run from e.g. css/build
-cp ../items/have_mod_locked.txt start_with.txt
+cp ../items/have.txt start_with.txt
 
 cat ../items/ban_after_p4.txt > ban_tmp_phase4.txt
 cat ../items/not_for_priests.txt >> ban_tmp_phase4.txt
@@ -34,7 +34,7 @@ cp bkb.txt start_with.txt
 
 ./css 4 ../items/phase5.csv no-bans start_with.txt dme_duo_current -a ../confs/dme_duo.csv | tee ../sample_output/dme_duo_current.txt
 
-./css 3 ../items/phase5.csv no-bans ../items_have.txt pvp_heal_current | tee ../sample_output/pvp_heal_current.txt
+./css 3 ../items/phase5.csv no-bans ../items/items_have.txt pvp_heal_current | tee ../sample_output/pvp_heal_current.txt
 ./css 3 ../items/phase5.csv ban_tmp_phase4.txt no-lock pvp_heal_phase4 | tee ../sample_output/pvp_heal_phase4.txt
 ./css 3 ../items/phase5.csv ../items/not_for_priests.txt no-lock pvp_heal_phase5 | tee ../sample_output/pvp_heal_phase5.txt
 
@@ -45,7 +45,8 @@ cp bkb.txt start_with.txt
 ./css 4 ../items/phase5.csv ban_tmp_phase4.txt no-locks pve_heal_normal_buff_phase4 -a ../confs/average_raiding.csv | tee ../sample_output/pve_heal_normal_buff_phase4.txt
 
 for mode in 2 3 4 5; do
-  ./css $mode ../items/phase5.csv ../items/not_for_priests.txt | tee ../sample_output/css_${mode}_bwl_phase5.txt
+  ./css $mode ../items/phase5.csv ../items/not_for_priests.txt ../items/have.txt | tee ../sample_output/css_${mode}_current.txt
+  ./css $mode ../items/phase5.csv ../items/not_for_priests.txt | tee ../sample_output/css_${mode}_phase5.txt
   ./css $mode ../items/phase5.csv ban_tmp_phase4.txt | tee ../sample_output/css_${mode}_phase4.txt
 done
 
