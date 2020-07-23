@@ -1,4 +1,4 @@
-Your call: ./css 3 ../items/phase5.csv no-bans ../items_have.txt pvp_heal_current 
+Your call: ./css 3 ../items/phase5.csv no-bans ../items/items_have.txt pvp_heal_current 
 Shuffle seed: 2416673600
 Reading banned from: no-bans
 Reading tmp locked from: start_with.txt
@@ -42,6 +42,7 @@ Locking: halo of transcendence
 Locking: heart of the fiend
 Locking: hide of the wild
 Locking: kentic amice
+Locking: leggings of transcendence
 Locking: magister's robes
 Locking: maleki's footwraps
 Locking: mindtap talisman
@@ -55,6 +56,7 @@ Locking: noxious shooter
 Locking: omnicast boots
 Locking: orb of the forgotten seer
 Locking: padre's trousers
+Locking: pants of prophecy
 Locking: penelope's rose
 Locking: quel'dorai channeling rod
 Locking: raincaster drape
@@ -144,32 +146,38 @@ Optimizing start items...
 
 *** NEW BEST (1): 314.86
 
-*** NEW BEST (1): 367.678
+*** NEW BEST (1): 382.854
 
-*** NEW BEST (1): 449.814
+*** NEW BEST (1): 468.263
 
-*** NEW BEST (1): 514.717
-***********
-*** NEW BEST (0): 511.72
+*** NEW BEST (1): 522.53
+**
+*** NEW BEST (1): 524.542
+
+*** NEW BEST (1): 525.3
+********
+*** NEW BEST (1): 525.47
+*
+*** NEW BEST (0): 522.406
 Current relative stat values for matching or exceeding +50 pts of SpellPower
-Intellect: 197.957
-Spirit: 76.5316
-Stamina: 378.942
-Agility: 66.3464
-Mp5: 233.684
+Intellect: 191.131
+Spirit: 73.8392
+Stamina: 373.035
+Agility: 66.0243
+Mp5: 225.464
 SpellPower: 100
 ShadowSpellDamage: 0
 Healing: 100
-SpellCritRating: 300.759
-SpellHitRating: 3063.47
-ArcaneResist: 36.7127
-NatureResist: 36.7127
-FireResist: 73.4805
-FrostResist: 147.624
-ShadowResist: 95.7976
-Armor: 10.2149
-DefenseRating: 36.694
-DodgeRating: 920.933
+SpellCritRating: 297.985
+SpellHitRating: 3031.47
+ArcaneResist: 36.5233
+NatureResist: 36.5232
+FireResist: 73.1015
+FrostResist: 146.866
+ShadowResist: 95.3044
+Armor: 10.167
+DefenseRating: 36.5185
+DodgeRating: 916.409
 ParryRating: 0
 *********
 Read starting items and cleared locks.
@@ -282,14 +290,16 @@ shadow_res: 10
 armor: 65
  ----------------------------
  --- legs --- 
-name: empowered leggings
+name: leggings of transcendence
 slot: legs
-intelligence: 12
-stamina: 12
-spirit: 24
-sp_healing: 77
-spell_crit: 1
-armor: 103
+intelligence: 21
+stamina: 16
+spirit: 21
+sp_healing: 46
+mp5: 7
+arcane_res: 10
+shadow_res: 10
+armor: 101
  ----------------------------
  --- feet --- 
 name: boots of prophecy
@@ -338,7 +348,7 @@ mp5: 9
 name: prophecy 3 transcendence 3 
 slot: Set bonuses
  --- And counts for start items ---
-Reading locked from: ../items_have.txt
+Reading locked from: ../items/items_have.txt
 Setting tag name to: pvp_heal_current
 .
 *** NEW BEST (1): 527.242
@@ -659,8 +669,8 @@ To file: pvp_heal_current.pawn_tag.txt
 Diffs to start: 
 Upgrades: 
 benediction, , , (108.372) -> , scepter of the false prophet, , royal scepter of vek'lor(176.65) : 68.2785 = +11.2249%
-empowered leggings(81.339) -> pants of prophecy(145.599) : 64.2602 = +10.4949%
 bindings of transcendence(52.715) -> vambraces of prophecy(106.117) : 53.4018 = +8.56958%
+leggings of transcendence(95.5471) -> pants of prophecy(145.599) : 50.0521 = +7.98909%
 robes of prophecy(87.4793) -> robes of transcendence(125.604) : 38.1249 = +5.97164%
 royal seal of eldre'thalas(21.2394) -> neltharion's tear(51.121) : 29.8815 = +4.62079%
 gloves of prophecy(61.4533) -> dark storm gauntlets(87.8322) : 26.3789 = +4.05718%
@@ -724,10 +734,9 @@ hands, gloves of prophecy (64.3622) -> :
 waist, belt of transcendence (78.1736) -> :
     grasp of the old god (90.4146) : +1.83171 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, empowered leggings (86.6319) -> :
-    pants of prophecy (114.995) : +4.34906 %, from: mc
-    trousers of the oracle (103.924) : +2.65153 %, from: aq40
-    leggings of transcendence (101.768) : +2.32086 %, from: mc
+legs, leggings of transcendence (101.768) -> :
+    pants of prophecy (114.995) : +1.9822 %, from: mc
+    trousers of the oracle (103.924) : +0.323168 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 feet, boots of prophecy (94.2516) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
@@ -796,10 +805,9 @@ hands, gloves of prophecy (61.4533) -> :
 waist, belt of transcendence (77.7197) -> :
     grasp of the old god (89.8896) : +1.83175 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, empowered leggings (81.339) -> :
-    pants of prophecy (145.599) : +10.4949 %, from: mc
-    trousers of the oracle (97.5722) : +2.6512 %, from: aq40
-    leggings of transcendence (95.5471) : +2.32046 %, from: mc
+legs, leggings of transcendence (95.5471) -> :
+    pants of prophecy (145.599) : +7.98909 %, from: mc
+    trousers of the oracle (97.5722) : +0.323235 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
 feet, boots of prophecy (126.124) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
@@ -823,151 +831,147 @@ trinket 2, rejuvenating gem (45.1393) -> :
 | Upgrades at start level, from start item to candidate, partial bonuses: 1: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, halo of transcendence (83.3385) -> :
-    tiara of the oracle (89.785) : +1.25243 %, from: aq40
-    don rigoberto's lost hat (84.0416) : +0.136592 %, from: aq40
+head, halo of transcendence (84.5453) -> :
+    tiara of the oracle (90.9361) : +1.21621 %, from: aq40
+    don rigoberto's lost hat (85.2461) : +0.133367 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (36.265) -> :
-    angelista's charm (49.9963) : +2.66773 %, from: aq40
-    amulet of the fallen god (37.6911) : +0.277062 %, from: aq40
+neck, jin'do's evil eye (36.9071) -> :
+    angelista's charm (50.6323) : +2.61199 %, from: aq40
+    amulet of the fallen god (38.3622) : +0.276921 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, pauldrons of transcendence (58.7926) -> :
-    mantle of the oracle (66.0183) : +1.40382 %, from: aq40
-    ternary mantle (58.7993) : +0.00130438 %, from: aq40
+shoulders, pauldrons of transcendence (59.4893) -> :
+    mantle of the oracle (66.8261) : +1.39624 %, from: aq40
+    ternary mantle (59.668) : +0.0340097 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (45.3987) -> :
-    cloak of the devoured (52.1088) : +1.30366 %, from: aq40
-    cloak of clarity (47.3916) : +0.387199 %, from: aq40
-    cape of the trinity (46.3084) : +0.176755 %, from: aq40
+back, shroud of pure thought (46.0647) -> :
+    cloak of the devoured (53.0706) : +1.33327 %, from: aq40
+    cloak of clarity (48.0388) : +0.375686 %, from: aq40
+    cape of the trinity (47.013) : +0.180467 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, robes of prophecy (86.6013) -> :
+chest, robes of prophecy (87.7746) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (44.5516) -> :
-    bracelets of royal redemption (46.6495) : +0.407595 %, from: aq40
+wrists, bindings of transcendence (45.1847) -> :
+    bracelets of royal redemption (47.5454) : +0.449258 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (92.3484) -> :
-    scepter of the false prophet and royal scepter of vek'lor (152.88) : +11.7602 %, from: aq40, aq40
-    scepter of the false prophet and jin'do's bag of whammies (148.988) : +11.004 %, from: aq40, zg
-    scepter of the false prophet and sartura's might (148.018) : +10.8156 %, from: aq40, aq40
-    scepter of the false prophet and fire runed grimoire (147.822) : +10.7775 %, from: aq40, mc
-    blessed qiraji augur staff (123.599) : +6.07134 %, from: aq40
-    lok'amir il romathis and royal scepter of vek'lor (106.394) : +2.72872 %, from: bwl, aq40
-    gavel of infinite wisdom and royal scepter of vek'lor (104.321) : +2.3261 %, from: aq20, aq40
-    lok'amir il romathis and jin'do's bag of whammies (102.779) : +2.02652 %, from: bwl, zg
-    lok'amir il romathis and sartura's might (102.362) : +1.94552 %, from: bwl, aq40
-    lok'amir il romathis and fire runed grimoire (101.644) : +1.80587 %, from: bwl, mc
-    gavel of infinite wisdom and jin'do's bag of whammies (100.737) : +1.62982 %, from: aq20, zg
-    gavel of infinite wisdom and sartura's might (100.31) : +1.5467 %, from: aq20, aq40
-    gavel of infinite wisdom and fire runed grimoire (99.6803) : +1.42444 %, from: aq20, mc
-    staff of the shadow flame (97.518) : +1.00436 %, from: bwl
+two-hand, benediction (94.0073) -> :
+    scepter of the false prophet and royal scepter of vek'lor (156.244) : +11.8441 %, from: aq40, aq40
+    scepter of the false prophet and jin'do's bag of whammies (152.228) : +11.0797 %, from: aq40, zg
+    scepter of the false prophet and sartura's might (151.353) : +10.9132 %, from: aq40, aq40
+    scepter of the false prophet and fire runed grimoire (150.743) : +10.7971 %, from: aq40, mc
+    blessed qiraji augur staff (125.783) : +6.04719 %, from: aq40
+    lok'amir il romathis and royal scepter of vek'lor (108.328) : +2.72526 %, from: bwl, aq40
+    gavel of infinite wisdom and royal scepter of vek'lor (106.355) : +2.34981 %, from: aq20, aq40
+    lok'amir il romathis and jin'do's bag of whammies (104.601) : +2.01606 %, from: bwl, zg
+    lok'amir il romathis and sartura's might (104.293) : +1.95734 %, from: bwl, aq40
+    lok'amir il romathis and fire runed grimoire (103.168) : +1.74333 %, from: bwl, mc
+    gavel of infinite wisdom and jin'do's bag of whammies (102.658) : +1.64624 %, from: aq20, zg
+    gavel of infinite wisdom and sartura's might (102.336) : +1.58506 %, from: aq20, aq40
+    gavel of infinite wisdom and fire runed grimoire (101.302) : +1.3883 %, from: aq20, mc
+    staff of the shadow flame (99.0197) : +0.953898 %, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (23.1517) -> :
+ranged, dragon's touch (23.3639) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (64.9028) -> :
-    dark storm gauntlets (70.2439) : +1.03768 %, from: aq40
-    gloves of dark wisdom (65.2413) : +0.0657645 %, from: aq20
+hands, gloves of prophecy (65.748) -> :
+    dark storm gauntlets (71.4846) : +1.09173 %, from: aq40
+    gloves of dark wisdom (66.1285) : +0.0724216 %, from: aq20
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, belt of transcendence (61.1554) -> :
-    grasp of the old god (71.1825) : +1.94808 %, from: aq40
+waist, belt of transcendence (61.8996) -> :
+    grasp of the old god (72.3006) : +1.97936 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, empowered leggings (70.2298) -> :
-    trousers of the oracle (82.7545) : +2.43331 %, from: aq40
-    leggings of transcendence (80.983) : +2.08915 %, from: mc
-    pants of prophecy (75.0024) : +0.927236 %, from: mc
+legs, leggings of transcendence (80.983) -> :
+    trousers of the oracle (82.7545) : +0.337112 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, boots of prophecy (72.4382) -> :
+feet, boots of prophecy (73.4842) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (46.0927) -> :
+finger, pure elementium band (46.9376) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, seal of the archmagus (41.196) -> :
-    pure elementium band (46.2816) : +0.988032 %, from: bwl
-    band of forced concentration (44.2361) : +0.590623 %, from: bwl
-    cauterizing band (41.8199) : +0.121212 %, from: mc
-    band of sulfuras (41.4604) : +0.051357 %, from: mc
+finger 2, seal of the archmagus (41.6455) -> :
+    pure elementium band (47.1423) : +1.04607 %, from: bwl
+    band of forced concentration (44.9556) : +0.629923 %, from: bwl
+    cauterizing band (42.5966) : +0.181002 %, from: mc
+    band of sulfuras (41.6855) : +0.00761966 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (17.4719) -> :
-    neltharion's tear (43.8743) : +5.12949 %, from: bwl
-    rejuvenating gem (36.3706) : +3.67166 %, from: bwl
-    hazza'rah's charm of healing (4.69693) : -2.48194 %, from: zg
-    darkmoon card: blue dragon (0) : -3.39447 %, from: 
+trinket, royal seal of eldre'thalas (17.8833) -> :
+    neltharion's tear (44.9949) : +5.15949 %, from: bwl
+    rejuvenating gem (37.1986) : +3.6758 %, from: bwl
+    hazza'rah's charm of healing (4.84573) : -2.48113 %, from: zg
+    darkmoon card: blue dragon (0) : -3.4033 %, from: 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, rejuvenating gem (35.4597) -> :
-    neltharion's tear (42.5051) : +1.36879 %, from: bwl
-    hazza'rah's charm of healing (4.58047) : -5.99925 %, from: zg
-    darkmoon card: blue dragon (0) : -6.88915 %, from: 
+trinket 2, rejuvenating gem (36.2679) -> :
+    neltharion's tear (43.5924) : +1.39389 %, from: bwl
+    hazza'rah's charm of healing (4.72562) : -6.00268 %, from: zg
+    darkmoon card: blue dragon (0) : -6.902 %, from: 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 | Upgrades at start level, from start item to candidate, partial bonuses: 0: |
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-head, halo of transcendence (82.8553) -> :
-    tiara of the oracle (89.2635) : +1.25228 %, from: aq40
-    don rigoberto's lost hat (83.5542) : +0.136575 %, from: aq40
+head, halo of transcendence (84.0541) -> :
+    tiara of the oracle (90.4073) : +1.21614 %, from: aq40
+    don rigoberto's lost hat (84.7513) : +0.13346 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-neck, jin'do's evil eye (36.0553) -> :
-    angelista's charm (49.7064) : +2.66768 %, from: aq40
-    amulet of the fallen god (37.4734) : +0.277129 %, from: aq40
+neck, jin'do's evil eye (36.6927) -> :
+    angelista's charm (50.3383) : +2.61205 %, from: aq40
+    amulet of the fallen god (38.1399) : +0.277015 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-shoulders, pauldrons of transcendence (58.452) -> :
-    mantle of the oracle (65.6353) : +1.40376 %, from: aq40
-    ternary mantle (58.4584) : +0.00125238 %, from: aq40
+shoulders, pauldrons of transcendence (59.144) -> :
+    mantle of the oracle (66.438) : +1.39623 %, from: aq40
+    ternary mantle (59.3216) : +0.0339989 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-back, shroud of pure thought (45.1353) -> :
-    cloak of the devoured (51.8059) : +1.30358 %, from: aq40
-    cloak of clarity (47.1165) : +0.387183 %, from: aq40
-    cape of the trinity (46.0398) : +0.176771 %, from: aq40
+back, shroud of pure thought (45.797) -> :
+    cloak of the devoured (52.7622) : +1.33329 %, from: aq40
+    cloak of clarity (47.7602) : +0.375799 %, from: aq40
+    cape of the trinity (46.74) : +0.18051 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-chest, robes of prophecy (109.775) -> :
+chest, robes of prophecy (111.469) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-wrists, bindings of transcendence (44.2933) -> :
-    bracelets of royal redemption (46.3791) : +0.407603 %, from: aq40
+wrists, bindings of transcendence (44.922) -> :
+    bracelets of royal redemption (47.2692) : +0.449311 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-two-hand, benediction (91.8195) -> :
-    scepter of the false prophet and royal scepter of vek'lor (151.996) : +11.7597 %, from: aq40, aq40
-    scepter of the false prophet and jin'do's bag of whammies (148.123) : +11.0027 %, from: aq40, zg
-    scepter of the false prophet and sartura's might (147.159) : +10.8144 %, from: aq40, aq40
-    scepter of the false prophet and fire runed grimoire (146.964) : +10.7763 %, from: aq40, mc
-    blessed qiraji augur staff (122.881) : +6.06994 %, from: aq40
-    lok'amir il romathis and royal scepter of vek'lor (105.779) : +2.72797 %, from: bwl, aq40
-    gavel of infinite wisdom and royal scepter of vek'lor (103.718) : +2.32529 %, from: aq20, aq40
-    lok'amir il romathis and jin'do's bag of whammies (102.182) : +2.02498 %, from: bwl, zg
-    lok'amir il romathis and sartura's might (101.768) : +1.94412 %, from: bwl, aq40
-    lok'amir il romathis and fire runed grimoire (101.054) : +1.80452 %, from: bwl, mc
-    gavel of infinite wisdom and jin'do's bag of whammies (100.152) : +1.62827 %, from: aq20, zg
-    gavel of infinite wisdom and sartura's might (99.7268) : +1.54523 %, from: aq20, aq40
-    gavel of infinite wisdom and fire runed grimoire (99.1015) : +1.42304 %, from: aq20, mc
-    staff of the shadow flame (96.9586) : +1.00429 %, from: bwl
+two-hand, benediction (93.4683) -> :
+    scepter of the false prophet and royal scepter of vek'lor (155.34) : +11.8437 %, from: aq40, aq40
+    scepter of the false prophet and jin'do's bag of whammies (151.343) : +11.0786 %, from: aq40, zg
+    scepter of the false prophet and sartura's might (150.473) : +10.912 %, from: aq40, aq40
+    scepter of the false prophet and fire runed grimoire (149.867) : +10.796 %, from: aq40, mc
+    blessed qiraji augur staff (125.052) : +6.04579 %, from: aq40
+    lok'amir il romathis and royal scepter of vek'lor (107.702) : +2.72456 %, from: bwl, aq40
+    gavel of infinite wisdom and royal scepter of vek'lor (105.74) : +2.34904 %, from: aq20, aq40
+    lok'amir il romathis and jin'do's bag of whammies (103.993) : +2.01461 %, from: bwl, zg
+    lok'amir il romathis and sartura's might (103.686) : +1.95589 %, from: bwl, aq40
+    lok'amir il romathis and fire runed grimoire (102.568) : +1.74195 %, from: bwl, mc
+    gavel of infinite wisdom and jin'do's bag of whammies (102.061) : +1.64474 %, from: aq20, zg
+    gavel of infinite wisdom and sartura's might (101.741) : +1.58362 %, from: aq20, aq40
+    gavel of infinite wisdom and fire runed grimoire (100.714) : +1.38689 %, from: aq20, mc
+    staff of the shadow flame (98.4513) : +0.95385 %, from: bwl
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-ranged, dragon's touch (23.0176) -> :
+ranged, dragon's touch (23.2279) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-hands, gloves of prophecy (89.4023) -> :
+hands, gloves of prophecy (90.7878) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-waist, belt of transcendence (60.8009) -> :
-    grasp of the old god (70.7694) : +1.94805 %, from: aq40
+waist, belt of transcendence (61.5404) -> :
+    grasp of the old god (71.8815) : +1.97952 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-legs, empowered leggings (69.8259) -> :
-    trousers of the oracle (82.274) : +2.4326 %, from: aq40
-    leggings of transcendence (80.5126) : +2.08838 %, from: mc
-    pants of prophecy (72.5626) : +0.534797 %, from: mc
+legs, leggings of transcendence (80.5126) -> :
+    trousers of the oracle (82.274) : +0.337173 %, from: aq40
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-feet, boots of prophecy (96.4771) -> :
+feet, boots of prophecy (98.0513) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger, pure elementium band (45.8256) -> :
+finger, pure elementium band (46.6647) -> :
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-finger 2, seal of the archmagus (40.9568) -> :
-    pure elementium band (46.0137) : +0.98822 %, from: bwl
-    band of forced concentration (43.9794) : +0.59069 %, from: bwl
-    cauterizing band (41.5777) : +0.121344 %, from: mc
-    band of sulfuras (41.2204) : +0.0515147 %, from: mc
+finger 2, seal of the archmagus (41.4033) -> :
+    pure elementium band (46.8691) : +1.04629 %, from: bwl
+    band of forced concentration (44.6948) : +0.630077 %, from: bwl
+    cauterizing band (42.35) : +0.181234 %, from: mc
+    band of sulfuras (41.4442) : +0.0078396 %, from: mc
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket, royal seal of eldre'thalas (17.3706) -> :
-    neltharion's tear (43.6194) : +5.12952 %, from: bwl
-    rejuvenating gem (36.1598) : +3.67177 %, from: bwl
-    darkmoon card: blue dragon (0) : -3.39456 %, from: 
-    hazza'rah's charm of healing (0) : -3.39456 %, from: zg
+trinket, royal seal of eldre'thalas (17.7794) -> :
+    neltharion's tear (44.7332) : +5.15956 %, from: bwl
+    rejuvenating gem (36.9828) : +3.67596 %, from: bwl
+    darkmoon card: blue dragon (0) : -3.40336 %, from: 
+    hazza'rah's charm of healing (0) : -3.40336 %, from: zg
 - . - ' - . - ' - . - ' - . - ' - . - ' - . -
-trinket 2, rejuvenating gem (35.2541) -> :
-    neltharion's tear (42.258) : +1.36869 %, from: bwl
-    darkmoon card: blue dragon (0) : -6.88934 %, from: 
-    hazza'rah's charm of healing (0) : -6.88934 %, from: zg
+trinket 2, rejuvenating gem (36.0575) -> :
+    neltharion's tear (43.3391) : +1.39386 %, from: bwl
+    darkmoon card: blue dragon (0) : -6.90219 %, from: 
+    hazza'rah's charm of healing (0) : -6.90219 %, from: zg
 ------------------
 Best value: 676.557
